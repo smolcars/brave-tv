@@ -2,7 +2,11 @@
 
 Status: source prototype. The unmodified baseline APK built successfully, the TV patch has been applied, and its first incremental Android build started at 05:58 EDT on 9 October 2026. The public input-policy tests pass on the JVM. TV-patch compilation, launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
 
-Current build: `brave-tv-prototype-j4.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-055842`. It uses the baseline output cache and the resource limits documented in [build.md](build.md).
+The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed the Android Java header compiler and Java compilation; final packaging remains pending.
+
+Current build: `brave-tv-prototype-j4-r2.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-060024`. The failed attempt is preserved under `build-tv-debug-x64-20261009-055842.*`. Both use the baseline output cache and the resource limits documented in [build.md](build.md).
+
+The generated merged manifest contains the exported TV launcher alias, `MAIN`/`LEANBACK_LAUNCHER`, the TV banner/label and `android.hardware.touchscreen` marked optional. This confirms manifest integration; actual TV launcher behavior is still untested.
 
 ## Implementation
 
