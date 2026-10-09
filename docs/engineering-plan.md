@@ -6,6 +6,34 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
+## Active work: source fork and TV-native emulator development (9 October)
+
+The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
+
+### 1. Bring in the source
+
+Create the public `smolcars/brave-tv-core` GitHub fork of `brave/brave-core` and check it out at `brave/` in this project as a pinned Git submodule. This retains real upstream history, licenses and all source files while keeping the existing project history and public `smolcars/brave-tv` repository. The fork's `master` starts from the already-built `v1.97.56` baseline with the proven TV changes committed directly. Do not upgrade Brave/Chromium during this migration. Brave's own Chromium patch machinery remains upstream infrastructure; remove our `patches/0001-tv-input.patch` as the source of TV changes.
+
+Preserve the existing external Chromium checkout, both output directories, dependencies, installed profiles and artifacts. Verify that the fork's files match the tested source. Update the checkout helper to clone/advance only to the project's exact submodule revision, reject dirty/divergent build checkouts and preserve unrelated work. For the one-time migration, preserve the existing owned source edits in a named Git backup before fast-forwarding the cached checkout to the fork commit. Thereafter edit and commit ordinary files under `brave/`, update the project pointer, and advance the cached checkout through Git; no TV patch export/apply step.
+
+Update the JVM test to compile the real tracked Java source, Nix checks, entry-point docs and source provenance. Test clean preparation, repeat runs, advancement, wrong upstream/Chromium pins, dirty/divergent checkouts and missing source prerequisites. Reuse the current x64 build cache with four jobs, 18/22 GiB limits and blocking Android analysis. Review only the latest implementation commit in each affected repository; push both master branches.
+
+### 2. Diagnose Shields on the emulator
+
+The user reports YouTube video ads before/during playback. Establish observable checks for filter/resource availability, network blocking, cosmetic filtering and scriptlet execution, including a Shields-off control on a dedicated test origin. Then reproduce YouTube playback without sign-in and distinguish missing resources/service configuration from site-specific filtering. Record versions, actual failures and network/update results. Do not infer working protection from a counter, silently disable Shields, borrow private production credentials, or claim all YouTube ads are eliminated from a short playback sample. Record a demonstrated cause and correction plan before changing protection code or build configuration.
+
+### 3. Replace the prototype controls with TV UI
+
+Start with a native landscape browser panel using the existing Android view toolkit: a prominent address/search action, readable page identity, large grouped controls, an obvious focus indicator, predictable D-pad order and remembered focus. Provide Back/Forward, Reload/Stop, page cursor/scroll, and entry points for tabs and Shields using Brave's existing browser state. Keep the keyboard, permissions, native dialogs and video fullscreen above the page-input adapter. Check the current failing/unusable flow before each correction.
+
+Next adapt the existing tab model, bookmarks/history, private-session controls and per-site Shields settings into remote-accessible native panels. Reuse their real stores and settings; do not create parallel persistence or a WebView browser. Introduce each panel as a separately planned/tested increment. Use localized resources, theme-aware contrast, generous spacing, bounded lists and meaningful accessibility labels. Follow Android's [TV navigation guidance](https://developer.android.com/training/tv/get-started/navigation) and [focus guidance](https://developer.android.com/design/ui/tv/guides/styles/focus-system).
+
+Each slice must pass a resource-limited cached emulator build and relevant D-pad-only input checks, including focus restoration and Back escape. Preserve the alphabetic-keyboard fallback. Record screenshots and device logs outside Git. Emulator evidence does not establish hardware decoding, physical remote usability, memory budgets or release readiness.
+
+### 4. Finish emulator flows, then return to TV
+
+Complete URL/search, page links/forms/scrolling, tab switching/closing/restoration, bookmark/history operations, private-session isolation, site Shields override, ordinary video/fullscreen and lifecycle recovery on the emulator. Run a sustained browsing/video session, record failures, and fix demonstrated regressions. Only after those checks pass build ARM from the same fork revision and repeat the physical-TV checks. Keep the existing non-debuggable ARM recipe and development signing until a separate release plan is complete.
+
 ## Starting point
 
 - Initial project commit: `321c048243a08a823d2d0305466f6b2a213a4f26`. The user subsequently requested review of only the latest implementation commit; use that commit's parent as the comparison point and record both IDs. Work on local `master` and make incremental commits, as requested; no remote push is configured.
@@ -17,7 +45,7 @@ Write or update this engineering plan before each implementation stage. Keep inc
 
 ## Design and change surface
 
-Current delivery: the user authorized a public repository under `smolcars`; [smolcars/brave-tv](https://github.com/smolcars/brave-tv) now tracks this project on `master`. Device support is available and a Nix-provisioned Android TV emulator is running. The starting-point notes above are historical. Keep the downstream patch representation through the prototype gate: changes are made in real Brave source and compiled with the existing cache. A later source-fork migration can preserve that checkout and output directory.
+Current delivery: [smolcars/brave-tv](https://github.com/smolcars/brave-tv) tracks this project on `master`. Device support is available and a Nix-provisioned Android TV emulator is running. The active source-fork plan above supersedes the initial patch strategy. The starting-point and prototype-stage notes below are historical.
 
 Use a small downstream patch set against a pinned upstream checkout. Keep downloaded Chromium/Brave source and build outputs outside this Git repository. Do not create a replacement WebView app or duplicate Brave's profile, tab, bookmark or Shields implementations.
 
