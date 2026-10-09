@@ -196,3 +196,9 @@ Latest bookmark implementation review: source `40b075224` against `c7bde129e`, S
 
 
 Bookmark replay review: project `17f5e2e` against `c56134e`, Standards 0, Spec 0. Runtime then found a parser-quoting error, fixed in `8a2ed50`; the corrected 38-step replay passes. Source `40b075224` build and basic bookmark acceptance now pass as recorded in device evidence; broader policy/private/pagination coverage remains open.
+
+### TV onboarding: `9bb2cf912` vs `40b075224`
+
+- Standards: no actionable documented-standard or smell findings.
+- Spec: P1 reporting state can revert after the new Back flow recycles/rebinds page two because activity callbacks do not synchronize adapter checked values. The next implementation synchronizes them through the existing setters and adds the round-trip device check.
+- Review covered only this latest implementation commit. Build and rendered focus checks remained in progress.

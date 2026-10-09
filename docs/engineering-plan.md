@@ -299,3 +299,7 @@ Inspection during recovery found that the pinned Brave wrapper consumes `--ninja
 - Browser input adaptations can interfere with forms, dialogs and media. Keep changes localized and preserve a reliable escape path.
 - Missing build privileges, inaccessible upstream artifacts, disabled device access and absent TVs are external dependencies. Continue independent work where possible and report the exact blocked criteria.
 - Never freeze on an old unsupported Chromium release, remove the sandbox or substitute a generic WebView to make the checklist appear complete.
+
+### Onboarding review correction: retain consent on return
+
+Review of `9bb2cf912` finds that the activity saves reporting changes but the adapter retains its initial checkbox values. The newly supported Back path can recycle/rebind page two and restore stale consent. Synchronize the adapter through its existing checked-state setters in both reporting callbacks. Rebinding an unchanged checked value does not dispatch another change. Verify toggles survive page two → page zero → page two and completion/relaunch; preserve policy behavior. Keep the running builder at its committed revision until it finishes.
