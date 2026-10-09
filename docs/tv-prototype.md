@@ -103,3 +103,9 @@ Use the [resource-limited service](build.md#resume-with-host-resource-limits) fo
 For development, edit and commit normal files under `brave/` following the [source workflow](source-workflow.md). Run the upstream formatter, source whitespace checks, focused tests and blocking Android analysis. The old patch worktree remains historical evidence, not the development entry point.
 
 The prototype launcher name and banner are temporary. The Android package, other app labels and signing still use upstream development defaults; independent release identity and safe upgrade testing remain checklist work.
+
+## Direct-home diagnostic artifact (9 October)
+
+Source `32c6f8d4b` built with blocking Android analysis in 7m24s (wrapper 7m28s), using the existing cache and four-job/18–22 GiB limits. Observed cgroup peak: 15,327,477,760 bytes (14.27 GiB). APK: `~/.cache/brave-tv/artifacts/tv-simple-home-32c6f8d4b-x64-debug-20261009/BraveMonox64.apk`, 852,922,262 bytes, SHA-256 `cf05c537c4381cb2ac3c0e422f611d669b956a6d61956b418a4d7e48b1765121`. Its v2 signature verifies; the artifact directory preserves GN args and provenance. Log prefix: `build-simple-browser-x64-20261009-r8`.
+
+This is a **failing diagnostic APK**, not an accepted candidate. The profile-preserving update installs, but direct startup aborts twice in the referral delegate because disabled startup leaves its profile observer attached. The native-home replay fails at its first focus wait. Source `0304bcec2` prevents Android referral service construction; its cached build and runtime verification are pending.
