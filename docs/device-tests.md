@@ -8,12 +8,14 @@ Start with an Android TV or Google TV running Android 10 or newer and its ordina
 
 The completed MVP requires two physical devices: a modest device and a faster device. We can start development with one. An emulator helps check installation and input integration; it does not establish real TV performance, hardware decoding or DRM compatibility. Do not buy hardware until the source build works and the first device's limitations are known.
 
+On 9 October the user identified an existing “chrome stick” with its own remote and app home screen, reporting **Android TV OS 14**. Treat it as the first candidate, likely a Chromecast with Google TV; the exact model (HD/4K) and supported ABIs remain unconfirmed. Query these over an authorized ADB connection before selecting its build. Its reported OS meets the prototype's Android 10 minimum. The x64 development APK is for an emulator, not this physical target. No second device has been chosen.
+
 For installation and logs, the developer computer must be able to reach the TV through Android Debug Bridge (ADB), over a supported USB or local-network connection. Enabling developer options/debugging and accepting the computer's debugging prompt happens on the device. Settings vary by manufacturer; use its instructions. Disable debugging when testing is finished. Device control is currently disabled in this development environment, so there is no connected-device evidence yet.
 
 | Field | Modest device | Faster device |
 | --- | --- | --- |
-| Manufacturer and model | TBD | TBD |
-| Android version / API | TBD | TBD |
+| Manufacturer and model | User's remote-equipped “chrome stick”; exact model TBD | TBD |
+| Android version / API | Android TV OS 14 (user-reported); API query pending | TBD |
 | Supported ABIs | TBD | TBD |
 | RAM / available storage | TBD | TBD |
 | Display resolution / scaling | TBD | TBD |

@@ -72,7 +72,7 @@ Zero findings. The AndroidX annotation matches existing Brave Android code and a
 
 Zero findings. The correction follows the written integration plan and preserves nullable declarations and input behavior.
 
-Android header compilation, Java compilation and APK packaging have now succeeded. Background static analysis was interrupted at service exit and is being rerun in blocking mode; device regression procedures remain unexecuted. Totals for this latest-commit review: Standards 0, Spec 0.
+Android header compilation, Java compilation and APK packaging succeeded after this correction. Background static analysis was interrupted at service exit; the later blocking build completed successfully as recorded below. Device regression procedures remain unexecuted. Totals for this commit review: Standards 0, Spec 0.
 
 ## Launcher resource correction review
 
@@ -100,4 +100,4 @@ Zero findings. Explicit grouping preserves evaluation order and adds no dependen
 
 Zero findings. Both source trees and the exported patch match the planned grouping correction. No behavior changes or checks are suppressed.
 
-Totals: Standards 0, Spec 0. Blocking Android analysis remains pending; device checks remain unexecuted.
+Totals: Standards 0, Spec 0. The final blocking Android build passed at 06:25 EDT on 9 October, including the previously failing Error Prone target. All nine local tests and strict Python typechecking passed through Nix. The preserved APK's signature, manifest and banner were verified; [artifact details](tv-prototype.md#completed-prototype-artifact) record the evidence. Device checks remain unexecuted.

@@ -2,7 +2,7 @@
 
 # brave-tv
 
-An Android TV adaptation of Brave's Android browser. The unmodified x64 Debug APK builds through the Nix environment. The TV launcher/input patch has JVM behavior tests and its first Android build is in progress; no TV runtime behavior is validated yet.
+An Android TV adaptation of Brave's Android browser. The baseline and TV-prototype x64 Debug APKs build through the Nix environment. The prototype passes blocking Android static analysis and the local input-policy tests; installation and TV runtime behavior remain unverified. See the [preserved prototype artifact and limitations](docs/tv-prototype.md#completed-prototype-artifact).
 
 ## Development
 

@@ -1,6 +1,6 @@
 # First TV input patch
 
-Status: the TV patch compiled and produced an x64 Debug APK on 9 October 2026. The public input-policy tests pass on the JVM. Blocking static analysis is still running; launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+Status: the TV patch built successfully at 06:25 EDT on 9 October 2026, including blocking Android static analysis. The public input-policy tests pass on the JVM. Launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
 
 The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.
 
@@ -8,9 +8,23 @@ The first blocking run (`build-tv-debug-x64-20261009-060803.*`) failed lint on a
 
 That retry (`build-tv-debug-x64-20261009-061444.*`) passed launcher lint but Error Prone required explicit parentheses around the existing URL-change-and-SELECT condition. The grouping is now explicit without changing precedence or behavior. The rebuilt APK's signature, TV launcher/category and 160×90dp banner were independently verified.
 
-Current build: `brave-tv-prototype-j4-r5.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-062100`. It sets `android_static_analysis="on"`, so checks finish as blocking build steps and propagate failures. Earlier attempts remain under `build-tv-debug-x64-20261009-055842.*` and `build-tv-debug-x64-20261009-060024.*`. All use the baseline output cache and the resource limits documented in [build.md](build.md).
+Successful build: `brave-tv-prototype-j4-r5.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-062100`. It sets `android_static_analysis="on"`, so checks finish as blocking build steps and propagate failures. The service exited successfully and is no longer running. Earlier attempts remain under `build-tv-debug-x64-20261009-055842.*` and `build-tv-debug-x64-20261009-060024.*`. All use the baseline output cache and the resource limits documented in [build.md](build.md).
 
 The generated merged manifest contains the exported TV launcher alias, `MAIN`/`LEANBACK_LAUNCHER`, the TV banner/label and `android.hardware.touchscreen` marked optional. This confirms manifest integration; actual TV launcher behavior is still untested.
+
+## Completed prototype artifact
+
+- Preserved APK: `~/.cache/brave-tv/artifacts/tv-prototype-v1.97.56-x64-debug-20261009/BraveMonox64.apk`.
+- Size: **853,918,581 bytes** (about 814 MiB); this is an unoptimized Debug build, not an expected release size.
+- SHA-256: `251d8f23eff70e8a7e89fc6657ccf0467ab4e8f6a268418bd9759a6860f44e4f`.
+- Build completed at **06:25 EDT**, exit 0. The final resumed command took **3m59s**, reusing native outputs and checks from earlier attempts; this is not a clean-build timing.
+- Implementation commit: `1e1c5940f4cb492ddc5d66885def16d280bcf4c9`; Brave/Chromium pins remain those in [build.md](build.md).
+- The blocking `chrome_java__errorprone` and `chrome_public_apk__lint` targets passed. `nix flake check` passed all nine repository tests and strict Python typechecking. Source whitespace and reverse-patch checks passed.
+- SDK `apksigner` verified the v2 signature. APK inspection confirmed the TV launcher/category and the banner's 160×90dp intrinsic size / 320×180 viewport.
+- Metadata: package `com.brave.browser_default`, version `1.97.0` / code `429700008`, minimum API 29 (Android 10), target API 37, ABI **x86_64**. This APK targets an emulator; it is not suitable for the user's physical streaming stick.
+- The artifact directory contains `provenance.json`, the exact downstream patch, `args.gn`, manifest/banner dumps, badging and signature results. Provenance records hashes for both GN argument files, the patch and flake lock, plus source revisions, commands, limits and logs. The baseline APK remains separately preserved.
+
+Next gate: enable device access, install on an Android TV emulator, then build for the confirmed physical-device ABI and run the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence). The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. No installation, Shields update/blocking, video or performance result has been recorded.
 
 ## Implementation
 
