@@ -82,3 +82,10 @@ The current session already has this unit running; do not launch a second copy. 
 Agent-device's Android `tv-remote` currently uses `input keyevent`. On this emulator its virtual input device is classified as an alphabetic keyboard, which the TV adapter deliberately preserves. Native onboarding and Back checks can pass without exercising cursor input. The cursor regressions now use Android's `uinput` command to register a temporary non-alphabetic D-pad device (keyboard type 1), with no root access or image modification. It unregisters on process exit. Follow the [device regression instructions](../tests/device/README.md); keep the normal keyboard exclusion in the adapter. Neither source substitutes for the physical remote.
 
 An emulator run cannot establish physical-TV performance, hardware video decoding, DRM support or the MVP's two-device acceptance criteria.
+
+
+## Isolated TV onboarding profile
+
+`brave_tv_onboarding_api36` is a second API 36 TV AVD at 1920×1080/320 dpi, created without `--force` on 9 October to verify first-run UI without resetting the main profile. It uses the same Nix SDK/image and guest-Vulkan-disabled configuration, with port 5556. Its unit is `brave-tv-onboarding-emulator.service`, with a 5 GiB high/6 GiB maximum memory cap; the 4 GiB initial cap was too restrictive during first boot. The existing AVD and Chromecast remain preserved. Logs: `~/.cache/brave-tv/logs/emulator-onboarding.log`.
+
+Opening the second emulator coincided with the shared ADB server ceasing to answer even `adb devices` (10-second timeout) and snapshots on the original emulator. Restarting that diagnostic server restored both emulators and the paired Chromecast; no emulator or application data was reset. Recreate the test-only reverse/DevTools forwards after an ADB server restart. This is a tooling recovery, not a Brave crash or app-performance result.
