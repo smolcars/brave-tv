@@ -257,3 +257,7 @@ The latter removes the orphaned first-run UI module and its consumers. Blocking 
 Final resource cleanup `1125c034b` against `5852d6543`: Standards 0 and Spec 0. Deleted resources have no remaining consumers; shared text size and Wallet colors remain. Blocking build and device checks are pending.
 
 Onboarding style cleanup `32c6f8d4b` against `1125c034b`: Standards 0 and Spec 0. All deleted styles/selectors/drawable/dimension have no surviving consumers; shared styles remain. Android build validation is still pending.
+
+Referral factory correction `0304bcec2` against `32c6f8d4b`: Standards 0 and Spec 0. Its cached build passes in 37.11 seconds; profile-preserving installation reaches native home, eliminating the prior referral abort. Initial address focus remains a separate runtime failure.
+
+Home focus correction `0b5afdb64` against `0304bcec2`: Standards 0 and Spec 0. The posted request guards page/activity lifetime, attachment and root-owned focus. Build and replay validation are pending.
