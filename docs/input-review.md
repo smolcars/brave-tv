@@ -73,3 +73,17 @@ Zero findings. The AndroidX annotation matches existing Brave Android code and a
 Zero findings. The correction follows the written integration plan and preserves nullable declarations and input behavior.
 
 Android header compilation, Java compilation and APK packaging have now succeeded. Background static analysis was interrupted at service exit and is being rerun in blocking mode; device regression procedures remain unexecuted. Totals for this latest-commit review: Standards 0, Spec 0.
+
+## Launcher resource correction review
+
+Compared only `7f43abb4a25411d731c18f68c12706de36d18091` against parent `9e33f3bc4514525101c182fe2e5c0b1259e1b6fd`.
+
+### Standards
+
+Zero findings. The banner change preserves its artwork; the two resource exceptions follow Brave's existing manifest-resource pattern with a short explanation. The preceding commit records the plan. No dependency or abstraction was introduced.
+
+### Spec
+
+Zero findings. The dimensions, unchanged viewport and exact resource exceptions match the correction plan. Global checks remain enabled and the change introduces no additional behavior.
+
+Totals: Standards 0, Spec 0. The blocking Android rerun remains pending; neither review establishes launcher rendering or physical-device behavior.
