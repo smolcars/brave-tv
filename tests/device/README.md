@@ -172,3 +172,18 @@ loading state to finish and the fixture row to disappear. Reopen History to
 verify persisted removal, check older pages/Back, and check History is disabled
 in private controls. Exercise closing the panel during loading and activity
 pause. Record actual results separately; this procedure alone is not a pass.
+
+## Native privacy clearing
+
+Use a newly created Android test user/profile on the emulator, with only local
+fixtures and a disposable bookmark; do not run clearing against the preserved
+main profile. Seed a uniquely named history visit, cookie/localStorage value and
+cached fixture. In Settings → Clear browsing data, check all-time wording, the
+cookie sign-out warning and Cancel-first focus for each type. Cancel and verify
+all seeded data remains. Confirm history only and verify visits disappear while
+site storage/bookmarks remain. Confirm site data and verify the cookie and
+localStorage disappear after reload while bookmarks remain. Confirm cache and
+verify a cacheable fixture must be fetched again. Wait for native completion;
+close/pause during another clear and require no late dialog to reopen. Private
+Settings must not expose clearing. Preserve this isolated profile afterward for
+follow-up rather than wiping or deleting it without authorization.
