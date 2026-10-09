@@ -282,3 +282,7 @@ Each review is restricted to the named implementation commit against its parent.
 The rebinding correction reinstalls the listener after inherited view binding. The design uses existing Material/Nala assets and preserves private wording, attribution, and lifetime guards. These are read-only source reviews; the combined APK still needs blocking build and emulator validation.
 
 Toolbar replay adjustment `407df2e` against `ccfc408`: Standards 0, Spec 0. Both read-only reviews retain the original center-key assertion. Source `1a976a373` subsequently passes blocking Android build, home/menu/panel replays and the fresh-profile cursor/input checks; see device-tests.md.
+
+Android collector shutdown `cca46e564` against `1a976a373`: Standards 0, Spec 0. Reviewers checked the Android factory consumers, guarded startup paths, all six nullable Java getter consumers, removal of connection/retry/timer/JNI/build entries, and exclusion of desktop-only NTP dereferences. Build/runtime verification remains separate.
+
+Local search collector diagnostic `cf68782` against `a3dba13`: Standards 0, Spec 0. The probe awaits the native WebUI promise and bounds transport failures. On the preceding APK, disabled mode fails because the sample exists, while enabled mode passes. These reviews cover only their stated latest implementation commits against their parents.
