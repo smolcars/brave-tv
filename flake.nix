@@ -28,6 +28,7 @@
         xz
         which
         file
+        time
         android-tools
         jdk21_headless
         mypy
