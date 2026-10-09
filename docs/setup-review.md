@@ -2,7 +2,7 @@
 
 Reviewed changes from `321c048243a08a823d2d0305466f6b2a213a4f26` through `69cc055` with separate Standards and Spec reviewers. This reviews the initial setup increment, not a completed Android TV MVP. Findings were addressed in `360d335` unless explicitly left pending below.
 
-The invoked [code-review skill](/home/nitesh/.codex/skills/code-review/SKILL.md) says, “If they didn't specify one, ask for it.” The user was asked about the comparison point; the engineering plan's initial-project baseline was used while that optional clarification remained unanswered.
+The invoked [code-review skill](/home/nitesh/.codex/skills/code-review/SKILL.md) says, “If they didn't specify one, ask for it.” This initial review used the plan's baseline while that optional clarification remained unanswered. The user subsequently selected **only the latest implementation commit**; that scope applies to the next review. This file records the earlier setup review only.
 
 ## Standards
 

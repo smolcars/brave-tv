@@ -2,7 +2,7 @@
 
 ## Current status
 
-The pinned Nix shell and checkout helper work on the initial x86-64 Linux builder. Upstream source initialization is in progress. No Android APK has been built or installed yet.
+The pinned Nix shell and checkout helper work on the initial x86-64 Linux builder. Upstream source initialization completed successfully on 8 October 2026; the unmodified x64 Debug APK is compiling. No APK has completed or been installed yet. The [TV input patch](tv-prototype.md) is being prepared separately from the running baseline build.
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).
 
@@ -57,7 +57,7 @@ The source pins inspected for this baseline are:
 From the external `src/brave` directory:
 
 ```sh
-pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk
+pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --ninja=j:8
 ```
 
 Use a release build for performance evidence:
@@ -66,7 +66,16 @@ Use a release build for performance evidence:
 pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk
 ```
 
-These compile commands still need to be validated on this builder. Record the actual output path and native dependency failures before describing the build as working. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
+The Debug command passed GN configuration and is compiling native and Java targets. Eight concurrent compile jobs limit load on this 30 GiB builder. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Record the completed APK path and any native dependency failures before describing the build as working. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
+
+## Initial build evidence
+
+- Source initialization: approximately 21 minutes 24 seconds, from the log's creation at 20:39:57 to its final update at 21:01:22 EDT on 8 October 2026. This includes the JavaScript install, Chromium/dependency download and upstream hooks, but not the earlier Brave clone or Nix downloads.
+- Initialization exited successfully. All 1,179 upstream Brave patches applied. Gclient retried several dependency fetches and preserved one conflicting partial WebGPU checkout under `_bad_scm`; no manual cache deletion was used.
+- Main source checkout: `~/.cache/brave-tv/workspace/src/brave`.
+- Separate TV patch worktree: `~/.cache/brave-tv/tv-worktree`.
+- Logs: `~/.cache/brave-tv/logs/init-x64.log`, `build-debug-x64.log` and `build-debug-x64.time`. The last file is written by GNU Time from the Nix shell and records completion status, elapsed time and process resource statistics when the build ends.
+- No device or performance result follows from these host-side checks.
 
 ## Check this repository
 

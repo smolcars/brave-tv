@@ -2,7 +2,7 @@
 
 # brave-tv
 
-An Android TV adaptation of Brave's Android browser. Development has started with a pinned upstream checkout and a Nix build environment; there is no working TV APK yet.
+An Android TV adaptation of Brave's Android browser. The Nix environment and source initialization work; the first Android build is compiling. A TV launcher/input patch has JVM behavior tests, but there is no validated TV APK yet.
 
 ## Development
 
@@ -20,6 +20,7 @@ For automatic tools while working in this repository, review `.envrc` and run `d
 - [Engineering plan](docs/engineering-plan.md)
 - [MVP checklist](docs/mvp-todo.md)
 - [Device and website test matrix](docs/device-tests.md)
+- [TV input prototype and button map](docs/tv-prototype.md)
 - [Feasibility research](docs/feasibility.html)
 
 This project is independent of Brave Software. Release branding and device compatibility remain work in progress.

@@ -67,14 +67,16 @@
                 pkgs.python3
                 pkgs.git
                 pkgs.mypy
+                pkgs.jdk21_headless
               ];
             }
             ''
-              cp -r ${./tools} tools
-              cp -r ${./tests} tests
-              python3 -m unittest discover -s tests -v
-              mypy --strict tools tests
-              touch "$out"
+                cp -r ${./tools} tools
+                cp -r ${./tests} tests
+              cp -r ${./patches} patches
+                python3 -m unittest discover -s tests -v
+                mypy --strict tools tests
+                touch "$out"
             '';
       };
 

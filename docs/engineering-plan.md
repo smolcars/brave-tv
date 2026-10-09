@@ -8,7 +8,7 @@ Write or update this engineering plan before each implementation stage. Keep inc
 
 ## Starting point
 
-- Review baseline: project commit `321c048243a08a823d2d0305466f6b2a213a4f26`. Work on local `master` and make incremental commits, as requested; no remote push is configured.
+- Initial project commit: `321c048243a08a823d2d0305466f6b2a213a4f26`. The user subsequently requested review of only the latest implementation commit; use that commit's parent as the comparison point and record both IDs. Work on local `master` and make incremental commits, as requested; no remote push is configured.
 - This repository contains the project README, icon, feasibility report and MVP checklist. There is no Android application or build/test system yet.
 - Initial upstream baseline: Brave `v1.97.56`, commit `b01cdf43be4b4d5559bf7e58229e666e24454f50`, whose package configuration selects Chromium `155.0.8059.40`.
 - Builder: Ubuntu 25.10 x86-64, Ryzen 9 7900X (24 threads), approximately 30 GiB RAM and 580 GiB available disk. Node 22 is on the host PATH; the selected Brave release documents Node 24+. Existing Android SDK tools were discovered under `~/Android/Sdk` but are not on PATH.

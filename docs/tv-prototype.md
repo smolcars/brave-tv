@@ -1,0 +1,40 @@
+# First TV input patch
+
+Status: source prototype. The patch applies to the pinned Brave release and the public input-policy tests pass on the JVM. Android compilation, launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+
+## Implementation
+
+[`0001-tv-input.patch`](../patches/0001-tv-input.patch) adds a TV launcher alias and an initial vector banner, and connects a TV-only controller to Brave's existing activity. The launcher routes through Chromium's first-run dispatcher. The existing optional-touchscreen declaration is retained. No engine, Shields enforcement, profile storage or certificate handling is replaced.
+
+The native controls dialog opens the existing address bar or browser menu, reloads the current page, and enters cursor/scroll mode when a webpage is present. Native pages continue to use native focus. This does not yet adapt the contents of the browser menu, tab switcher, Shields settings or onboarding screens.
+
+| Context | D-pad | OK | Back |
+| --- | --- | --- | --- |
+| TV controls | Move native selection | Activate the selected control | Delegate to browser history/exit |
+| Page cursor | Move the visible cursor | Click once on release | Open TV controls |
+| Page scrolling | Scroll at the current cursor location | Return to cursor mode | Open TV controls |
+| Keyboard / native modal / fullscreen UI | Preserve upstream handling | Preserve upstream handling | Preserve upstream handling first |
+
+No Menu button is required to open TV controls. Alphabetic hardware keyboards and system keys retain upstream handling. The mode hint is drawn over the webpage; it is not a replacement for accessibility testing. A web page's CloseWatcher must not prevent escaping to the TV controls.
+
+`TvRemoteInput` owns the interaction policy. `TvBrowserControls` delivers scoped mouse events to the active Chromium content view and uses the existing Android Back dispatcher. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events.
+
+## Apply after the baseline build finishes
+
+Do not edit source while the unmodified build is running. From this project:
+
+```sh
+nix develop
+export TV_PROJECT="$PWD"
+python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
+git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --check --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
+git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
+cd "$HOME/.cache/brave-tv/workspace/src/brave"
+pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --ninja=j:8
+```
+
+The checkout helper intentionally refuses the now-modified checkout on subsequent calls. Do not reset it or rerun forceful upstream synchronization to make that check pass. Preserve the unmodified APK and its provenance before applying the patch. Reusing the same build directory should retain unaffected native compilation outputs.
+
+For development, edit the patch in a separate Brave worktree at the pinned commit, mark new files with `git add -N`, then export `git diff --binary` to the patch file. Keep unrelated formatting changes out of the diff. Run the upstream Java formatter on new Java files, `git diff --check` in that worktree, the apply check above against the clean baseline, and `nix flake check` in this project.
+
+The prototype launcher name and banner are temporary. The Android package, other app labels and signing still use upstream development defaults; independent release identity and safe upgrade testing remain checklist work.

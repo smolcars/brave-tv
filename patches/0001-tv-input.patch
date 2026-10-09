@@ -1,0 +1,662 @@
+diff --git a/android/BUILD.gn b/android/BUILD.gn
+index d3c4035ba..5404d3cdc 100644
+--- a/android/BUILD.gn
++++ b/android/BUILD.gn
+@@ -177,6 +177,7 @@ android_resources("java_resources") {
+     "java/brave-res/drawable-xxxhdpi/ic_ad_free_videos.png",
+     "java/brave-res/drawable-xxxhdpi/share_activity_background.png",
+     "java/brave-res/drawable/ad_free_card_bg.xml",
++    "java/brave-res/drawable/brave_tv_banner.xml",
+     "java/brave-res/drawable/add_custom_filter_button_background_disabled.xml",
+     "java/brave-res/drawable/add_custom_filter_button_background_selector.xml",
+     "java/brave-res/drawable/advanced_options_bg.xml",
+diff --git a/android/brave_java_sources.gni b/android/brave_java_sources.gni
+index a5aadcdb2..7ee220c52 100644
+--- a/android/brave_java_sources.gni
++++ b/android/brave_java_sources.gni
+@@ -24,6 +24,8 @@ import("//brave/components/permissions/android/java_sources.gni")
+ import("//brave/components/signin/public/android/java_sources.gni")
+ 
+ brave_java_sources = [
++  "../../brave/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java",
++  "../../brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java",
+   "../../brave/android/java/org/chromium/chrome/browser/BraveAdFreeCalloutDialogFragment.java",
+   "../../brave/android/java/org/chromium/chrome/browser/BraveAppHooks.java",
+   "../../brave/android/java/org/chromium/chrome/browser/BraveApplicationImplBase.java",
+diff --git a/android/java/AndroidManifest.xml b/android/java/AndroidManifest.xml
+index 0f7e48570..70934b2bc 100644
+--- a/android/java/AndroidManifest.xml
++++ b/android/java/AndroidManifest.xml
+@@ -1,3 +1,15 @@
++<activity-alias
++    android:name="org.chromium.chrome.browser.tv.TvLauncher"
++    android:targetActivity="org.chromium.chrome.browser.document.ChromeLauncherActivity"
++    android:exported="true"
++    android:label="@string/brave_tv_launcher"
++    android:banner="@drawable/brave_tv_banner">
++    <intent-filter>
++        <action android:name="android.intent.action.MAIN" />
++        <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
++    </intent-filter>
++</activity-alias>
++
+ <receiver android:name="org.chromium.chrome.browser.notifications.retention.RetentionNotificationPublisher"
+     android:exported="false">
+ </receiver>
+diff --git a/android/java/brave-res/drawable/brave_tv_banner.xml b/android/java/brave-res/drawable/brave_tv_banner.xml
+new file mode 100644
+index 000000000..11673ee59
+--- /dev/null
++++ b/android/java/brave-res/drawable/brave_tv_banner.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="320dp"
++    android:height="180dp"
++    android:viewportWidth="320"
++    android:viewportHeight="180">
++    <path android:fillColor="#0891B2" android:pathData="M0,0H320V180H0Z" />
++    <path android:fillColor="#FFFFFF" android:fillAlpha="0.3"
++        android:fillType="evenOdd"
++        android:pathData="M32,20H288V156H32ZM38,26V150H282V26Z" />
++    <group android:translateX="-16" android:translateY="-6">
++        <path android:fillColor="#FFFFFF" android:fillType="evenOdd"
++            android:pathData="M116,52H146C162,52 170,62 170,75C170,84 165,90 159,94C168,97 174,106 174,115C174,133 164,140 147,140H116ZM132,68V87H145C152,87 155,83 155,77C155,71 152,68 145,68ZM132,102V124H147C154,124 159,120 159,113C159,106 155,102 147,102Z" />
++        <path android:fillColor="#FFFFFF"
++            android:pathData="M182,52H243V68H221V140H204V68H182Z" />
++    </group>
++</vector>
+diff --git a/android/java/org/chromium/chrome/browser/app/BraveActivity.java b/android/java/org/chromium/chrome/browser/app/BraveActivity.java
+index af30e5ad7..06dccffea 100644
+--- a/android/java/org/chromium/chrome/browser/app/BraveActivity.java
++++ b/android/java/org/chromium/chrome/browser/app/BraveActivity.java
+@@ -25,6 +25,7 @@ import android.text.Editable;
+ import android.text.TextUtils;
+ import android.text.TextWatcher;
+ import android.view.Gravity;
++import android.view.KeyEvent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -206,6 +207,7 @@ import org.chromium.chrome.browser.tabwindow.TabWindowManager;
+ import org.chromium.chrome.browser.toolbar.BraveToolbarManager;
+ import org.chromium.chrome.browser.toolbar.bottom.BottomToolbarConfiguration;
+ import org.chromium.chrome.browser.toolbar.top.BraveToolbarLayoutImpl;
++import org.chromium.chrome.browser.tv.TvBrowserControls;
+ import org.chromium.chrome.browser.ui.RootUiCoordinator;
+ import org.chromium.chrome.browser.ui.appmenu.AppMenuPropertiesDelegate;
+ import org.chromium.chrome.browser.ui.messages.snackbar.Snackbar;
+@@ -363,6 +365,7 @@ public abstract class BraveActivity extends ChromeActivity
+     private boolean mIsColdStart;
+     // One-shot guard so the app-close shred notification fires at most once per cold start.
+     private boolean mAppCloseShredTriggered;
++    private @Nullable TvBrowserControls mTvBrowserControls;
+ 
+     /** Serves as a general exception for failed attempts to get BraveActivity. */
+     public static class BraveActivityNotFoundException extends Exception {
+@@ -373,6 +376,18 @@ public abstract class BraveActivity extends ChromeActivity
+ 
+     public BraveActivity() {}
+ 
++    @Override
++    public boolean dispatchKeyEvent(KeyEvent event) {
++        if (mTvBrowserControls != null && mTvBrowserControls.dispatchKeyEvent(event)) return true;
++        return super.dispatchKeyEvent(event);
++    }
++
++    @Override
++    public void onWindowFocusChanged(boolean hasFocus) {
++        super.onWindowFocusChanged(hasFocus);
++        if (mTvBrowserControls != null) mTvBrowserControls.onWindowFocusChanged(hasFocus);
++    }
++
+     @Override
+     protected void onPostCreate() {
+         super.onPostCreate();
+@@ -389,6 +404,13 @@ public abstract class BraveActivity extends ChromeActivity
+     public void onResumeWithNative() {
+         super.onResumeWithNative();
+ 
++        if (mTvBrowserControls == null
++                && (getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK)
++                        == Configuration.UI_MODE_TYPE_TELEVISION) {
++            mTvBrowserControls = new TvBrowserControls(this, mBackPressManager);
++            mTvBrowserControls.showControls();
++        }
++
+         BraveActivityJni.get().restartStatsUpdater();
+         if (BraveVpnUtils.isVpnFeatureSupported(BraveActivity.this)) {
+             BraveVpnNativeWorker.getInstance().addObserver(this);
+@@ -460,6 +482,7 @@ public abstract class BraveActivity extends ChromeActivity
+ 
+     @Override
+     public void onPauseWithNative() {
++        if (mTvBrowserControls != null) mTvBrowserControls.onWindowFocusChanged(false);
+         if (mUsageMonitor != null) {
+             mUsageMonitor.stop();
+         }
+@@ -578,6 +601,10 @@ public abstract class BraveActivity extends ChromeActivity
+ 
+     @Override
+     protected void onDestroyInternal() {
++        if (mTvBrowserControls != null) {
++            mTvBrowserControls.destroy();
++            mTvBrowserControls = null;
++        }
+         // If the search widget promo panel is shown, we mark its visibility
+         // before the activity is destroyed and recreated (e.g when the night mode state changes).
+         // The new search widget promo panel will be recreated with the new appropriate theme and
+diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
+new file mode 100644
+index 000000000..93c150b5d
+--- /dev/null
++++ b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
+@@ -0,0 +1,347 @@
++// Copyright (c) 2026 brave-tv contributors.
++// This Source Code Form is subject to the terms of the Mozilla Public
++// License, v. 2.0. If a copy of the MPL was not distributed with this file,
++// You can obtain one at https://mozilla.org/MPL/2.0/.
++
++package org.chromium.chrome.browser.tv;
++
++import android.graphics.Canvas;
++import android.graphics.Color;
++import android.graphics.ColorFilter;
++import android.graphics.Paint;
++import android.graphics.PixelFormat;
++import android.graphics.drawable.Drawable;
++import android.os.SystemClock;
++import android.view.InputDevice;
++import android.view.KeyEvent;
++import android.view.MotionEvent;
++
++import androidx.activity.OnBackPressedCallback;
++import androidx.appcompat.app.AlertDialog;
++import androidx.core.view.ViewCompat;
++import androidx.core.view.WindowInsetsCompat;
++
++import com.google.android.material.dialog.MaterialAlertDialogBuilder;
++
++import org.jspecify.annotations.Nullable;
++
++import org.chromium.chrome.R;
++import org.chromium.chrome.browser.app.BraveActivity;
++import org.chromium.chrome.browser.back_press.BackPressManager;
++import org.chromium.chrome.browser.tab.Tab;
++import org.chromium.components.browser_ui.widget.gesture.BackPressHandler;
++import org.chromium.components.embedder_support.view.ContentView;
++
++import java.util.ArrayList;
++import java.util.List;
++
++/** TV-only adapter around the existing browser UI and the active Chromium content view. */
++public final class TvBrowserControls implements TvRemoteInput.Target {
++    private final BraveActivity mActivity;
++    private final BackPressManager mBackPressManager;
++    private final TvRemoteInput mInput;
++    private final Cursor mCursor;
++    private final OnBackPressedCallback mBackCallback;
++    private @Nullable ContentView mPage;
++    private @Nullable AlertDialog mDialog;
++    private String mPressedUrl = "";
++
++    public TvBrowserControls(BraveActivity activity, BackPressManager backPressManager) {
++        mActivity = activity;
++        mBackPressManager = backPressManager;
++        float density = activity.getResources().getDisplayMetrics().density;
++        mInput = new TvRemoteInput(this, Math.max(1, Math.round(16 * density)));
++        mCursor = new Cursor(density);
++        mBackCallback =
++                new OnBackPressedCallback(true) {
++                    @Override
++                    public void handleOnBackPressed() {
++                        if (!keyboardVisible() && !nativeUiHandlesBack()) {
++                            if (!mInput.back()) showControls();
++                            return;
++                        }
++                        dispatchNativeBack();
++                    }
++                };
++        activity.getOnBackPressedDispatcher().addCallback(activity, mBackCallback);
++    }
++
++    private void dispatchNativeBack() {
++        mBackCallback.setEnabled(false);
++        try {
++            mActivity.getOnBackPressedDispatcher().onBackPressed();
++        } finally {
++            if (!mActivity.isFinishing() && !mActivity.isDestroyed())
++                mBackCallback.setEnabled(true);
++        }
++    }
++
++    private boolean keyboardVisible() {
++        WindowInsetsCompat insets =
++                ViewCompat.getRootWindowInsets(mActivity.getWindow().getDecorView());
++        return insets != null && insets.isVisible(WindowInsetsCompat.Type.ime());
++    }
++
++    private boolean nativeUiHandlesBack() {
++        for (@BackPressHandler.Type int type = 0;
++                type < BackPressHandler.Type.TAB_HISTORY;
++                type++) {
++            // Web CloseWatcher must not trap the remote inside a page.
++            if (type != BackPressHandler.Type.CLOSE_WATCHER
++                    && mBackPressManager.isBackPressHandlerConsumingBackEvent(type)) return true;
++        }
++        return false;
++    }
++
++    private @Nullable ContentView currentPage() {
++        Tab tab = mActivity.getActivityTab();
++        return tab == null || tab.isNativePage() ? null : tab.getContentView();
++    }
++
++    private String currentUrl() {
++        Tab tab = mActivity.getActivityTab();
++        return tab == null ? "" : tab.getUrl().getSpec();
++    }
++
++    public boolean dispatchKeyEvent(KeyEvent event) {
++        if (mPage != currentPage()) {
++            mInput.back();
++            return false;
++        }
++        InputDevice device = event.getDevice();
++        if (!event.hasNoModifiers()
++                || (device != null
++                        && device.getKeyboardType() == InputDevice.KEYBOARD_TYPE_ALPHABETIC)
++                || keyboardVisible()
++                || nativeUiHandlesBack()) {
++            mInput.cancelPress();
++            return false;
++        }
++        TvRemoteInput.Key key;
++        switch (event.getKeyCode()) {
++            case KeyEvent.KEYCODE_DPAD_UP:
++                key = TvRemoteInput.Key.UP;
++                break;
++            case KeyEvent.KEYCODE_DPAD_DOWN:
++                key = TvRemoteInput.Key.DOWN;
++                break;
++            case KeyEvent.KEYCODE_DPAD_LEFT:
++                key = TvRemoteInput.Key.LEFT;
++                break;
++            case KeyEvent.KEYCODE_DPAD_RIGHT:
++                key = TvRemoteInput.Key.RIGHT;
++                break;
++            case KeyEvent.KEYCODE_ENTER:
++            case KeyEvent.KEYCODE_DPAD_CENTER:
++                key = TvRemoteInput.Key.SELECT;
++                break;
++            default:
++                return false;
++        }
++        if (event.getAction() != KeyEvent.ACTION_DOWN && event.getAction() != KeyEvent.ACTION_UP) {
++            return false;
++        }
++        boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
++        if (key == TvRemoteInput.Key.SELECT && down && event.getRepeatCount() == 0) {
++            mPressedUrl = currentUrl();
++        }
++        return mInput.onKey(
++                key,
++                down,
++                event.getRepeatCount(),
++                event.isCanceled()
++                        || !mPressedUrl.equals(currentUrl()) && key == TvRemoteInput.Key.SELECT);
++    }
++
++    public void onWindowFocusChanged(boolean focused) {
++        if (!focused) mInput.cancelPress();
++    }
++
++    @Override
++    public void showControls() {
++        detachCursor();
++        if (mActivity.isFinishing() || mActivity.isDestroyed()) return;
++        if (mDialog != null && mDialog.isShowing()) return;
++        List<Integer> actions = new ArrayList<>();
++        actions.add(R.string.brave_tv_address);
++        if (currentPage() != null) {
++            actions.add(R.string.brave_tv_pointer);
++            actions.add(R.string.brave_tv_scroll);
++        }
++        actions.add(R.string.brave_tv_menu);
++        actions.add(R.string.brave_tv_reload);
++        CharSequence[] labels = new CharSequence[actions.size()];
++        for (int i = 0; i < actions.size(); i++) labels[i] = mActivity.getString(actions.get(i));
++        mDialog =
++                new MaterialAlertDialogBuilder(mActivity)
++                        .setTitle(R.string.brave_tv_controls)
++                        .setItems(
++                                labels,
++                                (dialog, index) -> {
++                                    dialog.dismiss();
++                                    performAction(actions.get(index));
++                                })
++                        .setOnCancelListener(dialog -> dispatchNativeBack())
++                        .create();
++        mDialog.setCanceledOnTouchOutside(false);
++        mDialog.show();
++        mDialog.getListView().requestFocus();
++        mDialog.getListView().setSelection(0);
++    }
++
++    private void performAction(int action) {
++        if (action == R.string.brave_tv_pointer || action == R.string.brave_tv_scroll) {
++            mPage = currentPage();
++            if (mPage == null) return;
++            mPage.getOverlay().add(mCursor);
++            mPage.requestFocus();
++            mInput.activate(
++                    action == R.string.brave_tv_pointer
++                            ? TvRemoteInput.Mode.POINTER
++                            : TvRemoteInput.Mode.SCROLL);
++        } else if (action == R.string.brave_tv_address) {
++            mActivity.onMenuOrKeyboardAction(R.id.focus_url_bar, false);
++        } else if (action == R.string.brave_tv_menu) {
++            mActivity.onMenuOrKeyboardAction(R.id.show_menu, false);
++        } else if (action == R.string.brave_tv_reload) {
++            mActivity.onMenuOrKeyboardAction(R.id.reload_menu_id, false);
++        }
++    }
++
++    @Override
++    public int getWidth() {
++        return mPage == null ? 0 : mPage.getWidth();
++    }
++
++    @Override
++    public int getHeight() {
++        return mPage == null ? 0 : mPage.getHeight();
++    }
++
++    @Override
++    public void showPointer(int x, int y, TvRemoteInput.Mode mode) {
++        mCursor.x = x;
++        mCursor.y = y;
++        mCursor.hint =
++                mActivity.getString(
++                        mode == TvRemoteInput.Mode.SCROLL
++                                ? R.string.brave_tv_scroll_hint
++                                : R.string.brave_tv_pointer_hint);
++        mCursor.setBounds(0, 0, getWidth(), getHeight());
++        mCursor.invalidateSelf();
++        sendMouseEvent(MotionEvent.ACTION_HOVER_MOVE, x, y, 0, 0, 0, SystemClock.uptimeMillis());
++    }
++
++    @Override
++    public void click(int x, int y) {
++        long time = SystemClock.uptimeMillis();
++        sendMouseEvent(MotionEvent.ACTION_DOWN, x, y, MotionEvent.BUTTON_PRIMARY, 0, 0, time);
++        sendMouseEvent(MotionEvent.ACTION_UP, x, y, 0, 0, 0, time);
++    }
++
++    @Override
++    public void scroll(int x, int y, int dx, int dy) {
++        sendMouseEvent(MotionEvent.ACTION_SCROLL, x, y, 0, dx, -dy, SystemClock.uptimeMillis());
++    }
++
++    private void sendMouseEvent(
++            int action, int x, int y, int buttons, int dx, int dy, long downTime) {
++        ContentView page = mPage;
++        if (page == null || page != currentPage()) return;
++        MotionEvent.PointerProperties pointer = new MotionEvent.PointerProperties();
++        pointer.id = 0;
++        pointer.toolType = MotionEvent.TOOL_TYPE_MOUSE;
++        MotionEvent.PointerCoords point = new MotionEvent.PointerCoords();
++        point.x = x;
++        point.y = y;
++        point.setAxisValue(MotionEvent.AXIS_HSCROLL, dx);
++        point.setAxisValue(MotionEvent.AXIS_VSCROLL, dy);
++        MotionEvent event =
++                MotionEvent.obtain(
++                        downTime,
++                        SystemClock.uptimeMillis(),
++                        action,
++                        1,
++                        new MotionEvent.PointerProperties[] {pointer},
++                        new MotionEvent.PointerCoords[] {point},
++                        0,
++                        buttons,
++                        1,
++                        1,
++                        0,
++                        0,
++                        InputDevice.SOURCE_MOUSE,
++                        0);
++        try {
++            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) {
++                page.dispatchTouchEvent(event);
++            } else {
++                page.dispatchGenericMotionEvent(event);
++            }
++        } finally {
++            event.recycle();
++        }
++    }
++
++    private void detachCursor() {
++        if (mPage != null) mPage.getOverlay().remove(mCursor);
++        mPage = null;
++    }
++
++    public void destroy() {
++        mInput.cancelPress();
++        mBackCallback.remove();
++        detachCursor();
++        if (mDialog != null) mDialog.dismiss();
++        mDialog = null;
++    }
++
++    private static final class Cursor extends Drawable {
++        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
++        final float density;
++        int x;
++        int y;
++        String hint = "";
++
++        Cursor(float density) {
++            this.density = density;
++        }
++
++        @Override
++        public void draw(Canvas canvas) {
++            paint.setStyle(Paint.Style.FILL);
++            paint.setTextSize(16 * density);
++            paint.setColor(Color.BLACK);
++            canvas.drawRect(
++                    12 * density,
++                    12 * density,
++                    36 * density + paint.measureText(hint),
++                    48 * density,
++                    paint);
++            paint.setColor(Color.WHITE);
++            canvas.drawText(hint, 24 * density, 36 * density, paint);
++            canvas.drawCircle(x, y, 7 * density, paint);
++            paint.setColor(Color.BLACK);
++            paint.setStyle(Paint.Style.STROKE);
++            paint.setStrokeWidth(2 * density);
++            canvas.drawCircle(x, y, 7 * density, paint);
++        }
++
++        @Override
++        public void setAlpha(int alpha) {
++            paint.setAlpha(alpha);
++            invalidateSelf();
++        }
++
++        @Override
++        public void setColorFilter(@Nullable ColorFilter filter) {
++            paint.setColorFilter(filter);
++            invalidateSelf();
++        }
++
++        @Override
++        public int getOpacity() {
++            return PixelFormat.TRANSLUCENT;
++        }
++    }
++}
+diff --git a/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java b/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java
+new file mode 100644
+index 000000000..83beef739
+--- /dev/null
++++ b/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java
+@@ -0,0 +1,135 @@
++// Copyright (c) 2026 brave-tv contributors.
++// This Source Code Form is subject to the terms of the Mozilla Public
++// License, v. 2.0. If a copy of the MPL was not distributed with this file,
++// You can obtain one at https://mozilla.org/MPL/2.0/.
++
++package org.chromium.chrome.browser.tv;
++
++/** Remote interaction policy; the target owns Android focus and Chromium input delivery. */
++public final class TvRemoteInput {
++    public enum Mode {
++        CONTROLS,
++        POINTER,
++        SCROLL
++    }
++
++    public enum Key {
++        UP,
++        DOWN,
++        LEFT,
++        RIGHT,
++        SELECT,
++        OTHER
++    }
++
++    public interface Target {
++        int getWidth();
++
++        int getHeight();
++
++        void showPointer(int x, int y, Mode mode);
++
++        void click(int x, int y);
++
++        void showControls();
++
++        void scroll(int x, int y, int dx, int dy);
++    }
++
++    private final Target mTarget;
++    private final int mStep;
++    private Mode mMode = Mode.CONTROLS;
++    private int mX;
++    private int mY;
++    private boolean mSelectPressed;
++    private boolean mPositioned;
++
++    public TvRemoteInput(Target target, int step) {
++        mTarget = target;
++        mStep = step;
++    }
++
++    public boolean activate(Mode mode) {
++        if (mTarget.getWidth() <= 0 || mTarget.getHeight() <= 0) return false;
++        mSelectPressed = false;
++        mMode = mode;
++        if (!mPositioned) {
++            mX = mTarget.getWidth() / 2;
++            mY = mTarget.getHeight() / 2;
++            mPositioned = true;
++        }
++        clampPosition();
++        mTarget.showPointer(mX, mY, mMode);
++        return true;
++    }
++
++    public boolean back() {
++        if (mMode == Mode.CONTROLS) return false;
++        mMode = Mode.CONTROLS;
++        mSelectPressed = false;
++        mTarget.showControls();
++        return true;
++    }
++
++    public void cancelPress() {
++        mSelectPressed = false;
++    }
++
++    public boolean onKey(Key key, boolean down, int repeat, boolean canceled) {
++        if (mMode == Mode.CONTROLS || key == Key.OTHER) return false;
++        if (mTarget.getWidth() <= 0 || mTarget.getHeight() <= 0) {
++            back();
++            return false;
++        }
++        clampPosition();
++        if (key == Key.SELECT) {
++            if (canceled) {
++                mSelectPressed = false;
++            } else if (down) {
++                if (repeat == 0) mSelectPressed = true;
++            } else if (mSelectPressed) {
++                mSelectPressed = false;
++                if (mMode == Mode.SCROLL) {
++                    activate(Mode.POINTER);
++                } else {
++                    mTarget.click(mX, mY);
++                }
++            }
++            return true;
++        }
++        if (down) {
++            int dx = 0;
++            int dy = 0;
++            switch (key) {
++                case UP:
++                    dy = -1;
++                    break;
++                case DOWN:
++                    dy = 1;
++                    break;
++                case LEFT:
++                    dx = -1;
++                    break;
++                case RIGHT:
++                    dx = 1;
++                    break;
++                default:
++                    break;
++            }
++            if (mMode == Mode.SCROLL) {
++                mTarget.scroll(mX, mY, dx, dy);
++                return true;
++            }
++            mX += dx * mStep;
++            mY += dy * mStep;
++            clampPosition();
++            mTarget.showPointer(mX, mY, mMode);
++        }
++        return true;
++    }
++
++    private void clampPosition() {
++        mX = Math.max(0, Math.min(mX, mTarget.getWidth() - 1));
++        mY = Math.max(0, Math.min(mY, mTarget.getHeight() - 1));
++    }
++}
+diff --git a/browser/ui/android/strings/android_brave_strings.grd b/browser/ui/android/strings/android_brave_strings.grd
+index f57491979..5c651983d 100644
+--- a/browser/ui/android/strings/android_brave_strings.grd
++++ b/browser/ui/android/strings/android_brave_strings.grd
+@@ -3998,6 +3998,15 @@ If you don't accept this request, VPN will not reconnect and your internet conne
+     <message name="IDS_PERMISSIONS_GEOLOCATION_APPROXIMATE" desc="Radio button label for approximate location in the permission prompt.">
+       Approximate
+     </message>
++    <message name="IDS_BRAVE_TV_CONTROLS" desc="Title of the TV remote controls dialog.">TV controls</message>
++    <message name="IDS_BRAVE_TV_LAUNCHER" desc="Name of the development TV launcher entry.">TV Browser (prototype)</message>
++    <message name="IDS_BRAVE_TV_ADDRESS" desc="TV control to edit the address bar.">Address or search</message>
++    <message name="IDS_BRAVE_TV_POINTER" desc="TV control to move a pointer on the page.">Page cursor</message>
++    <message name="IDS_BRAVE_TV_SCROLL" desc="TV control to scroll at the pointer position.">Scroll page</message>
++    <message name="IDS_BRAVE_TV_MENU" desc="TV control to open the existing browser menu.">Browser menu</message>
++    <message name="IDS_BRAVE_TV_RELOAD" desc="TV control to reload the current page.">Reload page</message>
++    <message name="IDS_BRAVE_TV_POINTER_HINT" desc="Remote button hints for pointer mode.">D-pad: move · OK: click · Back: controls</message>
++    <message name="IDS_BRAVE_TV_SCROLL_HINT" desc="Remote button hints for scroll mode.">D-pad: scroll · OK: cursor · Back: controls</message>
+   </messages>
+   </release>
+ </grit>
