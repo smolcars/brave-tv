@@ -382,3 +382,7 @@ The first combined APK builds but fails direct launch twice with `referrals_serv
 ### Runtime correction: native-home initial focus
 
 The referral correction reaches native home and persists old P3A/metrics/usage opt-ins as false, but `tv-home.ad` still fails its initial focus assertion: Chromium focuses the newly attached root scroll view after the constructor's address-focus request. D-pad Down reaches the address button, and native controls open through the home action. Forward focus from the scroll container to the address action after attachment/layout using a posted callback. Only forward while the container itself still owns focus, the page is alive and attached, and its activity is not finishing/destroyed; do not steal focus from the address bar, another action or a replacement page. Rerun the same initial-focus/home replay and keyboard/return checks.
+
+### Runtime correction: list-panel Down navigation
+
+On the installed native home, the search chooser correctly preserves the old Brave provider, but Down from its first provider skips Google and focuses the Settings footer. `TvBrowserPanel.addAction` overwrites the first item's Down target even when more full-width list items intervene. Only retain that special grid-entry behavior while there is one leading item; adding a second list item must leave vertical navigation to native focus search. Preserve the main controls panel's address-to-first-enabled-grid-action behavior. Verify Brave → Google by D-pad, then select/persist a provider and rerun the browser-panel replay.
