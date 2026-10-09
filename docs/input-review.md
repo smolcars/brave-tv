@@ -261,3 +261,10 @@ Onboarding style cleanup `32c6f8d4b` against `1125c034b`: Standards 0 and Spec 0
 Referral factory correction `0304bcec2` against `32c6f8d4b`: Standards 0 and Spec 0. Its cached build passes in 37.11 seconds; profile-preserving installation reaches native home, eliminating the prior referral abort. Initial address focus remains a separate runtime failure.
 
 Home focus correction `0b5afdb64` against `0304bcec2`: Standards 0 and Spec 0. The posted request guards page/activity lifetime, attachment and root-owned focus. Build and replay validation are pending.
+
+
+Home focus runtime follow-up: source `0b5afdb64` passes the cached blocking build and all 13 home replay steps; the same replay also passes on `4be36e7dc`.
+
+Provider-list navigation `ca06fe4b8` against `0b5afdb64`: Standards 0 and Spec 0. The combined `4be36e7dc` APK passes the previously failing adjacent-provider Down check and the 16-step grid-controls replay.
+
+Android license generation `4be36e7dc` against `ca06fe4b8`: Standards 0 and Spec 0. Blocking build succeeds; the actual credits page contains 1,058 notices instead of the sample. Both reviews covered only the latest implementation diff in their round.

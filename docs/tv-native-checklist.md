@@ -21,12 +21,12 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 ## Simple launch, privacy and home (supersedes onboarding redesign)
 
-- [x] Remove the TV consent/onboarding layouts and use direct browser startup in source. Emulator verification pending.
-- [x] Exclude Web Discovery and usage-ping services; make P3A and crash uploads inert, including old opt-in preferences. Blocking build/runtime verification pending.
+- [x] Remove the TV consent/onboarding layouts and use direct browser startup. Preserved incomplete-onboarding profile now launches directly; fresh-install coverage remains open.
+- [x] Exclude Web Discovery and usage-ping services; make P3A and crash uploads inert, including old opt-in preferences. Blocking build passes; old reporting preferences persist as false. Full traffic audit remains open.
 - [ ] Audit remaining local analytics collectors and promotional services; verify no reporting requests on startup, navigation or search.
 - [x] Implement native home with “Simple, private, and ad-blocking,” address/search, controls, private-session labeling and Brave/Chromium attribution.
-- [x] Add remote-accessible public GitHub/source and license links. Emulator verification pending.
-- [x] Implement Google default for new Android profiles and TV provider selection including Brave Search. Verify normal/private persistence and existing-choice preservation.
+- [x] Add remote-accessible public GitHub/source and license links. Both navigate successfully; generated credits contain 1,058 notices.
+- [x] Implement Google default for new Android profiles and TV provider selection including Brave Search. Existing choice is preserved; normal choice survives restart and private choice is independent. Fresh defaults/private restart coverage remains open.
 - [ ] Verify direct first-run launch, initial focus, Back, keyboard and restart on the emulator without clearing existing profiles.
 - [ ] Refine remaining controls/settings for clear focus, few navigation steps, remembered selection and clear cursor/scroll state.
 - [ ] Measure startup, panel responsiveness and memory; record emulator limitations and recheck on Chromecast later.

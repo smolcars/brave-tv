@@ -189,3 +189,14 @@ Native-panel replay also passes all 16 steps on `c7bde129e`, and the non-alphabe
 The isolated API 36 profile still had incomplete onboarding, P3A and metrics reporting enabled, Web Discovery disabled and search-default version 35. Updating to source `32c6f8d4b` with `adb install -r` succeeds without clearing data. Two launches abort with `referrals_service_delegate.cc:57`: `!profile_manager_observation_.IsObserving()`. The existing `tv-home.ad` replay fails at step 2 (initial address focus); the TV launcher is visible after the abort. Log: `~/.cache/brave-tv/logs/simple-home-runtime-20261009.logcat`; selected pre-update preferences are preserved in `simple-home-before-prefs.json`.
 
 The failure occurs before home acceptance. Do not infer Google default, reporting migration, attribution, keyboard or Shields success from this build. The Android referral-factory correction must pass the same launch/replay before continuing those checks.
+
+
+## Direct-home upgrade acceptance (9 October 2026)
+
+Source `4be36e7dc` passes the cached blocking x64 build in 3m36s and signature verification. The APK updates the preserved `brave_tv_onboarding_api36` profile without clearing it. `tv-home.ad` passes all 13 steps; `tv-panel.ad` passes all 16 steps on a loaded webpage. The referral abort is absent from these launches. The initial home address button is focused automatically; controls and attribution actions are reachable by D-pad.
+
+The corrected provider list passes Brave → Google → DuckDuckGo → Google focus checks. Selecting Brave for normal tabs survives Home/relaunch. Selecting Google independently for private tabs leaves normal tabs set to Brave; normal tabs are restored to Google afterward. Native Google TV keyboard D-pad/OK enters `q`, activates Go and loads Google search results. Back dismisses the keyboard, and the next Back opens private browser controls. The private native home labels the session and explains its history/privacy limits. These checks do not establish fresh-profile defaults or private-tab persistence across process death.
+
+The license action loads `chrome://credits/` with 1,058 generated notices and no `generate_about_credits` placeholder. The home source action loads `https://github.com/smolcars/brave-tv` successfully. Existing search-default version 35 is preserved. The persisted P3A, user-experience metrics, stats reporting and Web Discovery preferences are all false after testing. This verifies migration and UI behavior, not a complete traffic audit.
+
+Artifact: `~/.cache/brave-tv/artifacts/tv-simple-home-4be36e7dc-x64-debug-20261009/BraveMonox64.apk`, 853,107,409 bytes, SHA-256 `d64b305faddaf6fb8d47417d117577f54da184959d5897577bb94b4935fbe43c`. Provenance, GN args and signature results are alongside it; build log prefix is `build-simple-browser-x64-20261009-r11`. All evidence is from the API 36 x64 emulator, not the Chromecast.
