@@ -1,10 +1,10 @@
 # First TV input patch
 
-Status: source prototype. The unmodified baseline APK built successfully, the TV patch has been applied, and its first incremental Android build started at 05:58 EDT on 9 October 2026. The public input-policy tests pass on the JVM. TV-patch compilation, launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+Status: the TV patch compiled and produced an x64 Debug APK on 9 October 2026. The public input-policy tests pass on the JVM. Blocking static analysis is still running; launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
 
-The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed the Android Java header compiler and Java compilation; final packaging remains pending.
+The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.
 
-Current build: `brave-tv-prototype-j4-r2.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-060024`. The failed attempt is preserved under `build-tv-debug-x64-20261009-055842.*`. Both use the baseline output cache and the resource limits documented in [build.md](build.md).
+Current build: `brave-tv-prototype-j4-r3.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-060803`. It sets `android_static_analysis="on"`, so checks finish as blocking build steps and propagate failures. Earlier attempts remain under `build-tv-debug-x64-20261009-055842.*` and `build-tv-debug-x64-20261009-060024.*`. All use the baseline output cache and the resource limits documented in [build.md](build.md).
 
 The generated merged manifest contains the exported TV launcher alias, `MAIN`/`LEANBACK_LAUNCHER`, the TV banner/label and `android.hardware.touchscreen` marked optional. This confirms manifest integration; actual TV launcher behavior is still untested.
 
@@ -36,7 +36,7 @@ python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
 git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --check --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
 git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
 cd "$HOME/.cache/brave-tv/workspace/src/brave"
-SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk
+SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --gn=android_static_analysis:on
 ```
 
 The checkout helper intentionally refuses the now-modified checkout on subsequent calls. Do not reset it or rerun forceful upstream synchronization to make that check pass. Preserve the unmodified APK and its provenance before applying the patch. Reusing the same build directory should retain unaffected native compilation outputs.

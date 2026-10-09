@@ -57,18 +57,20 @@ The source pins inspected for this baseline are:
 From the external `src/brave` directory:
 
 ```sh
-SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk
+SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --gn=android_static_analysis:on
 ```
 
 Use a release build for performance evidence:
 
 ```sh
-SISO_LIMITS=local=4 pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk
+SISO_LIMITS=local=4 pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk --gn=android_static_analysis:on
 ```
 
 The Debug command completed native/Java compilation and APK packaging. Use `SISO_LIMITS=local=4` to limit local execution on this 30 GiB builder. **The pinned Brave wrapper consumes `--ninja=j:N` but applies its Siso job limit only when remote execution is enabled** (`build/commands/lib/config.ts`, options parsing and `useRemoteExec` environment block). Our original `--ninja=j:8` therefore did not enforce eight local jobs. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
 
 ## Resume with host resource limits
+
+Keep `--gn=android_static_analysis:on` in these commands. Chromium otherwise defaults to background analysis for development builds, and can report a successful APK while checks are still queued. A transient service then terminates that background server at exit. The explicit `on` mode runs analysis as blocking build steps and propagates failures; no checks are disabled.
 
 On this systemd-based Linux builder, run the long compile in a transient user service. This keeps it independent of the terminal connection and limits its memory consumption. A reboot still stops the service. Do not run two builds against the same output directory.
 
@@ -88,6 +90,7 @@ systemd-run --user --unit=brave-tv-baseline-j4 --service-type=exec \
     cd "$HOME/.cache/brave-tv/workspace/src/brave"
     command time -v -o "$TV_BUILD_LOG.time" pnpm run build Debug \
       --target_os=android --target_arch=x64 --target_android_output_format=apk \
+      --gn=android_static_analysis:on \
       > "$TV_BUILD_LOG.log" 2>&1
   '
 systemctl --user show brave-tv-baseline-j4.service \

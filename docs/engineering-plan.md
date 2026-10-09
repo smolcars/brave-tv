@@ -96,6 +96,8 @@ The new Android regression checks cannot currently be run: device access is disa
 
 The baseline subsequently completed. During the first TV compile, the real Android header compiler rejected `org.jspecify.annotations.Nullable`, which is not a dependency of this target. Correct the adapter to use the surrounding code's existing `androidx.annotation.Nullable`, then rerun Android compilation. Resolve further compiler integration findings against the pinned APIs without adding replacement libraries or weakening checks. Keep the main checkout and exported patch synchronized while no build is running.
 
+The next attempt produced the TV APK in 2m24s, but the default background analysis server still had queued checks when the transient service exited and terminated it. Require `--gn=android_static_analysis:on` for subsequent builds: the pinned Chromium configuration explicitly runs analysis as blocking build steps in this mode and fails the build on errors. Preserve the APK/cache and rerun these checks; do not count asynchronous queue submission as a passed analysis check. Update the documented build commands to include this setting.
+
 ## Stage 3 Complete the MVP after the feasibility gate
 
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.

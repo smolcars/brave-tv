@@ -59,3 +59,17 @@ One P3 finding remained: the dialog selection callback called `dismiss()` before
 Zero new findings. Source inspection confirmed the three original defects are addressed and the correction stays within the engineering plan. Android compilation and runtime checks remain unverified.
 
 Follow-up totals: Standards 1 finding (P3, corrected); Spec 0 findings. These source-review results do not close the physical-device gate.
+
+## Android compiler correction review
+
+Compared only `70f739f65d2fea0744330b2c9dbeeb9c2e8b4e9f` against parent `9e85bb77def931c02d76969ae1dedb28366bcaf3`.
+
+### Standards
+
+Zero findings. The AndroidX annotation matches existing Brave Android code and adds no dependency, suppression or behavioral logic.
+
+### Spec
+
+Zero findings. The correction follows the written integration plan and preserves nullable declarations and input behavior.
+
+Android header compilation, Java compilation and APK packaging have now succeeded. Background static analysis was interrupted at service exit and is being rerun in blocking mode; device regression procedures remain unexecuted. Totals for this latest-commit review: Standards 0, Spec 0.
