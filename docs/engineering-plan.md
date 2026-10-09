@@ -448,3 +448,9 @@ Destroy the bridge/dialog on controls dismissal, activity pause or teardown; lat
 Tab review correction: selecting the already-active native home does not trigger Chromium's attachment/root-focus path. Explicitly request the selected `TvHomePage` search action after model selection, guarded by live activity/tab and attachment. Keep the existing attachment focus path for newly attached pages. Extend the toolbar replay to select the current home and assert focused search; verify it fails before the correction and passes afterward.
 
 History review correction: a full URL can consume the two-line detail subtitle and hide the visit date. Put the visit date first and the stored display domain second, and reuse that summary in the removal confirmation. Keep the title as the heading so the same-day grouped removal is identifiable even for long URLs. Include a long-query fixture during runtime validation.
+
+### Privacy: explicit native clearing choices
+
+Add Clear browsing data to TV Settings for normal tabs only. Reuse `BrowsingDataBridge` with three separate all-time operations: browsing history, cookies/site data, and cached files. State all-time scope and cookie sign-out consequences before confirmation; focus Cancel, recheck history deletion policy at execution, and leave bookmarks/passwords out of all type arrays. No preselected destructive operation and no generic ambiguous “clear everything.”
+
+Keep one in-flight operation per activity, show progress and wait for the native completion callback. Closing/pausing the UI cancels its UI callback, not the already-confirmed deletion; reset the in-flight flag when native work finishes without reopening dismissed UI. Use the existing callback controller and dialog lifetime. Test cancel, completion, private exclusion and cookie/history/cache scope on an isolated emulator user/profile, never by clearing the preserved test profile. Defer no user data loss protections to later.
