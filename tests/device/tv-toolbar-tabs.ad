@@ -9,3 +9,10 @@ tv-remote select
 wait "text=\"New tab\" focused=true" 3000
 wait "text=\"Private tabs\"" 3000
 wait "text=\"Browser controls\"" 3000
+# The preserved regression profile has two fixture tabs before the active home.
+tv-remote down
+tv-remote down
+tv-remote down
+wait "text=\"Current: Home\" focused=true" 3000
+tv-remote select
+wait "text=\"Address or search\" focused=true" 3000

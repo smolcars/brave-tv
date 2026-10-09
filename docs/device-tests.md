@@ -242,3 +242,16 @@ The home screenshot shows the neutral shield and disabled native-page state, but
 Final toolbar artifact `942dca26f` passes the cached blocking build in 3m33.18s (wrapper 3m36.56s, 16 executed steps). Observed cgroup peak: 15,540,535,296 bytes (14.47 GiB), below the 22 GiB cap. Signature verification and profile-preserving update installation pass. APK: `~/.cache/brave-tv/artifacts/tv-toolbar-942dca26f-x64-debug-20261009/BraveMonox64.apk`, 852,950,251 bytes, SHA-256 `995375f1cf1460d65c7154c05fddfac6c0023a81bdf4958cd52bfd7cde843e0d`. Log prefix: `build-simple-browser-x64-20261009-r15`.
 
 On this final APK, normal new-tab (13 steps), private new-tab (17) and toolbar-menu (11) replays pass. Closing the private test tab returns to normal home with search focused. Both final focus screenshots, `toolbar-focus-942dca26f.png` and `toolbar-tab-focus-942dca26f.png`, are inspected: only one native circular focus ring remains, and the neutral shield is dimmed on home. `toolbar-home-942dca26f.png` records the final home with search focused. Strict Nix checks pass for the final source. Earlier protection and panel checks above apply to the immediately preceding APK; the final source delta only removes the added foregrounds. Hardware, complete rebranding, native toolbar tab-list entry, broader tab restoration and traffic auditing remain open.
+
+### Native toolbar tabs diagnostic (10 October 2026 UTC)
+
+Source `ef6cabbb4` builds with blocking analysis in 3m40.86s (55 steps), observed
+peak 14,822,092,800 bytes (13.80 GiB). Preserved artifact:
+`~/.cache/brave-tv/artifacts/tv-tabs-ef6cabbb4-x64-debug-20261010/BraveMonox64.apk`,
+852,965,955 bytes, SHA-256
+`7ba7d25154f7219f6403509310ce39158ce15aced2b987bfa721577e4c102124`.
+Signature verification and profile-preserving emulator update pass. The initial
+10-step toolbar-tabs replay passes native-list entry. Spec review found that
+reselecting the active home leaves toolbar focus; the extended 16-step replay
+reproduces failure on its final search-focus assertion. This is diagnostic
+acceptance only, pending the correction and full tab flows.

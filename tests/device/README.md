@@ -151,3 +151,24 @@ tab action immediately reopens controls. `tv-private-new-tab.ad` checks the
 same handoff from the private tab list, asserting the private-session notice.
 Each replay invokes New tab, preserves existing data, and leaves the destination
 open. Private reauthentication requires a separate configured-device test.
+
+## Native toolbar tabs
+
+`tv-toolbar-tabs.ad` starts on normal home with two preserved local fixture tabs
+before it. It checks D-pad toolbar entry into the native list, then selects
+`Current: Home` and requires search focus. The original toolbar opened the phone
+grid; source `ef6cabbb4` passes native entry but fails the final focus assertion.
+Do not delete other tabs to force these preconditions on a user's profile.
+
+## Native history
+
+Serve `history.html` with the other fixtures and visit it in a normal tab. This
+is an explicitly disposable history entry, not permission to clear the profile.
+From Browser controls select History, then the row titled
+`TV history removal fixture`. Verify Open page returns to the fixture; reopen
+History, choose Remove from history, require Cancel initially focused, and
+cancel. Confirm the entry remains. Repeat removal and confirm; require the
+loading state to finish and the fixture row to disappear. Reopen History to
+verify persisted removal, check older pages/Back, and check History is disabled
+in private controls. Exercise closing the panel during loading and activity
+pause. Record actual results separately; this procedure alone is not a pass.
