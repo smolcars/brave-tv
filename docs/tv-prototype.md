@@ -116,3 +116,10 @@ This is a **failing diagnostic APK**, not an accepted candidate. The profile-pre
 Source `cca46e564` includes the redesigned native home and Android analytics-collector shutdown. The cached blocking build passes in 4m58.73s; signature verification and profile-preserving emulator update pass. APK: `~/.cache/brave-tv/artifacts/tv-collector-shutdown-cca46e564-x64-debug-20261009/BraveMonox64.apk`, 852,947,082 bytes; SHA-256 `5deb87191f60f72b52f71620fc3284e67cb61679aaf3601fa4a74a6eb346e852`. This x64 Debug artifact is for the emulator, not the Chromecast.
 
 Home/menu/panel navigation, search-provider changes, the local search-collector regression and network-blocking fixture pass. See [executed checks and remaining limits](device-tests.md#collector-shutdown-with-the-redesigned-home-9-october-2026). The new-tab overlay transition, remaining branding, traffic audit and broader site/video/hardware acceptance remain open.
+
+
+## Current toolbar and new-tab emulator artifact (9 October)
+
+Source `942dca26f` fixes normal/private new-tab handoff, replaces the TV toolbar lion with neutral protection-state icons, and opens the native TV protection panel. The cached blocking build passes in 3m33.18s; signature verification and profile-preserving update pass. APK: `~/.cache/brave-tv/artifacts/tv-toolbar-942dca26f-x64-debug-20261009/BraveMonox64.apk`, 852,950,251 bytes, SHA-256 `995375f1cf1460d65c7154c05fddfac6c0023a81bdf4958cd52bfd7cde843e0d`. This is an x64 Debug emulator artifact.
+
+The formerly failing normal/private new-tab replays pass, the toolbar menu still activates through D-pad, and final screenshots show a single native focus ring. [Runtime evidence](device-tests.md#new-tab-handoff-and-neutral-toolbar-9-october-2026) records the preceding build's protection off/on check and the rejected double-outline design. Chromecast and remaining MVP acceptance stay open.

@@ -29,7 +29,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Add remote-accessible public GitHub/source and license links. Both navigate successfully; generated credits contain 1,058 notices.
 - [x] Implement Google default for new Android profiles and TV provider selection including Brave Search. Existing choice is preserved; normal choice survives restart and private choice is independent. Fresh normal/private defaults are Google; private restart coverage remains open.
 - [x] Verify direct first-run launch, initial focus, Back, keyboard and restart on the emulator without clearing existing profiles. Upgrade and fresh profiles pass; private screenshot protection remains enabled.
-- [ ] Refine remaining controls/settings for clear focus, few navigation steps, remembered selection and clear cursor/scroll state. Reproduce the new-tab transition that left controls over home until activity reopening on the final emulator pass.
+- [ ] Refine remaining controls/settings for clear focus, few navigation steps, remembered selection and clear cursor/scroll state.
 - [ ] Measure startup, panel responsiveness and memory; record emulator limitations and recheck on Chromecast later. Three native-home emulator launch/process-memory samples recorded; whole-browser and hardware measurements remain open.
 
 - [x] Redesign home with a prominent search card, quieter controls/attribution, theme gradient and clear focus. Twenty-step home and twelve-step toolbar-menu checks pass on the fresh emulator.
@@ -40,11 +40,13 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Add clear focus, predictable D-pad movement, remembered selection and Back escape; panel replay passes.
 - [ ] Provide address/search, Back/Forward, Reload/Stop and clear page cursor/scroll actions.
 - [ ] Provide a native home/start view with bookmark shortcuts using existing browser storage.
-- [ ] Adapt tabs: new, switch, close, private/normal separation and restart restoration.
+- [x] Correct normal/private New tab handoff to native home with search focused; both failing replays now pass. Closing the private test tab restores normal home.
+- [ ] Adapt remaining tab flows: toolbar tab entry, switching/closing, pagination and restart restoration.
 - [x] Adapt bookmarks: add, open and remove through existing storage; D-pad workflow and restart pass. Pagination/policy/private coverage remains open.
 - [ ] Adapt history: open, delete and clear through existing storage.
 - [ ] Adapt private browsing and clear-data controls; verify isolation.
-- [ ] Make Shields controls and relevant settings usable from the remote.
+- [x] Replace TV toolbar branding with neutral protection-state icons and route its protection action to the native TV panel; off/on request checks pass. Preserve the existing single focus ring.
+- [ ] Finish remote usability of remaining protection settings and content-filter screens.
 - [ ] Verify error pages, certificate warnings, permissions and native dialogs remain reachable and escapable.
 
 ## Emulator acceptance

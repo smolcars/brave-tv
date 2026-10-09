@@ -105,7 +105,7 @@ custom filters, then append these two temporary rules in Content Filters:
 ```
 
 Run `nix develop --command node tests/device/shields-probe.mjs up`. Use the TV
-Shields panel to put Shields down, run the `down` check, then restore Shields up
+Site protection panel to turn protection off, run the `down` check, then turn it on
 and rerun `up`. Background the browser and allow its asynchronous preference
 write before relaunching and checking persistence. An immediate force-stop can
 lose the latest site-setting change. The probe reloads the actual browser tab

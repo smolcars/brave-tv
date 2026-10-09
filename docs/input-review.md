@@ -292,3 +292,6 @@ Local search collector diagnostic `cf68782` against `a3dba13`: Standards 0, Spec
 Latest-commit review only: source `82b9b507c` against `cca46e564`, and regression/plan `48b24dc` against `a96ba25`, each receive Standards 0 and Spec 0. The normal new-tab replay fails twice on the preceding installed APK because controls immediately reopen over the destination. Private creation and switch/close runtime checks remain separate.
 
 Source `11353a858` against `82b9b507c`: Standards 0, Spec 0. Reviews cover native protection routing, activity/tab/private guards, theme/state callbacks, neutral Nala icons and wording, and existing focus foregrounds. No earlier implementation is included. Build and emulator verification are separate gates.
+
+
+Root regression update `2033873` against `43a7e95`: Standards 0, Spec 0. Private-home notice/focus and toolbar menu activation remain explicit assertions. Source focus correction `942dca26f` against `11353a858`: Standards 0, Spec 0; only redundant foregrounds are removed. No earlier implementation is included in either review.
