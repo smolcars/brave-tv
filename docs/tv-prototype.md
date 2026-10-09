@@ -1,6 +1,8 @@
 # First TV input patch
 
-Status: source prototype. The patch applies to the pinned Brave release and the public input-policy tests pass on the JVM. Android compilation, launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+Status: source prototype. The unmodified baseline APK built successfully, the TV patch has been applied, and its first incremental Android build started at 05:58 EDT on 9 October 2026. The public input-policy tests pass on the JVM. TV-patch compilation, launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+
+Current build: `brave-tv-prototype-j4.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-055842`. It uses the baseline output cache and the resource limits documented in [build.md](build.md).
 
 ## Implementation
 

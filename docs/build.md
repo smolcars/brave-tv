@@ -2,7 +2,7 @@
 
 ## Current status
 
-The pinned Nix shell and checkout helper work on the initial x86-64 Linux builder. Upstream source initialization completed successfully on 8 October 2026. A machine crash interrupted the first unmodified x64 Debug build; it has been resumed from existing outputs with explicit concurrency and memory limits. No APK has completed or been installed yet. The [TV input patch](tv-prototype.md) is being prepared separately from the running baseline build.
+The unmodified Brave x64 Debug APK built successfully at 03:17 EDT on 9 October 2026. Its signature was verified and a separate baseline copy preserved before applying the [TV input patch](tv-prototype.md). This proves source compilation on the Nix-managed builder; no APK has been installed or runtime-tested. The initial machine crash and resource-limit recovery are documented below.
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).
 
@@ -66,7 +66,7 @@ Use a release build for performance evidence:
 SISO_LIMITS=local=4 pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk
 ```
 
-The Debug command passed GN configuration and is compiling native and Java targets. Use `SISO_LIMITS=local=4` to limit local execution on this 30 GiB builder. **The pinned Brave wrapper consumes `--ninja=j:N` but applies its Siso job limit only when remote execution is enabled** (`build/commands/lib/config.ts`, options parsing and `useRemoteExec` environment block). Our original `--ninja=j:8` therefore did not enforce eight local jobs. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Record the completed APK path and any native dependency failures before describing the build as working. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
+The Debug command completed native/Java compilation and APK packaging. Use `SISO_LIMITS=local=4` to limit local execution on this 30 GiB builder. **The pinned Brave wrapper consumes `--ninja=j:N` but applies its Siso job limit only when remote execution is enabled** (`build/commands/lib/config.ts`, options parsing and `useRemoteExec` environment block). Our original `--ninja=j:8` therefore did not enforce eight local jobs. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
 
 ## Resume with host resource limits
 
@@ -107,6 +107,18 @@ The 18 GiB threshold starts memory reclamation; the 22 GiB hard limit can termin
 - A 22:42 recovery attempt exposed the ineffective wrapper job option and was deliberately interrupted after 108 additional completed steps. Its separate log/timing files are `build-debug-x64-resume-20261008-224207.*`.
 - The next recovery attempt started at 22:43:49 with explicit `SISO_LIMITS=local=4`, under `brave-tv-baseline-j4.service`. Logs/timing: `build-debug-x64-resume-20261008-224349.*`. The cgroup's memory and CPU limits were verified, as were the actual Siso process environment and four active compiler processes. Record final completion separately.
 - No device or performance result follows from these host-side checks.
+
+### Completed baseline artifact
+
+- Completed at 03:17:23 EDT on 9 October 2026, exit status 0. The successful resumed command took **4h33m33s**; this excludes earlier work retained from the interrupted builds and is not a fresh-build timing.
+- Built APK: `~/.cache/brave-tv/workspace/src/out/android_Debug/apks/BraveMonox64.apk`.
+- Preserved baseline: `~/.cache/brave-tv/artifacts/baseline-v1.97.56-x64-debug-20261009/BraveMonox64.apk` (outside the build directory, so subsequent builds cannot overwrite it).
+- Size: **853,895,549 bytes** (about 814 MiB). This is an unoptimized development Debug build, not the expected release size.
+- SHA-256: `c0235bcdcdfd89858f7687727e2247b77dce0b52cfe5745c011a170fc0d47341`.
+- APK metadata: `com.brave.browser_default`, version name `1.97.0`, version code `429700008`, native ABI `x86_64`. The pinned release's development build metadata differs from its release tag; this is not an official Brave binary.
+- Upstream SDK `apksigner verify --verbose --print-certs` succeeded (v2 signature). Verification establishes APK integrity, not official publisher identity or installation compatibility.
+- The artifact directory also contains `provenance.json`, `args.gn`, `badging.txt` and `signature.txt`, including source/Chromium/project revisions, hashes, command and log paths.
+- The reviewed TV patch was applied after preserving this baseline. Its incremental build uses the same `android_Debug` outputs and the same resource limits.
 
 ## Check this repository
 

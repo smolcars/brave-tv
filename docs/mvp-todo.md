@@ -21,7 +21,8 @@ Out of scope: Apple TV, Fire TV/Vega support, older Android versions, a replacem
 - [ ] Sideload the current official Brave APK for each device’s ABI. Record launch behavior, onboarding blockers, remote limitations, video behavior and crashes. Use an external input device only to investigate the baseline.
 - [ ] Check the available Linux builder’s architecture, memory, free SSD space and toolchain. Follow the selected release’s build instructions and provision missing resources.
 - [x] Pin a supported Brave stable tag and its matching Chromium revision. Record the baseline and a minimal downstream branching/patch strategy; keep large upstream checkouts and build outputs out of this planning repository. See `upstream.json` and [the engineering plan](engineering-plan.md).
-- [ ] Build the unmodified source baseline and install it on both devices. Document exact setup, build and install commands, build duration and output sizes in `docs/build.md`.
+- [x] Build an unmodified source baseline on the Linux builder. Record setup/build commands, duration, artifact size, checksum and provenance in `docs/build.md`. The first x64 Debug baseline completed on 9 October 2026; it is an emulator-ABI build.
+- [ ] Build for the selected physical-device ABIs and install the source baseline on both devices. Document installation commands and results in `docs/build.md` and `docs/device-tests.md`.
 
 **Acceptance:** a clean checkout can reproduce the documented source build, it launches on both devices, and `docs/device-tests.md` records the stock/source baseline and initial blockers. This means repeatable builds, not a claim of byte-for-byte reproducibility.
 
