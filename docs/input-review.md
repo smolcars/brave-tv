@@ -280,3 +280,5 @@ Each review is restricted to the named implementation commit against its parent.
 | `1a976a373` | `0252ebfe5` | 0 | 0 |
 
 The rebinding correction reinstalls the listener after inherited view binding. The design uses existing Material/Nala assets and preserves private wording, attribution, and lifetime guards. These are read-only source reviews; the combined APK still needs blocking build and emulator validation.
+
+Toolbar replay adjustment `407df2e` against `ccfc408`: Standards 0, Spec 0. Both read-only reviews retain the original center-key assertion. Source `1a976a373` subsequently passes blocking Android build, home/menu/panel replays and the fresh-profile cursor/input checks; see device-tests.md.
