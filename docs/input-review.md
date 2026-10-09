@@ -193,3 +193,6 @@ The subsequent listed correction resolves each preceding finding. No actionable 
 
 
 Latest bookmark implementation review: source `40b075224` against `c7bde129e`, Standards 0, Spec 0. Existing bookmark-model storage, managed/edit restrictions, Cancel-first removal, private-tab context guards and callback cancellation match the plan. Android compilation and runtime bookmark workflows remain pending.
+
+
+Bookmark replay review: project `17f5e2e` against `c56134e`, Standards 0, Spec 0. Runtime then found a parser-quoting error, fixed in `8a2ed50`; the corrected 38-step replay passes. Source `40b075224` build and basic bookmark acceptance now pass as recorded in device evidence; broader policy/private/pagination coverage remains open.

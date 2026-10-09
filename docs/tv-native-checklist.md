@@ -36,7 +36,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Provide address/search, Back/Forward, Reload/Stop and clear page cursor/scroll actions.
 - [ ] Provide a native home/start view with bookmark shortcuts using existing browser storage.
 - [ ] Adapt tabs: new, switch, close, private/normal separation and restart restoration.
-- [ ] Adapt bookmarks: add, open and remove through existing storage.
+- [x] Adapt bookmarks: add, open and remove through existing storage; D-pad workflow and restart pass. Pagination/policy/private coverage remains open.
 - [ ] Adapt history: open, delete and clear through existing storage.
 - [ ] Adapt private browsing and clear-data controls; verify isolation.
 - [ ] Make Shields controls and relevant settings usable from the remote.
