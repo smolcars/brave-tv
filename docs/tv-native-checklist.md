@@ -19,6 +19,16 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
 - [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive mode persistence still needs explicit coverage.
 
+## TV onboarding and controls (explicit user priority)
+
+- [ ] Redesign every first-run consent/setup screen for landscape TV and remote input, preserving consent choices and behavior.
+- [ ] Give the first meaningful action obvious initial focus on every screen; distinguish focused, unfocused and disabled controls with high-contrast colors and outlines.
+- [ ] Make all accept/decline/skip choices large, readable and reachable with predictable D-pad order and no focus traps.
+- [ ] Verify forward progress, Back, process restart and completion using only D-pad/OK; use an isolated first-run test profile, not a reset of existing user data.
+- [ ] Refine browser controls for consistent native focus, minimal navigation steps, remembered selection and clear cursor/scroll state.
+- [ ] Keep controls and onboarding lightweight: reuse native views/models, avoid added WebViews, unnecessary animation or synchronous heavy work.
+- [ ] Measure cold/warm startup, panel responsiveness and browser memory before/after; record emulator limitations and recheck on the Chromecast later.
+
 ## Native browser UI
 
 - [x] Replace the prototype list dialog with a readable landscape native browser panel.
