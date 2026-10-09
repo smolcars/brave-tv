@@ -331,6 +331,8 @@ The first blocking build rejects the Android referral startup's unconditional re
 
 The retry identifies the finalization timer frequency as unused on Android after startup exclusion. Give that constant the same non-Android guard; keep warning failures enabled and retry without cache changes.
 
+Disabling Web Discovery also exposes an unguarded Rewards preference read in the blocking build. Audit those references and return unavailable/false when the Web Discovery build flag is off, rather than re-enabling the feature to satisfy compilation. Keep desktop behavior under its existing feature configuration.
+
 ### Minimal native home and attribution implementation
 
 Use `BasicNativePage` with Chromium's existing `NativePageHost` for new-tab lifetime, margins and navigation. Extend the existing Java adapter chain at `NativePageBuilder.buildNewTabPage`: immediately after its `TabShim` construction, offer the host/tab to a TV-only factory and return its page when present. Preserve upstream creation on non-TV; fail the build if the expected integration point changes. No patch artifact or duplicate Chromium factory is needed. Add the required bytecode class/method checks and exercise the transformed method on the emulator.
