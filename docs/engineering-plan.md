@@ -40,6 +40,8 @@ Change surfaces: `brave/android/java/org/chromium/chrome/browser/tv/TvBrowserCon
 
 Shields diagnosis so far: the emulator's registered ad-block resource-library and catalog directories are empty; `chrome://components` reports version `0.0.0.0` and Update error for both. An unauthenticated host request to each configured updater endpoint returns HTTP 403; the build uses the upstream empty services-key default. This identifies unavailable component delivery, not a proven YouTube-specific filter defect. Public upstream filter lists and `brave/adblock-resources/dist/resources.json` are available; evaluate a legitimate fork-owned bootstrap/update path separately, retaining existing engine enforcement and verifying actual blocking/scriptlet behavior. Do not obtain keys from another app or present the settings toggle as evidence of working filtering.
 
+The first panel compile rejects `com.google.android.material.R`: Chromium merges these attributes into its own generated resources. Use the existing `org.chromium.chrome.R.attr` namespace for Material theme lookups, then rerun the same blocking build without changing dependencies or suppressing checks.
+
 ### 4. Finish emulator flows, then return to TV
 
 Complete URL/search, page links/forms/scrolling, tab switching/closing/restoration, bookmark/history operations, private-session isolation, site Shields override, ordinary video/fullscreen and lifecycle recovery on the emulator. Run a sustained browsing/video session, record failures, and fix demonstrated regressions. Only after those checks pass build ARM from the same fork revision and repeat the physical-TV checks. Keep the existing non-debuggable ARM recipe and development signing until a separate release plan is complete.
