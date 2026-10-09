@@ -143,3 +143,17 @@ Zero documented-standard violations or actionable heuristic smells. The interfac
 Zero findings. Android still returns null and desktop still constructs the same implementation. The compiled-object regression catches references to both excluded desktop tooltip types and propagates tool failures. No desktop sources, dummy destructors, weakened linker checks or Ads/Shields behavior changes were introduced.
 
 Totals: Standards 0, Spec 0. The object check fails on the preserved original ARM object and passes after correction. The resumed full ARM build links and packages successfully; all nine Nix tests, strict typechecking of four Python files and Chromium-style C++ formatting pass. Desktop runtime and the physical-TV MVP gates remain unverified.
+
+## Non-debuggable physical-device configuration review
+
+Compared only `b270b1b90d33a67889d26b6672b8de3c0f0a57c4` against parent `bb817a9bdfc591548ff4d24919eb39601a280e2e`. Separate read-only Standards and Spec reviewers inspected the configuration/documentation diff, upstream GN default and preserved build/runtime evidence. Older implementation commits were excluded.
+
+### Standards
+
+Zero documented-standard violations or actionable heuristic smells. The command retains Nix, blocking Android analysis, build limits and preserved caches/artifacts. Runtime claims distinguish initial success from unverified acceptance, disclose the reinstall/reboot confound and identify user-confirmed click evidence. Device addresses, screenshots and logs remain outside Git.
+
+### Spec
+
+Zero findings. The promoted command matches the planned single configuration change and preserved provenance, including unchanged DEX/native payloads and development signing. The separate 51.0-second cold launch without input or new ANRs and physical address-entry confirmation support the initial regression result. The user's uninstall/fresh-install instruction superseded the planned update; profile preservation remains unverified. No source change or scope creep was introduced.
+
+Totals: Standards 0, Spec 0. The cached Nix build and APK verification passed; reviewers inspected existing evidence without rebuilding or driving the device. Broader native-priority, narrow-field/nested-scroll, sustained-video, Shields, performance and second-TV checks remain open. This is not an isolated measurement of the debugging flag's effect or final release acceptance.
