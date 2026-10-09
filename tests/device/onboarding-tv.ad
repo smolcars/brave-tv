@@ -1,0 +1,34 @@
+# Requires incomplete first run on the isolated TV emulator; never clears data.
+# Exercises focus/navigation and leaves onboarding incomplete on the reporting page.
+# Reporting controls must initially be checked; both are left off for persistence checks.
+open com.brave.browser_default --relaunch
+wait "id=\"com.brave.browser_default:id/onboarding_later\" focused=true" 10000
+tv-remote down
+wait "id=\"com.brave.browser_default:id/onboarding_sure\" focused=true" 3000
+tv-remote down
+wait "id=\"com.brave.browser_default:id/onboarding_learn_more\" focused=true" 3000
+tv-remote up
+tv-remote up
+wait "id=\"com.brave.browser_default:id/onboarding_later\" focused=true" 3000
+tv-remote select
+wait "id=\"com.brave.browser_default:id/onboarding_continue\" focused=true" 3000
+tv-remote back
+wait "id=\"com.brave.browser_default:id/onboarding_later\" focused=true" 3000
+tv-remote select
+wait "id=\"com.brave.browser_default:id/onboarding_continue\" focused=true" 3000
+tv-remote select
+wait "id=\"com.brave.browser_default:id/send_crash_reports\" focused=true" 3000
+tv-remote select
+tv-remote down
+wait "id=\"com.brave.browser_default:id/send_p3a_reports\" focused=true" 3000
+tv-remote select
+tv-remote down
+wait "id=\"com.brave.browser_default:id/onboarding_start_browsing\" focused=true" 3000
+tv-remote back
+wait "id=\"com.brave.browser_default:id/onboarding_continue\" focused=true" 3000
+tv-remote back
+wait "id=\"com.brave.browser_default:id/onboarding_later\" focused=true" 3000
+tv-remote select
+wait "id=\"com.brave.browser_default:id/onboarding_continue\" focused=true" 3000
+tv-remote select
+wait "id=\"com.brave.browser_default:id/send_crash_reports\" focused=true" 3000

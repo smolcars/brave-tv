@@ -74,6 +74,14 @@ replay is not a physical-remote test.
 `replay tests/device/onboarding-focus.ad` requires an incomplete first run on
 the Web Discovery page. Do not reset an existing profile to meet that condition.
 
+`onboarding-tv.ad` exercises the redesigned TV pages on a dedicated incomplete
+first run, including initial focus, vertical order, Back and return through page
+recycling. It leaves onboarding incomplete on reporting with both initially
+checked options toggled off. Inspect their actual Android checked state and
+persisted preferences separately: the helper snapshot does not expose checkbox
+checked state. Test the Learn more destination/return and completion/relaunch
+separately, and preserve the main browser/physical-TV profiles.
+
 ## TV panels and Shields
 
 `replay tests/device/tv-panel.ad` checks initial focus, D-pad movement, tab

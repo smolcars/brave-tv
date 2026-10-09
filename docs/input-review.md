@@ -202,3 +202,9 @@ Bookmark replay review: project `17f5e2e` against `c56134e`, Standards 0, Spec 0
 - Standards: no actionable documented-standard or smell findings.
 - Spec: P1 reporting state can revert after the new Back flow recycles/rebinds page two because activity callbacks do not synchronize adapter checked values. The next implementation synchronizes them through the existing setters and adds the round-trip device check.
 - Review covered only this latest implementation commit. Build and rendered focus checks remained in progress.
+
+### Onboarding consent state: `409ec97af` vs `9bb2cf912`
+
+- Standards: no actionable findings.
+- Spec: no new findings; the two setter calls synchronize the adapter and address the prior stale-consent P1. Device round-trip verification remains required.
+- Both reviews were read-only and limited to the latest implementation diff.
