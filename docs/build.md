@@ -24,14 +24,15 @@ The initial supported builder is x86-64 Linux. The shell has been exercised on U
 
 ## Prepare the pinned source
 
-Choose an external workspace without whitespace. The helper creates `src/brave` or verifies the existing checkout; it refuses a different revision or uncommitted files and never resets them.
+Edit the source fork under `brave/`, then commit its revision and the project submodule pointer. Choose an external workspace without whitespace. The helper creates `src/brave` from that committed source or fast-forwards an existing clean checkout to it. Dirty or divergent checkouts are rejected without resetting their files. It also validates the pinned upstream ancestry and Chromium version.
 
 ```sh
+git submodule update --init brave
 python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
 cd "$HOME/.cache/brave-tv/workspace/src/brave"
 ```
 
-This helper prepares the unmodified baseline. Once downstream changes are made, its dirty-tree refusal is expected; it must not be used to erase or replace that work.
+Follow the [direct-source workflow](source-workflow.md). Existing initialized builders reuse their dependencies and output directories; do not rerun initialization for ordinary TV changes. The historical patch worktree and prior artifacts remain preserved for comparison.
 
 ## Initialize dependencies
 

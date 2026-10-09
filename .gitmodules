@@ -1,0 +1,3 @@
+[submodule "brave"]
+	path = brave
+	url = https://github.com/smolcars/brave-tv-core.git

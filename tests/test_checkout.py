@@ -32,6 +32,9 @@ class CheckoutTests(unittest.TestCase):
         self.git(self.remote, "commit", "-qm", "Fixture upstream")
         self.commit = self.git(self.remote, "rev-parse", "HEAD").strip()
         self.git(self.remote, "tag", "v1.0.0")
+        self.source = self.project / "brave"
+        self.git(self.project, "clone", str(self.remote), str(self.source))
+        self.git(self.project, "init", "-q")
         self.lock = {
             "repository": str(self.remote),
             "tag": "v1.0.0",
@@ -39,11 +42,16 @@ class CheckoutTests(unittest.TestCase):
             "chromium": "100.0.0.0",
         }
         self.write_lock()
+        self.record_source()
         self.workspace = self.root / "build"
         self.checkout = self.workspace / "src" / "brave"
 
     def write_lock(self) -> None:
         (self.project / "upstream.json").write_text(json.dumps(self.lock))
+
+    def record_source(self) -> None:
+        self.git(self.project, "add", "brave", "upstream.json")
+        self.git(self.project, "commit", "-qm", "Pin source")
 
     def git(self, cwd: Path, *args: str) -> str:
         return subprocess.run(
@@ -74,6 +82,49 @@ class CheckoutTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("uncommitted", result.stderr)
         self.assertEqual(changed.read_text(), "local changes\n")
+
+    def test_advances_to_committed_fork_source_and_preserves_build_outputs(self) -> None:
+        self.assertEqual(self.run_checkout().returncode, 0)
+        cache = self.workspace / "src/out/android_Debug/keep.o"
+        cache.parent.mkdir(parents=True)
+        cache.write_text("compiled object")
+        (self.source / "tv.txt").write_text("direct source edit")
+        self.git(self.source, "add", "tv.txt")
+        self.git(self.source, "commit", "-qm", "TV source change")
+        self.record_source()
+        result = self.run_checkout()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.checkout / "tv.txt").exists())
+        self.assertEqual((self.checkout / "tv.txt").read_text(), "direct source edit")
+        self.assertEqual(cache.read_text(), "compiled object")
+
+    def test_dirty_source_is_rejected_before_creating_workspace(self) -> None:
+        (self.source / "package.json").write_text("unfinished edit")
+        result = self.run_checkout()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("uncommitted", result.stderr)
+        self.assertFalse(self.workspace.exists())
+
+    def test_unrecorded_source_revision_is_rejected(self) -> None:
+        self.git(self.source, "commit", "--allow-empty", "-qm", "Unpinned change")
+        result = self.run_checkout()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("submodule", result.stderr)
+        self.assertFalse(self.workspace.exists())
+
+    def test_missing_submodule_is_rejected_without_cloning_upstream(self) -> None:
+        shutil.rmtree(self.source)
+        result = self.run_checkout()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("submodule", result.stderr)
+        self.assertFalse(self.workspace.exists())
+
+    def test_wrong_upstream_ancestry_is_rejected(self) -> None:
+        self.lock["commit"] = "0" * 40
+        self.write_lock()
+        result = self.run_checkout()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.workspace.exists())
 
     def test_chromium_version_must_match_the_lock(self) -> None:
         self.lock["chromium"] = "101.0.0.0"
@@ -107,11 +158,12 @@ class CheckoutTests(unittest.TestCase):
         self.assertEqual(self.git(self.checkout, "rev-parse", "HEAD"), head)
 
     def test_symlink_cannot_put_source_inside_the_project(self) -> None:
+        original = self.git(self.source, "rev-parse", "HEAD")
         self.workspace.mkdir()
         (self.workspace / "src").symlink_to(self.project, target_is_directory=True)
         result = self.run_checkout()
         self.assertNotEqual(result.returncode, 0)
-        self.assertFalse((self.project / "brave").exists())
+        self.assertEqual(self.git(self.source, "rev-parse", "HEAD"), original)
 
     def test_missing_git_fails_before_creating_a_workspace(self) -> None:
         empty_path = self.root / "empty-bin"

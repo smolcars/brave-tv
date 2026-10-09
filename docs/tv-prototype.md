@@ -1,5 +1,7 @@
 # First TV input patch
 
+Historical prototype and artifact record. Development now uses the [real source fork](source-workflow.md); the patch-export workflow has been retired.
+
 Status: the TV patch builds with blocking Android static analysis and installs on the Android TV API 36 emulator. A demonstrated first-run focus trap was corrected; the same remote replay fails on the original APK and passes on the correction. All onboarding pages can now be completed with D-pad/OK. Cursor visibility, precise field clicks, native keyboard/Back, nested scrolling and tab-detach cleanup now pass controlled emulator regressions. The public input-policy tests also pass on the JVM. Physical-TV, website, video and performance acceptance remain open. This is not a completed MVP or a release APK.
 
 The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.
@@ -68,7 +70,7 @@ The unchanged APK installed and launched into onboarding on the physical Chromec
 
 ## Implementation
 
-[`0001-tv-input.patch`](../patches/0001-tv-input.patch) adds a TV launcher alias and an initial vector banner, and connects a TV-only controller to Brave's existing activity. The launcher routes through Chromium's first-run dispatcher. The existing optional-touchscreen declaration is retained. No engine, Shields enforcement, profile storage or certificate handling is replaced.
+The [historical TV patch](https://github.com/smolcars/brave-tv/blob/4bf9245e27dc6e45c1be8e9eaa4e5611277d228c/patches/0001-tv-input.patch), now committed as ordinary source in `brave/`, adds a TV launcher alias and an initial vector banner, and connects a TV-only controller to Brave's existing activity. The launcher routes through Chromium's first-run dispatcher. The existing optional-touchscreen declaration is retained. No engine, Shields enforcement, profile storage or certificate handling is replaced.
 
 The native controls dialog opens the existing address bar or browser menu, reloads the current page, and enters cursor/scroll mode when a webpage is present. Native pages continue to use native focus. On television UI mode, the onboarding pager now prefers focusable descendants so existing controls can receive D-pad focus. The contents of the browser menu, tab switcher and Shields settings still need TV adaptation.
 
@@ -83,24 +85,21 @@ No Menu button is required to open TV controls. Alphabetic hardware keyboards an
 
 `TvRemoteInput` owns the interaction policy. `TvBrowserControls` draws the cursor in a non-interactive sibling view and delivers scoped mouse hover/wheel events and touchscreen taps through the active content view's compositor parent. It uses the existing Android Back dispatcher. Native pages, native focus, Find UI and visible browser scrims take priority. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events. The [input review and controlled regression procedure](input-review.md) record the source corrections and outstanding Android checks.
 
-## Apply after the baseline build finishes
+## Build the tracked source
 
-Do not edit source while the unmodified build is running. From this project:
+Do not change the build checkout while a build is running. From this project:
 
 ```sh
 nix develop
-export TV_PROJECT="$PWD"
 python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
-git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --check --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
-git -C "$HOME/.cache/brave-tv/workspace/src/brave" apply --whitespace=error-all "$TV_PROJECT/patches/0001-tv-input.patch"
 cd "$HOME/.cache/brave-tv/workspace/src/brave"
 SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --gn=android_static_analysis:on
 ```
 
-The checkout helper intentionally refuses the now-modified checkout on subsequent calls. Do not reset it or rerun forceful upstream synchronization to make that check pass. Preserve the unmodified APK and its provenance before applying the patch. Reusing the same build directory should retain unaffected native compilation outputs.
+The checkout helper advances a clean build checkout to the committed fork revision; it refuses dirty or divergent checkouts. Do not reset those checkouts or rerun forceful upstream synchronization to make the check pass. Reusing the same build directory retains unaffected native compilation outputs.
 
 Use the [resource-limited service](build.md#resume-with-host-resource-limits) for long builds on this builder. The pinned upstream wrapper does not enforce `--ninja=j:N` in offline mode.
 
-For development, edit the patch in a separate Brave worktree at the pinned commit, mark new files with `git add -N`, then export `git diff --binary` to the patch file. Keep unrelated formatting changes out of the diff. Run the upstream Java formatter on new Java files, `git diff --check` in that worktree, the apply check above against the clean baseline, and `nix flake check` in this project.
+For development, edit and commit normal files under `brave/` following the [source workflow](source-workflow.md). Run the upstream formatter, source whitespace checks, focused tests and blocking Android analysis. The old patch worktree remains historical evidence, not the development entry point.
 
 The prototype launcher name and banner are temporary. The Android package, other app labels and signing still use upstream development defaults; independent release identity and safe upgrade testing remain checklist work.

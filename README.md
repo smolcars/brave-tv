@@ -10,14 +10,19 @@ Use x86-64 Linux and Nix with flakes enabled:
 
 ```sh
 nix develop
+git submodule update --init brave
 python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
 ```
 
-For automatic tools while working in this repository, review `.envrc` and run `direnv allow`. Use `nix develop` before changing into the external browser checkout, so the build tools remain available. Follow [the build instructions](docs/build.md) to initialize and compile upstream Brave. Browser source and build outputs stay outside this repository.
+The actual source is in [`brave/`](https://github.com/smolcars/brave-tv-core), a GitHub fork of Brave Core with upstream history. Edit its Java, C++, layouts and resources directly, commit/push its `master`, then commit the updated `brave` pointer here. There is no TV patch export/apply step. Chromium dependencies and build outputs stay in the existing external workspace. See [the source workflow](docs/source-workflow.md) and [build instructions](docs/build.md).
+
+For automatic tools, review `.envrc` and run `direnv allow`. Enter `nix develop` before changing to the external build checkout so the tools remain available.
 
 ## Project documents
 
 - [Engineering plan](docs/engineering-plan.md)
+- [Active TV-native checklist](docs/tv-native-checklist.md)
+- [Direct-source workflow](docs/source-workflow.md)
 - [MVP checklist](docs/mvp-todo.md)
 - [Device and website test matrix](docs/device-tests.md)
 - [Nix TV emulator setup](docs/emulator.md)

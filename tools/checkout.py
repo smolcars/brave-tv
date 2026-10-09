@@ -1,4 +1,4 @@
-"""Prepare or verify the pinned Brave checkout without resetting existing work."""
+"""Advance an external build checkout to the committed Brave source submodule."""
 
 import argparse
 import json
@@ -37,20 +37,37 @@ def prepare(workspace: Path) -> Path:
         raise ValueError("Use an external workspace path without whitespace.")
     if shutil.which("git") is None:
         raise ValueError("Git is required; enter the project's nix develop shell first.")
+
+    source = PROJECT / "brave"
+    if not (source / ".git").exists():
+        raise ValueError("Initialize the brave source submodule first: git submodule update --init.")
+    revision = git(source, "rev-parse", "HEAD")
+    if revision != git(PROJECT, "rev-parse", "HEAD:brave"):
+        raise ValueError("Commit the source submodule revision in the project before building.")
+    if git(source, "status", "--porcelain", "--untracked-files=normal"):
+        raise ValueError("Source submodule has uncommitted changes; commit them before building.")
+    git(source, "merge-base", "--is-ancestor", lock["commit"], revision)
+    package = json.loads((source / "package.json").read_text())
+    if package["config"]["projects"]["chrome"]["tag"] != lock["chromium"]:
+        raise ValueError("Chromium version does not match upstream.json; left unchanged.")
+
     if not checkout.exists():
         checkout.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(
-            ["git", "clone", "--depth", "1", "--branch", lock["tag"],
-             "--", lock["repository"], str(checkout)],
+            ["git", "clone", "--no-hardlinks", "--no-checkout", "--",
+             str(source), str(checkout)],
             check=True,
         )
-    if git(checkout, "rev-parse", "HEAD") != lock["commit"]:
-        raise ValueError("Checkout revision does not match upstream.json; left unchanged.")
+        git(checkout, "checkout", "--detach", revision)
+        return checkout
+    if Path(git(checkout, "rev-parse", "--show-toplevel")).resolve() != checkout:
+        raise ValueError("Build source is not its own Git checkout; left unchanged.")
     if git(checkout, "status", "--porcelain", "--untracked-files=normal"):
-        raise ValueError("Checkout has uncommitted changes; left unchanged.")
-    package = json.loads((checkout / "package.json").read_text())
-    if package["config"]["projects"]["chrome"]["tag"] != lock["chromium"]:
-        raise ValueError("Chromium version does not match upstream.json; left unchanged.")
+        raise ValueError("Build checkout has uncommitted changes; left unchanged.")
+    if git(checkout, "rev-parse", "HEAD") != revision:
+        git(checkout, "fetch", "--no-tags", str(source), revision)
+        git(checkout, "merge-base", "--is-ancestor", "HEAD", revision)
+        git(checkout, "merge", "--ff-only", revision)
     return checkout
 
 
