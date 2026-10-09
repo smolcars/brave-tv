@@ -138,6 +138,12 @@ Outcome: the fixture loads in that configuration and Back reaches controls. Poin
 
 ## Stage 3 Complete the MVP after the feasibility gate
 
+### Pointer correction increment (9 October)
+
+First make the existing fixture click failure repeatable with an asserted page result. Use the running emulator with guest Vulkan disabled. Compare the helper's injected alphabetic-keyboard events with a temporary D-pad-only device registered through Android's `uinput` test command; inspect the reported input classification before drawing conclusions. Keep T3 attached for snapshots and screenshots. The temporary input device must disappear when its test process closes, without root access, profile resets or emulator image changes.
+
+Then isolate cursor rendering from key handling. Inspect the actual content-view/compositor hierarchy and activation dimensions, and use targeted diagnostics only where necessary. Record the demonstrated cause before changing the adapter. Expected change surfaces are `TvBrowserControls`, its exported patch, an Android-facing regression fixture/driver and the runtime/build documentation. Preserve alphabetic hardware-keyboard behavior, native UI priority, browser security and existing consent settings. Reuse upstream overlay patterns rather than adding a rendering framework. Rebuild with blocking analysis and existing resource limits, rerun the original failure, test click/scroll/Back and text entry, then review only the latest implementation commit and push to `master`.
+
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
 
 Create an independent release identity, user-controlled signing setup, documented installation/update path, source/license package and repeatable release build. Rehearse an upstream update before distributing to testers. Do not invent successful device results, service credentials or tester acceptance.
