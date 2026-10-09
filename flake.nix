@@ -3,7 +3,8 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-  outputs = { nixpkgs, ... }:
+  outputs =
+    { nixpkgs, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -36,20 +37,26 @@
       devShells.${system}.default = pkgs.mkShell {
         packages = tools;
         # Chromium selects its own compiler, SDK and sysroot through DEPS.
-        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.zlib ];
+        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+          pkgs.stdenv.cc.cc.lib
+          pkgs.zlib
+        ];
       };
 
-      checks.${system}.toolchain = pkgs.runCommand "brave-tv-toolchain" {
-        nativeBuildInputs = tools;
-      } ''
-        node -e 'if (Number(process.versions.node.split(".")[0]) < 24) process.exit(1)'
-        pnpm --version
-        python3 -c 'import sys; assert sys.version_info >= (3, 11)'
-        git --version
-        javac -version
-        adb version
-        touch "$out"
-      '';
+      checks.${system}.toolchain =
+        pkgs.runCommand "brave-tv-toolchain"
+          {
+            nativeBuildInputs = tools;
+          }
+          ''
+            node -e 'if (Number(process.versions.node.split(".")[0]) < 24) process.exit(1)'
+            pnpm --version
+            python3 -c 'import sys; assert sys.version_info >= (3, 11)'
+            git --version
+            javac -version
+            adb version
+            touch "$out"
+          '';
 
       formatter.${system} = pkgs.nixfmt;
     };

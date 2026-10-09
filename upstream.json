@@ -1,0 +1,6 @@
+{
+  "repository": "https://github.com/brave/brave-core.git",
+  "tag": "v1.97.56",
+  "commit": "b01cdf43be4b4d5559bf7e58229e666e24454f50",
+  "chromium": "155.0.8059.40"
+}
