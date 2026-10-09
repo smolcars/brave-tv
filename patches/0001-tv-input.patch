@@ -150,6 +150,39 @@ index af30e5ad7..a022f504f 100644
          // If the search widget promo panel is shown, we mark its visibility
          // before the activity is destroyed and recreated (e.g when the night mode state changes).
          // The new search widget promo panel will be recreated with the new appropriate theme and
+diff --git a/android/java/org/chromium/chrome/browser/firstrun/WelcomeOnboardingActivity.java b/android/java/org/chromium/chrome/browser/firstrun/WelcomeOnboardingActivity.java
+index 9f2678d64..6fa7a0546 100644
+--- a/android/java/org/chromium/chrome/browser/firstrun/WelcomeOnboardingActivity.java
++++ b/android/java/org/chromium/chrome/browser/firstrun/WelcomeOnboardingActivity.java
+@@ -11,12 +11,14 @@ import static org.chromium.chrome.browser.set_default_browser.BraveSetDefaultBro
+ import android.animation.Animator;
+ import android.animation.AnimatorInflater;
+ import android.app.Activity;
++import android.content.res.Configuration;
+ import android.graphics.drawable.Animatable2;
+ import android.graphics.drawable.AnimatedVectorDrawable;
+ import android.graphics.drawable.Drawable;
+ import android.os.Bundle;
+ import android.text.SpannableString;
+ import android.view.View;
++import android.view.ViewGroup;
+ import android.view.ViewTreeObserver;
+ import android.view.animation.OvershootInterpolator;
+ import android.widget.FrameLayout;
+@@ -267,6 +269,13 @@ public class WelcomeOnboardingActivity extends FirstRunActivityBase
+         mSplashGuideline = findViewById(R.id.splash_anchor);
+         mOnboardingPager = findViewById(R.id.onboarding_steps_pager);
+ 
++        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK)
++                == Configuration.UI_MODE_TYPE_TELEVISION) {
++            // ViewPager2's full-screen RecyclerView otherwise traps initial D-pad focus.
++            ((ViewGroup) mOnboardingPager.getChildAt(0))
++                    .setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
++        }
++
+         final ChromeClickableSpan wdpLearnMoreClickableSpan =
+                 new ChromeClickableSpan(
+                         getColor(R.color.brave_blue_tint_color),
 diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 new file mode 100644
 index 000000000..0fb96be88
