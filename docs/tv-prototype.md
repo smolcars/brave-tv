@@ -24,7 +24,7 @@ The generated merged manifest contains the exported TV launcher alias, `MAIN`/`L
 - Metadata: package `com.brave.browser_default`, version `1.97.0` / code `429700008`, minimum API 29 (Android 10), target API 37, ABI **x86_64**. This APK targets an emulator; it is not suitable for the user's physical streaming stick.
 - The artifact directory contains `provenance.json`, the exact downstream patch, `args.gn`, manifest/banner dumps, badging and signature results. Provenance records hashes for both GN argument files, the patch and flake lock, plus source revisions, commands, limits and logs. The baseline APK remains separately preserved.
 
-Next gate: enable device access, install on an Android TV emulator, then build for the confirmed physical-device ABI and run the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence). The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. No installation, Shields update/blocking, video or performance result has been recorded.
+Next gate: verify the newly enabled device settings take effect in a fresh agent session, install on an Android TV emulator, then build for the confirmed physical-device ABI and run the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence). The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. No installation, Shields update/blocking, video or performance result has been recorded.
 
 ## Implementation
 

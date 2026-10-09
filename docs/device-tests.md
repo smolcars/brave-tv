@@ -10,7 +10,9 @@ The completed MVP requires two physical devices: a modest device and a faster de
 
 On 9 October the user identified an existing “chrome stick” with its own remote and app home screen, reporting **Android TV OS 14**. Treat it as the first candidate, likely a Chromecast with Google TV; the exact model (HD/4K) and supported ABIs remain unconfirmed. Query these over an authorized ADB connection before selecting its build. Its reported OS meets the prototype's Android 10 minimum. The x64 development APK is for an emulator, not this physical target. No second device has been chosen.
 
-For installation and logs, the developer computer must be able to reach the TV through Android Debug Bridge (ADB), over a supported USB or local-network connection. Enabling developer options/debugging and accepting the computer's debugging prompt happens on the device. Settings vary by manufacturer; use its instructions. Disable debugging when testing is finished. Device control is currently disabled in this development environment, so there is no connected-device evidence yet.
+For installation and logs, the developer computer must be able to reach the TV through Android Debug Bridge (ADB), over a supported USB or local-network connection. Enabling developer options/debugging and accepting the computer's debugging prompt happens on the device. Settings vary by manufacturer; use its instructions. Disable debugging when testing is finished. There is no connected-device evidence yet.
+
+On 9 October, at the user's request, `enableDeviceSupport` and `enableAgentDeviceAccess` were set to `true` in T3's watched `~/.t3/userdata/settings.json`, preserving other settings and making a private backup first. The installed T3 CLI has no dedicated device command. The current agent session still reports device access disabled because its issued capabilities predate the change; recheck `device_list` after T3 prepares a fresh session. Saving the flags does not prove helper installation, emulator availability or a physical-device connection.
 
 | Field | Modest device | Faster device |
 | --- | --- | --- |
