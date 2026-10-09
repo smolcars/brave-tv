@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>TV Shields checks</title>
+<style>body { font: 28px sans-serif; padding: 40px; } .adsbox { width: 200px; height: 80px; background: orange; }</style>
+<h1>TV Shields checks</h1>
+<p id="network">Ad request: pending</p>
+<p id="control">Control script: pending</p>
+<div class="adsbox">Cosmetic filter probe</div>
+<script src="shields-control.js"></script>
+<script src="http://localhost:18081/ads/banner.js"
+        onload="document.querySelector('#network').textContent = 'Ad request: loaded'"
+        onerror="document.querySelector('#network').textContent = 'Ad request: failed'"></script>
