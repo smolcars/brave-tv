@@ -1,0 +1,9 @@
+.direnv/
+result
+result-*
+__pycache__/
+.mypy_cache/
+*.pyc
+*.jks
+*.keystore
+.env
