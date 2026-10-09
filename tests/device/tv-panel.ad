@@ -1,0 +1,17 @@
+# Requires a loaded webpage. Native D-pad focus, not pointer-source acceptance.
+open com.brave.browser_default --relaunch
+wait "text=\"Address or search\" focused=true" 5000
+tv-remote down
+wait "text=\"Page cursor\" focused=true" 3000
+tv-remote right
+wait "text=\"Scroll page\" focused=true" 3000
+tv-remote right
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote select
+wait "text=\"New tab\" focused=true" 3000
+tv-remote right
+wait "text=\"Private tabs\" focused=true" 3000
+tv-remote select
+wait "text=\"Normal tabs\"" 3000
+tv-remote back
+wait "text=\"Tabs\" focused=true" 3000
