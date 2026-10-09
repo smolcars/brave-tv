@@ -45,7 +45,17 @@ The generated merged manifest contains the exported TV launcher alias, `MAIN`/`L
 - All nine repository tests and strict Python typechecking passed through Nix. Source whitespace, reverse-patch and Java formatting checks passed. Separate [Standards and Spec reviews](input-review.md#cursor-correction-review) found no actionable code findings in this implementation commit.
 - Installed with `adb install -r`, preserving the profile. The original rendering assertion fails and the corrected screenshot passes; narrow-field focus and cursor cleanup on tab replacement also have demonstrated failing and passing runs. A non-alphabetic D-pad test device drives the adapter; helper alphabetic-keyboard events retain normal browser behavior. Full [runtime evidence](device-tests.md#cursor-correction-run-9-october-2026) and [repeatable checks](../tests/device/README.md) describe the test boundary.
 
-Next gate: a compatible **32-bit ARM** development build for the now-connected Chromecast (Android 14/API 34, `armeabi-v7a,armeabi`). Its Static build uses a separate ARM output directory, preserving the x64 cache. Physical-TV, URL-to-video, Shields, lifecycle and performance acceptance remain open. See [build status](build.md#chromecast-arm-development-build).
+## Chromecast ARM artifact
+
+- Preserved APK: `~/.cache/brave-tv/artifacts/tv-chromecast-v1.97.56-arm-static-20261009/BraveMonoarm.apk`.
+- Size: **366,860,417 bytes** (349.9 MiB); SHA-256: `4da845e3672c6c3f7ea89a4e61e5d66da00b3349ee87a32ac433bc69dd45c825`.
+- Implementation commit: `d5c4de11320677602b562b8848b96a3557bb4a05`, including the earlier cursor correction. Locked upstream revisions are unchanged.
+- Package `com.brave.browser_default`, version `1.97.0`, code `429700000`, minimum API 29, target API 37, ABI **armeabi-v7a**. This matches the connected Android 14 Chromecast. It is an optimized Static development build with development signing, not a public release.
+- The initial build failed at the final link after 5h18m37s. The factory-interface correction removed its reference to desktop-only tooltip destruction. The cached retry completed in 29.55 seconds, including successful native link and APK packaging. See [build evidence](build.md#chromecast-arm-development-build).
+- SDK `apksigner` verified the v2 signature. The artifact directory contains the exact patch, both GN argument files, badging, signature result and provenance with source/configuration hashes. The original failed object remains available for the regression's failing case.
+- The compiled-object regression, nine repository tests, strict Python typechecking and C++ formatting passed. The [latest-commit Standards and Spec reviews](input-review.md#optimized-android-link-correction-review) found no issues. Android analysis passed as blocking build steps.
+
+Installation currently fails with insufficient storage, including a retry after the user freed 1.06 GiB. See the [physical-device attempt](device-tests.md#chromecast-installation-9-october-2026). Retry the preserved APK after additional space is available, then validate it with the physical remote. Complete URL-to-video, Shields, lifecycle and performance checks; the second physical-device gate also remains open.
 
 ## Implementation
 

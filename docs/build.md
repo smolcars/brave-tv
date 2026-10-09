@@ -137,9 +137,9 @@ git diff --check
 
 ## Chromecast ARM development build
 
-The user's Google Chromecast (`sabrina`) is paired over wireless ADB and opened in T3. Android 14/API 34 reports only `armeabi-v7a,armeabi`. Its available data storage was 922 MiB after the user removed apps. No Brave package was present. A compatible build is **in progress**, not yet an installable or validated artifact.
+The user's Google Chromecast (`sabrina`) is paired over wireless ADB and opened in T3. Android 14/API 34 reports only `armeabi-v7a,armeabi`. Its available data storage was 922 MiB after the user removed apps. No Brave package was present. The compatible ARM build now **passes**, including blocking Android analysis. Its signed development APK is preserved; physical-device validation is tracked separately.
 
-The cursor-correction source is `937ac535839aa74f2cfbf6fc554f53822ca65faf`, with the same locked Brave/Chromium revisions. Upstream's `Static` configuration sets `is_debug=false` and `is_official_build=false`, retaining development package `com.brave.browser_default`. `symbol_level=0` limits debug-symbol output; blocking Android analysis remains enabled. This is an optimized development APK, not a signed public release or a performance result.
+The source includes cursor correction `937ac535839aa74f2cfbf6fc554f53822ca65faf` and optimized-link correction `d5c4de11320677602b562b8848b96a3557bb4a05`, with the same locked Brave/Chromium revisions. Upstream's `Static` configuration sets `is_debug=false` and `is_official_build=false`, retaining development package `com.brave.browser_default`. `symbol_level=0` limits debug-symbol output; blocking Android analysis remains enabled. This is an optimized development APK, not a signed public release or a performance result.
 
 ```sh
 # Inside the resource-limited Nix/systemd service, in workspace/src/brave:
@@ -148,13 +148,10 @@ SISO_LIMITS=local=4 pnpm run build Static \
   --gn=android_static_analysis:on --gn=symbol_level:0
 ```
 
-Current service: `brave-tv-chromecast-arm-j4.service`. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r1`. Output: `~/.cache/brave-tv/workspace/src/out/android_Static_arm`. GN generation succeeded and ARM C++/Rust compilation started. The service has four local jobs, 18 GiB memory high, 22 GiB maximum and no swap. Source/dependency downloads are reused, but x64 native objects cannot satisfy the ARM build; its first compile is substantially longer than the incremental emulator correction.
+The initial `brave-tv-chromecast-arm-j4.service` run failed at the final native-library link after **5h18m37s**: 63,200 steps completed and the optimized Ads factory referenced an excluded desktop tooltip destructor. This was not a machine crash or OOM; peak cgroup memory was 18 GiB, with soft-threshold events and no hard-limit/OOM events in the recorded checks. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r1`.
 
-```sh
-nix develop --command systemctl --user show brave-tv-chromecast-arm-j4 \
-  -p ActiveState -p Result -p ExecMainStatus -p MemoryCurrent -p MemoryPeak
-# Inspect progress without launching a second build:
-tail -n 20 "$HOME/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r1.log"
-```
+The [planned correction](engineering-plan.md#optimized-android-link-correction-9-october) returns the already-used tooltip interface, preserving Android's null delegate and desktop behavior. The [object regression](../tests/build/README.md) fails on the preserved original object and passes after correction. The retry `brave-tv-chromecast-arm-j4-r2.service` exited 0 in **29.55 seconds wall time** (Siso: 25.78 seconds, 18 executed steps). It reused completed ARM compilation, linked `libchrome.so`, and packaged `BraveMonoarm.apk`. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r2`. No build is still running.
 
-Preserve `android_Debug` and all earlier artifacts. Do not edit sources or synchronize dependencies while this build is running. After it exits, inspect signature, actual APK size, package/version and ABI, copy the APK/patch/GN args into a new artifact directory with hashes/provenance, and recheck device storage before installation. Use the actual physical-device serial returned by `device_list`, not the emulator serial. Physical remote, website/video, Shields and performance validation remain pending.
+Output: `~/.cache/brave-tv/workspace/src/out/android_Static_arm`. Both runs used four local jobs, 18 GiB memory high, 22 GiB maximum and no build swap. The final generated GN arguments confirm ARM, optimized non-official configuration, development package, `symbol_level=0` and `android_static_analysis="on"`. Blocking `chrome_java__errorprone` and `chrome_public_apk__lint` passed during the first run and remained satisfied on retry. [Artifact details](tv-prototype.md#chromecast-arm-artifact) include checksum, signature, ABI and provenance.
+
+Preserve `android_Debug` and all earlier artifacts. The APK/patch/GN arguments are preserved with hashes and provenance, signature/package/ABI inspection passed, and device storage was rechecked before installation. Use the actual physical-device serial returned by `device_list`, not the emulator serial. Physical remote, website/video, Shields and performance validation remain pending.

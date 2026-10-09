@@ -1,6 +1,6 @@
 # Device and website test matrix
 
-Status: physical-device and website coverage remain proposed. The TV prototype has now been installed and launched on an Android TV emulator; the first runtime findings are recorded below. See [build evidence](build.md) and [prototype status](tv-prototype.md). A Chromecast is now connected for the first physical test; its ARM APK is still building. Website availability and behavior must be checked during execution.
+Status: emulator input regressions pass as recorded below. The connected Chromecast's ARM APK builds and verifies, but installation is blocked by insufficient device storage. Physical-device behavior and website coverage remain unverified. See [build evidence](build.md) and [prototype status](tv-prototype.md). Website availability and behavior must be checked during execution.
 
 ## What hardware is needed
 
@@ -19,13 +19,13 @@ On 9 October, at the user's request, `enableDeviceSupport` and `enableAgentDevic
 | Manufacturer and model | Google Chromecast with remote; HD/4K variant TBD | TBD |
 | Android version / API | Android 14 / API 34 (ADB-confirmed) | TBD |
 | Supported ABIs | `armeabi-v7a,armeabi` | TBD |
-| RAM / available storage | About 1.9 GiB / 922 MiB after user cleanup | TBD |
+| RAM / available storage | About 1.9 GiB / 1.06 GiB before the second installation attempt | TBD |
 | Display resolution / scaling | 3840×2160 physical; 1920×1080 override; 320 dpi | TBD |
 | Remote buttons | D-pad/OK/Back remote present; app test pending | TBD |
 | Connection method | Wireless ADB; T3 Device panel attached | TBD |
 | Official Brave baseline | Not run | Not run |
 | Unmodified source build | Not run | Not run |
-| TV adaptation build | Not run | Not run |
+| TV adaptation build | ARM build passed; installation blocked by storage | Not run |
 
 Once device access is enabled and the computer is authorized, the Nix shell provides ADB. Select a specific serial to avoid accidentally testing a different device:
 
@@ -73,7 +73,15 @@ Same API 36 emulator, 1920×1080/320 dpi, guest Vulkan disabled. [Final x64 arti
 - **Explicit/nested scrolling, PASS:** at cursor 960,700, six Down wheel steps bring the nested box under the pointer. Eight more reveal “Nested scroll end” while the outer input bounds (334,258,732×130) and nested container bounds (96,612,1728×462) stay identical. The before/after JSON assertion passes. Evidence: `nested-r3-{before,after}.json`.
 - All evidence paths above are under `~/.cache/brave-tv/logs/`. One deliberately suspended early debugger session caused an input-dispatch ANR; it is diagnostic interference, not an uninstrumented app failure. Later probes resumed automatically; temporary debug scripts are isolated in that logs directory. No production diagnostic logging was added.
 
-CloseWatcher/native-modal combinations, lifecycle recovery, successful remote URL-to-video navigation, public website compatibility, Shields resources, hardware decoding and performance remain unverified. These local emulator results do not establish physical-remote acceptance. The Chromecast is connected and its ARM build is running separately. The temporary input device and fixture server were stopped, test port mappings removed, and the native TV keyboard restored.
+CloseWatcher/native-modal combinations, lifecycle recovery, successful remote URL-to-video navigation, public website compatibility, Shields resources, hardware decoding and performance remain unverified. These local emulator results do not establish physical-remote acceptance. The subsequent Chromecast attempt is recorded below. The temporary input device and fixture server were stopped, test port mappings removed, and the native TV keyboard restored.
+
+## Chromecast installation: 9 October 2026
+
+- Google Chromecast (`sabrina`), Android 14/API 34, 32-bit ARM, with T3's Device panel attached over wireless ADB. Android reports the physical Chromecast Remote as `KEYBOARD | DPAD`, non-alphabetic keyboard type 1; the injected virtual keyboard is type 2. This confirms input classification, not successful app interaction.
+- [ARM artifact](tv-prototype.md#chromecast-arm-artifact): implementation `d5c4de1`, APK SHA-256 `4da845e3672c6c3f7ea89a4e61e5d66da00b3349ee87a32ac433bc69dd45c825`, 349.9 MiB. Signature, ABI and TV launch metadata inspection passed.
+- **BLOCKED:** `agent-device install`, using the returned physical-device launcher/config/session, failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`. The first attempt started with roughly 900 MiB free. After the user removed more apps, a retry with 1.06 GiB free failed identically. Android's integrity check passed before each installation-location failure; no Brave package was installed.
+- Android's installation estimate includes the APK and native libraries, and its allocation policy preserves a low-storage reserve. The device reports a 207.3 MiB reserve; this APK contains 185.1 MiB of native libraries. Aiming for 1.3 GiB free before retrying is an estimate with headroom, not a measured minimum. References: Android 14 [installed-size calculation](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-14.0.0_r1/core/java/com/android/internal/content/InstallLocationUtils.java#444) and [allocation policy](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-14.0.0_r1/services/core/java/com/android/server/StorageManagerService.java).
+- The user is freeing additional space. No app data was cleared by the agent; the native Google TV keyboard remains selected. Build outputs and the completed APK are retained, so another installation attempt needs no rebuild. Physical launch, onboarding, cursor/form/scroll/Back, video and memory measurements remain pending.
 
 ## Proposed website flows
 

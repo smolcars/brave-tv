@@ -129,3 +129,17 @@ Zero findings. The attachment callback guards activity lifetime, the decorative 
 Zero actionable code findings. The sibling view, hint placement, detach cleanup, canceled presses and parent dispatch match the pointer correction plan. Chromium's compositor parent supplies the missing viewport offsets. The reviewer requested the runtime/build evidence update, included with this report. No scope creep found.
 
 Totals: Standards 0, Spec 0. Blocking Android analysis/build, Nix tests/typechecking, cursor visibility, precise field focus, native keyboard/Back, tab replacement, nested scrolling and keyboard fallback passed. This is a passing review of the correction, not overall MVP acceptance. Physical-TV, website/video, full native-priority matrix and performance checks remain open.
+
+## Optimized Android link correction review
+
+Compared only `d5c4de11320677602b562b8848b96a3557bb4a05` against parent `75e168147c442b7edfdbafd720909da786ed32dc`. Separate read-only reviewers inspected the changed factory patch and object regression; older TV implementation hunks were excluded.
+
+### Standards
+
+Zero documented-standard violations or actionable heuristic smells. The interface forward declaration and direct include follow the C++ include rules. The implementation include guard matches GN's non-Android source condition. Ownership remains `unique_ptr`, and the interface's existing virtual destructor preserves desktop destruction.
+
+### Spec
+
+Zero findings. Android still returns null and desktop still constructs the same implementation. The compiled-object regression catches references to both excluded desktop tooltip types and propagates tool failures. No desktop sources, dummy destructors, weakened linker checks or Ads/Shields behavior changes were introduced.
+
+Totals: Standards 0, Spec 0. The object check fails on the preserved original ARM object and passes after correction. The resumed full ARM build links and packages successfully; all nine Nix tests, strict typechecking of four Python files and Chromium-style C++ formatting pass. Desktop runtime and the physical-TV MVP gates remain unverified.
