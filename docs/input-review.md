@@ -86,4 +86,18 @@ Zero findings. The banner change preserves its artwork; the two resource excepti
 
 Zero findings. The dimensions, unchanged viewport and exact resource exceptions match the correction plan. Global checks remain enabled and the change introduces no additional behavior.
 
-Totals: Standards 0, Spec 0. The blocking Android rerun remains pending; neither review establishes launcher rendering or physical-device behavior.
+Totals: Standards 0, Spec 0. Launcher lint and packaged manifest/banner inspection subsequently passed. Neither review establishes launcher rendering or physical-device behavior.
+
+## Explicit condition grouping review
+
+Compared only `1e1c5940f4cb492ddc5d66885def16d280bcf4c9` against parent `ac2f3bcfecebbea43abdc925f835e2956baad43a`.
+
+### Standards
+
+Zero findings. Explicit grouping preserves evaluation order and adds no dependency, abstraction or smell.
+
+### Spec
+
+Zero findings. Both source trees and the exported patch match the planned grouping correction. No behavior changes or checks are suppressed.
+
+Totals: Standards 0, Spec 0. Blocking Android analysis remains pending; device checks remain unexecuted.

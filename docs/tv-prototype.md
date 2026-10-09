@@ -6,7 +6,9 @@ The first compile failed after 40 seconds because the adapter imported JSpecify'
 
 The first blocking run (`build-tv-debug-x64-20261009-060803.*`) failed lint on an oversized vector and two manifest-only resource references. The banner now uses 160×90dp intrinsic dimensions, keeping its 320×180 viewport/artwork. The label/banner references were verified in the packaged APK before adding two exact resource exceptions beside Brave's existing manifest exceptions; unused-resource checks remain enabled.
 
-Current build: `brave-tv-prototype-j4-r4.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-061444`. It sets `android_static_analysis="on"`, so checks finish as blocking build steps and propagate failures. Earlier attempts remain under `build-tv-debug-x64-20261009-055842.*` and `build-tv-debug-x64-20261009-060024.*`. All use the baseline output cache and the resource limits documented in [build.md](build.md).
+That retry (`build-tv-debug-x64-20261009-061444.*`) passed launcher lint but Error Prone required explicit parentheses around the existing URL-change-and-SELECT condition. The grouping is now explicit without changing precedence or behavior. The rebuilt APK's signature, TV launcher/category and 160×90dp banner were independently verified.
+
+Current build: `brave-tv-prototype-j4-r5.service`; log/timing prefix `~/.cache/brave-tv/logs/build-tv-debug-x64-20261009-062100`. It sets `android_static_analysis="on"`, so checks finish as blocking build steps and propagate failures. Earlier attempts remain under `build-tv-debug-x64-20261009-055842.*` and `build-tv-debug-x64-20261009-060024.*`. All use the baseline output cache and the resource limits documented in [build.md](build.md).
 
 The generated merged manifest contains the exported TV launcher alias, `MAIN`/`LEANBACK_LAUNCHER`, the TV banner/label and `android.hardware.touchscreen` marked optional. This confirms manifest integration; actual TV launcher behavior is still untested.
 

@@ -1,6 +1,6 @@
 # Device and website test matrix
 
-Status: proposed coverage, not test results. No TV has been connected, no APK has been built, and none of the flows below has passed yet. Website availability and behavior must be checked during execution.
+Status: proposed coverage, not test results. Baseline and TV-prototype x64 Debug APKs have been produced; see [build evidence](build.md) and [prototype status](tv-prototype.md). No TV has been connected or APK installed, and none of the flows below has passed yet. Website availability and behavior must be checked during execution.
 
 ## What hardware is needed
 
