@@ -268,3 +268,15 @@ Home focus runtime follow-up: source `0b5afdb64` passes the cached blocking buil
 Provider-list navigation `ca06fe4b8` against `0b5afdb64`: Standards 0 and Spec 0. The combined `4be36e7dc` APK passes the previously failing adjacent-provider Down check and the 16-step grid-controls replay.
 
 Android license generation `4be36e7dc` against `ca06fe4b8`: Standards 0 and Spec 0. Blocking build succeeds; the actual credits page contains 1,058 notices instead of the sample. Both reviews covered only the latest implementation diff in their round.
+
+## Toolbar keys and native home design
+
+Each review is restricted to the named implementation commit against its parent.
+
+| Commit | Parent | Standards | Spec |
+| --- | --- | --- | --- |
+| `836ca0906` | `4be36e7dc` | P2: constructor-only key listener lost on later menu-view binding | 0 |
+| `0252ebfe5` | `836ca0906` | 0 | 0 |
+| `1a976a373` | `0252ebfe5` | 0 | 0 |
+
+The rebinding correction reinstalls the listener after inherited view binding. The design uses existing Material/Nala assets and preserves private wording, attribution, and lifetime guards. These are read-only source reviews; the combined APK still needs blocking build and emulator validation.
