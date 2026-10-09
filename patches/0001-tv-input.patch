@@ -152,7 +152,7 @@ index af30e5ad7..a022f504f 100644
          // The new search widget promo panel will be recreated with the new appropriate theme and
 diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 new file mode 100644
-index 000000000..1d9e1c479
+index 000000000..0fb96be88
 --- /dev/null
 +++ b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 @@ -0,0 +1,372 @@
@@ -328,7 +328,7 @@ index 000000000..1d9e1c479
 +                down,
 +                event.getRepeatCount(),
 +                event.isCanceled()
-+                        || !mPressedUrl.equals(currentUrl()) && key == TvRemoteInput.Key.SELECT);
++                        || (!mPressedUrl.equals(currentUrl()) && key == TvRemoteInput.Key.SELECT));
 +    }
 +
 +    public void onWindowFocusChanged(boolean focused) {
