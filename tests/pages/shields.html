@@ -5,8 +5,12 @@
 <h1>TV Shields checks</h1>
 <p id="network">Ad request: pending</p>
 <p id="control">Control script: pending</p>
+<p id="cookie">Cookie-list request: pending</p>
 <div class="adsbox" id="cosmetic-probe">Cosmetic filter probe</div>
 <script src="shields-control.js"></script>
 <script src="http://localhost:18081/showbanner.js"
         onload="document.querySelector('#network').textContent = 'Ad request: loaded'"
         onerror="document.querySelector('#network').textContent = 'Ad request: failed'"></script>
+<script src="http://localhost:18081/1_cookie.js"
+        onload="document.querySelector('#cookie').textContent = 'Cookie-list request: loaded'"
+        onerror="document.querySelector('#cookie').textContent = 'Cookie-list request: failed'"></script>

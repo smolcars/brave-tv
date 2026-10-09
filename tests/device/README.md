@@ -73,3 +73,35 @@ replay is not a physical-remote test.
 
 `replay tests/device/onboarding-focus.ad` requires an incomplete first run on
 the Web Discovery page. Do not reset an existing profile to meet that condition.
+
+## TV panels and Shields
+
+`replay tests/device/tv-panel.ad` checks initial focus, D-pad movement, tab
+panels and Back restoration on an already loaded webpage. Inspect the whole
+panel at 1080p as well; focus assertions do not catch clipped controls.
+
+For Shields, serve `tests/pages` on port 18081, reverse that port, and forward
+DevTools with `adb -s "$TV_SERIAL" forward tcp:9222 localabstract:chrome_devtools_remote`. Open
+`http://127.0.0.1:18081/shields.html` in the normal profile. Preserve existing
+custom filters, then append these two temporary rules in Content Filters:
+
+```text
+127.0.0.1###cosmetic-probe
+127.0.0.1##+js(set, tvShieldsProbe, true)
+```
+
+Run `nix develop --command node tests/device/shields-probe.mjs up`. Use the TV
+Shields panel to put Shields down, run the `down` check, then restore Shields up
+and rerun `up`. Background the browser and allow its asynchronous preference
+write before relaunching and checking persistence. An immediate force-stop can
+lose the latest site-setting change. The probe reloads the actual browser tab
+and asserts observable results; it does not emulate the filtering engine.
+
+With Shields up, the cookie-list preference initially enabled, and the native
+Content Filters screen open, run `cookie-on`. Disable Cookie notice blocker,
+run `cookie-off`, re-enable it and rerun `cookie-on`. The ordinary ad request
+remains blocked in both states. Restore the original preference and custom
+filters after testing. The cookie fixture is harmless; its filename matches a
+rule in the real list. Screenshots/logs stay outside Git. These local checks do
+not establish YouTube ad blocking, signed component updates, or physical-remote
+usability of the upstream settings screen.
