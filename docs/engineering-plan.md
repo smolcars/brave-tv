@@ -156,6 +156,14 @@ After finishing the cursor correction checks and latest-commit review, build ups
 
 Inspect the resulting APK's actual size, signature, package and ABI, preserve its provenance and recheck available device storage before installation. Then install the test package without uninstalling or clearing any existing profile, test onboarding and the controlled pointer/form/scroll/Back flows on the physical remote, and record results independently from emulator evidence. A passing build alone does not close physical-TV, URL-to-video, Shields, performance or two-device MVP gates.
 
+### Optimized Android link correction (9 October)
+
+The first ARM Static build completed 63,200 steps but failed linking `libchrome.so` after 5h18m: `ads_service_factory.o` references `AdsTooltipsController::~AdsTooltipsController()`. This is a symbol-resolution failure, not an OOM. The cgroup peaked at 18 GiB, hit its soft threshold and never reached its 22 GiB maximum; completed objects and logs are preserved.
+
+Diagnosis: `CreateAdsTooltipsDelegate()` returns `unique_ptr<AdsTooltipsDelegateImpl>` even on Android, where it returns null and the desktop tooltip implementation is excluded by GN. The optimized factory object nevertheless emits its concrete deleter and references the excluded controller destructor; `llvm-nm --undefined-only --demangle` confirms that reference. The service already accepts the platform-independent `AdsTooltipsDelegate` interface with a virtual destructor.
+
+Add a small object-symbol regression that fails on that existing ARM object when it references the desktop tooltip types. Change the factory's declaration, definition and forward declaration to return the existing interface. Include that interface directly and guard the desktop implementation include with the same non-Android condition as its GN source list. Preserve Android's null delegate and desktop construction; do not add desktop UI sources, dummy destructors, suppress link errors or disable Ads/Shields. Export the source changes into the downstream patch and rebuild the same ARM target/output with the existing limits. Verify the object regression and final link, inspect/package the artifact, review only this latest implementation commit against its parent, then continue device testing. Desktop runtime remains untested; inspect its unchanged conversion/destruction path.
+
 ## Stage 3 Complete the MVP after the feasibility gate
 
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
