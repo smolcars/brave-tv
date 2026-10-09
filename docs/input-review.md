@@ -189,4 +189,7 @@ Each row is a separate, latest-implementation-only review against the stated par
 | project `dd21fb2` | `0e6aeab` | 0 | 0 |
 | source `c7bde129e` | `362d9e85e` | 0 | 0 |
 
-The subsequent listed correction resolves each preceding finding. No actionable heuristic smells remained in the final rounds. The `362d9e85e` Android build and native-panel replay passed, and the corrected probe independently identifies the repeated-list-toggle defect addressed by `c7bde129e`; its runtime check is pending. See [device evidence](device-tests.md#source-fork-panels-and-shields-9-october-2026) for pass/fail boundaries. Full private authentication, production updates, YouTube, sustained video and physical-TV acceptance are not established by these reviews.
+The subsequent listed correction resolves each preceding finding. No actionable heuristic smells remained in the final rounds. The `362d9e85e` Android build and native-panel replay passed, and the corrected probe independently identifies the repeated-list-toggle defect addressed by `c7bde129e`; its repeated-toggle and normal-restart checks now pass. See [device evidence](device-tests.md#source-fork-panels-and-shields-9-october-2026) for pass/fail boundaries. Full private authentication, production updates, YouTube, sustained video and physical-TV acceptance are not established by these reviews.
+
+
+Latest bookmark implementation review: source `40b075224` against `c7bde129e`, Standards 0, Spec 0. Existing bookmark-model storage, managed/edit restrictions, Cancel-first removal, private-tab context guards and callback cancellation match the plan. Android compilation and runtime bookmark workflows remain pending.
