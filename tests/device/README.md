@@ -105,3 +105,16 @@ filters after testing. The cookie fixture is harmless; its filename matches a
 rule in the real list. Screenshots/logs stay outside Git. These local checks do
 not establish YouTube ad blocking, signed component updates, or physical-remote
 usability of the upstream settings screen.
+
+## Bookmarks
+
+On the dedicated emulator test profile, open `bookmark.html?run=<unique-id>`
+in a fresh normal tab with no navigation history. The fixture must not already
+be bookmarked, and Mobile bookmarks must be empty for this fixed-order replay.
+Do not empty a user's bookmark folder to meet that condition. Run
+`replay tests/device/tv-bookmarks.ad`: it adds the fixture, cancels removal once,
+opens it, confirms removal, and checks Back returns through folders to controls.
+Only the fixture bookmark is removed. Independently navigate another tab to the
+saved fixture and restart before removal to check actual navigation and stored
+persistence. Pagination, managed-policy and locked-private coverage require
+separate setup and are not established by this replay.
