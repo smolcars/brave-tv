@@ -246,3 +246,10 @@ Latest menu compile correction: `13d6e7f0b` against `7fcdf6d0f`, Standards 0 and
 Latest menu lint correction: `45287adc4` against `13d6e7f0b`, Standards 0 and Spec 0. The exception covers only the activity-owned resource lookup; global checks and runtime guards remain. Build and menu activation checks are pending.
 
 Project home replay: `7ffa25b` against `b11bc84`, Standards 0 and Spec 0. It checks normal-home focus order without resetting data; links, private mode and keyboard checks remain separate.
+
+| Source commit | Parent | Standards | Spec |
+| --- | --- | --- | --- |
+| `8132b4f45` | `45287adc4` | P2 orphaned onboarding helpers/resources/test (AND-028) | 0 |
+| `5852d6543` | `8132b4f45` | 0 new findings; known background cleanup pending | 0; known background cleanup pending |
+
+The latter removes the orphaned first-run UI module and its consumers. Blocking lint independently identified the remaining activity background and spacing; `1125c034b` removes those exclusive resources while retaining shared text sizing. Each review remains limited to its latest implementation commit against its parent.
