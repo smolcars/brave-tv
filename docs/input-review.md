@@ -171,3 +171,22 @@ Zero findings. The helper and tests follow the subprocess/filesystem boundary, v
 Zero findings. The real fork retains upstream ancestry, project tests compile actual tracked Java source, and active documentation retires TV patch export/application. The exact source pin, clean working trees and fast-forward update requirements are enforced.
 
 Totals: Standards 0, Spec 0. Fourteen Nix-shell tests, strict mypy and both Nix flake checks pass. The initial packaged check exposed a hashed store filename copied under the wrong basename; the reviewed commit fixes the explicit Java destination. The cached x64 build subsequently passed in 4m07.92s, APK signature verification passed, and installation preserved the emulator profile. Cursor visibility and single-click checks pass. Native UI expansion and Shields diagnosis remain separate increments.
+
+## Native panels and bundled Shields review rounds
+
+Each row is a separate, latest-implementation-only review against the stated parent, with independent Standards and Spec reviewers. These were not whole-history reviews.
+
+| Repository / commit | Parent | Standards | Spec |
+| --- | --- | --- | --- |
+| source `f1fd81dc6` | `1a2963063` | P3: Shields terminology | P1: locked private titles; P2: reopening controls over close confirmation |
+| source `3ffde4773` | `935e2f36b` | 0 | P2: idle NTP could not reopen controls after pause/close |
+| source `058431555` | `3ffde4773` | 0 | 0 |
+| source `0496c6e2e` | `058431555` | 0 | 0 |
+| source `2688a17ff` | `0496c6e2e` | CSM-009 weak member replies; CSM-022 explicit worker traits | P1: bundled-list re-enable notification; P2: partial catalog completing locale initialization |
+| source `89937d8d1` | `2688a17ff` | 0 | GRIT paths relative to parent; cache-disabled startup notification |
+| source `362d9e85e` | `89937d8d1` | 0 | 0 |
+| project `0ffe783` | `50b48e2` | P2: await actual navigation, TA-003 | P1: stale-document assertions; P2: unrelated request errors |
+| project `dd21fb2` | `0e6aeab` | 0 | 0 |
+| source `c7bde129e` | `362d9e85e` | 0 | 0 |
+
+The subsequent listed correction resolves each preceding finding. No actionable heuristic smells remained in the final rounds. The `362d9e85e` Android build and native-panel replay passed, and the corrected probe independently identifies the repeated-list-toggle defect addressed by `c7bde129e`; its runtime check is pending. See [device evidence](device-tests.md#source-fork-panels-and-shields-9-october-2026) for pass/fail boundaries. Full private authentication, production updates, YouTube, sustained video and physical-TV acceptance are not established by these reviews.

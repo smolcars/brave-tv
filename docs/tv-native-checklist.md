@@ -13,16 +13,16 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 ## Shields and YouTube
 
 - [ ] Reproduce the reported video-ad symptom or record the exact reproduction limit.
-- [ ] Check filter, cosmetic and scriptlet resources on clean/current emulator state and after restart.
-- [ ] Demonstrate network blocking and a Shields-off/on control with observable resource results.
+- [x] Check filter, cosmetic and scriptlet resources on the current emulator and after restart. Clean-profile coverage remains open.
+- [x] Demonstrate network blocking and a Shields-off/on control with observable resource results.
 - [ ] Verify resource updates and identify any development-build service configuration blocker.
 - [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
-- [ ] Make per-site protection state and exceptions readable and remote-accessible.
+- [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive mode persistence still needs explicit coverage.
 
 ## Native browser UI
 
-- [ ] Replace the prototype list dialog with a readable landscape native browser panel.
-- [ ] Add clear focus, predictable D-pad movement, remembered selection and Back escape.
+- [x] Replace the prototype list dialog with a readable landscape native browser panel.
+- [x] Add clear focus, predictable D-pad movement, remembered selection and Back escape; panel replay passes.
 - [ ] Provide address/search, Back/Forward, Reload/Stop and clear page cursor/scroll actions.
 - [ ] Provide a native home/start view with bookmark shortcuts using existing browser storage.
 - [ ] Adapt tabs: new, switch, close, private/normal separation and restart restoration.
