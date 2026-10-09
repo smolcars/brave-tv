@@ -2,7 +2,7 @@
 
 ## Current status
 
-The pinned Nix shell and checkout helper work on the initial x86-64 Linux builder. Upstream source initialization completed successfully on 8 October 2026; the unmodified x64 Debug APK is compiling. No APK has completed or been installed yet. The [TV input patch](tv-prototype.md) is being prepared separately from the running baseline build.
+The pinned Nix shell and checkout helper work on the initial x86-64 Linux builder. Upstream source initialization completed successfully on 8 October 2026. A machine crash interrupted the first unmodified x64 Debug build; it has been resumed from existing outputs with explicit concurrency and memory limits. No APK has completed or been installed yet. The [TV input patch](tv-prototype.md) is being prepared separately from the running baseline build.
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).
 
@@ -57,16 +57,44 @@ The source pins inspected for this baseline are:
 From the external `src/brave` directory:
 
 ```sh
-pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk --ninja=j:8
+SISO_LIMITS=local=4 pnpm run build Debug --target_os=android --target_arch=x64 --target_android_output_format=apk
 ```
 
 Use a release build for performance evidence:
 
 ```sh
-pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk
+SISO_LIMITS=local=4 pnpm run build Release --target_os=android --target_arch=x64 --target_android_output_format=apk
 ```
 
-The Debug command passed GN configuration and is compiling native and Java targets. Eight concurrent compile jobs limit load on this 30 GiB builder. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Record the completed APK path and any native dependency failures before describing the build as working. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
+The Debug command passed GN configuration and is compiling native and Java targets. Use `SISO_LIMITS=local=4` to limit local execution on this 30 GiB builder. **The pinned Brave wrapper consumes `--ninja=j:N` but applies its Siso job limit only when remote execution is enabled** (`build/commands/lib/config.ts`, options parsing and `useRemoteExec` environment block). Our original `--ninja=j:8` therefore did not enforce eight local jobs. The current output directory is `src/out/android_Debug`; do not assume the architecture is part of that default directory name. The release command has not run. Record the completed APK path and any native dependency failures before describing the build as working. Use the exact prerequisite guidance for the pinned release in [Brave's Android build documentation](https://github.com/brave/brave-browser/wiki/Android-Development-Environment).
+
+## Resume with host resource limits
+
+On this systemd-based Linux builder, run the long compile in a transient user service. This keeps it independent of the terminal connection and limits its memory consumption. A reboot still stops the service. Do not run two builds against the same output directory.
+
+From this project, inside `nix develop`:
+
+```sh
+systemctl --user status brave-tv-baseline-j4.service
+# Continue only when no build is running. Use a fresh unit name if the old failed unit remains loaded.
+export TV_BUILD_LOG="$HOME/.cache/brave-tv/logs/build-debug-x64-$(date +%Y%m%d-%H%M%S)"
+systemd-run --user --unit=brave-tv-baseline-j4 --service-type=exec \
+  --property=MemoryAccounting=yes --property=MemoryHigh=18G --property=MemoryMax=22G \
+  --property=MemorySwapMax=0 --property=OOMPolicy=kill \
+  --property=Nice=10 --property=CPUWeight=25 \
+  --setenv=SISO_LIMITS=local=4 --setenv=TV_BUILD_LOG="$TV_BUILD_LOG" \
+  --working-directory="$PWD" "$(command -v nix)" develop --command bash -c '
+    set -euo pipefail
+    cd "$HOME/.cache/brave-tv/workspace/src/brave"
+    command time -v -o "$TV_BUILD_LOG.time" pnpm run build Debug \
+      --target_os=android --target_arch=x64 --target_android_output_format=apk \
+      > "$TV_BUILD_LOG.log" 2>&1
+  '
+systemctl --user show brave-tv-baseline-j4.service \
+  -p ActiveState -p Result -p MemoryCurrent -p MemoryPeak -p MemoryHigh -p MemoryMax
+```
+
+The 18 GiB threshold starts memory reclamation; the 22 GiB hard limit can terminate the build instead of allowing it to consume all host memory. These are precautions, not proof of the original crash cause. The Nix shell supplies `systemd-run`/`systemctl`; the host must provide a user systemd manager and delegated memory/CPU controllers. No system service is installed and no automatic restart is configured. To interrupt this build gracefully, use `systemctl --user kill --signal=SIGINT brave-tv-baseline-j4.service`, then confirm it has stopped before resuming. Preserve logs and outputs; do not rerun initialization or clear caches to recover.
 
 ## Initial build evidence
 
@@ -75,6 +103,9 @@ The Debug command passed GN configuration and is compiling native and Java targe
 - Main source checkout: `~/.cache/brave-tv/workspace/src/brave`.
 - Separate TV patch worktree: `~/.cache/brave-tv/tv-worktree`.
 - Logs: `~/.cache/brave-tv/logs/init-x64.log`, `build-debug-x64.log` and `build-debug-x64.time`. The last file is written by GNU Time from the Nix shell and records completion status, elapsed time and process resource statistics when the build ends.
+- The original build log stops at 21:30:16 EDT after 28m35s of native build progress and 32,993 recorded steps. The original timing file is empty because the machine crashed. Boot/journal inspection confirmed a reboot at 22:33; preceding service watchdog/timeouts were recorded, but no kernel OOM event was found in the inspected interval.
+- A 22:42 recovery attempt exposed the ineffective wrapper job option and was deliberately interrupted after 108 additional completed steps. Its separate log/timing files are `build-debug-x64-resume-20261008-224207.*`.
+- The next recovery attempt started at 22:43:49 with explicit `SISO_LIMITS=local=4`, under `brave-tv-baseline-j4.service`. Logs/timing: `build-debug-x64-resume-20261008-224349.*`. The cgroup's memory and CPU limits were verified. Record final completion separately.
 - No device or performance result follows from these host-side checks.
 
 ## Check this repository

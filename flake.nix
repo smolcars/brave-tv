@@ -29,6 +29,7 @@
         which
         file
         time
+        systemd
         android-tools
         jdk21_headless
         mypy
@@ -57,6 +58,7 @@
               git --version
               javac -version
               adb version
+              systemd-run --version
               touch "$out"
             '';
 
