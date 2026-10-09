@@ -1,0 +1,18 @@
+# Requires a normal native home tab; opens a private new tab without closing existing tabs.
+open com.brave.browser_default --relaunch
+wait "text=\"The web. On your terms.\"" 5000
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote right
+tv-remote select
+wait "text=\"Tabs\"" 3000
+tv-remote down
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote select
+wait "text=\"New tab\" focused=true" 3000
+tv-remote right
+wait "text=\"Private tabs\" focused=true" 3000
+tv-remote select
+wait "text=\"New tab\" focused=true" 3000
+tv-remote select
+wait "text=\"Pages in this session are not saved to browsing history. Websites and your network provider can still see your activity.\"" 5000
+wait "text=\"Address or search\" focused=true" 3000

@@ -286,3 +286,9 @@ Toolbar replay adjustment `407df2e` against `ccfc408`: Standards 0, Spec 0. Both
 Android collector shutdown `cca46e564` against `1a976a373`: Standards 0, Spec 0. Reviewers checked the Android factory consumers, guarded startup paths, all six nullable Java getter consumers, removal of connection/retry/timer/JNI/build entries, and exclusion of desktop-only NTP dereferences. Build/runtime verification remains separate.
 
 Local search collector diagnostic `cf68782` against `a3dba13`: Standards 0, Spec 0. The probe awaits the native WebUI promise and bounds transport failures. On the preceding APK, disabled mode fails because the sample exists, while enabled mode passes. These reviews cover only their stated latest implementation commits against their parents.
+
+## Native tab handoff and toolbar protection
+
+Latest-commit review only: source `82b9b507c` against `cca46e564`, and regression/plan `48b24dc` against `a96ba25`, each receive Standards 0 and Spec 0. The normal new-tab replay fails twice on the preceding installed APK because controls immediately reopen over the destination. Private creation and switch/close runtime checks remain separate.
+
+Source `11353a858` against `82b9b507c`: Standards 0, Spec 0. Reviews cover native protection routing, activity/tab/private guards, theme/state callbacks, neutral Nala icons and wording, and existing focus foregrounds. No earlier implementation is included. Build and emulator verification are separate gates.

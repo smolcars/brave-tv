@@ -4,8 +4,7 @@ wait "text=\"Address or search\" focused=true" 5000
 tv-remote right
 wait "text=\"Browser controls\" focused=true" 3000
 tv-remote up
-wait "text=\"Enable/Disable Brave Shields\" focused=true" 3000
-tv-remote right
+wait "id=\"com.brave.browser_default:id/tab_switcher_button\" focused=true" 3000
 tv-remote right
 wait "text=\"Customize and control Google Chrome\" focused=true" 3000
 tv-remote select

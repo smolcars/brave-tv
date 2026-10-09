@@ -144,3 +144,10 @@ The `enabled` mode is the old-build control; `disabled` fails on the preceding
 APK. Repeat after changing search providers. This checks one local collector,
 not outgoing traffic or the absence of all Chromium analytics. No preferences,
 history or profile data are cleared by this diagnostic.
+
+`replay tests/device/tv-new-tab.ad` starts on a normal native home and checks
+that creating a normal tab exposes home with search focused. It fails when the
+tab action immediately reopens controls. `tv-private-new-tab.ad` checks the
+same handoff from the private tab list, asserting the private-session notice.
+Each replay invokes New tab, preserves existing data, and leaves the destination
+open. Private reauthentication requires a separate configured-device test.
