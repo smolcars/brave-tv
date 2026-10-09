@@ -208,3 +208,11 @@ Bookmark replay review: project `17f5e2e` against `c56134e`, Standards 0, Spec 0
 - Standards: no actionable findings.
 - Spec: no new findings; the two setter calls synchronize the adapter and address the prior stale-consent P1. Device round-trip verification remains required.
 - Both reviews were read-only and limited to the latest implementation diff.
+
+### TV onboarding replay: `7db5a62` vs `bbfed49`
+
+Standards and Spec both report no findings. The replay intentionally leaves onboarding incomplete and does not claim to assert checkbox state through the helper snapshot. Runtime on source `9bb2cf912` subsequently passes all 31 steps in 5.7 seconds. A baseline run was interrupted by a launcher promotion; a direct assertion on the old actual onboarding page separately confirms missing initial focus.
+
+### Privacy action contrast: `572ba7e70` vs `409ec97af`
+
+Standards and Spec both report no findings. The localized label becomes plain text while the original privacy-link callback remains. Rendered focus verification on the final APK is pending. All reviews compare only their latest implementation commit with its parent.
