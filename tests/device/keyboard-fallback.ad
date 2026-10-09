@@ -1,0 +1,13 @@
+# Requires the fixture at its initial scroll position and TV controls open.
+# Alphabetic virtual keyboard events must not move/click the TV pointer.
+wait "text=\"Page cursor\""
+tv-remote up
+tv-remote down
+tv-remote select
+tv-remote down
+tv-remote down
+tv-remote down
+tv-remote down
+tv-remote down
+tv-remote select
+wait "text=\"Clicks: 0\"" 3000

@@ -9,11 +9,10 @@
   #click { display: block; width: 70%; margin: 3rem auto; min-height: 10rem; }
   #nested { height: 12rem; overflow: auto; border: 3px solid #8cc; padding: 1rem; }
   #nested p { height: 30rem; }
-  output { font-weight: bold; }
 </style>
 <h1>TV remote input checks</h1>
 <p>Move the cursor onto the button. Hold OK, then release: the count must increase exactly once.</p>
-<button id="click">Clicks: <output id="count">0</output></button>
+<button id="click">Clicks: 0</button>
 <label>Text entry <input placeholder="Type with the TV keyboard"></label>
 <p>Place the cursor inside the box and enter scrolling mode. The box must scroll independently.</p>
 <div id="nested" tabindex="0"><p>Nested scroll start</p><p>Nested scroll end</p></div>
@@ -25,7 +24,7 @@
   let count = 0;
   let watcher;
   document.querySelector('#click').addEventListener('click', () => {
-    document.querySelector('#count').textContent = String(++count);
+    document.querySelector('#click').textContent = `Clicks: ${++count}`;
   });
   document.querySelector('#watcher').addEventListener('click', () => {
     const status = document.querySelector('#watcher-status');

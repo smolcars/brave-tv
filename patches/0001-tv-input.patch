@@ -185,10 +185,10 @@ index 9f2678d64..6fa7a0546 100644
                          getColor(R.color.brave_blue_tint_color),
 diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 new file mode 100644
-index 000000000..0fb96be88
+index 000000000..acd2daa6b
 --- /dev/null
 +++ b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
-@@ -0,0 +1,372 @@
+@@ -0,0 +1,402 @@
 +// Copyright (c) 2026 brave-tv contributors.
 +// This Source Code Form is subject to the terms of the Mozilla Public
 +// License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -207,6 +207,7 @@ index 000000000..0fb96be88
 +import android.view.KeyEvent;
 +import android.view.MotionEvent;
 +import android.view.View;
++import android.view.ViewGroup;
 +
 +import androidx.activity.OnBackPressedCallback;
 +import androidx.annotation.Nullable;
@@ -234,11 +235,22 @@ index 000000000..0fb96be88
 +    private final NonNullObservableSupplier<Boolean> mScrimVisible;
 +    private final TvRemoteInput mInput;
 +    private final Cursor mCursor;
++    private final View mCursorView;
 +    private final OnBackPressedCallback mBackCallback;
 +    private @Nullable ContentView mPage;
 +    private @Nullable AlertDialog mDialog;
 +    private String mPressedUrl = "";
 +    private boolean mDestroyed;
++    private final View.OnAttachStateChangeListener mPageAttachmentListener =
++            new View.OnAttachStateChangeListener() {
++                @Override
++                public void onViewAttachedToWindow(View view) {}
++
++                @Override
++                public void onViewDetachedFromWindow(View view) {
++                    if (isAlive() && view == mPage) detachCursor();
++                }
++            };
 +
 +    public TvBrowserControls(
 +            BraveActivity activity,
@@ -250,6 +262,9 @@ index 000000000..0fb96be88
 +        float density = activity.getResources().getDisplayMetrics().density;
 +        mInput = new TvRemoteInput(this, Math.max(1, Math.round(16 * density)));
 +        mCursor = new Cursor(density);
++        mCursorView = new View(activity);
++        mCursorView.setBackground(mCursor);
++        mCursorView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
 +        mBackCallback =
 +                new OnBackPressedCallback(true) {
 +                    @Override
@@ -405,8 +420,15 @@ index 000000000..0fb96be88
 +        if (!isAlive()) return;
 +        if (action == R.string.brave_tv_pointer || action == R.string.brave_tv_scroll) {
 +            mPage = currentPage();
-+            if (mPage == null) return;
-+            mPage.getOverlay().add(mCursor);
++            if (mPage == null || !(mPage.getParent() instanceof ViewGroup parent)) return;
++            mPage.addOnAttachStateChangeListener(mPageAttachmentListener);
++            // ViewOverlay drawables disappear over the compositor's transparent surface region.
++            parent.addView(
++                    mCursorView,
++                    parent.indexOfChild(mPage) + 1,
++                    new ViewGroup.LayoutParams(
++                            ViewGroup.LayoutParams.MATCH_PARENT,
++                            ViewGroup.LayoutParams.MATCH_PARENT));
 +            mPage.requestFocus();
 +            mInput.activate(
 +                    action == R.string.brave_tv_pointer
@@ -435,6 +457,7 @@ index 000000000..0fb96be88
 +    public void showPointer(int x, int y, TvRemoteInput.Mode mode) {
 +        mCursor.x = x;
 +        mCursor.y = y;
++        mCursor.hintTop = mActivity.getBrowserControlsManager().getContentOffset();
 +        mCursor.hint =
 +                mActivity.getString(
 +                        mode == TvRemoteInput.Mode.SCROLL
@@ -460,14 +483,17 @@ index 000000000..0fb96be88
 +
 +    private void sendPointerEvent(int action, int x, int y, int dx, int dy, long downTime) {
 +        ContentView page = mPage;
-+        if (!isAlive() || page == null || page != currentPage()) return;
++        if (!isAlive()
++                || page == null
++                || page != currentPage()
++                || !(page.getParent() instanceof ViewGroup parent)) return;
 +        boolean touch = action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP;
 +        MotionEvent.PointerProperties pointer = new MotionEvent.PointerProperties();
 +        pointer.id = 0;
 +        pointer.toolType = touch ? MotionEvent.TOOL_TYPE_FINGER : MotionEvent.TOOL_TYPE_MOUSE;
 +        MotionEvent.PointerCoords point = new MotionEvent.PointerCoords();
-+        point.x = x;
-+        point.y = y;
++        point.x = x + page.getX();
++        point.y = y + page.getY();
 +        point.pressure = action == MotionEvent.ACTION_DOWN ? 1 : 0;
 +        point.setAxisValue(MotionEvent.AXIS_HSCROLL, dx);
 +        point.setAxisValue(MotionEvent.AXIS_VSCROLL, dy);
@@ -488,10 +514,11 @@ index 000000000..0fb96be88
 +                        touch ? InputDevice.SOURCE_TOUCHSCREEN : InputDevice.SOURCE_MOUSE,
 +                        0);
 +        try {
++            // The compositor parent applies Chromium's viewport offsets before page dispatch.
 +            if (touch) {
-+                page.dispatchTouchEvent(event);
++                parent.dispatchTouchEvent(event);
 +            } else {
-+                page.dispatchGenericMotionEvent(event);
++                parent.dispatchGenericMotionEvent(event);
 +            }
 +        } finally {
 +            event.recycle();
@@ -499,7 +526,9 @@ index 000000000..0fb96be88
 +    }
 +
 +    private void detachCursor() {
-+        if (mPage != null) mPage.getOverlay().remove(mCursor);
++        mInput.cancelPress();
++        if (mPage != null) mPage.removeOnAttachStateChangeListener(mPageAttachmentListener);
++        if (mCursorView.getParent() instanceof ViewGroup parent) parent.removeView(mCursorView);
 +        mPage = null;
 +    }
 +
@@ -517,6 +546,7 @@ index 000000000..0fb96be88
 +        final float density;
 +        int x;
 +        int y;
++        int hintTop;
 +        String hint = "";
 +
 +        Cursor(float density) {
@@ -530,12 +560,12 @@ index 000000000..0fb96be88
 +            paint.setColor(Color.BLACK);
 +            canvas.drawRect(
 +                    12 * density,
-+                    12 * density,
++                    hintTop + 12 * density,
 +                    36 * density + paint.measureText(hint),
-+                    48 * density,
++                    hintTop + 48 * density,
 +                    paint);
 +            paint.setColor(Color.WHITE);
-+            canvas.drawText(hint, 24 * density, 36 * density, paint);
++            canvas.drawText(hint, 24 * density, hintTop + 36 * density, paint);
 +            canvas.drawCircle(x, y, 7 * density, paint);
 +            paint.setColor(Color.BLACK);
 +            paint.setStyle(Paint.Style.STROKE);
