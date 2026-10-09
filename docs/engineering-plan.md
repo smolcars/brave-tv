@@ -46,6 +46,10 @@ The bundled build passes actual network, cosmetic and scriptlet probes; Shields 
 
 The first probe review found that acknowledging `Page.reload` does not prove the next document is loaded, and a generic network error does not identify the blocked fixture. Before drawing a conclusion from optional-list re-enable, synchronize the probe with a fresh main-frame loader and its load lifecycle event. Track request IDs, exact fixture URLs and loader IDs, requiring `ERR_BLOCKED_BY_CLIENT` for each expected blocked request and successful completion for controls/allowed requests. Rerun enabled/disabled/re-enabled checks against this corrected diagnostic.
 
+#### Repeated native list-toggle correction
+
+The fresh-document cookie test is red after off → on, while the UI switch is on and the persisted list preference remains false. `ContentFilteringAdapter` captures the original `isEnabled` value when binding a row and sends its negation on every click. Read the switch's current checked state inside the existing listener instead, and write that same value to the row model and native handler. This shared Android settings correction applies to every regional-list row; custom subscriptions already update their model on each click and need no change. Keep the existing harmless real-browser cookie regression as the check: enabled → disabled → enabled without leaving/rebinding the screen, then background/restart and repeat. Rebuild only the cached x64 target with existing limits; review only this latest source implementation commit against its parent.
+
 ### 3. Replace the prototype controls with TV UI
 
 Start with a native landscape browser panel using the existing Android view toolkit: a prominent address/search action, readable page identity, large grouped controls, an obvious focus indicator, predictable D-pad order and remembered focus. Provide Back/Forward, Reload/Stop, page cursor/scroll, and entry points for tabs and Shields using Brave's existing browser state. Keep the keyboard, permissions, native dialogs and video fullscreen above the page-input adapter. Check the current failing/unusable flow before each correction.
