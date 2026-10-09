@@ -148,6 +148,14 @@ The first rebuilt APK passes the cursor/click assertion. A further transition ch
 
 Form testing also exposed a coordinate error hidden by the large click target: OK over a narrow input does not focus it, while a diagnostic tap does. The adapter bypasses `CompositorViewHolder`, whose touch/hover interceptors set `EventForwarder`'s viewport offsets (including the visible toolbar). Add a narrow, initially visible input fixture and assert focus after the centered cursor's OK. Route synthetic events through the page's existing parent dispatcher, translating page-local coordinates into that parent, so Chromium applies its own offset handling. Preserve source types, one click per release and native UI priority. Recheck narrow-target focus, broad clicks and nested scrolling after the change.
 
+### Chromecast build increment (9 October)
+
+Wireless ADB now connects to the user's Google Chromecast (`sabrina`), Android 14/API 34. Its supported ABI list is `armeabi-v7a,armeabi`; select `arm`, not `arm64`. It reports about 1.9 GiB RAM and a 1920×1080 override at 320 dpi. Available data storage increased from 669 MiB to 922 MiB after the user removed apps. No Brave package is installed. Keep network addresses, pairing credentials and personal-device screenshots out of this public repository.
+
+After finishing the cursor correction checks and latest-commit review, build upstream's optimized **Static arm** development configuration with `symbol_level=0` and blocking Android static analysis. This keeps `com.brave.browser_default`, avoids collision with the official browser, and remains a test build with development signing. Use the existing synchronized sources/dependencies and a separate `out/android_Static_arm` output directory; the x64 native object cache cannot serve an ARM target and must remain intact. Retain four jobs and 18/22 GiB memory limits, separate logs and timing. No source edits or dependency synchronization while the build runs.
+
+Inspect the resulting APK's actual size, signature, package and ABI, preserve its provenance and recheck available device storage before installation. Then install the test package without uninstalling or clearing any existing profile, test onboarding and the controlled pointer/form/scroll/Back flows on the physical remote, and record results independently from emulator evidence. A passing build alone does not close physical-TV, URL-to-video, Shields, performance or two-device MVP gates.
+
 ## Stage 3 Complete the MVP after the feasibility gate
 
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
