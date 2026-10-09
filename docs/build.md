@@ -41,7 +41,7 @@ For the first clean baseline, run:
 pnpm run init --target_os=android --target_arch=x64 --no-history
 ```
 
-The x64 target is for an x86-64 Android emulator, not an ARM TV. Select `arm64` or `arm` for physical hardware after inspecting its supported ABIs. No physical target has been selected yet.
+The x64 target is for an x86-64 Android emulator, not an ARM TV. Select `arm64` or `arm` for physical hardware after inspecting its supported ABIs. The connected Chromecast reports only `armeabi-v7a,armeabi`; its development build uses `arm` (see below).
 
 Initialization downloads Chromium and its dependencies and may take a long time. Keep source/build logs outside this project, for example under `~/.cache/brave-tv/logs/`. Preserve failed checkouts for diagnosis. Upstream synchronization includes reset/force operations; inspect the affected source trees before rerunning it, especially after making downstream edits.
 
@@ -134,3 +134,27 @@ git diff --check
 ```
 
 `nix flake check` runs both the toolchain smoke check and the local checkout tests/typecheck in Nix build environments. The local tests use disposable Git repositories and require no network or TV. They verify the setup command's behavior, not Android compilation, Shields effectiveness or media playback.
+
+## Chromecast ARM development build
+
+The user's Google Chromecast (`sabrina`) is paired over wireless ADB and opened in T3. Android 14/API 34 reports only `armeabi-v7a,armeabi`. Its available data storage was 922 MiB after the user removed apps. No Brave package was present. A compatible build is **in progress**, not yet an installable or validated artifact.
+
+The cursor-correction source is `937ac535839aa74f2cfbf6fc554f53822ca65faf`, with the same locked Brave/Chromium revisions. Upstream's `Static` configuration sets `is_debug=false` and `is_official_build=false`, retaining development package `com.brave.browser_default`. `symbol_level=0` limits debug-symbol output; blocking Android analysis remains enabled. This is an optimized development APK, not a signed public release or a performance result.
+
+```sh
+# Inside the resource-limited Nix/systemd service, in workspace/src/brave:
+SISO_LIMITS=local=4 pnpm run build Static \
+  --target_os=android --target_arch=arm --target_android_output_format=apk \
+  --gn=android_static_analysis:on --gn=symbol_level:0
+```
+
+Current service: `brave-tv-chromecast-arm-j4.service`. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r1`. Output: `~/.cache/brave-tv/workspace/src/out/android_Static_arm`. GN generation succeeded and ARM C++/Rust compilation started. The service has four local jobs, 18 GiB memory high, 22 GiB maximum and no swap. Source/dependency downloads are reused, but x64 native objects cannot satisfy the ARM build; its first compile is substantially longer than the incremental emulator correction.
+
+```sh
+nix develop --command systemctl --user show brave-tv-chromecast-arm-j4 \
+  -p ActiveState -p Result -p ExecMainStatus -p MemoryCurrent -p MemoryPeak
+# Inspect progress without launching a second build:
+tail -n 20 "$HOME/.cache/brave-tv/logs/build-tv-chromecast-arm-20261009-r1.log"
+```
+
+Preserve `android_Debug` and all earlier artifacts. Do not edit sources or synchronize dependencies while this build is running. After it exits, inspect signature, actual APK size, package/version and ABI, copy the APK/patch/GN args into a new artifact directory with hashes/provenance, and recheck device storage before installation. Use the actual physical-device serial returned by `device_list`, not the emulator serial. Physical remote, website/video, Shields and performance validation remain pending.

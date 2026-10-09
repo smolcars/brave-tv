@@ -1,6 +1,6 @@
 # First TV input patch
 
-Status: the TV patch builds with blocking Android static analysis and installs on the Android TV API 36 emulator. A demonstrated first-run focus trap was corrected; the same remote replay fails on the original APK and passes on the correction. All onboarding pages can now be completed with D-pad/OK. The public input-policy tests also pass on the JVM. Physical-TV, website, video and performance acceptance remain open. This is not a completed MVP or a release APK.
+Status: the TV patch builds with blocking Android static analysis and installs on the Android TV API 36 emulator. A demonstrated first-run focus trap was corrected; the same remote replay fails on the original APK and passes on the correction. All onboarding pages can now be completed with D-pad/OK. Cursor visibility, precise field clicks, native keyboard/Back, nested scrolling and tab-detach cleanup now pass controlled emulator regressions. The public input-policy tests also pass on the JVM. Physical-TV, website, video and performance acceptance remain open. This is not a completed MVP or a release APK.
 
 The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.
 
@@ -33,9 +33,19 @@ The generated merged manifest contains the exported TV launcher alias, `MAIN`/`L
 - SDK `apksigner` verified the v2 signature. The artifact directory preserves the exact patch, both GN argument files, signature result and `provenance.json`.
 - All nine repository tests and strict Python typechecking passed through `nix flake check`; source whitespace and reverse-patch checks passed. The [latest implementation review](input-review.md#onboarding-focus-correction-review) found no Standards or Spec issues.
 - Nix ADB installed the APK without uninstalling or clearing data. The first-page replay passed, then D-pad/OK completed the remaining pages, deselected diagnostic/product-insight sharing and reached TV controls. See [runtime evidence and limits](device-tests.md#emulator-run-9-october-2026).
-- The local fixture loads with guest Vulkan disabled after the default emulator crashed. Back reaches TV controls. Pointer visibility/input remains unresolved; the helper's virtual alphabetic-keyboard classification differs from the intended remote path. No click or nested-scroll pass is claimed.
+- At this earlier artifact, the local fixture loaded with guest Vulkan disabled and Back reached TV controls. Pointer visibility/input was unresolved; the correction below records the subsequent diagnosis and executed checks.
 
-Next gate: complete the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence), then build for the confirmed physical-device ABI. The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. Shields update/blocking, video and performance checks remain unexecuted.
+## Cursor correction artifact
+
+- Preserved APK: `~/.cache/brave-tv/artifacts/tv-cursor-v1.97.56-x64-debug-20261009-r3/BraveMonox64.apk`.
+- Size: **853,917,577 bytes**; SHA-256: `9c6f655903b78b542bebf0b0abd07914e3085d3863f32d6885073a3cb2245629`.
+- Implementation commit: `937ac535839aa74f2cfbf6fc554f53822ca65faf`. Package/version, x86_64 ABI and upstream pins match the preceding artifacts.
+- `brave-tv-cursor-j4-r3.service` exited 0. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-cursor-x64-20261009-r3`. The incremental build took **3m33s**, with blocking lint/Error Prone and the established four-job, 18/22 GiB limits. Native build outputs were reused.
+- SDK `apksigner` verified the v2 signature. The artifact preserves the exact patch, both GN argument files, signature result and provenance with their hashes and the implementation commit. Earlier diagnostic builds remain separately preserved.
+- All nine repository tests and strict Python typechecking passed through Nix. Source whitespace, reverse-patch and Java formatting checks passed. Separate [Standards and Spec reviews](input-review.md#cursor-correction-review) found no actionable code findings in this implementation commit.
+- Installed with `adb install -r`, preserving the profile. The original rendering assertion fails and the corrected screenshot passes; narrow-field focus and cursor cleanup on tab replacement also have demonstrated failing and passing runs. A non-alphabetic D-pad test device drives the adapter; helper alphabetic-keyboard events retain normal browser behavior. Full [runtime evidence](device-tests.md#cursor-correction-run-9-october-2026) and [repeatable checks](../tests/device/README.md) describe the test boundary.
+
+Next gate: a compatible **32-bit ARM** development build for the now-connected Chromecast (Android 14/API 34, `armeabi-v7a,armeabi`). Its Static build uses a separate ARM output directory, preserving the x64 cache. Physical-TV, URL-to-video, Shields, lifecycle and performance acceptance remain open. See [build status](build.md#chromecast-arm-development-build).
 
 ## Implementation
 
@@ -52,7 +62,7 @@ The native controls dialog opens the existing address bar or browser menu, reloa
 
 No Menu button is required to open TV controls. Alphabetic hardware keyboards and system keys retain upstream handling. The mode hint is drawn over the webpage; it is not a replacement for accessibility testing. A web page's CloseWatcher must not prevent escaping to the TV controls.
 
-`TvRemoteInput` owns the interaction policy. `TvBrowserControls` delivers scoped mouse hover/wheel events and touchscreen taps to the active Chromium content view, and uses the existing Android Back dispatcher. Native pages, native focus, Find UI and visible browser scrims take priority. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events. The [input review and controlled regression procedure](input-review.md) record the source corrections and outstanding Android checks.
+`TvRemoteInput` owns the interaction policy. `TvBrowserControls` draws the cursor in a non-interactive sibling view and delivers scoped mouse hover/wheel events and touchscreen taps through the active content view's compositor parent. It uses the existing Android Back dispatcher. Native pages, native focus, Find UI and visible browser scrims take priority. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events. The [input review and controlled regression procedure](input-review.md) record the source corrections and outstanding Android checks.
 
 ## Apply after the baseline build finishes
 

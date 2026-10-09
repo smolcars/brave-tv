@@ -2,7 +2,7 @@
 
 # brave-tv
 
-An Android TV adaptation of Brave's Android browser. The baseline and TV-prototype x64 Debug APKs build through Nix with blocking Android static analysis. The prototype installs on an Android TV emulator, and its onboarding flow now works with D-pad/OK input. Physical-TV, website, video and performance acceptance remain open. See the [current artifact](docs/tv-prototype.md#onboarding-correction-artifact) and [runtime evidence](docs/device-tests.md#emulator-run-9-october-2026).
+An Android TV adaptation of Brave's Android browser. The baseline and TV-prototype x64 Debug APKs build through Nix with blocking Android static analysis. The prototype installs on an Android TV emulator, and onboarding works with D-pad/OK, and remote-source cursor, click, text-entry and nested-scroll checks pass. Physical-TV, website, video and performance acceptance remain open. See the [current artifact](docs/tv-prototype.md#cursor-correction-artifact) and [runtime evidence](docs/device-tests.md#emulator-run-9-october-2026).
 
 ## Development
 

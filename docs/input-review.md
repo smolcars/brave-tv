@@ -115,3 +115,17 @@ Zero findings and no actionable heuristic concerns. The correction is limited to
 Zero findings. Existing consent handlers, defaults and layouts are preserved. The replay uses remote buttons, asserts input focus with a bounded wait and does not clear app data. It failed against the original APK and passed against the corrected APK; the remaining onboarding pages were then completed with D-pad/OK.
 
 Totals: Standards 0, Spec 0. The blocking incremental Android build, APK signature verification, all nine repository tests and strict Python typechecking passed. Physical-device and non-TV runtime behavior remain unverified. This review covers the onboarding correction, not overall MVP acceptance; see [device evidence](device-tests.md#emulator-run-9-october-2026).
+
+## Cursor correction review
+
+Compared only `937ac535839aa74f2cfbf6fc554f53822ca65faf` against parent `29ae1968968debd289a455fc491fba6fd9024efe`. Separate read-only reviewers inspected the changed patch/test hunks and connected upstream code; older implementation commits were excluded. Expected load is one activity and active page per user.
+
+### Standards
+
+Zero findings. The attachment callback guards activity lifetime, the decorative view remains non-interactive and excluded from accessibility, and teardown removes its listener and view. No actionable heuristic smells; the small JSONL fixture overlap does not warrant extra test infrastructure.
+
+### Spec
+
+Zero actionable code findings. The sibling view, hint placement, detach cleanup, canceled presses and parent dispatch match the pointer correction plan. Chromium's compositor parent supplies the missing viewport offsets. The reviewer requested the runtime/build evidence update, included with this report. No scope creep found.
+
+Totals: Standards 0, Spec 0. Blocking Android analysis/build, Nix tests/typechecking, cursor visibility, precise field focus, native keyboard/Back, tab replacement, nested scrolling and keyboard fallback passed. This is a passing review of the correction, not overall MVP acceptance. Physical-TV, website/video, full native-priority matrix and performance checks remain open.

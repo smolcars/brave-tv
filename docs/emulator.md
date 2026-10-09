@@ -58,7 +58,7 @@ On this TV image, agent-device selected its helper input method, which hid the n
 adb -s "$TV_SERIAL" shell ime set com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME
 ```
 
-That component is specific to this image; inspect `ime list -s` on other devices. Keep using `tv-remote` for acceptance steps. Focus snapshots can lag input injection: the onboarding replay waits up to three seconds for the observed focus property before pressing OK. Avoid a separate `uiautomator dump` while agent-device owns the automation connection.
+That component is specific to this image; inspect `ime list -s` on other devices. Use `tv-remote` for native-focus checks; use the D-pad-only source below for the TV cursor adapter. Focus snapshots can lag input injection: the onboarding replay waits up to three seconds for the observed focus property before pressing OK. Avoid a separate `uiautomator dump` while agent-device owns the automation connection.
 
 ## Web navigation diagnostic configuration
 
@@ -79,6 +79,6 @@ nix develop --command systemd-run --user --unit=brave-tv-emulator-gl --service-t
 
 The current session already has this unit running; do not launch a second copy. `-no-snapshot-load` cold-boots existing disk data without wiping it. A prior quick-boot snapshot had restored a state predating APK installation after the crash. Inspect the installed package and onboarding state after any restore; never clear the profile to force a test precondition.
 
-Agent-device's Android `tv-remote` currently uses `input keyevent`. On this emulator its virtual input device is classified as an alphabetic keyboard, which the TV adapter deliberately preserves. Native onboarding and Back checks can pass while cursor-mode input remains untested. Record the actual source/device classification and cursor visibility before treating injected buttons as physical-remote evidence.
+Agent-device's Android `tv-remote` currently uses `input keyevent`. On this emulator its virtual input device is classified as an alphabetic keyboard, which the TV adapter deliberately preserves. Native onboarding and Back checks can pass without exercising cursor input. The cursor regressions now use Android's `uinput` command to register a temporary non-alphabetic D-pad device (keyboard type 1), with no root access or image modification. It unregisters on process exit. Follow the [device regression instructions](../tests/device/README.md); keep the normal keyboard exclusion in the adapter. Neither source substitutes for the physical remote.
 
 An emulator run cannot establish physical-TV performance, hardware video decoding, DRM support or the MVP's two-device acceptance criteria.

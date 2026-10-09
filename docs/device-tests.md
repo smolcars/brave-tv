@@ -1,6 +1,6 @@
 # Device and website test matrix
 
-Status: physical-device and website coverage remain proposed. The TV prototype has now been installed and launched on an Android TV emulator; the first runtime findings are recorded below. See [build evidence](build.md) and [prototype status](tv-prototype.md). No physical TV has been connected. Website availability and behavior must be checked during execution.
+Status: physical-device and website coverage remain proposed. The TV prototype has now been installed and launched on an Android TV emulator; the first runtime findings are recorded below. See [build evidence](build.md) and [prototype status](tv-prototype.md). A Chromecast is now connected for the first physical test; its ARM APK is still building. Website availability and behavior must be checked during execution.
 
 ## What hardware is needed
 
@@ -8,21 +8,21 @@ Start with an Android TV or Google TV running Android 10 or newer and its ordina
 
 The completed MVP requires two physical devices: a modest device and a faster device. We can start development with one. An emulator helps check installation and input integration; it does not establish real TV performance, hardware decoding or DRM compatibility. Do not buy hardware until the source build works and the first device's limitations are known.
 
-On 9 October the user identified an existing “chrome stick” with its own remote and app home screen, reporting **Android TV OS 14**. Treat it as the first candidate, likely a Chromecast with Google TV; the exact model (HD/4K) and supported ABIs remain unconfirmed. Query these over an authorized ADB connection before selecting its build. Its reported OS meets the prototype's Android 10 minimum. The x64 development APK is for an emulator, not this physical target. No second device has been chosen.
+On 9 October the user identified a **Google Chromecast with a remote, running Android 14**, connected only to the TV. Wireless ADB subsequently confirmed product/device `sabrina`, API 34 and **`armeabi-v7a,armeabi`**; build for 32-bit ARM. T3 opened the physical device in its Device panel. Its reported OS meets the prototype's Android 10 minimum. The x64 development APK is for an emulator, not this physical target. No second device has been chosen.
 
-For installation and logs, the developer computer must be able to reach the TV through Android Debug Bridge (ADB), over a supported USB or local-network connection. Enabling developer options/debugging and accepting the computer's debugging prompt happens on the device. Settings vary by manufacturer; use its instructions. Disable debugging when testing is finished. No physical TV has been connected yet.
+For installation and logs, the developer computer must be able to reach the TV through Android Debug Bridge (ADB), over a supported USB or local-network connection. Enabling developer options/debugging and accepting the computer's debugging prompt happens on the device. Settings vary by manufacturer; use its instructions. Disable debugging when testing is finished. The Chromecast is now paired over wireless debugging. Pairing material and device addresses are not committed.
 
 On 9 October, at the user's request, `enableDeviceSupport` and `enableAgentDeviceAccess` were set to `true` in T3's watched `~/.t3/userdata/settings.json`, preserving other settings and making a private backup first. The installed T3 CLI has no dedicated device command. A subsequent “continue” turn still reported device access disabled; both flags remained enabled and no project override disabled them. The existing session retains its old capabilities. T3's command palette provides **Restart agent session**, whose next-message behavior starts a fresh session; use it, then recheck `device_list`. The settings file is watched, so a server-wide restart is not required for the settings change. Saving the flags does not prove helper installation, emulator availability or a physical-device connection.
 
 | Field | Modest device | Faster device |
 | --- | --- | --- |
-| Manufacturer and model | User's remote-equipped “chrome stick”; exact model TBD | TBD |
-| Android version / API | Android TV OS 14 (user-reported); API query pending | TBD |
-| Supported ABIs | TBD | TBD |
-| RAM / available storage | TBD | TBD |
-| Display resolution / scaling | TBD | TBD |
-| Remote buttons | TBD | TBD |
-| Connection method | TBD | TBD |
+| Manufacturer and model | Google Chromecast with remote; HD/4K variant TBD | TBD |
+| Android version / API | Android 14 / API 34 (ADB-confirmed) | TBD |
+| Supported ABIs | `armeabi-v7a,armeabi` | TBD |
+| RAM / available storage | About 1.9 GiB / 922 MiB after user cleanup | TBD |
+| Display resolution / scaling | 3840×2160 physical; 1920×1080 override; 320 dpi | TBD |
+| Remote buttons | D-pad/OK/Back remote present; app test pending | TBD |
+| Connection method | Wireless ADB; T3 Device panel attached | TBD |
 | Official Brave baseline | Not run | Not run |
 | Unmodified source build | Not run | Not run |
 | TV adaptation build | Not run | Not run |
@@ -59,8 +59,21 @@ After the user restarted T3, device access became available. The missing SDK Com
 - The emulator exited during webpage navigation. Reopening loaded its earlier `default_boot` snapshot without the app; reinstalling the preserved APK and replaying onboarding succeeded again. No app data was deliberately cleared. A controlled launch with T3's same emulator arguments captured a host SIGSEGV (`Result=core-dump`, `ExecMainStatus=11`, peak memory 4,575,703,040 bytes), immediately after Vulkan instance/device creation for Chromium. Log: `~/.cache/brave-tv/logs/emulator-web-navigation-r2.log`. The inspected kernel log contains no OOM event. This is an emulator-process failure; its exact graphics cause is unconfirmed.
 - **Diagnostic workaround:** the same installed APK loads `http://127.0.0.1:8000/remote-input.html` after starting the emulator with `-feature -Vulkan -no-snapshot-load`. The service remains running and no app rebuild was involved. The URL was opened through agent-device's deep-link command, not entered with the remote, so this is not an end-to-end URL-navigation pass. Log: `~/.cache/brave-tv/logs/emulator-web-navigation-gl.log`; [launch instructions](emulator.md#web-navigation-diagnostic-configuration).
 - **PASS, limited Back check:** from the fixture, Back returns to TV controls. Screenshot: `~/.cache/brave-tv/logs/fixture-back-controls.png`. CloseWatcher was not enabled for this check.
-- **UNRESOLVED pointer check:** choosing “Page cursor” showed no visible cursor/hint. Five Down presses scrolled the document; OK left the counter at zero. Agent-device 0.21.12 implements these buttons with `adb shell input keyevent`; the emulator's virtual device reports `KEYBOARD | DPAD` and alphabetic keyboard type 2. The adapter explicitly preserves alphabetic keyboard handling. This provides a concrete input-source mismatch to investigate, not evidence that a physical remote behaves the same way. Input metadata: `~/.cache/brave-tv/logs/emulator-input-devices.txt`.
-- Click-on-release/hold, explicit and nested scrolling, CloseWatcher/native-modal priority, lifecycle recovery and the URL-to-video flow remain unverified. The fixture server was stopped and its ADB reverse mapping removed after the run; the emulator remains visible in T3 with the system TV keyboard restored.
+- **Original pointer failure (resolved in the next run):** choosing “Page cursor” showed no visible cursor/hint. Five Down presses scrolled the document; OK left the counter at zero. Agent-device 0.21.12 implements these buttons with `adb shell input keyevent`; the emulator's virtual device reports `KEYBOARD | DPAD` and alphabetic keyboard type 2. The adapter explicitly preserves alphabetic keyboard handling. This provides a concrete input-source mismatch to investigate, not evidence that a physical remote behaves the same way. Input metadata: `~/.cache/brave-tv/logs/emulator-input-devices.txt`.
+- At the end of this earlier run, click/hold, explicit/nested scrolling, CloseWatcher/native-modal priority, lifecycle recovery and URL-to-video were unverified. The next run below resolves only the checks explicitly listed there.
+
+## Cursor correction run: 9 October 2026
+
+Same API 36 emulator, 1920×1080/320 dpi, guest Vulkan disabled. [Final x64 artifact](tv-prototype.md#cursor-correction-artifact): implementation `937ac53`, APK SHA-256 `9c6f655903b78b542bebf0b0abd07914e3085d3863f32d6885073a3cb2245629`. Installation preserved the browser profile. Fixture URLs were opened by diagnostic deep link, not remote URL entry. Commands and preconditions are in [tests/device](../tests/device/README.md).
+
+- **Input source isolated:** agent-device's alphabetic virtual keyboard bypasses the adapter by design. A temporary D-pad-only device registered using Android's `uinput` reports keyboard type 1 and delivers clicks on the original onboarding APK. The final `keyboard-fallback.ad` replay passes with the counter remaining zero; no keyboard filter was removed.
+- **Cursor visibility, FAIL → PASS:** JDB found valid page dimensions, coordinates and draw calls. A `ViewOverlay` drawable disappeared over the compositor surface; the same drawable on a normal view rendered. `CursorScreenshot.java` fails against `pointer-original.png` and passes against `pointer-r3.png` at 960,700. Holding OK for one second and releasing yields `Clicks: 1`. The fixture text was made directly observable to the snapshot helper.
+- **Precise clicks, FAIL → PASS:** the large click target hid a vertical input offset. On `precise-input.html`, OK at the centered cursor visibly over the narrow field failed `id="entry" focused=true` before the parent-dispatch correction. The unchanged replay passes afterward and opens the native TV keyboard. D-pad-source OK types `Q`; Back dismisses the keyboard while retaining the field, and the following Back opens TV controls. Evidence: `precise-before-static.log`, `precise-before.png`, `precise-typed.json`, `precise-after-back.png`.
+- **Tab cleanup, FAIL → PASS:** the initial sibling-view build left a ghost cursor after a diagnostic deep link opened another tab. The absence assertion fails on `cursor-detach-before.png`. With detach cleanup, the presence assertion passes before the transition and the absence assertion passes after it (`cursor-detach-r3-{before,after}.png`).
+- **Explicit/nested scrolling, PASS:** at cursor 960,700, six Down wheel steps bring the nested box under the pointer. Eight more reveal “Nested scroll end” while the outer input bounds (334,258,732×130) and nested container bounds (96,612,1728×462) stay identical. The before/after JSON assertion passes. Evidence: `nested-r3-{before,after}.json`.
+- All evidence paths above are under `~/.cache/brave-tv/logs/`. One deliberately suspended early debugger session caused an input-dispatch ANR; it is diagnostic interference, not an uninstrumented app failure. Later probes resumed automatically; temporary debug scripts are isolated in that logs directory. No production diagnostic logging was added.
+
+CloseWatcher/native-modal combinations, lifecycle recovery, successful remote URL-to-video navigation, public website compatibility, Shields resources, hardware decoding and performance remain unverified. These local emulator results do not establish physical-remote acceptance. The Chromecast is connected and its ARM build is running separately. The temporary input device and fixture server were stopped, test port mappings removed, and the native TV keyboard restored.
 
 ## Proposed website flows
 
