@@ -253,3 +253,5 @@ Project home replay: `7ffa25b` against `b11bc84`, Standards 0 and Spec 0. It che
 | `5852d6543` | `8132b4f45` | 0 new findings; known background cleanup pending | 0; known background cleanup pending |
 
 The latter removes the orphaned first-run UI module and its consumers. Blocking lint independently identified the remaining activity background and spacing; `1125c034b` removes those exclusive resources while retaining shared text sizing. Each review remains limited to its latest implementation commit against its parent.
+
+Final resource cleanup `1125c034b` against `5852d6543`: Standards 0 and Spec 0. Deleted resources have no remaining consumers; shared text size and Wallet colors remain. Blocking build and device checks are pending.
