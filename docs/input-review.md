@@ -255,3 +255,5 @@ Project home replay: `7ffa25b` against `b11bc84`, Standards 0 and Spec 0. It che
 The latter removes the orphaned first-run UI module and its consumers. Blocking lint independently identified the remaining activity background and spacing; `1125c034b` removes those exclusive resources while retaining shared text sizing. Each review remains limited to its latest implementation commit against its parent.
 
 Final resource cleanup `1125c034b` against `5852d6543`: Standards 0 and Spec 0. Deleted resources have no remaining consumers; shared text size and Wallet colors remain. Blocking build and device checks are pending.
+
+Onboarding style cleanup `32c6f8d4b` against `1125c034b`: Standards 0 and Spec 0. All deleted styles/selectors/drawable/dimension have no surviving consumers; shared styles remain. Android build validation is still pending.
