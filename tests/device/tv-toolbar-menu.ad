@@ -1,0 +1,11 @@
+# Requires a normal native home tab; never clears browser/profile data.
+open com.brave.browser_default --relaunch
+wait "text=\"Address or search\" focused=true" 5000
+tv-remote up
+wait "text=\"Enable/Disable Brave Shields\" focused=true" 3000
+tv-remote right
+tv-remote right
+wait "text=\"Customize and control Google Chrome\" focused=true" 3000
+tv-remote select
+wait "text=\"Browser controls\"" 3000
+wait "text=\"Tabs\"" 3000

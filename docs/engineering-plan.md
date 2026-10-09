@@ -390,3 +390,7 @@ On the installed native home, the search chooser correctly preserves the old Bra
 ### Runtime correction: real license credits in development APKs
 
 The home license action navigates correctly, but Chromium's default `generate_about_credits = is_official_build` leaves this Debug APK with a sample page. Enable `generate_about_credits` in the Android defaults so development/test APKs also carry the generated third-party notices. Use Chromium's existing license generator and Brave's existing notices integration; retain attribution and do not hand-maintain a substitute list. Verify generation, the packaged credits content and navigation from home.
+
+### Runtime correction: toolbar menu entry
+
+On `4be36e7dc`, the normal home replay passes, but Up → Right → Right focuses the toolbar menu and Select leaves it focused without opening controls. Preserve this as a D-pad replay from a normal native home. Trace the toolbar/AppMenuHandler delegate chain and its TV interception before changing code; distinguish dropped selection, an unhandled delegate action and missing resource resolution. Correct the existing entry point without introducing a parallel menu or changing non-TV behavior. Acceptance: the same toolbar replay must open the native controls, and home/grid replays must continue passing with blocking Android analysis. Preserve the profile and cached outputs.
