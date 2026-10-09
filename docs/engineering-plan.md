@@ -118,6 +118,14 @@ Commit the plan, setup and any demonstrated browser fixes separately on local `m
 
 Setup exposed two real prerequisites: `avdmanager` refuses an SDK without an emulator package, and T3's camera `imagefile:` arguments are rejected by the host's emulator 35.3.11. Include the pinned emulator 36.5.11 in the optional SDK. Replaying T3's launch arguments with that executable proceeds past camera initialization; preserve the original emulator directory under a backup name and link T3's emulator path to the Nix package before retrying `device_open`. Do not edit T3's installed helpers or disable the device integration.
 
+### First runtime correction: onboarding focus
+
+The preserved prototype installed successfully on `brave_tv_api36` (Android 16/API 36, x86-64, 1920×1080 at 320 dpi). On its first Web Discovery screen, all four D-pad directions and OK leave focus on the full-screen `ViewPager2` RecyclerView; both consent buttons are unreachable. `agent-device is focused` fails for `onboarding_later`, while Home successfully returns to the TV launcher. The activity hierarchy confirms the buttons are focusable, and the pinned ViewPager2 bytecode explicitly gives its RecyclerView `FOCUS_BEFORE_DESCENDANTS`.
+
+Add a device replay that opens this incomplete first-run flow, moves down to “Maybe later”, asserts input focus, presses OK and asserts the next page. Run it against the preserved APK before editing. Then, only in television UI mode, make the onboarding pager's RecyclerView prefer its children for focus. Reuse the existing layouts, consent handlers and page transitions. This reaches `WelcomeOnboardingActivity`, the exported patch and the device replay/documentation; it does not change consent values or bypass onboarding.
+
+Rebuild with blocking Android analysis and the documented host limits. Install over the test app without clearing its state, rerun the same first-page regression, and continue through all remaining onboarding pages using remote input. Confirm settings remain selectable and native/browser controls can be reached. Record any further blocker separately before expanding the fix.
+
 ## Stage 3 Complete the MVP after the feasibility gate
 
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
