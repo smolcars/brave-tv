@@ -77,7 +77,10 @@ isolated incomplete profile to test migration, including its prior enabled
 reporting preferences. Verify direct native home, disabled reporting preferences,
 focus/keyboard/Back, and a subsequent ordinary restart. Do not reset user data.
 The historical onboarding replays were removed because those screens no longer
-exist in the TV flow.
+exist in the TV flow. With a normal native home tab active, run
+`replay tests/device/tv-home.ad` to check initial address focus, the controls and
+attribution actions, and entry into the browser panel. Verify actual GitHub and
+license navigation, keyboard behavior and private mode separately.
 
 ## TV panels and Shields
 

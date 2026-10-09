@@ -240,3 +240,5 @@ The reporting cleanup and refusal expectation resolve the first round's findings
 | `7fcdf6d0f` | `42982d535` | 0 | 0 |
 
 The search correction removes legacy startup overrides without resetting saved choices. The startup correction runs Safe Browsing and video resume before the TV return, shares cold-start data clearing, and advances the existing migration gate. The intermediate `42982d535` APK must not be installed; compile and test the corrected revision. Reviewers checked connected callers but did not independently execute builds or device checks.
+
+Latest menu compile correction: `13d6e7f0b` against `7fcdf6d0f`, Standards 0 and Spec 0. Existing public delegate dispatch avoids the internal-module dependency; the activity-owned resource remains directly referenced. APK/runtime checks remain required.
