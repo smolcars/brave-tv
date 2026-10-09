@@ -132,3 +132,15 @@ Only the fixture bookmark is removed. Independently navigate another tab to the
 saved fixture and restart before removal to check actual navigation and stored
 persistence. Pagination, managed-policy and locked-private coverage require
 separate setup and are not established by this replay.
+
+## Local search analytics collector
+
+Open `chrome://histograms/Brave.Search.DefaultEngine.4` in the normal profile
+through the address bar and forward DevTools on port 9222 as above. Run
+`node tests/device/search-metrics-probe.mjs disabled` in the Nix shell after a
+browser restart. It awaits the histogram WebUI's native request, then checks
+that the default-search collector has produced no sample in this process.
+The `enabled` mode is the old-build control; `disabled` fails on the preceding
+APK. Repeat after changing search providers. This checks one local collector,
+not outgoing traffic or the absence of all Chromium analytics. No preferences,
+history or profile data are cleared by this diagnostic.
