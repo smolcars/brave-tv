@@ -152,10 +152,10 @@ index af30e5ad7..a022f504f 100644
          // The new search widget promo panel will be recreated with the new appropriate theme and
 diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 new file mode 100644
-index 000000000..4c5a76ba8
+index 000000000..86f00627b
 --- /dev/null
 +++ b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
-@@ -0,0 +1,372 @@
+@@ -0,0 +1,373 @@
 +// Copyright (c) 2026 brave-tv contributors.
 +// This Source Code Form is subject to the terms of the Mozilla Public
 +// License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -357,6 +357,7 @@ index 000000000..4c5a76ba8
 +                        .setItems(
 +                                labels,
 +                                (dialog, index) -> {
++                                    if (!isAlive()) return;
 +                                    dialog.dismiss();
 +                                    performAction(actions.get(index));
 +                                })

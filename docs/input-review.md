@@ -45,3 +45,17 @@ Record actual results for:
 6. Leave/resume the app while a control is being selected; no delayed click or UI action executes after teardown.
 
 No device connection, browser result, or Android regression pass is implied by the existence of this fixture. The machine reboot interrupted the original build; recovery details are in [build.md](build.md).
+
+## Follow-up: latest correction commit
+
+Compared only `0ed082e3fc2625e1600a78923ecdf601b8aa6b7b` against parent `caa729562d378f0e3e8787b6a2c7cd9f561dcd05`.
+
+### Standards
+
+One P3 finding remained: the dialog selection callback called `dismiss()` before the lifecycle check inside its action handler. Added the same lifecycle guard at callback entry, before dismissal. The previous native-priority finding is addressed at source level; no additional heuristic findings.
+
+### Spec
+
+Zero new findings. Source inspection confirmed the three original defects are addressed and the correction stays within the engineering plan. Android compilation and runtime checks remain unverified.
+
+Follow-up totals: Standards 1 finding (P3, corrected); Spec 0 findings. These source-review results do not close the physical-device gate.

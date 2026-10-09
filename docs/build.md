@@ -105,7 +105,7 @@ The 18 GiB threshold starts memory reclamation; the 22 GiB hard limit can termin
 - Logs: `~/.cache/brave-tv/logs/init-x64.log`, `build-debug-x64.log` and `build-debug-x64.time`. The last file is written by GNU Time from the Nix shell and records completion status, elapsed time and process resource statistics when the build ends.
 - The original build log stops at 21:30:16 EDT after 28m35s of native build progress and 32,993 recorded steps. The original timing file is empty because the machine crashed. Boot/journal inspection confirmed a reboot at 22:33; preceding service watchdog/timeouts were recorded, but no kernel OOM event was found in the inspected interval.
 - A 22:42 recovery attempt exposed the ineffective wrapper job option and was deliberately interrupted after 108 additional completed steps. Its separate log/timing files are `build-debug-x64-resume-20261008-224207.*`.
-- The next recovery attempt started at 22:43:49 with explicit `SISO_LIMITS=local=4`, under `brave-tv-baseline-j4.service`. Logs/timing: `build-debug-x64-resume-20261008-224349.*`. The cgroup's memory and CPU limits were verified. Record final completion separately.
+- The next recovery attempt started at 22:43:49 with explicit `SISO_LIMITS=local=4`, under `brave-tv-baseline-j4.service`. Logs/timing: `build-debug-x64-resume-20261008-224349.*`. The cgroup's memory and CPU limits were verified, as were the actual Siso process environment and four active compiler processes. Record final completion separately.
 - No device or performance result follows from these host-side checks.
 
 ## Check this repository
