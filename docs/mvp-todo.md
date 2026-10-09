@@ -2,7 +2,7 @@
 
 Build a usable Android TV browser by adapting Brave’s existing Android application and retaining its Chromium engine and Shields integration. The first release is a signed, sideloadable APK for a small tester group.
 
-Background: [feasibility research](feasibility.html). All implementation and device-validation tasks below are pending.
+Background: [feasibility research](feasibility.html). Implementation is in progress; unchecked items include partial work and unverified device acceptance. See the [build log](build.md) and [proposed device/site matrix](device-tests.md).
 
 ## Scope and completion criteria
 
@@ -20,7 +20,7 @@ Out of scope: Apple TV, Fire TV/Vega support, older Android versions, a replacem
 - [ ] Create a website test list of approximately 20 sites, including the sites we actually want to use. Define a specific task for each, such as search, sign in, submit a form, browse an embedded frame or play a video. Mark must-work flows separately from exploratory coverage.
 - [ ] Sideload the current official Brave APK for each device’s ABI. Record launch behavior, onboarding blockers, remote limitations, video behavior and crashes. Use an external input device only to investigate the baseline.
 - [ ] Check the available Linux builder’s architecture, memory, free SSD space and toolchain. Follow the selected release’s build instructions and provision missing resources.
-- [ ] Pin a supported Brave stable tag and its matching Chromium revision. Record the baseline and a minimal downstream branching/patch strategy; keep large upstream checkouts and build outputs out of this planning repository.
+- [x] Pin a supported Brave stable tag and its matching Chromium revision. Record the baseline and a minimal downstream branching/patch strategy; keep large upstream checkouts and build outputs out of this planning repository. See `upstream.json` and [the engineering plan](engineering-plan.md).
 - [ ] Build the unmodified source baseline and install it on both devices. Document exact setup, build and install commands, build duration and output sizes in `docs/build.md`.
 
 **Acceptance:** a clean checkout can reproduce the documented source build, it launches on both devices, and `docs/device-tests.md` records the stock/source baseline and initial blockers. This means repeatable builds, not a claim of byte-for-byte reproducibility.

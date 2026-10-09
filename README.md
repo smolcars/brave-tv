@@ -19,6 +19,7 @@ Alternatively, review `.envrc` and run `direnv allow`. Follow [the build instruc
 
 - [Engineering plan](docs/engineering-plan.md)
 - [MVP checklist](docs/mvp-todo.md)
+- [Device and website test matrix](docs/device-tests.md)
 - [Feasibility research](docs/feasibility.html)
 
 This project is independent of Brave Software. Release branding and device compatibility remain work in progress.
