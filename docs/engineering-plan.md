@@ -104,6 +104,20 @@ That rerun passed launcher lint but Error Prone rejected mixed `||`/`&&` without
 
 ## Stage 3 Complete the MVP after the feasibility gate
 
+### Emulator validation after enabling device access
+
+On 9 October, after the user restarted T3, `device_list` successfully inspected the local host. Android is unavailable because `~/Android/Sdk/cmdline-tools/latest` is missing; no AVD exists. The existing emulator is 35.3.11 and `/dev/kvm` is accessible. The already-built x86-64 prototype remains the runtime test subject.
+
+Before further browser changes:
+
+1. Add an optional Nix SDK package using the existing flake lock. Select the pinned Android TV API 36 x86-64 image: the pinned API 34 TV image only offers x86/arm64 and cannot run this x86-64 APK. Keep emulator tooling separate from Chromium's DEPS-selected build SDK and ordinary repository checks.
+2. Build the package into an external, garbage-collection-rooted location. Expose the missing command-line tools and TV image to T3's existing SDK with explicit links, preserving installed components. Create a dedicated `brave_tv_api36` AVD without replacing any existing AVD. Record the exact setup and any prerequisite failures.
+3. Call `device_list`, then `device_open` so the emulator is visible in T3. Use the returned device-scoped launcher for interaction; use Nix ADB for installation, forwarding, metadata and logs. Verify the preserved APK checksum before installation.
+4. Exercise TV launch, first run, controls entry, OK click delivery, scrolling and Back against the controlled fixture. Distinguish remote-only steps from diagnostic text/touch input. Capture the first failing step, device details and evidence outside Git.
+5. If runtime checks expose an adapter defect, record its reproduction and correction plan here before editing the synchronized worktree/patch. Run the relevant regression check, the blocking resource-limited Android build and local Nix checks. Preserve each new APK and its provenance.
+
+Commit the plan, setup and any demonstrated browser fixes separately on local `master`. Review only the latest implementation commit against its parent using Standards and Spec reviews; do not re-review older implementation history. Emulator evidence does not close the two-physical-TV, release-performance, Shields or sustained-video acceptance gates.
+
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
 
 Create an independent release identity, user-controlled signing setup, documented installation/update path, source/license package and repeatable release build. Rehearse an upstream update before distributing to testers. Do not invent successful device results, service credentials or tester acceptance.
