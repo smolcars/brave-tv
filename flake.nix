@@ -43,20 +43,39 @@
         ];
       };
 
-      checks.${system}.toolchain =
-        pkgs.runCommand "brave-tv-toolchain"
-          {
-            nativeBuildInputs = tools;
-          }
-          ''
-            node -e 'if (Number(process.versions.node.split(".")[0]) < 24) process.exit(1)'
-            pnpm --version
-            python3 -c 'import sys; assert sys.version_info >= (3, 11)'
-            git --version
-            javac -version
-            adb version
-            touch "$out"
-          '';
+      checks.${system} = {
+        toolchain =
+          pkgs.runCommand "brave-tv-toolchain"
+            {
+              nativeBuildInputs = tools;
+            }
+            ''
+              node -e 'if (Number(process.versions.node.split(".")[0]) < 24) process.exit(1)'
+              pnpm --version
+              python3 -c 'import sys; assert sys.version_info >= (3, 11)'
+              git --version
+              javac -version
+              adb version
+              touch "$out"
+            '';
+
+        source-tools =
+          pkgs.runCommand "brave-tv-source-tools"
+            {
+              nativeBuildInputs = [
+                pkgs.python3
+                pkgs.git
+                pkgs.mypy
+              ];
+            }
+            ''
+              cp -r ${./tools} tools
+              cp -r ${./tests} tests
+              python3 -m unittest discover -s tests -v
+              mypy --strict tools tests
+              touch "$out"
+            '';
+      };
 
       formatter.${system} = pkgs.nixfmt;
     };
