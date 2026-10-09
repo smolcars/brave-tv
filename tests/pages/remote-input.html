@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TV remote input checks</title>
+<style>
+  body { margin: 3rem; font: 24px system-ui; color: #eee; background: #13252c; }
+  button, input { font: inherit; padding: 1rem; margin: .5rem; }
+  #click { display: block; width: 70%; margin: 3rem auto; min-height: 10rem; }
+  #nested { height: 12rem; overflow: auto; border: 3px solid #8cc; padding: 1rem; }
+  #nested p { height: 30rem; }
+  output { font-weight: bold; }
+</style>
+<h1>TV remote input checks</h1>
+<p>Move the cursor onto the button. Hold OK, then release: the count must increase exactly once.</p>
+<button id="click">Clicks: <output id="count">0</output></button>
+<label>Text entry <input placeholder="Type with the TV keyboard"></label>
+<p>Place the cursor inside the box and enter scrolling mode. The box must scroll independently.</p>
+<div id="nested" tabindex="0"><p>Nested scroll start</p><p>Nested scroll end</p></div>
+<button id="watcher">Enable a page that cancels Back</button>
+<p id="watcher-status" role="status">Back cancellation is off.</p>
+<p>After enabling cancellation, Back must still open TV controls from cursor/scroll mode.
+  Also open Find in page, dismiss its keyboard, and check that remote keys stay with Find.</p>
+<script>
+  let count = 0;
+  let watcher;
+  document.querySelector('#click').addEventListener('click', () => {
+    document.querySelector('#count').textContent = String(++count);
+  });
+  document.querySelector('#watcher').addEventListener('click', () => {
+    const status = document.querySelector('#watcher-status');
+    if (!('CloseWatcher' in window)) {
+      status.textContent = 'CloseWatcher is unavailable in this browser/context; this check is not run.';
+      return;
+    }
+    if (watcher) watcher.destroy();
+    watcher = new CloseWatcher();
+    watcher.addEventListener('cancel', event => {
+      event.preventDefault();
+      status.textContent = 'The page received and attempted to cancel Back.';
+    });
+    watcher.addEventListener('close', () => {
+      status.textContent = 'The browser closed the watcher; cancellation was not allowed.';
+    });
+    status.textContent = 'Back cancellation enabled. Test browser controls and native Find UI.';
+  });
+</script>
+</html>
