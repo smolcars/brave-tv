@@ -2,13 +2,20 @@
 open com.brave.browser_default --relaunch
 wait "text=\"Address or search\" focused=true" 5000
 wait "text=\"Simple, private, and ad-blocking.\"" 3000
-tv-remote down
+tv-remote right
 wait "text=\"Browser controls\" focused=true" 3000
 tv-remote down
+wait "text=\"Open-source licenses\" focused=true" 3000
+tv-remote left
 wait "text=\"Project and source on GitHub\" focused=true" 3000
+tv-remote up
+wait "text=\"Address or search\" focused=true" 3000
 tv-remote down
+wait "text=\"Project and source on GitHub\" focused=true" 3000
+tv-remote right
 wait "text=\"Open-source licenses\" focused=true" 3000
 tv-remote up
-tv-remote up
+wait "text=\"Browser controls\" focused=true" 3000
 tv-remote select
 wait "text=\"Address or search\" focused=true" 3000
+wait "text=\"Tabs\"" 3000
