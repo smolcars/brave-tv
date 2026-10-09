@@ -82,6 +82,12 @@ exist in the TV flow. With a normal native home tab active, run
 attribution actions, and entry into the browser panel. Verify actual GitHub and
 license navigation, keyboard behavior and private mode separately.
 
+`replay tests/device/tv-toolbar-menu.ad` starts from the same normal home,
+reaches the toolbar menu from the controls card, then asserts that D-pad Select
+opens the native panel. Its original center-key assertion failed while touch
+activation worked. The card-to-toolbar approach changed with the home layout;
+the menu-focus/Select/panel assertion is unchanged.
+
 ## TV panels and Shields
 
 `replay tests/device/tv-panel.ad` checks initial focus, D-pad movement, tab
