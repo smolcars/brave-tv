@@ -45,14 +45,14 @@ index 0f7e48570..70934b2bc 100644
  </receiver>
 diff --git a/android/java/brave-res/drawable/brave_tv_banner.xml b/android/java/brave-res/drawable/brave_tv_banner.xml
 new file mode 100644
-index 000000000..11673ee59
+index 000000000..1f517b0ef
 --- /dev/null
 +++ b/android/java/brave-res/drawable/brave_tv_banner.xml
 @@ -0,0 +1,17 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<vector xmlns:android="http://schemas.android.com/apk/res/android"
-+    android:width="320dp"
-+    android:height="180dp"
++    android:width="160dp"
++    android:height="90dp"
 +    android:viewportWidth="320"
 +    android:viewportHeight="180">
 +    <path android:fillColor="#0891B2" android:pathData="M0,0H320V180H0Z" />
@@ -689,3 +689,17 @@ index f57491979..5c651983d 100644
    </messages>
    </release>
  </grit>
+diff --git a/chromium_src/chrome/android/expectations/lint-suppressions.xml b/chromium_src/chrome/android/expectations/lint-suppressions.xml
+index 24444d0f4..29354643d 100644
+--- a/chromium_src/chrome/android/expectations/lint-suppressions.xml
++++ b/chromium_src/chrome/android/expectations/lint-suppressions.xml
+@@ -68,6 +68,9 @@
+         <ignore regexp="The resource `R.color.incognito_history_placeholder_stroke_color` appears to be unused" />
+ 
+         <!-- These are used at brave/android/java/AndroidManifest.xml -->
++        <!-- TvLauncher references are also verified in the packaged APK manifest. -->
++        <ignore regexp="The resource `R.string.brave_tv_launcher` appears to be unused" />
++        <ignore regexp="The resource `R.drawable.brave_tv_banner` appears to be unused" />
+         <ignore regexp="The resource `R.style.BottomSheetActivityTheme` appears to be unused" />
+         <ignore regexp="The resource `R.style.BraveAccountTheme` appears to be unused" />
+         <ignore regexp="The resource `R.style.BottomSheetAnimation` appears to be unused" />
