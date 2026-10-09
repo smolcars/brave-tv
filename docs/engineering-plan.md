@@ -38,6 +38,8 @@ Review of `2688a17ff` finds two integration gaps: re-enabling a bundled optional
 
 The first native compile exposes a packaging mistake: the existing Shields GRIT part is included only on desktop, so Android's generated header lacks all seven bundle IDs. Move the new includes into a dedicated bundle resource part and include that part from the parent GRD's Android branch. Keep desktop panel resources unchanged; verify the generated Android IDs and compressed pack contents on the next build.
 
+The next GRIT run confirms all seven Android IDs but rejects bare payload paths: part includes resolve against the parent GRD directory. Restore the original `../brave_shields/resources/bundled/` paths in the moved part. Review also identifies the non-default DAT-cache-disabled startup path: it has no initialization gates, so notify both engines after bundled catalog registration only when that feature is disabled. Preserve the cache-enabled startup path. Compile and verify the current target before moving on.
+
 ### 3. Replace the prototype controls with TV UI
 
 Start with a native landscape browser panel using the existing Android view toolkit: a prominent address/search action, readable page identity, large grouped controls, an obvious focus indicator, predictable D-pad order and remembered focus. Provide Back/Forward, Reload/Stop, page cursor/scroll, and entry points for tabs and Shields using Brave's existing browser state. Keep the keyboard, permissions, native dialogs and video fullscreen above the page-input adapter. Check the current failing/unusable flow before each correction.
