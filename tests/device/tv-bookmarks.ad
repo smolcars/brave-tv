@@ -1,40 +1,40 @@
 # Dedicated local fixture, fresh tab with no history, empty Mobile bookmarks.
 # This replay creates and removes its own fixture bookmark; see README.
 open com.brave.browser_default --relaunch
-wait 'text="Address or search" focused=true' 5000
+wait "text=\"Address or search\" focused=true" 5000
 tv-remote down
 tv-remote down
-wait 'text="Bookmarks" focused=true' 3000
+wait "text=\"Bookmarks\" focused=true" 3000
 tv-remote select
-wait 'text="Bookmark this page" focused=true' 3000
+wait "text=\"Bookmark this page\" focused=true" 3000
 tv-remote select
-wait 'text="Parent folder" focused=true' 3000
+wait "text=\"Parent folder\" focused=true" 3000
 tv-remote down
-wait 'text="TV bookmark workflow fixture" focused=true' 3000
+wait "text=\"TV bookmark workflow fixture\" focused=true" 3000
 tv-remote select
-wait 'text="Open bookmark" focused=true' 3000
+wait "text=\"Open bookmark\" focused=true" 3000
 tv-remote right
 tv-remote select
-wait 'text="Cancel" focused=true' 3000
+wait "text=\"Cancel\" focused=true" 3000
 tv-remote select
-wait 'text="Open bookmark" focused=true' 3000
+wait "text=\"Open bookmark\" focused=true" 3000
 tv-remote select
-wait 'text="TV bookmark workflow fixture"' 3000
+wait "text=\"TV bookmark workflow fixture\"" 3000
 tv-remote back
-wait 'text="Bookmarks" focused=true' 3000
+wait "text=\"Bookmarks\" focused=true" 3000
 tv-remote select
 tv-remote down
-wait 'text="Folder: Mobile bookmarks" focused=true' 3000
+wait "text=\"Folder: Mobile bookmarks\" focused=true" 3000
 tv-remote select
 tv-remote down
-wait 'text="TV bookmark workflow fixture" focused=true' 3000
+wait "text=\"TV bookmark workflow fixture\" focused=true" 3000
 tv-remote select
 tv-remote right
 tv-remote select
-wait 'text="Cancel" focused=true' 3000
+wait "text=\"Cancel\" focused=true" 3000
 tv-remote right
 tv-remote select
-wait 'text="Bookmark this page" focused=true' 3000
+wait "text=\"Bookmark this page\" focused=true" 3000
 tv-remote back
 tv-remote back
-wait 'text="Bookmarks" focused=true' 3000
+wait "text=\"Bookmarks\" focused=true" 3000
