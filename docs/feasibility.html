@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brave TV feasibility research — 8 October 2026</title>
+<style>
+:root{color-scheme:light dark;--bg:#fafaf8;--fg:#242728;--muted:#5c6468;--line:#d9dfdd;--panel:#f0f3f0;--accent:#145c50}
+@media(prefers-color-scheme:dark){:root{--bg:#171b1c;--fg:#e7ece9;--muted:#adb9b4;--line:#3a4540;--panel:#232b27;--accent:#8cdbc4}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:36px 22px 70px}h1,h2,h3{line-height:1.2}h1{font-size:32px;letter-spacing:-.8px;margin:10px 0 18px}h2{font-size:23px;margin:38px 0 14px}h3{font-size:18px;margin:24px 0 10px}p{margin:12px 0}a{color:var(--accent);text-underline-offset:3px}small,.meta{color:var(--muted)}.decision{border-left:4px solid var(--accent);padding:14px 20px;background:var(--panel)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{border:1px solid var(--line);border-radius:12px;padding:18px}.box h3{margin-top:0}.tag{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}ul,ol{padding-left:24px}li{margin:8px 0}table{width:100%;border-collapse:collapse;font-size:15px}th,td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;vertical-align:top}th{background:var(--panel)}.table-wrap{overflow:auto}pre{background:var(--panel);border-radius:10px;padding:18px;overflow:auto;font-size:13px;line-height:1.6}code{font-family:ui-monospace,monospace;overflow-wrap:anywhere}details{border:1px solid var(--line);border-radius:10px;padding:15px 18px;margin:14px 0}summary{cursor:pointer;font-weight:650}.arch{display:grid;grid-template-columns:1fr 1fr;gap:14px}.arch p{margin:8px 0}.join{text-align:center;color:var(--muted);font-size:14px;padding:12px}.source{font-size:14px;color:var(--muted)}@media(max-width:600px){.grid,.arch{grid-template-columns:1fr}main{padding:20px 16px 45px}h1{font-size:27px}th,td{padding:9px 7px;font-size:14px}}@media print{details{display:block}main{max-width:none}a{color:inherit}}
+</style>
+</head>
+<body><main>
+<div class="meta">Research as of 8 October 2026 · Source and documentation review</div>
+<h1>A TV browser built from Brave</h1>
+<div class="decision">
+<p><strong>Proceed with an Android TV feasibility prototype.</strong> Fork Brave’s Android application and adapt its interface and input handling while preserving its Chromium and Shields integration.</p>
+<p><strong>Defer a native Apple TV browser.</strong> Brave’s iOS app does not provide a supported shortcut to tvOS. Apple’s public web-view availability and App Store rules make this a separate, substantially constrained project.</p>
+</div>
+<p>This research inspected upstream documentation, release metadata, and selected source files. It did not compile Brave, install an APK, measure performance, or obtain store approval. Engineering estimates below are planning judgments, not measured results.</p>
+
+<h2>The strongest evidence</h2>
+<p>On 16 May 2025, a Brave maintainer reported having compiled and loaded Brave on a Fire TV. They identified support for TV controls as remaining work and closed the feature request as unplanned. This establishes a concrete precedent; it does not establish that the current release works on every TV. <a href="https://github.com/brave/brave-browser/issues/30451#issuecomment-2885964289">Maintainer’s comment</a>.</p>
+<p>The latest release returned by Brave’s release API during this review was <strong>v1.97.56, published 7 October 2026, using Chromium 155.0.8059.40</strong>. It includes Android APKs for several architectures. Brave’s current support page requires <strong>Android 10 or newer</strong>; older cached pages still mention Android 8. The pinned Chromium configuration also defaults to API 29. <a href="https://github.com/brave/brave-browser/releases/tag/v1.97.56">Release</a>; <a href="https://support.brave.app/hc/en-us/articles/360021357112-What-are-the-system-requirements-to-install-Brave">current requirements</a>; <a href="https://chromium.googlesource.com/chromium/src/+/155.0.8059.40/build/config/android/config.gni">Chromium configuration</a>.</p>
+
+<h2>What to reuse and what to change</h2>
+<section id="architecture">
+<div class="arch">
+<div class="box"><div class="tag">Reuse inside the fork</div><h3>Brave’s browser foundation</h3><p>Chromium rendering, JavaScript, networking and media</p><p>Brave Shields and its native ad-blocking integration</p><p>Existing profiles, tabs, history and bookmarks</p></div>
+<div class="box"><div class="tag">Adapt for the television</div><h3>Interaction and presentation</h3><p>Readable landscape interface and focused controls</p><p>Remote navigation, pointer mode and scrolling</p><p>TV onboarding, text entry, dialogs and video controls</p></div>
+</div>
+<div class="join">Keep the integration inside Brave’s Android application and build system.</div>
+<p class="source">Architecture proposal informed by the <a href="https://github.com/brave/brave-core/blob/v1.97.56/README.md">Brave Core architecture</a> and <a href="https://developer.android.com/training/tv/get-started/create">Android TV adaptation guide</a>. Reuse still requires device validation.</p>
+</section>
+<p>The source to fork is <a href="https://github.com/brave/brave-core">brave/brave-core</a>. The brave-browser repository primarily holds releases, issues and documentation. Brave Core supplies Chromium patches, Android integration and the Rust ad blocker. This is a full browser build, not a conventional small Gradle project or a documented drop-in “Brave WebView” SDK. <a href="https://github.com/brave/brave-core/blob/v1.97.56/README.md">Repository overview</a>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Approach</th><th>Assessment</th></tr></thead>
+<tbody>
+<tr><td>Adapt Brave’s existing Android app</td><td><strong>Recommended.</strong> Preserves the most working browser and Shields integration. Requires a disciplined, relatively small set of downstream changes.</td></tr>
+<tr><td>Build a new shell around extracted Brave internals</td><td>Possible in principle, but creates more integration work around profiles, permissions, tabs, services and Chromium upgrades. Consider only if the existing activity becomes a demonstrated obstacle.</td></tr>
+<tr><td>Start with a TV WebView browser and add adblock-rust</td><td>A fallback for a different scope. Reuses Brave’s matching engine, but does not inherit full Shields behavior or Brave’s browser integration.</td></tr>
+</tbody></table></div>
+<p>The adblock-rust library supports network and cosmetic rules, resource replacements and scriptlet resources. An application still has to enforce its decisions in the network and page contexts. Android WebView’s interception API has documented gaps, including certain URL schemes and redirect handling, so wrapping a WebView is not equivalent to retaining Brave’s integration. <a href="https://github.com/brave/adblock-rust">adblock-rust</a>; <a href="https://developer.android.com/reference/android/webkit/WebViewClient#shouldInterceptRequest(android.webkit.WebView,android.webkit.WebResourceRequest)">WebView interception API</a>. <a href="https://github.com/truefedex/tv-bro">TV Bro</a> provides an existing open-source reference for remote-oriented browser UX; its existence does not establish Brave compatibility.</p>
+
+<h2>The actual Android TV work</h2>
+<ol>
+<li><strong>Install and launch:</strong> add a TV launcher activity or entry point, banner and icon; declare touchscreen and absent hardware optional; check the generated manifest, startup and first-run flow. These are necessary packaging changes, not the complete port. <a href="https://developer.android.com/training/tv/get-started/create">TV setup requirements</a>.</li>
+<li><strong>Browser controls:</strong> make the address bar, tabs, bookmarks, Shields settings and all prompts usable from across the room. Every actionable element needs visible focus and a reliable route back to the browser controls.</li>
+<li><strong>Website interaction:</strong> use directional focus for the browser UI and prototype a remote-controlled pointer for arbitrary webpages. Include deliberate scrolling and a clear mode indicator. JavaScript sites, nested scrolling, menus, video overlays, forms and embedded frames make “map arrows to Tab” insufficient. Deliver pointer actions through the browser’s own input path; evaluate reliability on actual sites.</li>
+<li><strong>Text and login:</strong> preserve the TV’s system keyboard and available dictation, support ordinary form fields and password dialogs, and consider authenticated phone-to-TV URL entry later. Do not make a phone mandatory for core use.</li>
+<li><strong>Media:</strong> validate hardware decoding, fullscreen, play/pause, seek, audio focus, screensaver behavior, captions and resume after sleep. Chromium’s existing media stack is a starting point; each device and service still needs testing.</li>
+<li><strong>Limited hardware:</strong> profile release builds on a modest device as well as a faster one. Set a conservative active-tab policy, restore suspended tabs, and measure startup and memory. A large Chromium engine remains a large engine after changing the toolbar.</li>
+<li><strong>Scope control:</strong> start with browsing, bookmarks/history, a small tab switcher, private sessions and a usable per-site Shields toggle. Defer Wallet, Rewards, VPN, Leo, News and account/sync features. Use supported feature controls where possible; hiding UI does not prove that background services stopped.</li>
+</ol>
+<p>Google requires five-way D-pad operation, suitable Back behavior and controls that do not depend on a dedicated Menu button. These constraints should drive the interaction design from the first prototype. <a href="https://developer.android.com/develop/adaptive-apps/quality-guidelines/tv-app-quality">TV app quality requirements</a>.</p>
+
+<details><summary>Concrete source areas to inspect when implementation starts</summary>
+<ul>
+<li><a href="https://github.com/brave/brave-core/blob/master/android/java/org/chromium/chrome/browser/app/BraveActivity.java">BraveActivity.java</a>: Brave’s Android activity integration.</li>
+<li><a href="https://github.com/brave/brave-core/blob/v1.97.56/build/android/bytecode/java/org/brave/bytecode/BraveTabbedActivityClassAdapter.java">BraveTabbedActivityClassAdapter.java</a>: rewrites Chromium activity inheritance and redirects selected constructors. This demonstrates why a standalone new Android shell would not simply inherit all Brave behavior.</li>
+<li><a href="https://github.com/brave/brave-core/blob/master/patches/chrome-android-java-AndroidManifest.xml.patch">Chromium manifest patch</a> and <a href="https://github.com/brave/brave-core/blob/v1.97.56/build/android/config.gni">Brave Android build configuration</a>: entry points and dependency integration.</li>
+<li><a href="https://github.com/brave/brave-core/tree/master/components/brave_shields">components/brave_shields</a>: ad-blocking services and enforcement. Preserve this integration initially.</li>
+</ul>
+<p>Paths linked to master describe files inspected in the development tree and may drift. Implementation should pin a current stable release and confirm the corresponding files. Prefer isolated TV resources and small hooks over wholesale replacement of upstream layouts; Brave’s own <a href="https://github.com/brave/brave-core/blob/master/docs/best-practices/android.md">Android guidance</a> discusses the upgrade burden of large replacements.</p>
+</details>
+
+<h2>Ad blocking, video and services</h2>
+<p><strong>The valuable part is reusable.</strong> Retaining the full Brave browser preserves the existing native Shields integration as the baseline. However, blocking also depends on fresh filter lists, scriptlet resources and component updates. Test first install, restart, offline behavior and a subsequent list update. A blocking counter alone is not proof that all protections work. <a href="https://github.com/brave/brave-browser/wiki/Network-requests-in-Brave">Brave component and filter endpoints</a>; <a href="https://github.com/brave/adblock-lists">filter-list packaging</a>.</p>
+<p>Protection applies to pages opened in this browser. It does not remove ads from other installed TV applications. Do not promise permanent ad-free playback on any specific service: website behavior and anti-blocking measures can change. Maintain a visible, remote-accessible per-site override for broken pages.</p>
+<p>For protected video, distinguish ordinary HTML5 playback from DRM, resolution and service eligibility. Brave Android exposes Widevine support, but hardware security, device software and service policies influence outcomes. A working browser and Widevine support do not establish Netflix/Prime compatibility or 4K/HDR playback on a fork. Treat those as separate device-and-service tests, not MVP guarantees. <a href="https://support.brave.com/hc/en-us/articles/17428756610061-How-do-I-enable-Widevine-DRM-on-Android">Brave’s Android Widevine documentation</a>.</p>
+<p>Open-source code does not include entitlement to every hosted service. Brave’s build documentation calls out external developers supplying their own service configuration. Audit Safe Browsing, component updates, sync, search integrations and telemetry individually; disable optional integrations or arrange supported endpoints. Dummy values may unblock compilation but do not supply a working production service. <a href="https://github.com/brave/brave-browser/wiki/Build-configuration">Build configuration</a>.</p>
+
+<h2>Build and release cost</h2>
+<p>Use the documented <strong>x86-64 Linux</strong> build path. Chromium lists at least 8 GB RAM, recommends more than 16 GB, and requires at least 100 GB free disk. My practical allocation would be <strong>32–64 GB RAM and 250–500 GB of free SSD space</strong> for a comfortable Brave checkout, outputs and updates; that is a planning allowance, not an official minimum. Full builds can take hours. <a href="https://chromium.googlesource.com/chromium/src/+/main/docs/android_build_instructions.md">Chromium Android build instructions</a>; <a href="https://github.com/brave/brave-core/blob/v1.97.56/README.md">Brave build notes</a>.</p>
+<details><summary>Documented build route, to validate during the prototype</summary>
+<p>Pin the chosen stable tag in a checkout located at <code>&lt;workspace&gt;/src/brave</code>. Follow that tag’s prerequisite and package installation instructions, then initialize for the actual device architecture. Example command shape for an ARM64 target:</p>
+<pre>pnpm run init --target_os=android --target_arch=arm64
+pnpm run build Debug --target_os=android --target_arch=arm64 --target_android_output_format=apk</pre>
+<p>Install native build dependencies as documented before compilation. Use a release build for meaningful performance measurements. Verify the generated APK’s minimum SDK and supported ABIs against the physical device; its CPU marketing name is not sufficient. These commands have not been executed in this research. <a href="https://github.com/brave/brave-browser/wiki/Android-Development-Environment">Brave Android setup</a>.</p>
+</details>
+<p><strong>Maintenance is a continuing product requirement.</strong> Own signing keys, a distinct application ID, CI, release distribution, upstream merges, urgent security updates and a repeatable TV smoke test. Keep the renderer sandbox and upstream security protections intact. Before a public release, rehearse updating the fork to another stable Brave version and measure the conflict burden.</p>
+<p>The MPL-2.0 license permits modification and redistribution subject to its conditions. Distributed covered source, including modifications, must remain available under the license, and notices and third-party licenses must be preserved. MPL does not grant trademark rights. Plan an independent public name and artwork unless Brave authorizes its branding. A source fork and repackaging Brave’s official binary are different licensing questions. <a href="https://github.com/brave/brave-core/blob/master/LICENSE">Brave Core license, sections 2–3</a>; <a href="https://brave.com/terms-of-use/">Brave terms</a>.</p>
+<p>Start with sideloaded test APKs, then pursue Google Play’s TV review. Current TV guidelines require both 32- and 64-bit architecture support and 16 KB page-size compliance from 1 August 2026. Plan to verify release artifacts against these requirements. Google’s policy also prohibits interfering with ads in other apps; the proposed browser scope is its own web content. Store approval remains an external decision. <a href="https://developer.android.com/develop/adaptive-apps/quality-guidelines/tv-app-quality">TV distribution requirements</a>; <a href="https://support.google.com/googleplay/android-developer/answer/9888379?hl=en">Device and Network Abuse policy</a>.</p>
+<p>Keep Fire TV a separate follow-up. Fire OS versions have different Android baselines, and some current Fire TV models use Vega OS. An Android APK is not a universal native deployment strategy for the Fire TV family. <a href="https://developer.amazon.com/docs/fire-tv/fire-os-overview.html">Amazon OS/device matrix</a>.</p>
+
+<h2>Why Apple TV is a separate decision</h2>
+<p>Apple’s documentation explicitly lists web views as unsupported on tvOS. WKWebView’s public API availability covers other Apple platforms, not tvOS. Brave’s iOS source therefore cannot simply gain a tvOS target and retain its browsing view. <a href="https://developer.apple.com/design/human-interface-guidelines/web-views">Apple web-view platform guidance</a>; <a href="https://developer.apple.com/documentation/webkit/wkwebview">WKWebView availability</a>.</p>
+<p>App Store rule 2.5.1 requires public APIs, while 2.5.6 requires the appropriate WebKit framework for browsing unless an alternative-engine entitlement applies. Apple’s published EU and Japan paths concern iOS/iPadOS or iOS respectively; they do not establish a tvOS entitlement. Private API experiments or a custom engine port do not provide an ordinary supported App Store path. <a href="https://developer.apple.com/app-store/review/guidelines/#software-requirements">App Store rules</a>; <a href="https://developer.apple.com/support/alternative-browser-engines/">EU engine entitlements</a>; <a href="https://developer.apple.com/support/alternative-browser-engines-jp/">Japan engine entitlements</a>.</p>
+<p>My recommendation is to exclude a standalone native Apple TV browser from the initial roadmap. AirPlay/mirroring or a remote-rendered browser client could be evaluated later, but introduce another device or server, latency, privacy, media and approval questions. They are different product architectures, not a low-cost iOS port. This conclusion concerns the practical public distribution route, not a claim that no experimental tvOS rendering is technically possible.</p>
+
+<h2>A prototype with an explicit decision point</h2>
+<p><strong>Planning estimate: 1–2 weeks for a bounded technical spike</strong>, assuming an experienced Android engineer, access to Chromium build expertise and a suitable Linux machine. Newcomers to Chromium should allow extra ramp-up time.</p>
+<ol>
+<li><strong>Establish a baseline:</strong> inventory the target TV’s Android API, ABI, memory and input capabilities. Sideload the current official matching APK for compatibility evidence; record startup logs. Build an unmodified pinned source release separately.</li>
+<li><strong>Prove the interaction:</strong> add the TV launcher entry, complete first run with a remote, and prototype a basic toolbar plus pointer/scroll handling. Finish address entry, navigation, form submission, tab switching and fullscreen video without a mouse.</li>
+<li><strong>Prove the inherited behavior:</strong> test blocking on controlled resources and representative sites, verify per-site overrides and filter updates, then compare against unmodified Brave on the same device.</li>
+<li><strong>Measure the hardware limits:</strong> run a 30-minute video/browsing session, sleep/resume, revisit suspended tabs and inspect memory and crashes on one modest and one faster supported TV device.</li>
+<li><strong>Decide whether to continue:</strong> use a preselected set of about 20 websites covering video, forms, popups, complex scrolling and embedded players. Record which common tasks require unsupported interaction or site-specific hacks.</li>
+</ol>
+<p><strong>Continue only if</strong> the source build is reproducible, remote-only core tasks are practical, Shields resources update, target-device performance is acceptable, and major sites do not require a growing collection of brittle exceptions. If interaction fails, redesign it before spending time on visual polish. If the build/fork cost is unacceptable, reassess a TV browser with a reusable ad-blocking library as a separately scoped fallback.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Milestone</th><th>Planning range</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Technical spike</td><td>1–2 weeks</td><td>Real-device evidence and a go/no-go decision</td></tr>
+<tr><td>Usable Android TV alpha</td><td>Another 6–10 weeks</td><td>Remote-friendly browsing, tabs, bookmarks, Shields and tested web video</td></tr>
+<tr><td>Polished public beta</td><td>3–6 months total</td><td>Small-team estimate including device QA, accessibility, signing, updates and store preparation</td></tr>
+</tbody></table></div>
+<p class="meta">These ranges are engineering estimates, not upstream commitments. Broad DRM compatibility, old-Android support, Fire TV/Vega, a phone companion, and Apple TV are outside them. Public browser maintenance continues after launch.</p>
+</main></body></html>
+
