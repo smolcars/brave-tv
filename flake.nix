@@ -8,6 +8,13 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      emulatorPkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          android_sdk.accept_license = true;
+        };
+      };
       tools = with pkgs; [
         nodejs_24
         (pnpm.override { nodejs-slim = nodejs_24; })
@@ -36,6 +43,20 @@
       ];
     in
     {
+      # Optional runtime test SDK; Chromium still builds with its DEPS-selected SDK.
+      packages.${system}.tv-emulator-sdk =
+        (emulatorPkgs.androidenv.composeAndroidPackages {
+          cmdLineToolsVersion = "20.0";
+          toolsVersion = null;
+          buildToolsVersions = [ ];
+          platformVersions = [ "36" ];
+          includeCmake = false;
+          includeEmulator = true;
+          includeSystemImages = true;
+          systemImageTypes = [ "android-tv" ];
+          abiVersions = [ "x86_64" ];
+        }).androidsdk;
+
       devShells.${system}.default = pkgs.mkShell {
         packages = tools;
         # Chromium selects its own compiler, SDK and sysroot through DEPS.

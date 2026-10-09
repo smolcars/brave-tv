@@ -20,6 +20,7 @@ For automatic tools while working in this repository, review `.envrc` and run `d
 - [Engineering plan](docs/engineering-plan.md)
 - [MVP checklist](docs/mvp-todo.md)
 - [Device and website test matrix](docs/device-tests.md)
+- [Nix TV emulator setup](docs/emulator.md)
 - [TV input prototype and button map](docs/tv-prototype.md)
 - [Feasibility research](docs/feasibility.html)
 

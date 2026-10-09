@@ -102,8 +102,6 @@ Blocking lint then rejected the banner's 320dp intrinsic width and reported its 
 
 That rerun passed launcher lint but Error Prone rejected mixed `||`/`&&` without explicit grouping in the canceled-click condition. Add parentheses around the existing URL-change-and-SELECT conjunction, preserving Java's current precedence. Apply the same one-line correction to both source trees, export the patch and rerun the actual failing analysis target through the blocking build; do not suppress the check or change input behavior.
 
-## Stage 3 Complete the MVP after the feasibility gate
-
 ### Emulator validation after enabling device access
 
 On 9 October, after the user restarted T3, `device_list` successfully inspected the local host. Android is unavailable because `~/Android/Sdk/cmdline-tools/latest` is missing; no AVD exists. The existing emulator is 35.3.11 and `/dev/kvm` is accessible. The already-built x86-64 prototype remains the runtime test subject.
@@ -117,6 +115,10 @@ Before further browser changes:
 5. If runtime checks expose an adapter defect, record its reproduction and correction plan here before editing the synchronized worktree/patch. Run the relevant regression check, the blocking resource-limited Android build and local Nix checks. Preserve each new APK and its provenance.
 
 Commit the plan, setup and any demonstrated browser fixes separately on local `master`. Review only the latest implementation commit against its parent using Standards and Spec reviews; do not re-review older implementation history. Emulator evidence does not close the two-physical-TV, release-performance, Shields or sustained-video acceptance gates.
+
+Setup exposed two real prerequisites: `avdmanager` refuses an SDK without an emulator package, and T3's camera `imagefile:` arguments are rejected by the host's emulator 35.3.11. Include the pinned emulator 36.5.11 in the optional SDK. Replaying T3's launch arguments with that executable proceeds past camera initialization; preserve the original emulator directory under a backup name and link T3's emulator path to the Nix package before retrying `device_open`. Do not edit T3's installed helpers or disable the device integration.
+
+## Stage 3 Complete the MVP after the feasibility gate
 
 Adapt existing tabs, bookmarks, history, private sessions and per-site Shields controls to the validated TV interaction design. Validate Shields resources and updates, ordinary web video, lifecycle recovery and the performance budgets established by the prototype. Disable optional product surfaces through supported controls without silently weakening protections.
 
