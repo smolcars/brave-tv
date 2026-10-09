@@ -330,3 +330,9 @@ Telemetry-slice review found two cleanup gaps: the removed controls still have s
 The first blocking build rejects the Android referral startup's unconditional return followed by unreachable code. Compile the startup body only on non-Android platforms instead; retain an empty Android entry point and remove its now-unreachable Android-only branches. Rerun the same cached build with all warning checks enabled. This is a compiler correction, not a change to the no-referral requirement.
 
 The retry identifies the finalization timer frequency as unused on Android after startup exclusion. Give that constant the same non-Android guard; keep warning failures enabled and retry without cache changes.
+
+### Minimal native home and attribution implementation
+
+Use `BasicNativePage` with Chromium's existing `NativePageHost` for new-tab lifetime, margins and navigation. Extend the existing Java adapter chain at `NativePageBuilder.buildNewTabPage`: immediately after its `TabShim` construction, offer the host/tab to a TV-only factory and return its page when present. Preserve upstream creation on non-TV; fail the build if the expected integration point changes. No patch artifact or duplicate Chromium factory is needed. Add the required bytecode class/method checks and exercise the transformed method on the emulator.
+
+The view contains the requested tagline, a primary address/search button, browser-controls entry, explicit private-session labeling, and independent Brave/Chromium attribution with project and license buttons. Share the existing Material button focus styling with the TV panels. Navigate links through the host in the current profile. Avoid automatically covering native home with the controls dialog. Verify initial focus, remote navigation, private/normal tabs, Back, links, and absence of the old NTP. Search defaults/provider selection remain the next separate slice.
