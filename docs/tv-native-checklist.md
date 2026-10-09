@@ -61,3 +61,12 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Test the second physical TV before declaring the MVP complete.
 
 Production identity, signing, distribution and upstream-update rehearsal remain in the [MVP checklist](mvp-todo.md).
+
+## Independent fork identity before public APK distribution
+
+- [ ] Choose a product name and original launcher icon/banner; replace Brave product branding in onboarding, app labels and other user-facing surfaces. A name is pending; do not imply an official Brave release.
+- [ ] Preserve upstream copyright/license notices and source availability; provide factual Brave/Chromium attribution and independent-maintainer identification.
+- [ ] Audit Web Discovery, crash reports and P3A: identify actual data recipients, service availability and accurate consent/privacy wording rather than blindly renaming upstream services.
+- [ ] Plan application ID/signing/update identity and migration separately so rebranding does not silently discard existing profiles.
+
+Basis checked 9 October 2026: [MPL §§2.3 and 3](https://www.mozilla.org/en-US/MPL/2.0/) grant no contributor trademark rights and require license/source notices; [Brave terms](https://brave.com/terms-of-use/) distinguish open-source rights from their executable/service terms. Independent branding is the project recommendation; this is not legal clearance for a chosen name.
