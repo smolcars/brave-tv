@@ -216,3 +216,17 @@ Standards and Spec both report no findings. The replay intentionally leaves onbo
 ### Privacy action contrast: `572ba7e70` vs `409ec97af`
 
 Standards and Spec both report no findings. The localized label becomes plain text while the original privacy-link callback remains. Rendered focus verification on the final APK is pending. All reviews compare only their latest implementation commit with its parent.
+
+## Independent home and analytics-removal rounds
+
+Each row covers only the stated implementation commit against its parent.
+
+| Source commit | Parent | Standards | Spec |
+| --- | --- | --- | --- |
+| `ebb1c5f7b` | `572ba7e70` | P2: stale reporting search/dead Java paths | P2: existing factory test still dereferences a refused connection |
+| `ebfbbbfbc` | `ebb1c5f7b` | 0 | 0 |
+| `584ece7d9` | `ebfbbbfbc` | 0 | 0 |
+| `6a8c1ec8b` | `02c9934c6` | 0 | 0 |
+| `491804c5a` | `8bdff7a8c` | 0 | 0 |
+
+The reporting cleanup and refusal expectation resolve the first round's findings. Native home retains attribution and delegates lifetime/navigation to Chromium. JVM verification passes four TV/non-TV and private/normal factory paths. Blocking Android builds exposed and corrected compile-out dependencies (referrals, Rewards Web Discovery preference, Android stats JNI); build/runtime acceptance is still pending. The old three-page onboarding requirements are superseded by direct launch.

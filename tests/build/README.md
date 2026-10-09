@@ -18,3 +18,7 @@ interface. Tool failures also fail the check. Run the complete APK build afterwa
 to verify the real linker and packaging; this check alone does not establish them.
 The object check is manual because the repository's lightweight Nix checks do not
 download or compile Chromium.
+
+## Native TV home factory
+
+Run `nix develop --command python3 tests/build/check_tv_home_adapter.py "$HOME/.cache/brave-tv/workspace/src"`. It compiles the actual adapter with the pinned ASM jars, rewrites a representative factory, and uses JVM verification and assertions to check normal/private TV and non-TV return paths. This catches stack/frame errors; Android compilation and rendered native-page behavior still require the APK/device checks.

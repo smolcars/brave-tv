@@ -69,18 +69,15 @@ from an alphabetic virtual keyboard. The click count must stay zero: keyboard
 events must retain upstream handling instead of driving the TV cursor. This
 replay is not a physical-remote test.
 
-## Onboarding
+## Direct first launch
 
-`replay tests/device/onboarding-focus.ad` requires an incomplete first run on
-the Web Discovery page. Do not reset an existing profile to meet that condition.
-
-`onboarding-tv.ad` exercises the redesigned TV pages on a dedicated incomplete
-first run, including initial focus, vertical order, Back and return through page
-recycling. It leaves onboarding incomplete on reporting with both initially
-checked options toggled off. Inspect their actual Android checked state and
-persisted preferences separately: the helper snapshot does not expose checkbox
-checked state. Test the Learn more destination/return and completion/relaunch
-separately, and preserve the main browser/physical-TV profiles.
+The TV onboarding redesign is superseded: the browser now completes first-run
+without consent, referral or default-browser pages. Preserve the existing
+isolated incomplete profile to test migration, including its prior enabled
+reporting preferences. Verify direct native home, disabled reporting preferences,
+focus/keyboard/Back, and a subsequent ordinary restart. Do not reset user data.
+The historical onboarding replays were removed because those screens no longer
+exist in the TV flow.
 
 ## TV panels and Shields
 
