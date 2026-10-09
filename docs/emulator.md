@@ -50,7 +50,7 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory tests/pages
 
 Follow the [input regression procedure](input-review.md#regression-procedure-and-resolution-evidence) at `http://127.0.0.1:8000/remote-input.html`. Record device properties, exact steps, failures and evidence in [device-tests.md](device-tests.md). Diagnostic text injection or touch input does not count as remote-only acceptance. Stop the fixture server and remove the ADB reverse mapping when done.
 
-For the first-run focus regression, use the returned launcher and target flags with `replay tests/device/onboarding-focus.ad`. This requires the Web Discovery first-run page on the test app. It relaunches the app, uses only remote buttons, checks that “Maybe later” receives input focus and verifies the next page. It never clears app data or opts into Web Discovery; do not reset an existing profile just to rerun it.
+The consent-page replays are historical and have been removed after the direct-launch redesign. Use the [direct first-launch checks](../tests/device/README.md#direct-first-launch) and `replay tests/device/tv-home.ad` with a normal native home tab. Preserve the isolated incomplete profile for upgrade testing; never reset an existing profile to meet a replay precondition.
 
 On this TV image, agent-device selected its helper input method, which hid the native TV keyboard. Before claiming keyboard coverage, inspect `adb -s "$TV_SERIAL" shell settings get secure default_input_method` and restore the image's existing keyboard if needed:
 

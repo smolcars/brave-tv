@@ -230,3 +230,13 @@ Each row covers only the stated implementation commit against its parent.
 | `491804c5a` | `8bdff7a8c` | 0 | 0 |
 
 The reporting cleanup and refusal expectation resolve the first round's findings. Native home retains attribution and delegates lifetime/navigation to Chromium. JVM verification passes four TV/non-TV and private/normal factory paths. Blocking Android builds exposed and corrected compile-out dependencies (referrals, Rewards Web Discovery preference, Android stats JNI); build/runtime acceptance is still pending. The old three-page onboarding requirements are superseded by direct launch.
+
+| Source commit | Parent | Standards | Spec |
+| --- | --- | --- | --- |
+| `e469d6b6c` | `491804c5a` | P3 orphaned Browser menu string | P1 Java startup overrides Google with Brave/Yandex/Yahoo |
+| `45e1d9a8f` | `e469d6b6c` | 0 | 0 |
+| `a616d934c` | `45e1d9a8f` | 0 | 0 |
+| `42982d535` | `a616d934c` | P1 early return skips Safe Browsing | P1 Safe Browsing; P1 clear-on-exit skipped; P2 repeated fingerprint migration |
+| `7fcdf6d0f` | `42982d535` | 0 | 0 |
+
+The search correction removes legacy startup overrides without resetting saved choices. The startup correction runs Safe Browsing and video resume before the TV return, shares cold-start data clearing, and advances the existing migration gate. The intermediate `42982d535` APK must not be installed; compile and test the corrected revision. Reviewers checked connected callers but did not independently execute builds or device checks.
