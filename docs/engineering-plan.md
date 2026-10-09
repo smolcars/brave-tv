@@ -303,3 +303,7 @@ Inspection during recovery found that the pinned Brave wrapper consumes `--ninja
 ### Onboarding review correction: retain consent on return
 
 Review of `9bb2cf912` finds that the activity saves reporting changes but the adapter retains its initial checkbox values. The newly supported Back path can recycle/rebind page two and restore stale consent. Synchronize the adapter through its existing checked-state setters in both reporting callbacks. Rebinding an unchanged checked value does not dispatch another change. Verify toggles survive page two → page zero → page two and completion/relaunch; preserve policy behavior. Keep the running builder at its committed revision until it finishes.
+
+### Onboarding visual correction: privacy-link button text
+
+The `9bb2cf912` APK passes the 31-step remote navigation replay on the isolated TV. Its screenshot reveals that the new Learn more button retains the original `ClickableSpan` color/underline, overriding its themed focus text. Convert only the extracted button label to plain text while retaining the original span's click callback. This keeps the same localized label and destination, and lets the shared Material focus colors apply. Verify focused and unfocused screenshots plus opening/returning from the info page.
