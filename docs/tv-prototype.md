@@ -1,6 +1,6 @@
 # First TV input patch
 
-Status: the TV patch built successfully at 06:25 EDT on 9 October 2026, including blocking Android static analysis. The public input-policy tests pass on the JVM. Launcher behavior, first run, actual focus, pointer delivery, nested scrolling and video remain unverified. This is not a completed MVP or a release APK.
+Status: the TV patch builds with blocking Android static analysis and installs on the Android TV API 36 emulator. A demonstrated first-run focus trap was corrected; the same remote replay fails on the original APK and passes on the correction. All onboarding pages can now be completed with D-pad/OK. The public input-policy tests also pass on the JVM. Physical-TV, website, video and performance acceptance remain open. This is not a completed MVP or a release APK.
 
 The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.
 
@@ -24,13 +24,24 @@ The generated merged manifest contains the exported TV launcher alias, `MAIN`/`L
 - Metadata: package `com.brave.browser_default`, version `1.97.0` / code `429700008`, minimum API 29 (Android 10), target API 37, ABI **x86_64**. This APK targets an emulator; it is not suitable for the user's physical streaming stick.
 - The artifact directory contains `provenance.json`, the exact downstream patch, `args.gn`, manifest/banner dumps, badging and signature results. Provenance records hashes for both GN argument files, the patch and flake lock, plus source revisions, commands, limits and logs. The baseline APK remains separately preserved.
 
-Next gate: verify the newly enabled device settings take effect in a fresh agent session, install on an Android TV emulator, then build for the confirmed physical-device ABI and run the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence). The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. No installation, Shields update/blocking, video or performance result has been recorded.
+## Onboarding correction artifact
+
+- Preserved APK: `~/.cache/brave-tv/artifacts/tv-onboarding-v1.97.56-x64-debug-20261009/BraveMonox64.apk`.
+- Size: **853,918,489 bytes**; SHA-256: `bebe3b30b2e686d19e53ca382926e5e383c2f7360f03a971828e8c15d00f76ca`.
+- Implementation commit: `6ae4d9b5ed545cde200a457a0b29229cebc6269d`. Upstream pins, package, version and ABI match the original prototype above.
+- `brave-tv-onboarding-j4.service` exited 0. Log/timing prefix: `~/.cache/brave-tv/logs/build-tv-onboarding-x64-20261009-r1`. The incremental build took **3m33s**, including blocking lint/Error Prone, with four jobs and the same 18/22 GiB memory thresholds. This timing includes cache reuse.
+- SDK `apksigner` verified the v2 signature. The artifact directory preserves the exact patch, both GN argument files, signature result and `provenance.json`.
+- All nine repository tests and strict Python typechecking passed through `nix flake check`; source whitespace and reverse-patch checks passed. The [latest implementation review](input-review.md#onboarding-focus-correction-review) found no Standards or Spec issues.
+- Nix ADB installed the APK without uninstalling or clearing data. The first-page replay passed, then D-pad/OK completed the remaining pages, deselected diagnostic/product-insight sharing and reached TV controls. See [runtime evidence and limits](device-tests.md#emulator-run-9-october-2026).
+- The local fixture loads with guest Vulkan disabled after the default emulator crashed. Back reaches TV controls. Pointer visibility/input remains unresolved; the helper's virtual alphabetic-keyboard classification differs from the intended remote path. No click or nested-scroll pass is claimed.
+
+Next gate: complete the [remote regression procedure](input-review.md#regression-procedure-and-resolution-evidence), then build for the confirmed physical-device ABI. The user has a remote-equipped streaming stick reporting Android TV OS 14; exact model/ABI remain to be read from the device. Shields update/blocking, video and performance checks remain unexecuted.
 
 ## Implementation
 
 [`0001-tv-input.patch`](../patches/0001-tv-input.patch) adds a TV launcher alias and an initial vector banner, and connects a TV-only controller to Brave's existing activity. The launcher routes through Chromium's first-run dispatcher. The existing optional-touchscreen declaration is retained. No engine, Shields enforcement, profile storage or certificate handling is replaced.
 
-The native controls dialog opens the existing address bar or browser menu, reloads the current page, and enters cursor/scroll mode when a webpage is present. Native pages continue to use native focus. This does not yet adapt the contents of the browser menu, tab switcher, Shields settings or onboarding screens.
+The native controls dialog opens the existing address bar or browser menu, reloads the current page, and enters cursor/scroll mode when a webpage is present. Native pages continue to use native focus. On television UI mode, the onboarding pager now prefers focusable descendants so existing controls can receive D-pad focus. The contents of the browser menu, tab switcher and Shields settings still need TV adaptation.
 
 | Context | D-pad | OK | Back |
 | --- | --- | --- | --- |

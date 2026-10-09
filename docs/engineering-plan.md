@@ -17,6 +17,8 @@ Write or update this engineering plan before each implementation stage. Keep inc
 
 ## Design and change surface
 
+Current delivery: the user authorized a public repository under `smolcars`; [smolcars/brave-tv](https://github.com/smolcars/brave-tv) now tracks this project on `master`. Device support is available and a Nix-provisioned Android TV emulator is running. The starting-point notes above are historical. Keep the downstream patch representation through the prototype gate: changes are made in real Brave source and compiled with the existing cache. A later source-fork migration can preserve that checkout and output directory.
+
 Use a small downstream patch set against a pinned upstream checkout. Keep downloaded Chromium/Brave source and build outputs outside this Git repository. Do not create a replacement WebView app or duplicate Brave's profile, tab, bookmark or Shields implementations.
 
 Expected changes reach these places:
@@ -125,6 +127,14 @@ The preserved prototype installed successfully on `brave_tv_api36` (Android 16/A
 Add a device replay that opens this incomplete first-run flow, moves down to “Maybe later”, asserts input focus, presses OK and asserts the next page. Run it against the preserved APK before editing. Then, only in television UI mode, make the onboarding pager's RecyclerView prefer its children for focus. Reuse the existing layouts, consent handlers and page transitions. This reaches `WelcomeOnboardingActivity`, the exported patch and the device replay/documentation; it does not change consent values or bypass onboarding.
 
 Rebuild with blocking Android analysis and the documented host limits. Install over the test app without clearing its state, rerun the same first-page regression, and continue through all remaining onboarding pages using remote input. Confirm settings remain selectable and native/browser controls can be reached. Record any further blocker separately before expanding the fix.
+
+### Emulator navigation diagnostic
+
+Onboarding passes, but opening web content repeatedly terminates the entire emulator. A captured launch (`brave-tv-emulator-diagnostic-r2.service`) reports `Result=core-dump`, signal 11 and roughly 4.3 GiB peak memory. The final log entries create a Vulkan instance/device for Chromium; there is no kernel OOM evidence in the inspected interval. This suggests a graphics-emulation failure but does not establish its precise cause.
+
+Before changing browser code, run the same preserved APK with the emulator's supported `-feature -Vulkan` option and `-no-snapshot-load`, retaining disk data and the existing snapshot. Capture emulator output, attach through T3 and retry the local fixture. If it succeeds, document this as a host diagnostic configuration; do not claim Vulkan, hardware decoding or performance coverage. If it fails, retain the logs and report the outstanding runtime gate rather than changing browser input code without evidence.
+
+Outcome: the fixture loads in that configuration and Back reaches controls. Pointer validation remains unresolved: the cursor/hint is invisible, Down scrolls upstream and OK does not increment the fixture counter. The helper injects virtual alphabetic-keyboard events, which the adapter excludes. The next increment must distinguish input-source classification from cursor rendering: reproduce with a non-alphabetic remote source (or confirmed physical remote), inspect the content-view overlay integration, and add a failing Android regression before changing either path. Preserve normal hardware-keyboard handling. No pointer, scrolling or video acceptance is claimed by the onboarding fix.
 
 ## Stage 3 Complete the MVP after the feasibility gate
 

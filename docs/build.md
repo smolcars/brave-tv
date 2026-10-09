@@ -2,7 +2,7 @@
 
 ## Current status
 
-The unmodified Brave x64 Debug APK built successfully at 03:17 EDT on 9 October 2026. Its signature was verified and a separate baseline copy preserved before applying the [TV input patch](tv-prototype.md). The TV prototype completed at 06:25 EDT, including blocking Android static analysis; its [artifact and provenance](tv-prototype.md#completed-prototype-artifact) are preserved separately. This proves source compilation on the Nix-managed builder; no APK has been installed or runtime-tested. The initial machine crash and resource-limit recovery are documented below.
+The unmodified Brave x64 Debug APK built successfully at 03:17 EDT on 9 October 2026. Its signature was verified and a separate baseline copy preserved before applying the [TV input patch](tv-prototype.md). The TV prototype completed at 06:25 EDT, including blocking Android static analysis. A subsequent onboarding focus correction rebuilt in 3m33s using the same compilation cache and passed its Android TV emulator regression. Both [prototype artifacts and provenance](tv-prototype.md#completed-prototype-artifact) are preserved separately. See [device evidence](device-tests.md#emulator-run-9-october-2026) for the exact runtime coverage; physical-TV acceptance remains open. The initial machine crash and resource-limit recovery are documented below.
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).
 

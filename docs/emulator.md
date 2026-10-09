@@ -37,13 +37,13 @@ Do not add `--force`: a pre-existing AVD may contain test data. Use `avdmanager 
 
 Use T3's `device_list`, then `device_open` for `brave_tv_api36`. T3 installs its versioned device helpers and returns the exact `agent-device` launcher plus host/session flags. Retain those flags on every interaction command. Use its snapshots and remote buttons for behavioral checks, and `device_screenshot` for visual evidence.
 
-In the Nix shell, select the emulator serial returned by the device tooling before using ADB. Verify the preserved APK against the [recorded SHA-256](tv-prototype.md#completed-prototype-artifact), then install it without uninstalling or clearing data:
+In the Nix shell, select the emulator serial returned by the device tooling before using ADB. Verify the current APK against the [recorded SHA-256](tv-prototype.md#onboarding-correction-artifact), then install it without uninstalling or clearing data:
 
 ```sh
 adb devices -l
 export TV_SERIAL='replace-with-the-open-emulator-serial'
-sha256sum "$HOME/.cache/brave-tv/artifacts/tv-prototype-v1.97.56-x64-debug-20261009/BraveMonox64.apk"
-adb -s "$TV_SERIAL" install -r "$HOME/.cache/brave-tv/artifacts/tv-prototype-v1.97.56-x64-debug-20261009/BraveMonox64.apk"
+sha256sum "$HOME/.cache/brave-tv/artifacts/tv-onboarding-v1.97.56-x64-debug-20261009/BraveMonox64.apk"
+adb -s "$TV_SERIAL" install -r "$HOME/.cache/brave-tv/artifacts/tv-onboarding-v1.97.56-x64-debug-20261009/BraveMonox64.apk"
 adb -s "$TV_SERIAL" reverse tcp:8000 tcp:8000
 python3 -m http.server 8000 --bind 127.0.0.1 --directory tests/pages
 ```
@@ -51,5 +51,34 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory tests/pages
 Follow the [input regression procedure](input-review.md#regression-procedure-and-resolution-evidence) at `http://127.0.0.1:8000/remote-input.html`. Record device properties, exact steps, failures and evidence in [device-tests.md](device-tests.md). Diagnostic text injection or touch input does not count as remote-only acceptance. Stop the fixture server and remove the ADB reverse mapping when done.
 
 For the first-run focus regression, use the returned launcher and target flags with `replay tests/device/onboarding-focus.ad`. This requires the Web Discovery first-run page on the test app. It relaunches the app, uses only remote buttons, checks that “Maybe later” receives input focus and verifies the next page. It never clears app data or opts into Web Discovery; do not reset an existing profile just to rerun it.
+
+On this TV image, agent-device selected its helper input method, which hid the native TV keyboard. Before claiming keyboard coverage, inspect `adb -s "$TV_SERIAL" shell settings get secure default_input_method` and restore the image's existing keyboard if needed:
+
+```sh
+adb -s "$TV_SERIAL" shell ime set com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME
+```
+
+That component is specific to this image; inspect `ime list -s` on other devices. Keep using `tv-remote` for acceptance steps. Focus snapshots can lag input injection: the onboarding replay waits up to three seconds for the observed focus property before pressing OK. Avoid a separate `uiautomator dump` while agent-device owns the automation connection.
+
+## Web navigation diagnostic configuration
+
+On this host, the default emulator launch repeatedly exited with signal 11 when Chromium created a Vulkan device. A cold boot with guest Vulkan disabled loaded the same fixture successfully. This isolates a usable input-test configuration; it does not establish the underlying graphics bug or Vulkan compatibility. Keep the APK unchanged for this comparison.
+
+When the AVD is stopped, launch the Nix emulator with captured output, then call `device_list` and `device_open` to attach T3 to `emulator-5554`:
+
+```sh
+nix develop --command systemd-run --user --unit=brave-tv-emulator-gl --service-type=exec \
+  --setenv="ANDROID_SDK_ROOT=$HOME/Android/Sdk" \
+  --setenv="ANDROID_HOME=$HOME/Android/Sdk" \
+  --property="StandardOutput=append:$HOME/.cache/brave-tv/logs/emulator-web-navigation-gl.log" \
+  --property="StandardError=append:$HOME/.cache/brave-tv/logs/emulator-web-navigation-gl.log" \
+  "$HOME/.cache/brave-tv/emulator-sdk/libexec/android-sdk/emulator/emulator" \
+  -avd brave_tv_api36 -no-audio -no-window -gpu auto -feature -Vulkan \
+  -no-snapshot-load -no-boot-anim -port 5554
+```
+
+The current session already has this unit running; do not launch a second copy. `-no-snapshot-load` cold-boots existing disk data without wiping it. A prior quick-boot snapshot had restored a state predating APK installation after the crash. Inspect the installed package and onboarding state after any restore; never clear the profile to force a test precondition.
+
+Agent-device's Android `tv-remote` currently uses `input keyevent`. On this emulator its virtual input device is classified as an alphabetic keyboard, which the TV adapter deliberately preserves. Native onboarding and Back checks can pass while cursor-mode input remains untested. Record the actual source/device classification and cursor visibility before treating injected buttons as physical-remote evidence.
 
 An emulator run cannot establish physical-TV performance, hardware video decoding, DRM support or the MVP's two-device acceptance criteria.

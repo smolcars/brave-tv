@@ -101,3 +101,17 @@ Zero findings. Explicit grouping preserves evaluation order and adds no dependen
 Zero findings. Both source trees and the exported patch match the planned grouping correction. No behavior changes or checks are suppressed.
 
 Totals: Standards 0, Spec 0. The final blocking Android build passed at 06:25 EDT on 9 October, including the previously failing Error Prone target. All nine local tests and strict Python typechecking passed through Nix. The preserved APK's signature, manifest and banner were verified; [artifact details](tv-prototype.md#completed-prototype-artifact) record the evidence. Device checks remain unexecuted.
+
+## Onboarding focus correction review
+
+Compared only `6ae4d9b5ed545cde200a457a0b29229cebc6269d` against parent `d4ab1392b6d4498ab4ef75d87fcf7da8639e3833`. Separate read-only Standards and Spec reviewers inspected this diff, the connected upstream onboarding code, the plan and validation evidence. Older implementation commits were outside this review.
+
+### Standards
+
+Zero findings and no actionable heuristic concerns. The correction is limited to television UI mode, follows existing Java conventions and introduces no asynchronous lifecycle handling. It relies on the pinned ViewPager2 RecyclerView child hierarchy; revalidate that assumption on an upstream update.
+
+### Spec
+
+Zero findings. Existing consent handlers, defaults and layouts are preserved. The replay uses remote buttons, asserts input focus with a bounded wait and does not clear app data. It failed against the original APK and passed against the corrected APK; the remaining onboarding pages were then completed with D-pad/OK.
+
+Totals: Standards 0, Spec 0. The blocking incremental Android build, APK signature verification, all nine repository tests and strict Python typechecking passed. Physical-device and non-TV runtime behavior remain unverified. This review covers the onboarding correction, not overall MVP acceptance; see [device evidence](device-tests.md#emulator-run-9-october-2026).
