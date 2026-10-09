@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -51,11 +52,11 @@ class CheckoutTests(unittest.TestCase):
             cwd=cwd, check=True, capture_output=True, text=True,
         ).stdout
 
-    def run_checkout(self) -> subprocess.CompletedProcess[str]:
+    def run_checkout(self, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [sys.executable, str(self.project / "tools" / "checkout.py"),
              str(self.workspace)],
-            capture_output=True, text=True,
+            capture_output=True, text=True, env=env,
         )
 
     def test_checkout_can_be_repeated_without_changing_the_pinned_source(self) -> None:
@@ -104,6 +105,21 @@ class CheckoutTests(unittest.TestCase):
         result = self.run_checkout()
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.git(self.checkout, "rev-parse", "HEAD"), head)
+
+    def test_symlink_cannot_put_source_inside_the_project(self) -> None:
+        self.workspace.mkdir()
+        (self.workspace / "src").symlink_to(self.project, target_is_directory=True)
+        result = self.run_checkout()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse((self.project / "brave").exists())
+
+    def test_missing_git_fails_before_creating_a_workspace(self) -> None:
+        empty_path = self.root / "empty-bin"
+        empty_path.mkdir()
+        result = self.run_checkout(env={**os.environ, "PATH": str(empty_path)})
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Git", result.stderr)
+        self.assertFalse(self.workspace.exists())
 
 
 if __name__ == "__main__":

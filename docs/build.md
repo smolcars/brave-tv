@@ -14,7 +14,7 @@ From the project directory:
 nix develop
 ```
 
-For direnv, review `.envrc`, then run `direnv allow`. It loads the same flake. All commands below run inside that environment; `nix develop --command ...` is the noninteractive equivalent.
+For direnv, review `.envrc`, then run `direnv allow`. It loads the same flake while you are in this project. **Before changing into the external browser workspace, run `nix develop` from this project even if direnv is enabled.** That starts a shell which retains the tools when you change directories; direnv alone unloads them when you leave the project. All commands below run inside that development shell; `nix develop --command ...` from this project is the noninteractive equivalent.
 
 The shell supplies Node 24, pnpm, Python, Git, Java, ADB and native build utilities. Do not install alternate copies globally with npm or the host package manager. Add missing host dependencies to `flake.nix`, verify them and commit the changed lock file when applicable.
 

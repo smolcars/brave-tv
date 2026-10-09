@@ -13,7 +13,7 @@ nix develop
 python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"
 ```
 
-Alternatively, review `.envrc` and run `direnv allow`. Follow [the build instructions](docs/build.md) to initialize and compile upstream Brave. Browser source and build outputs stay outside this repository.
+For automatic tools while working in this repository, review `.envrc` and run `direnv allow`. Use `nix develop` before changing into the external browser checkout, so the build tools remain available. Follow [the build instructions](docs/build.md) to initialize and compile upstream Brave. Browser source and build outputs stay outside this repository.
 
 ## Project documents
 

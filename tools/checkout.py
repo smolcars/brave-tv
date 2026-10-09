@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 
@@ -30,9 +31,12 @@ def prepare(workspace: Path) -> Path:
     ):
         raise ValueError("Invalid source lock in upstream.json.")
     workspace = workspace.expanduser().resolve()
-    if workspace.is_relative_to(PROJECT) or any(c.isspace() for c in str(workspace)):
+    checkout = (workspace / "src" / "brave").resolve()
+    if any(path.is_relative_to(PROJECT) or any(c.isspace() for c in str(path))
+           for path in (workspace, checkout)):
         raise ValueError("Use an external workspace path without whitespace.")
-    checkout = workspace / "src" / "brave"
+    if shutil.which("git") is None:
+        raise ValueError("Git is required; enter the project's nix develop shell first.")
     if not checkout.exists():
         checkout.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(
