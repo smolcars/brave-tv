@@ -386,3 +386,7 @@ The referral correction reaches native home and persists old P3A/metrics/usage o
 ### Runtime correction: list-panel Down navigation
 
 On the installed native home, the search chooser correctly preserves the old Brave provider, but Down from its first provider skips Google and focuses the Settings footer. `TvBrowserPanel.addAction` overwrites the first item's Down target even when more full-width list items intervene. Only retain that special grid-entry behavior while there is one leading item; adding a second list item must leave vertical navigation to native focus search. Preserve the main controls panel's address-to-first-enabled-grid-action behavior. Verify Brave → Google by D-pad, then select/persist a provider and rerun the browser-panel replay.
+
+### Runtime correction: real license credits in development APKs
+
+The home license action navigates correctly, but Chromium's default `generate_about_credits = is_official_build` leaves this Debug APK with a sample page. Enable `generate_about_credits` in the Android defaults so development/test APKs also carry the generated third-party notices. Use Chromium's existing license generator and Brave's existing notices integration; retain attribution and do not hand-maintain a substitute list. Verify generation, the packaged credits content and navigation from home.
