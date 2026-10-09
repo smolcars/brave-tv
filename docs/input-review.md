@@ -19,7 +19,12 @@ Totals: Standards 2 findings (worst P2); Spec 3 findings (worst P1). The shared 
 
 ## Regression procedure and resolution evidence
 
-Status: corrections planned; Android checks not run. See [the correction plan](engineering-plan.md#corrections-from-the-first-input-review).
+Status: source corrections prepared; Android checks not run. See [the correction plan](engineering-plan.md#corrections-from-the-first-input-review).
+
+- OK now emits a finger/touchscreen DOWN/UP pair with press/release pressure; hover and wheel stay mouse events. This follows Chromium's touch-input path rather than its mouse DOWN/UP suppression.
+- Native pages delegate Back. Native focus, visible Find UI and the existing scrim visibility supplier are checked independently of the highest Back handler. `ScrimManager.showScrim()` sets this supplier before starting the tab-group dialog animation, covering the interval before native focus is assigned. No Chromium Back manager API was added or reordered.
+- Dialog actions, Back callbacks and event delivery now reject a destroyed/finishing activity or a controller already torn down. Page-change handling only runs for mapped remote keys after native-UI checks.
+- The Java formatter, patch whitespace/apply checks and all nine repository tests/typechecking in `nix flake check` pass. These checks do not compile or execute the Android adapter. No Android red/green cycle has been completed; runtime acceptance remains open.
 
 The controlled fixture is [`tests/pages/remote-input.html`](../tests/pages/remote-input.html). With device access enabled and a built APK, serve `tests/pages` using Python from the Nix shell, then load the page through a test connection. Keep the server private to the test environment; for an authorized ADB-connected target, bind it to localhost and use `adb reverse tcp:8000 tcp:8000`:
 

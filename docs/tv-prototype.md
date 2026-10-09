@@ -17,7 +17,7 @@ The native controls dialog opens the existing address bar or browser menu, reloa
 
 No Menu button is required to open TV controls. Alphabetic hardware keyboards and system keys retain upstream handling. The mode hint is drawn over the webpage; it is not a replacement for accessibility testing. A web page's CloseWatcher must not prevent escaping to the TV controls.
 
-`TvRemoteInput` owns the interaction policy. `TvBrowserControls` delivers scoped mouse events to the active Chromium content view and uses the existing Android Back dispatcher. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events.
+`TvRemoteInput` owns the interaction policy. `TvBrowserControls` delivers scoped mouse hover/wheel events and touchscreen taps to the active Chromium content view, and uses the existing Android Back dispatcher. Native pages, native focus, Find UI and visible browser scrims take priority. The JVM tests check observable cursor/click/scroll/focus requests, including canceled clicks, viewport changes and missing content. They do **not** execute the Android adapter or prove that a real page receives those events. The [input review and controlled regression procedure](input-review.md) record the source corrections and outstanding Android checks.
 
 ## Apply after the baseline build finishes
 

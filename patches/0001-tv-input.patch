@@ -67,7 +67,7 @@ index 000000000..11673ee59
 +    </group>
 +</vector>
 diff --git a/android/java/org/chromium/chrome/browser/app/BraveActivity.java b/android/java/org/chromium/chrome/browser/app/BraveActivity.java
-index af30e5ad7..06dccffea 100644
+index af30e5ad7..a022f504f 100644
 --- a/android/java/org/chromium/chrome/browser/app/BraveActivity.java
 +++ b/android/java/org/chromium/chrome/browser/app/BraveActivity.java
 @@ -25,6 +25,7 @@ import android.text.Editable;
@@ -113,21 +113,25 @@ index af30e5ad7..06dccffea 100644
      @Override
      protected void onPostCreate() {
          super.onPostCreate();
-@@ -389,6 +404,13 @@ public abstract class BraveActivity extends ChromeActivity
+@@ -389,6 +404,17 @@ public abstract class BraveActivity extends ChromeActivity
      public void onResumeWithNative() {
          super.onResumeWithNative();
  
 +        if (mTvBrowserControls == null
 +                && (getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK)
 +                        == Configuration.UI_MODE_TYPE_TELEVISION) {
-+            mTvBrowserControls = new TvBrowserControls(this, mBackPressManager);
++            mTvBrowserControls =
++                    new TvBrowserControls(
++                            this,
++                            mBackPressManager,
++                            mRootUiCoordinator.getScrimManager().getScrimVisibilitySupplier());
 +            mTvBrowserControls.showControls();
 +        }
 +
          BraveActivityJni.get().restartStatsUpdater();
          if (BraveVpnUtils.isVpnFeatureSupported(BraveActivity.this)) {
              BraveVpnNativeWorker.getInstance().addObserver(this);
-@@ -460,6 +482,7 @@ public abstract class BraveActivity extends ChromeActivity
+@@ -460,6 +486,7 @@ public abstract class BraveActivity extends ChromeActivity
  
      @Override
      public void onPauseWithNative() {
@@ -135,7 +139,7 @@ index af30e5ad7..06dccffea 100644
          if (mUsageMonitor != null) {
              mUsageMonitor.stop();
          }
-@@ -578,6 +601,10 @@ public abstract class BraveActivity extends ChromeActivity
+@@ -578,6 +605,10 @@ public abstract class BraveActivity extends ChromeActivity
  
      @Override
      protected void onDestroyInternal() {
@@ -148,10 +152,10 @@ index af30e5ad7..06dccffea 100644
          // The new search widget promo panel will be recreated with the new appropriate theme and
 diff --git a/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
 new file mode 100644
-index 000000000..93c150b5d
+index 000000000..4c5a76ba8
 --- /dev/null
 +++ b/android/java/org/chromium/chrome/browser/tv/TvBrowserControls.java
-@@ -0,0 +1,347 @@
+@@ -0,0 +1,372 @@
 +// Copyright (c) 2026 brave-tv contributors.
 +// This Source Code Form is subject to the terms of the Mozilla Public
 +// License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -169,6 +173,7 @@ index 000000000..93c150b5d
 +import android.view.InputDevice;
 +import android.view.KeyEvent;
 +import android.view.MotionEvent;
++import android.view.View;
 +
 +import androidx.activity.OnBackPressedCallback;
 +import androidx.appcompat.app.AlertDialog;
@@ -179,6 +184,7 @@ index 000000000..93c150b5d
 +
 +import org.jspecify.annotations.Nullable;
 +
++import org.chromium.base.supplier.NonNullObservableSupplier;
 +import org.chromium.chrome.R;
 +import org.chromium.chrome.browser.app.BraveActivity;
 +import org.chromium.chrome.browser.back_press.BackPressManager;
@@ -193,16 +199,22 @@ index 000000000..93c150b5d
 +public final class TvBrowserControls implements TvRemoteInput.Target {
 +    private final BraveActivity mActivity;
 +    private final BackPressManager mBackPressManager;
++    private final NonNullObservableSupplier<Boolean> mScrimVisible;
 +    private final TvRemoteInput mInput;
 +    private final Cursor mCursor;
 +    private final OnBackPressedCallback mBackCallback;
 +    private @Nullable ContentView mPage;
 +    private @Nullable AlertDialog mDialog;
 +    private String mPressedUrl = "";
++    private boolean mDestroyed;
 +
-+    public TvBrowserControls(BraveActivity activity, BackPressManager backPressManager) {
++    public TvBrowserControls(
++            BraveActivity activity,
++            BackPressManager backPressManager,
++            NonNullObservableSupplier<Boolean> scrimVisible) {
 +        mActivity = activity;
 +        mBackPressManager = backPressManager;
++        mScrimVisible = scrimVisible;
 +        float density = activity.getResources().getDisplayMetrics().density;
 +        mInput = new TvRemoteInput(this, Math.max(1, Math.round(16 * density)));
 +        mCursor = new Cursor(density);
@@ -210,7 +222,8 @@ index 000000000..93c150b5d
 +                new OnBackPressedCallback(true) {
 +                    @Override
 +                    public void handleOnBackPressed() {
-+                        if (!keyboardVisible() && !nativeUiHandlesBack()) {
++                        if (!isAlive()) return;
++                        if (!keyboardVisible() && !nativeUiOwnsInput()) {
 +                            if (!mInput.back()) showControls();
 +                            return;
 +                        }
@@ -221,13 +234,17 @@ index 000000000..93c150b5d
 +    }
 +
 +    private void dispatchNativeBack() {
++        if (!isAlive()) return;
 +        mBackCallback.setEnabled(false);
 +        try {
 +            mActivity.getOnBackPressedDispatcher().onBackPressed();
 +        } finally {
-+            if (!mActivity.isFinishing() && !mActivity.isDestroyed())
-+                mBackCallback.setEnabled(true);
++            if (isAlive()) mBackCallback.setEnabled(true);
 +        }
++    }
++
++    private boolean isAlive() {
++        return !mDestroyed && !mActivity.isFinishing() && !mActivity.isDestroyed();
 +    }
 +
 +    private boolean keyboardVisible() {
@@ -236,7 +253,14 @@ index 000000000..93c150b5d
 +        return insets != null && insets.isVisible(WindowInsetsCompat.Type.ime());
 +    }
 +
-+    private boolean nativeUiHandlesBack() {
++    private boolean nativeUiOwnsInput() {
++        ContentView page = currentPage();
++        if (page == null || mScrimVisible.get()) return true;
++        View focus = mActivity.getCurrentFocus();
++        if (focus != null && !page.hasFocus()) return true;
++        // CloseWatcher can outrank Find; inspect the native UI independently.
++        View findToolbar = mActivity.findViewById(R.id.find_toolbar);
++        if (findToolbar != null && findToolbar.isShown()) return true;
 +        for (@BackPressHandler.Type int type = 0;
 +                type < BackPressHandler.Type.TAB_HISTORY;
 +                type++) {
@@ -258,16 +282,13 @@ index 000000000..93c150b5d
 +    }
 +
 +    public boolean dispatchKeyEvent(KeyEvent event) {
-+        if (mPage != currentPage()) {
-+            mInput.back();
-+            return false;
-+        }
++        if (!isAlive()) return false;
 +        InputDevice device = event.getDevice();
 +        if (!event.hasNoModifiers()
 +                || (device != null
 +                        && device.getKeyboardType() == InputDevice.KEYBOARD_TYPE_ALPHABETIC)
 +                || keyboardVisible()
-+                || nativeUiHandlesBack()) {
++                || nativeUiOwnsInput()) {
 +            mInput.cancelPress();
 +            return false;
 +        }
@@ -292,6 +313,10 @@ index 000000000..93c150b5d
 +            default:
 +                return false;
 +        }
++        if (mPage != currentPage()) {
++            mInput.back();
++            return false;
++        }
 +        if (event.getAction() != KeyEvent.ACTION_DOWN && event.getAction() != KeyEvent.ACTION_UP) {
 +            return false;
 +        }
@@ -313,8 +338,8 @@ index 000000000..93c150b5d
 +
 +    @Override
 +    public void showControls() {
++        if (!isAlive()) return;
 +        detachCursor();
-+        if (mActivity.isFinishing() || mActivity.isDestroyed()) return;
 +        if (mDialog != null && mDialog.isShowing()) return;
 +        List<Integer> actions = new ArrayList<>();
 +        actions.add(R.string.brave_tv_address);
@@ -344,6 +369,7 @@ index 000000000..93c150b5d
 +    }
 +
 +    private void performAction(int action) {
++        if (!isAlive()) return;
 +        if (action == R.string.brave_tv_pointer || action == R.string.brave_tv_scroll) {
 +            mPage = currentPage();
 +            if (mPage == null) return;
@@ -383,31 +409,33 @@ index 000000000..93c150b5d
 +                                : R.string.brave_tv_pointer_hint);
 +        mCursor.setBounds(0, 0, getWidth(), getHeight());
 +        mCursor.invalidateSelf();
-+        sendMouseEvent(MotionEvent.ACTION_HOVER_MOVE, x, y, 0, 0, 0, SystemClock.uptimeMillis());
++        sendPointerEvent(MotionEvent.ACTION_HOVER_MOVE, x, y, 0, 0, SystemClock.uptimeMillis());
 +    }
 +
 +    @Override
 +    public void click(int x, int y) {
 +        long time = SystemClock.uptimeMillis();
-+        sendMouseEvent(MotionEvent.ACTION_DOWN, x, y, MotionEvent.BUTTON_PRIMARY, 0, 0, time);
-+        sendMouseEvent(MotionEvent.ACTION_UP, x, y, 0, 0, 0, time);
++        // Chromium ignores mouse DOWN/UP; use a scoped touchscreen tap for OK.
++        sendPointerEvent(MotionEvent.ACTION_DOWN, x, y, 0, 0, time);
++        sendPointerEvent(MotionEvent.ACTION_UP, x, y, 0, 0, time);
 +    }
 +
 +    @Override
 +    public void scroll(int x, int y, int dx, int dy) {
-+        sendMouseEvent(MotionEvent.ACTION_SCROLL, x, y, 0, dx, -dy, SystemClock.uptimeMillis());
++        sendPointerEvent(MotionEvent.ACTION_SCROLL, x, y, dx, -dy, SystemClock.uptimeMillis());
 +    }
 +
-+    private void sendMouseEvent(
-+            int action, int x, int y, int buttons, int dx, int dy, long downTime) {
++    private void sendPointerEvent(int action, int x, int y, int dx, int dy, long downTime) {
 +        ContentView page = mPage;
-+        if (page == null || page != currentPage()) return;
++        if (!isAlive() || page == null || page != currentPage()) return;
++        boolean touch = action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP;
 +        MotionEvent.PointerProperties pointer = new MotionEvent.PointerProperties();
 +        pointer.id = 0;
-+        pointer.toolType = MotionEvent.TOOL_TYPE_MOUSE;
++        pointer.toolType = touch ? MotionEvent.TOOL_TYPE_FINGER : MotionEvent.TOOL_TYPE_MOUSE;
 +        MotionEvent.PointerCoords point = new MotionEvent.PointerCoords();
 +        point.x = x;
 +        point.y = y;
++        point.pressure = action == MotionEvent.ACTION_DOWN ? 1 : 0;
 +        point.setAxisValue(MotionEvent.AXIS_HSCROLL, dx);
 +        point.setAxisValue(MotionEvent.AXIS_VSCROLL, dy);
 +        MotionEvent event =
@@ -419,15 +447,15 @@ index 000000000..93c150b5d
 +                        new MotionEvent.PointerProperties[] {pointer},
 +                        new MotionEvent.PointerCoords[] {point},
 +                        0,
-+                        buttons,
++                        0,
 +                        1,
 +                        1,
 +                        0,
 +                        0,
-+                        InputDevice.SOURCE_MOUSE,
++                        touch ? InputDevice.SOURCE_TOUCHSCREEN : InputDevice.SOURCE_MOUSE,
 +                        0);
 +        try {
-+            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) {
++            if (touch) {
 +                page.dispatchTouchEvent(event);
 +            } else {
 +                page.dispatchGenericMotionEvent(event);
@@ -443,6 +471,7 @@ index 000000000..93c150b5d
 +    }
 +
 +    public void destroy() {
++        mDestroyed = true;
 +        mInput.cancelPress();
 +        mBackCallback.remove();
 +        detachCursor();
