@@ -1,5 +1,7 @@
 # Android TV emulator through Nix
 
+Current test devices (9 October): `brave_tv_onboarding_api36` is the preserved upgrade-test profile; `brave_tv_clean_api36` is reserved for fresh-install/default-search checks. At the user's request, the stopped, obsolete `brave_tv_api36` AVD was deleted (about 6.6 GiB allocated). Its prior test results below are historical; use a current device ID returned by `device_list`, not its former serial. APKs, logs, SDK/system images and build caches remain preserved.
+
 The optional `tv-emulator-sdk` flake package supplies SDK Command-line Tools 20.0, an emulator package and the Android TV API 36 x86-64 image (revision 4), pinned by the existing `flake.lock`. It uses Google's Android SDK license and permits the SDK's unfree packages only in this separate package set. It does not change Chromium's build SDK or download the image for ordinary development-shell checks.
 
 The current Linux host has working KVM access. Its original Android Emulator 35.3.11 rejects T3's `imagefile:` camera launch arguments; the Nix SDK includes emulator 36.5.11, which accepts them. The SDK also needs an emulator package because `avdmanager create avd` refuses an SDK without one. Earlier pinned TV images offer x86/arm64 rather than the ABI required by our x86-64 APK.
