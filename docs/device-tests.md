@@ -1,6 +1,6 @@
 # Device and website test matrix
 
-Status: emulator input regressions pass as recorded below. The connected Chromecast's ARM APK builds and verifies, but installation is blocked by insufficient device storage. Physical-device behavior and website coverage remain unverified. See [build evidence](build.md) and [prototype status](tv-prototype.md). Website availability and behavior must be checked during execution.
+Status: emulator input regressions pass as recorded below. The first Chromecast ARM APK installed and advanced onboarding with the physical remote, but browser startup repeatedly freezes. A non-debuggable diagnostic APK is built; installation is pending sufficient storage. See [build evidence](build.md) and [prototype status](tv-prototype.md). Website availability and behavior must be checked during execution.
 
 ## What hardware is needed
 
@@ -19,13 +19,13 @@ On 9 October, at the user's request, `enableDeviceSupport` and `enableAgentDevic
 | Manufacturer and model | Google Chromecast with remote; HD/4K variant TBD | TBD |
 | Android version / API | Android 14 / API 34 (ADB-confirmed) | TBD |
 | Supported ABIs | `armeabi-v7a,armeabi` | TBD |
-| RAM / available storage | About 1.9 GiB / 1.06 GiB before the second installation attempt | TBD |
+| RAM / available storage | About 1.9 GiB / 1.26 GiB before successful installation; 933 MiB after launch | TBD |
 | Display resolution / scaling | 3840×2160 physical; 1920×1080 override; 320 dpi | TBD |
-| Remote buttons | D-pad/OK/Back remote present; app test pending | TBD |
+| Remote buttons | Physical D-pad/OK advances the first setup page; browser interaction blocked by startup ANRs | TBD |
 | Connection method | Wireless ADB; T3 Device panel attached | TBD |
 | Official Brave baseline | Not run | Not run |
 | Unmodified source build | Not run | Not run |
-| TV adaptation build | ARM build passed; installation blocked by storage | Not run |
+| TV adaptation build | Initial ARM installation/onboarding passed; browser startup fails; candidate pending installation | Not run |
 
 Once device access is enabled and the computer is authorized, the Nix shell provides ADB. Select a specific serial to avoid accidentally testing a different device:
 
@@ -79,9 +79,15 @@ CloseWatcher/native-modal combinations, lifecycle recovery, successful remote UR
 
 - Google Chromecast (`sabrina`), Android 14/API 34, 32-bit ARM, with T3's Device panel attached over wireless ADB. Android reports the physical Chromecast Remote as `KEYBOARD | DPAD`, non-alphabetic keyboard type 1; the injected virtual keyboard is type 2. This confirms input classification, not successful app interaction.
 - [ARM artifact](tv-prototype.md#chromecast-arm-artifact): implementation `d5c4de1`, APK SHA-256 `4da845e3672c6c3f7ea89a4e61e5d66da00b3349ee87a32ac433bc69dd45c825`, 349.9 MiB. Signature, ABI and TV launch metadata inspection passed.
-- **BLOCKED:** `agent-device install`, using the returned physical-device launcher/config/session, failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`. The first attempt started with roughly 900 MiB free. After the user removed more apps, a retry with 1.06 GiB free failed identically. Android's integrity check passed before each installation-location failure; no Brave package was installed.
+- **Initial storage failures:** `agent-device install`, using the returned physical-device launcher/config/session, failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`. The first attempt started with roughly 900 MiB free. After the user removed more apps, a retry with 1.06 GiB free failed identically. Android's integrity check passed before each installation-location failure; neither attempt installed Brave.
 - Android's installation estimate includes the APK and native libraries, and its allocation policy preserves a low-storage reserve. The device reports a 207.3 MiB reserve; this APK contains 185.1 MiB of native libraries. Aiming for 1.3 GiB free before retrying is an estimate with headroom, not a measured minimum. References: Android 14 [installed-size calculation](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-14.0.0_r1/core/java/com/android/internal/content/InstallLocationUtils.java#444) and [allocation policy](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-14.0.0_r1/services/core/java/com/android/server/StorageManagerService.java).
-- The user is freeing additional space. No app data was cleared by the agent; the native Google TV keyboard remains selected. Build outputs and the completed APK are retained, so another installation attempt needs no rebuild. Physical launch, onboarding, cursor/form/scroll/Back, video and memory measurements remain pending.
+- **Installation and initial launch, PASS:** after further user cleanup, `/data` reported 1,317,940 KiB free (1.26 GiB). The unchanged APK installed successfully at 14:12 EDT through `agent-device`; Android confirms package/version/ABI and the Leanback launcher category. Opening the package reached the first Web Discovery onboarding screen with both consent buttons visible. This does not yet prove launch from the TV home-screen tile or completion with the physical remote. Available storage after launch was 955,252 KiB (933 MiB).
+- **Initial memory sample:** during onboarding, the main browser process reported 134,634 KiB PSS (131.5 MiB) and 178,008 KiB RSS (173.8 MiB). This is one setup-screen sample, not a browsing/video peak or a whole-session budget. Evidence: `~/.cache/brave-tv/logs/chromecast-onboarding-memory-20261009.txt`.
+- The user confirmed that the physical Chromecast remote highlights “Maybe later” and advances to the next setup page. The complete onboarding sequence was not recorded, but subsequent launches reached TV controls. The TV home-screen app list also exposes “TV Browser (prototype)”.
+- **Browser startup, FAIL:** the user reported apparent crashes during address entry. Uninstrumented Android records show repeated foreground `ChromeTabbedActivity` input-dispatch ANRs. A controlled relaunch, sending no address or keyboard input, produces a fresh five-second focus-event timeout within 16.2 seconds. This isolates a startup freeze before address entry. Captured traces vary between UI inflation, window-class loading/verification and observer callbacks; no single blocking call is established. The installed package initially reports ART `run-from-apk`, with no usable dexopt artifact.
+- Explicit per-package ART verification (`cmd package compile -m verify --primary-dex -v com.brave.browser_default`) succeeds and changes ART status to `verify`. The identical launch probe still produces a fresh ANR within 13.0 seconds. Missing preverification alone does not explain the failure. Requesting `speed` compilation instead reports actual filter `verify` and `SKIPPED`, consistent with Android's restriction on debuggable apps.
+- The [non-debuggable candidate](tv-prototype.md#non-debuggable-diagnostic-candidate) builds and verifies; the manifest is its only changed ZIP entry. Installing it as an update fails with insufficient storage. The user then uninstalled the initial APK and requested a fresh installation. Android reported 998,748 KiB available (975 MiB), and that attempt also failed with insufficient storage. The failed installer directories checked were absent. The Chromecast was restarted once to check for reclaimed storage after uninstallation. Its previous ADB port then refused connections, and no new service was discovered; reconnection and the post-restart storage check await its current wireless-debugging address. No successful candidate run is claimed.
+- Evidence remains outside Git under `~/.cache/brave-tv/logs/`: `chromecast-browser-anr-dropbox-20261009.txt`, `chromecast-browser-anr-after-verify-20261009.txt`, `chromecast-startup-probe-{before,after}-20261009.txt` and `chromecast-art-verified-20261009.txt`. No app data was cleared by the agent. The original Google TV keyboard was restored after helper launches. Browser responsiveness, cursor/form/scroll/Back, video and sustained memory measurements remain pending.
 
 ## Proposed website flows
 

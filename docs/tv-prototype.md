@@ -55,7 +55,15 @@ The generated merged manifest contains the exported TV launcher alias, `MAIN`/`L
 - SDK `apksigner` verified the v2 signature. The artifact directory contains the exact patch, both GN argument files, badging, signature result and provenance with source/configuration hashes. The original failed object remains available for the regression's failing case.
 - The compiled-object regression, nine repository tests, strict Python typechecking and C++ formatting passed. The [latest-commit Standards and Spec reviews](input-review.md#optimized-android-link-correction-review) found no issues. Android analysis passed as blocking build steps.
 
-Installation currently fails with insufficient storage, including a retry after the user freed 1.06 GiB. See the [physical-device attempt](device-tests.md#chromecast-installation-9-october-2026). Retry the preserved APK after additional space is available, then validate it with the physical remote. Complete URL-to-video, Shields, lifecycle and performance checks; the second physical-device gate also remains open.
+The unchanged APK installed and launched into onboarding on the physical Chromecast after the user freed 1.26 GiB. The physical remote advances the first setup page, but subsequent browser launches repeatedly freeze, including without typing. See the [physical-device results](device-tests.md#chromecast-installation-9-october-2026). URL-to-video, Shields, lifecycle, performance and the second physical-device gate remain open.
+
+### Non-debuggable diagnostic candidate
+
+- Preserved APK: `~/.cache/brave-tv/artifacts/tv-chromecast-v1.97.56-arm-static-nodebug-20261009/BraveMonoarm.apk`.
+- Size: **366,860,419 bytes**; SHA-256: `a74f8932adef3bdf6b83af3eff2951b85862ef3ca587d5f4de520060a73676b2`.
+- Same source patch, package, version, ABI and signing certificate as the ARM artifact above. `--gn=debuggable_apks:false` is the only build-configuration change. The manifest is the only changed ZIP entry; SHA-256 comparison confirms all DEX files and native libraries are identical. Signature verification passed and the APK is no longer marked debuggable.
+- The cached build passed in **1m35.03s** wall time (Siso: 1m27.57s, 11 executed steps). Logs: `~/.cache/brave-tv/logs/build-tv-chromecast-arm-nodebug-20261009-r1.{log,time}`. The artifact directory preserves the exact patch, GN arguments, manifest, signature, badging and provenance.
+- This remains a diagnostic candidate, not a demonstrated ANR fix. Installing it as an update failed due to insufficient storage. The user subsequently uninstalled the earlier APK and requested a fresh installation, so its previous profile is no longer available for an update-preservation check.
 
 ## Implementation
 

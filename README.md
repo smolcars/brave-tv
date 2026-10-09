@@ -2,7 +2,7 @@
 
 # brave-tv
 
-An Android TV adaptation of Brave's Android browser. The x64 emulator and 32-bit ARM Chromecast APKs build through Nix with blocking Android static analysis. Emulator onboarding, remote-source cursor, click, text-entry and nested-scroll checks pass. The Chromecast install is blocked by insufficient device storage; physical-TV, website, video and performance acceptance remain open. See the [ARM artifact](docs/tv-prototype.md#chromecast-arm-artifact) and [runtime evidence](docs/device-tests.md).
+An Android TV adaptation of Brave's Android browser. The x64 emulator and 32-bit ARM Chromecast APKs build through Nix with blocking Android static analysis. Emulator onboarding, remote-source cursor, click, text-entry and nested-scroll checks pass. The first physical Chromecast build installs and opens onboarding, but browser startup repeatedly freezes. A non-debuggable comparison APK is built; its installation is pending sufficient storage. Website, video and performance acceptance remain open. See the [ARM artifacts](docs/tv-prototype.md#chromecast-arm-artifact) and [runtime evidence](docs/device-tests.md).
 
 ## Development
 

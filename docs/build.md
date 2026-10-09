@@ -154,4 +154,18 @@ The [planned correction](engineering-plan.md#optimized-android-link-correction-9
 
 Output: `~/.cache/brave-tv/workspace/src/out/android_Static_arm`. Both runs used four local jobs, 18 GiB memory high, 22 GiB maximum and no build swap. The final generated GN arguments confirm ARM, optimized non-official configuration, development package, `symbol_level=0` and `android_static_analysis="on"`. Blocking `chrome_java__errorprone` and `chrome_public_apk__lint` passed during the first run and remained satisfied on retry. [Artifact details](tv-prototype.md#chromecast-arm-artifact) include checksum, signature, ABI and provenance.
 
-Preserve `android_Debug` and all earlier artifacts. The APK/patch/GN arguments are preserved with hashes and provenance, signature/package/ABI inspection passed, and device storage was rechecked before installation. Use the actual physical-device serial returned by `device_list`, not the emulator serial. Physical remote, website/video, Shields and performance validation remain pending.
+Preserve `android_Debug` and all earlier artifacts. The APK/patch/GN arguments are preserved with hashes and provenance, signature/package/ABI inspection passed, and device storage was rechecked before installation. After user storage cleanup, the APK installed and opened onboarding on the Chromecast; see [device evidence](device-tests.md#chromecast-installation-9-october-2026). Use the actual physical-device serial returned by `device_list`, not the emulator serial. Physical remote, website/video, Shields and performance validation remain pending.
+
+### Non-debuggable startup comparison
+
+Repeated physical-device startup ANRs prompted a [planned diagnostic](engineering-plan.md#chromecast-browser-anr-diagnosis-9-october). Static optimizes the native build but still defaults to `debuggable_apks=true` because it is not an official build. Android's ART service restricts debuggable apps to verification rather than using ahead-of-time compiled code; this also applies to explicit shell compilation requests ([ART source](https://android.googlesource.com/platform/art/+/82a58fad0b5fd7a3246697102fda17b31a232cf7/libartservice/service/java/com/android/server/art/Dexopter.java)). The device's requested `speed` compilation reported actual filter `verify` and `SKIPPED`.
+
+With no other build running, the same limited Nix/systemd service used:
+
+```sh
+SISO_LIMITS=local=4 pnpm run build Static \
+  --target_os=android --target_arch=arm --target_android_output_format=apk \
+  --gn=android_static_analysis:on --gn=symbol_level:0 --gn=debuggable_apks:false
+```
+
+`brave-tv-chromecast-arm-nodebug-j4.service` passed in 1m35.03s, reusing native compilation. The [candidate artifact](tv-prototype.md#non-debuggable-diagnostic-candidate) differs only in its manifest; all DEX/native payload hashes match. It is development-signed and uses the existing test package. Disabling debugging removes app `run-as`/Java-debugger access, but Android logs and exit records remain available. Runtime success is not established by this packaging change; the comparison remains pending installation.
