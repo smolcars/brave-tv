@@ -40,6 +40,9 @@
         android-tools
         jdk21_headless
         mypy
+        cargo
+        rustc
+        stdenv.cc
       ];
     in
     {
