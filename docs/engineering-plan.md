@@ -42,6 +42,12 @@ Shields diagnosis so far: the emulator's registered ad-block resource-library an
 
 The first panel compile rejects `com.google.android.material.R`: Chromium merges these attributes into its own generated resources. Use the existing `org.chromium.chrome.R.attr` namespace for Material theme lookups, then rerun the same blocking build without changing dependencies or suppressing checks.
 
+#### Panel privacy and dialog correction
+
+The corrected resource build passed in 6m58s. Review of source commit `f1fd81dc6` against `1a2963063` found private titles exposed while incognito reauthentication is pending, immediate reopening of controls over asynchronous close confirmations, and Shields wording inconsistent with the localization standard. Before emulator acceptance, pass the existing reauthentication state into the TV controller, guard private panel rendering and every private selection/new-tab action, and hand locked access to the native authentication screen. Treat an available-but-not-yet-created authentication controller as locked. Dismiss TV dialogs and cursor input when the activity pauses, preventing an old private panel from surviving background locking. Do not reopen controls immediately after Close tab: upstream retains its confirmation/completion flow and Back can reopen controls afterward. Use Shields up/down terminology.
+
+Change only the TV controller, its activity integration and localized labels. Rebuild from the existing cache with blocking checks. Verify native D-pad navigation, background/resume, private access, normal/private tab actions, close confirmation priority and the existing cursor/keyboard regressions. Record unavailable authentication prerequisites explicitly rather than claiming a lock-screen test from source inspection. Review only the resulting latest implementation commit against its parent.
+
 ### 4. Finish emulator flows, then return to TV
 
 Complete URL/search, page links/forms/scrolling, tab switching/closing/restoration, bookmark/history operations, private-session isolation, site Shields override, ordinary video/fullscreen and lifecycle recovery on the emulator. Run a sustained browsing/video session, record failures, and fix demonstrated regressions. Only after those checks pass build ARM from the same fork revision and repeat the physical-TV checks. Keep the existing non-debuggable ARM recipe and development signing until a separate release plan is complete.
