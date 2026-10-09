@@ -1,0 +1,11 @@
+# Requires normal native home; opens the native tab list without changing profile data.
+open com.brave.browser_default --relaunch
+wait "text=\"The web. On your terms.\"" 5000
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote right
+tv-remote up
+wait "id=\"com.brave.browser_default:id/tab_switcher_button\" focused=true" 3000
+tv-remote select
+wait "text=\"New tab\" focused=true" 3000
+wait "text=\"Private tabs\"" 3000
+wait "text=\"Browser controls\"" 3000
