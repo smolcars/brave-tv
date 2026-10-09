@@ -15,7 +15,13 @@ try {
   assert.ok(tab, 'Open the local Shields fixture in the normal profile first');
   socket = new WebSocket(tab.webSocketDebuggerUrl);
   const pending = new Map();
-  const failures = [];
+  const requests = new Map();
+  let previousLoader;
+  let currentLoader;
+  let loadedLoader;
+  let frameId;
+  let resolveLoaded;
+  const loaded = new Promise(resolve => { resolveLoaded = resolve; });
   let nextId = 0;
   const send = (method, params = {}) => new Promise((resolve, reject) => {
     const id = ++nextId;
@@ -24,7 +30,26 @@ try {
   });
   socket.onmessage = event => {
     const message = JSON.parse(event.data);
-    if (message.method === 'Network.loadingFailed') failures.push(message.params.errorText);
+    const eventData = message.params;
+    if (message.method === 'Network.requestWillBeSent') {
+      requests.set(eventData.requestId, {
+        url: eventData.request.url, loader: eventData.loaderId, finished: false,
+      });
+    } else if (message.method === 'Network.loadingFailed') {
+      const request = requests.get(eventData.requestId);
+      if (request) request.error = eventData.errorText;
+    } else if (message.method === 'Network.loadingFinished') {
+      const request = requests.get(eventData.requestId);
+      if (request) request.finished = true;
+    } else if (message.method === 'Page.frameNavigated'
+        && eventData.frame.id === frameId
+        && eventData.frame.loaderId !== previousLoader) {
+      currentLoader = eventData.frame.loaderId;
+    } else if (message.method === 'Page.lifecycleEvent'
+        && eventData.frameId === frameId && eventData.name === 'load') {
+      loadedLoader = eventData.loaderId;
+    }
+    if (currentLoader && loadedLoader === currentLoader) resolveLoaded();
     const callback = pending.get(message.id);
     if (callback) {
       pending.delete(message.id);
@@ -41,7 +66,13 @@ try {
     pending.clear();
   };
   await send('Network.enable');
+  await send('Page.enable');
+  await send('Page.setLifecycleEventsEnabled', { enabled: true });
+  const { frameTree } = await send('Page.getFrameTree');
+  frameId = frameTree.frame.id;
+  previousLoader = frameTree.frame.loaderId;
   await send('Page.reload', { ignoreCache: true });
+  await loaded;
   let result;
   for (let attempt = 0; attempt < 30; attempt++) {
     const response = await send('Runtime.evaluate', {
@@ -60,7 +91,16 @@ try {
     if (result.ready === 'complete' && !result.body.includes('pending')) break;
     await new Promise(resolve => setTimeout(resolve, 200));
   }
-  console.log(JSON.stringify({ expected, result, failures }));
+  const network = [...requests.values()].filter(request => request.loader === currentLoader);
+  console.log(JSON.stringify({ expected, result, network }));
+  const assertRequest = (url, blocked) => {
+    const matching = network.filter(request => request.url === url);
+    assert.equal(matching.length, 1, `One fresh request for ${url}`);
+    assert.equal(matching[0].error, blocked ? 'net::ERR_BLOCKED_BY_CLIENT' : undefined, url);
+    assert.equal(matching[0].finished, !blocked, url);
+  };
+  assertRequest('http://127.0.0.1:18081/shields-control.js', false);
+  assertRequest('http://localhost:18081/showbanner.js', expected !== 'down');
   assert.equal(result.ready, 'complete');
   assert.ok(!result.body.includes('pending'));
   assert.ok(result.body.includes('Control script: loaded'));
@@ -68,11 +108,11 @@ try {
     assert.equal(result.adLoaded, false);
     assert.ok(result.body.includes('Cookie-list request:'));
     assert.equal(result.cookieLoaded, expected === 'cookie-off');
+    assertRequest('http://localhost:18081/1_cookie.js', expected === 'cookie-on');
   } else {
     assert.equal(result.adLoaded, expected === 'down');
     assert.equal(result.scriptlet, expected === 'up');
     assert.equal(result.cosmetic, expected === 'up' ? 'none' : 'block');
-    if (expected === 'up') assert.ok(failures.includes('net::ERR_BLOCKED_BY_CLIENT'));
   }
 } finally {
   clearTimeout(timeout);
