@@ -2,6 +2,8 @@
 
 ## Current status
 
+Direct-source fork baseline `1a296306374e88237d6e3967ba967f8f0802458b` builds from the retained x64 cache in **4m07.92s**, with blocking Android analysis, four jobs and 18/22 GiB memory limits (`brave-tv-fork-x64-j4.service`, exit 0). The APK is preserved at `~/.cache/brave-tv/artifacts/tv-fork-v1.97.56-x64-debug-20261009/BraveMonox64.apk`: 853,917,577 bytes, SHA-256 `d21d0c5680f521f0dab43be220e4f80b807abeb557f612e51088d64d365cf363`. Signature verification and emulator update installation passed. The artifact contains GN arguments and source/project provenance; logs use `~/.cache/brave-tv/logs/build-fork-x64-20261009.{log,time}`. Fourteen project tests, strict mypy and Nix flake checks passed. No source/cache reset or dependency reinitialization was needed.
+
 The unmodified Brave x64 Debug APK built successfully at 03:17 EDT on 9 October 2026. Its signature was verified and a separate baseline copy preserved before applying the [TV input patch](tv-prototype.md). The TV prototype completed at 06:25 EDT, including blocking Android static analysis. A subsequent onboarding focus correction rebuilt in 3m33s using the same compilation cache and passed its Android TV emulator regression. Both [prototype artifacts and provenance](tv-prototype.md#completed-prototype-artifact) are preserved separately. See [device evidence](device-tests.md#emulator-run-9-october-2026) for the exact runtime coverage; physical-TV acceptance remains open. The initial machine crash and resource-limit recovery are documented below.
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).

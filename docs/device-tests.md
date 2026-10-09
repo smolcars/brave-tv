@@ -101,6 +101,12 @@ CloseWatcher/native-modal combinations, lifecycle recovery, successful remote UR
 
 ## Proposed website flows
 
+### Direct-source fork baseline, 9 October 2026
+
+Source fork `1a2963063` / project migration `5ecc685` installed over the API 36 emulator's existing package with `adb install -r`; no profile clear or uninstallation. The controlled fixture at reversed localhost port 18081 passes the D-pad-only held/released OK assertion (`Clicks: 1`) and `CursorScreenshot.java` reports a visible cursor at 960,700. Screenshot: `~/.cache/brave-tv/logs/fork-baseline-cursor-20261009.png`.
+
+The current emulator has a separate protection failure: the registered Ad Block Resources Library directory contains no files, and `chrome://components` reports version `0.0.0.0` / Update error for the resource library and list catalog. This does not establish a YouTube-specific root cause. The reported physical symptom is video ads before/during playback. Further network-blocking, resource-update and scriptlet checks remain required.
+
 These are initial engineering defaults, awaiting the user's preferred sites. “Core candidate” means a proposed MVP requirement, not a confirmed compatibility claim. Exploratory flows help identify limits and do not imply support for a paid service or DRM system. Use disposable test accounts only when sign-in is necessary; do not record passwords, cookies or private URLs in logs.
 
 Run each flow first on stock Brave, then the unmodified source build, then the TV adaptation, with Shields defaults. Repeat a failing flow with a documented per-site override only when useful for diagnosis. A successful override does not count as default-protection success.

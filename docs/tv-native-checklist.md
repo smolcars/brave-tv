@@ -6,9 +6,9 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 - [x] Create the Brave source fork with upstream history and check it into `brave/` as a pinned submodule.
 - [x] Commit the tested prototype changes as ordinary source files; retire the TV patch artifact/workflow.
-- [ ] Make setup and JVM checks use real source; preserve dirty/divergent checkout safety.
-- [ ] Advance the existing build checkout without deleting dependencies or output caches.
-- [ ] Build/install the unchanged fork baseline on the emulator and rerun input checks.
+- [x] Make setup and JVM checks use real source; preserve dirty/divergent checkout safety. Fourteen tests, strict mypy and Nix flake checks pass.
+- [x] Advance the existing build checkout without deleting dependencies or output caches. Original source edits remain in a named Git stash.
+- [x] Build/install the unchanged fork baseline on the emulator and rerun input checks. Build 4m08s; cursor visibility and one-click checks pass.
 
 ## Shields and YouTube
 

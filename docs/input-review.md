@@ -157,3 +157,17 @@ Zero documented-standard violations or actionable heuristic smells. The command 
 Zero findings. The promoted command matches the planned single configuration change and preserved provenance, including unchanged DEX/native payloads and development signing. The separate 51.0-second cold launch without input or new ANRs and physical address-entry confirmation support the initial regression result. The user's uninstall/fresh-install instruction superseded the planned update; profile preservation remains unverified. No source change or scope creep was introduced.
 
 Totals: Standards 0, Spec 0. The cached Nix build and APK verification passed; reviewers inspected existing evidence without rebuilding or driving the device. Broader native-priority, narrow-field/nested-scroll, sustained-video, Shields, performance and second-TV checks remain open. This is not an isolated measurement of the debugging flag's effect or final release acceptance.
+
+## Direct-source migration review
+
+Compared project implementation `5ecc685bc9d00ede2d6b89942dfd79537804ef3c` only against parent `01ec9851016673b7ca39d646b4c5f8ab3a6a4e62`. The fork's initial TV commit is `1a296306374e88237d6e3967ba967f8f0802458b`, parent `b01cdf43be4b4d5559bf7e58229e666e24454f50`. Separate read-only Standards and Spec reviewers checked the migration; the fork diff exactly matches the prior 35,402-byte TV patch across 12 files. Earlier source implementation was not re-reviewed.
+
+### Standards
+
+Zero findings. The helper and tests follow the subprocess/filesystem boundary, validate the committed source before creating a workspace and preserve dirty/divergent build checkouts. No actionable baseline smells.
+
+### Spec
+
+Zero findings. The real fork retains upstream ancestry, project tests compile actual tracked Java source, and active documentation retires TV patch export/application. The exact source pin, clean working trees and fast-forward update requirements are enforced.
+
+Totals: Standards 0, Spec 0. Fourteen Nix-shell tests, strict mypy and both Nix flake checks pass. The initial packaged check exposed a hashed store filename copied under the wrong basename; the reviewed commit fixes the explicit Java destination. The cached x64 build subsequently passed in 4m07.92s, APK signature verification passed, and installation preserved the emulator profile. Cursor visibility and single-click checks pass. Native UI expansion and Shields diagnosis remain separate increments.
