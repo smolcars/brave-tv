@@ -41,13 +41,19 @@ or viewport. Screenshots and logs belong outside Git.
 ## Idle cursor wake
 
 Use the same centered cursor, initial scroll and `Clicks: 0` preconditions as
-`dpad-click.jsonl`. Run `dpad-idle-wake-click.jsonl` through uinput. It moves onto
-the button, waits four seconds, then holds/releases OK twice. The first press
-must only reveal the hidden cursor; the second must click exactly once. Assert
-`Clicks: 1`. Before idle hiding, both presses click and this assertion fails
-with `Clicks: 2`. Also capture the idle screen separately and use the pixel
-check at 960,700 with `absent`; after a directional wake, check the new position.
-Do not count a final value of one alone as evidence that the cursor disappeared.
+`dpad-click.jsonl`. Run `dpad-idle-wake.jsonl` through uinput. It moves onto the
+button, waits four seconds, then holds/releases OK once. Assert `Clicks: 0`:
+this press must only reveal the hidden cursor. Before idle hiding this fails
+with `Clicks: 1`.
+
+Immediately check the cursor at 960,700, then run `dpad-held-click.jsonl` and
+assert `Clicks: 1`. Complete this second press within three seconds of the
+first release (including the 1.5-second device registration delay); otherwise
+use a directional wake and return to the button before this second sequence.
+This separately proves a visible held press clicks exactly once. Also capture
+the idle screen after four seconds and use the pixel check with `absent`;
+after a directional wake, check the new position. Do not count click results
+alone as evidence that the cursor disappeared.
 
 ## Precise input and tab replacement
 

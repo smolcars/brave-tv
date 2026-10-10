@@ -21,8 +21,4 @@
 {"id":1,"command":"delay","duration":1000}
 {"id":1,"command":"inject","events":[1,353,0,0,0,0]}
 {"id":1,"command":"delay","duration":300}
-{"id":1,"command":"inject","events":[1,353,1,0,0,0]}
-{"id":1,"command":"delay","duration":1000}
-{"id":1,"command":"inject","events":[1,353,0,0,0,0]}
-{"id":1,"command":"delay","duration":300}
-{"id":1,"command":"sync","syncToken":"idle-wake-click-released"}
+{"id":1,"command":"sync","syncToken":"idle-wake-released"}
