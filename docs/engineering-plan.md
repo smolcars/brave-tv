@@ -53,6 +53,16 @@ and analysis. Review also requests a safe empty-action contract and removal of
 duplicated home links. Complete the compact Compose panel proof in this slice
 before treating toolkit integration as accepted. No cache was removed.
 
+Second attempt: GN rejects dependencies on Chromium's restricted Compose
+targets from the source-fork AAR target. Define the TV targets through a small
+Brave-owned template imported into the AndroidX build, exposing one presentation
+target through the Brave entry point, rather than broadening visibility lists.
+Keep AARs, Kotlin sources and metadata in Brave. Latest review also asks for the
+Kotlin allowlist contents in a Brave-owned include and an explicit activity-owner
+contract. Baseline emulator exited during native browser rendering under T3's
+default Vulkan configuration, matching the existing documented host problem;
+restart only the TV AVD with guest Vulkan disabled and preserve its data.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
