@@ -1,0 +1,6 @@
+# Open dialogs.html and activate Alert first. No dialog choice is automated at setup.
+wait "text=\"OK\" focused=true" 3000
+tv-remote select
+wait "text=\"Alert closed\"" 3000
+tv-remote back
+wait "text=\"Browser controls\"" 3000

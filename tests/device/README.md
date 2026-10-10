@@ -71,6 +71,12 @@ replay is not a physical-remote test.
 
 ## Native playback controls
 
+With a normal `dialogs.html` tab active and no page history, run
+`replay tests/device/tv-playback-empty.ad`. It must reach the no-media panel's
+focused Browser controls footer and return to Playback. Inspect the three
+disabled actions separately. The regression fails with the null-session crash
+on source `9ece2a633`.
+
 Start a finite video in a normal web tab, then open Browser controls → Playback.
 Use D-pad/OK to pause and resume; the focused button should change its label
 without closing the panel or moving focus. With ADB DevTools forwarded to port
@@ -94,6 +100,15 @@ media actions, and Home/relaunch closes the old panel. Check tab/document change
 while the panel is open cannot control the previous page. Use the documented
 uinput remote for site cursor/fullscreen interactions; native panel navigation
 can use agent-device's virtual keyboard.
+
+## Native site dialogs
+
+Open the local `dialogs.html` fixture and activate Alert. Run
+`replay tests/device/tv-native-alert.ad` to check actual initial dialog focus,
+OK dismissal and Back to browser controls. The fixture can be activated by
+an agent ref for setup; the dialog itself is driven by D-pad/OK. Also check
+confirmation Cancel/OK, prompt editing/Cancel, and location Block/Back manually.
+Do not grant location or accept certificate warnings merely to pass a check.
 
 ## Direct first launch
 
