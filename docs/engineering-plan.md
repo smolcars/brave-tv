@@ -676,3 +676,12 @@ storage, explicit protection state and reload behavior. Check both directions,
 normal restart and the blocking fixture, and review only the latest commit.
 The native assertion is direct evidence of an invalid argument, so no speculative
 instrumentation or broad bisection is needed.
+
+The regression fails at step 14 after selecting Standard, reproducing the same
+native abort. The fault is in the shared `setShieldsValue(TRACKERS)` conversion:
+both the TV panel and existing phone callers use `DEFAULT` for Standard, while
+native `SetAdControlType` accepts only BLOCK or ALLOW. Correct that shared
+conversion so DEFAULT and BLOCK_THIRDPARTY map to BLOCK for network filtering;
+retain BLOCK_THIRDPARTY for Standard cosmetic filtering and preserve ALLOW/BLOCK.
+This matches `BraveShieldsSettingsService::SetAdBlockMode` semantics. Fix the
+conversion once rather than bypassing the shared API in TV UI.
