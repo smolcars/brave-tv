@@ -385,3 +385,35 @@ and cursor render in Android TV's app picker and favorites row without the
 BT monogram. D-pad selection launches the browser and restores its fixture tab.
 The existing temporary label and application identity remain; this is not a
 production branding/signing decision.
+
+
+## Bounded background traffic sample (10 October 2026 UTC)
+
+Installed source `33e4873c7`, owner emulator profile: Android's existing debug
+command-line mechanism enabled default-redaction NetLog for one process. The
+flag file and debug-app setting were initially absent/unset; both were restored
+and the browser relaunched afterward. Raw logs remain outside Git at
+`~/.cache/brave-tv/logs/netlog-{startup,navigation-search}-33e4873c7.json`.
+The capture was copied while live; the parser reads complete events and ignores
+an unfinished tail, so this is a bounded sample rather than an exhaustive trace.
+
+The final capture contains 21,393 complete events over 130.016 seconds. Startup
+shows 15 request starts to `go-updater.brave.com/extensions`, all HTTP 403, plus
+the local fixture. After idle native home, address-bar navigation to example.com
+and the disposable Google query “android tv browser test,” the cumulative
+request starts are: updater 16, loopback 3, example.com 3, www.google.com 35,
+fonts.gstatic.com 2, www.gstatic.com 10, and ogads-pa.clients6.google.com 2.
+The latter requests identify `https://www.google.com` as their initiator. The
+updater identifies no web origin; all 16 updater responses are HTTP 403.
+The example page loaded securely; an obsolete “Example Domain” heading wait
+failed because the served page text has changed. Google displays the entered
+query. Address text was injected through ADB for this traffic diagnostic, not
+claimed as physical-remote typing acceptance.
+
+No Brave reporting host appears in this window. This does not establish absence
+of delayed reporting, all local metrics or all promotional services. Source
+inspection confirms TV startup skips the existing promotional initialization
+block and the retention receiver already rejects TV. A separate Rewards
+onboarding notification entry remains reachable in source; the planned
+`8164e10cd` correction is awaiting build/runtime verification. Component service
+authorization and independent update delivery remain unresolved.
