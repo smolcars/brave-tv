@@ -69,6 +69,12 @@ The baseline native home replay now passes all 20 steps on the Vulkan-disabled
 TV emulator. Capture the two navigable design alternatives in source docs and
 select the charcoal/sage direction; prototypes remain separate from APK proof.
 
+Fourth attempt passes GN and invokes the actual Kotlin/Compose compiler. Two
+errors come from the `ComposeView.apply` receiver's Android `background`
+property shadowing the palette color; rename that token to `backgroundColor`.
+No toolkit incompatibility is established by these ordinary source errors.
+Peak cgroup observation for this attempt was 8,649,408,512 bytes (8.06 GiB).
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
