@@ -1198,3 +1198,25 @@ Keep this acceptance run on the verified APK. Plan and test any resulting
 source fix separately with the existing cached build limits and latest-only
 implementation review; do not erase the user's newly created hardware profile
 to obtain a first-run reproduction.
+
+### Fresh-launch and branding follow-up (10 October)
+
+The user authorizes this next implementation slice. Use the existing clean TV
+emulator and a new isolated Android test user to reproduce a genuine first
+launch without resetting either preserved emulator profile or the Chromecast.
+Record a failing launcher/home assertion and background-start logs before
+changing the handoff. Compare first and second launches on the same profile,
+then test a fresh profile again after the fix. Keep launch intent data and
+upstream first-run/profile initialization intact.
+
+Remove the observed TV Shields education promotion at its presentation entry
+point, retaining protection, notices and attribution. Audit the runtime media
+label separately and use the neutral working browser label without changing
+application ID, signing or user data. Scope each change after inspecting its
+callers and existing tests. Build cached x64 through Nix with four workers,
+18/22 GiB thresholds and no swap; run blocking analysis and focused regressions.
+Review only the latest implementation commit, push source before root, and
+record exact build/runtime evidence. Extend the YouTube sample to later
+positions and cold restarts, separating website ad observations from local
+fixture blocking. Stop the emulator and task helpers at closeout; preserve
+all profiles and build outputs.
