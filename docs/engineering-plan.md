@@ -1549,3 +1549,16 @@ Native input/control, security-boundary, reconnect and lifecycle evidence is in
 debug-only HTTP experiment. Release transport, real phones/Safari and physical
 TV acceptance remain open; the Chromecast was untouched. Restore emulator
 settings and stop only task-owned emulators/fixtures, preserving all caches.
+
+### Authorized Chromecast phone-remote test
+
+The user now authorizes installation and a short physical-TV test while watching.
+Preserve the active Android/browser profile and use the cached optimized ARM
+configuration with debuggable_apks=false, which avoids the earlier startup ANRs.
+Replace the experiment's ART-debuggable gate with Chromium's non-official,
+local-development-channel gate; retain the explicit process switch, unencrypted
+warning, TV opt-in and pairing approval. Official and named release channels
+remain excluded. Reuse Chromium's debug-app command-line mechanism to enable
+this development-only test without enabling the APK's debugger flag. Build with
+the existing limits, verify signing/ABI, update in place, and exercise harmless
+pairing/native controls. Do not reopen first-run investigations or reset profiles.

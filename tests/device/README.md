@@ -2,9 +2,12 @@
 
 ## Local phone remote experiment
 
-Use only emulator serials. Enable the debug-only `tv-local-remote-experiment`
+These automated probes require emulator serials. Enable the development-only `tv-local-remote-experiment`
 switch using Chromium's Android debug command-line mechanism, then start the
 experiment on the TV and approve the phone. Use synthetic fields only.
+The gate requires a non-official local-development-channel build; optimized
+non-debuggable APKs qualify when explicitly selected as Android's debug app.
+Physical tests require user authorization and a separately specified serial.
 [Remote evidence](../../docs/phone-remote-evidence.md) records shared virtual
 Wi-Fi setup, exact tested browser versions and tool limitations. The companion
 must open the TV's private origin directly; these diagnostic forwards do not

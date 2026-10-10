@@ -1,7 +1,9 @@
 # Local phone remote experiment — 10 October 2026
 
 The authorized emulator implementation scope is complete on source `7f2ad4c6c`.
-No physical Chromecast operation was performed. HTTP remains an explicitly
+No physical Chromecast operation was performed during that emulator scope.
+The user subsequently authorized installation and a short physical test.
+HTTP remains an explicitly
 enabled development experiment; this is not release acceptance.
 
 ## Transport and threat model
@@ -16,7 +18,7 @@ source fork, with no external companion requests.
 
 An attacker on the network can observe HTTP credentials, URLs and text or replace
 the served JavaScript. Pairing/Host/Origin validation does not solve this. The
-experiment requires a debuggable APK, the process switch
+experiment requires a non-official local-development-channel build, the process switch
 `--tv-local-remote-experiment`, explicit TV opt-in with an unencrypted warning,
 and TV approval. Test only synthetic data on an isolated network. Public builds
 must keep this off pending a separate release decision.
@@ -393,3 +395,15 @@ user-deferred Chromecast/second-TV checks. Only selected private IPv4 Wi-Fi or
 Ethernet is supported. Off-origin companion requests were blocked during pairing;
 the guest's internet link was not physically disconnected. Local operation uses
 no external companion service; ordinary website browsing still needs its network.
+
+## Authorized Chromecast preparation
+
+The later user request authorizes an in-place install and short physical test.
+Use the preserved optimized ARM output with `debuggable_apks=false`, avoiding
+the previously observed debuggable-build startup stalls. The experiment gate
+now uses `!VersionInfo.isOfficialBuild() && VersionInfo.isLocalBuild()` plus
+the existing process switch; official and named release channels are excluded.
+Pinned Chromium permits `/data/local/tmp/chrome-command-line` for the selected
+Android debug app with ADB enabled even when the APK itself is non-debuggable.
+TV opt-in, the unencrypted warning, pairing approval and all session limits remain.
+Hardware results will be recorded after the build and test.

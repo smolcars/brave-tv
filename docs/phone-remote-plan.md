@@ -6,10 +6,10 @@ user's explicit preference for same-network operation. The original
 [research](phone-remote-research.md) remains background, not the chosen transport.
 Source integration was inspected at `44ccdafef82661c8188e0b43c98368b369651360`.
 
-**Current test restriction: do not connect to, launch, install on, reset, wake,
-reboot or otherwise operate the physical Chromecast. The user is watching TV.
-Use Android TV emulators and available simulated/browser clients. Physical-TV
-acceptance waits for renewed user authorization.**
+**Updated authorization: the user now permits installation and a short test on
+the Chromecast while watching. Preserve its profile and use an optimized,
+non-debuggable local development build. Real-phone and broader hardware
+acceptance remain separate gates.**
 
 ## Product scope
 
@@ -229,11 +229,11 @@ of restored reachability if the old session remains valid. Measure presentation
 latency separately from acks. Record actual measurements, not promises; emulator
 forwarding numbers are not hardware LAN measurements.
 
-### 5. Later acceptance — not authorized to use Chromecast now
+### 5. Hardware acceptance — limited Chromecast test now authorized
 
 - [ ] Real iPhone Safari and Android Chrome on home Wi-Fi: QR/manual pairing,
   keyboard/gestures, foreground/resume, denied permissions and unavailable TV.
-- [ ] Existing Chromecast, only after the user releases it for testing: preserve
+- [ ] Existing Chromecast, now authorized for a short test: preserve
   its profile, use a cached optimized build, repeat video/audio/fullscreen and
   physical remote arbitration; check memory and real Wi-Fi behavior.
 - [ ] Resolve the transport release decision, publish tested versions, local-
