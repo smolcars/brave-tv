@@ -495,3 +495,9 @@ Keep the existing development label, alias, application ID, signing and all
 attribution unchanged. Preserve the lint-approved 160×90dp size and 320×180
 viewport. Compile with blocking resource/lint checks and inspect the rendered
 banner before accepting it; final naming and distribution identity remain open.
+
+Filter replay correction: the first new-build run sends Down before Settings
+has acquired focus and opens Search engine instead. Manual D-pad navigation
+reaches the filter panel. Await each destination's focused entry before the
+next key, and use the actual localized `Content Filters` label in the return
+assertion. Keep the off/on behavior assertions unchanged.
