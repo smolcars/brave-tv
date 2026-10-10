@@ -1533,3 +1533,11 @@ sampling, and persist each minute's measurements before final assertions so a
 failed run still leaves its evidence. A separate 120-command run measures latency;
 repeat the corrected soak alongside final APK acceptance rather than labeling
 the failed probe a pass.
+
+A subsequent fresh invitation is visible but its screenshot fails QR decoding.
+QR-only/TRY_HARDER scanning and cropping do not fix it. Sampling the exact module
+centers recovers the valid payload; re-encoding that payload at 320 pixels and
+bilinearly scaling to the 360-pixel TV slot reproduces failure, while direct
+360-pixel encoding passes. Generate the bitmap at the slot's final physical size
+and suppress bitmap density/view scaling. Keep the original decoder unchanged;
+require fresh full-screen QR captures to pass after packaging the correction.

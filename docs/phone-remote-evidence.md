@@ -314,3 +314,41 @@ partial endurance evidence, not a passing soak. The final steady sample is
 as `~/.cache/brave-tv/artifacts/phone-latency-r13.json`. These are command round
 trips, not measured display presentation latency. Correct the sampler's busy
 arbitration and incremental evidence persistence, then repeat with the final APK.
+
+## r14 final boundary and lifecycle acceptance
+
+Source `c65a70820` passes all blocking build checks in 3m39.41s (53 steps),
+observed peak 14,364,889,088 bytes. Preserved APK:
+`phone-remote-c65a70820-x64-debug-20261010/BraveMonox64.apk`, 851,003,331 bytes,
+SHA-256 `c545319f04bf7afc8e5ae74e42b7b5dbacbaa684038d48fbd94e349751024f76`.
+The previously red protocol probe now rejects fractional/string version,
+sequence and document identities while valid commands work. Native composition,
+Unicode, selection/deletion and excluded/stale fields pass again; the test IME
+is removed and Gboard restored. Gestures, navigation and normal tabs pass again.
+
+QR pairing loads all three bundled assets with off-origin requests blocked and
+no attempted external request. The stronger reconnect probe first clicks the
+actual counter, then rejects an offline click, restores the same session in
+456 ms and observes two subsequent polls without a replay. Transport negatives,
+including absent Origin and WebSocket upgrades, pass. The idle-socket saturation
+probe temporarily interrupts companion polling as expected; mistakenly running
+it during the new soak invalidated that short run. The companion recovers.
+Perform disruptive checks before starting the final uninterrupted soak.
+
+Phone Disconnect clears its in-memory credential and produces explicit TCP
+connection refusal at the former listener. Re-pairing succeeds. Backgrounding
+the TV then closes the new listener while preserving its browser PID; returning
+to Brave and explicitly starting/approving another invitation succeeds. Reloading
+the companion loses the credential and requires a fresh pairing. Idle expiry
+produces explicit connection refusal after 120.14 seconds with the same browser
+PID, recorded in `~/.cache/brave-tv/artifacts/phone-idle-r14.json`.
+
+The next fresh QR fails decoding even though the preceding three pairings pass.
+The revoked full-screen image is retained as `qr-test-r14-final-retry.png`.
+QR-only/TRY_HARDER and cropping do not fix decoding; those test changes are
+discarded. Sampling the module centers recovers a valid payload without logging
+it. Re-encoding that same payload at 320 pixels and bilinearly enlarging it to
+the 360-pixel ImageView reproduces the failure, while direct 360-pixel encoding
+passes. The correction generates at the view's physical size, disables bitmap
+density scaling and centers the bitmap without interpolation. Original full-screen
+decoding and the uninterrupted soak must pass after the corrected APK.
