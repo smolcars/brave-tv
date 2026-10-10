@@ -47,7 +47,8 @@
     in
     {
       # Optional runtime test SDK; Chromium still builds with its DEPS-selected SDK.
-      packages.${system}.tv-emulator-sdk =
+      packages.${system} = {
+      tv-emulator-sdk =
         (emulatorPkgs.androidenv.composeAndroidPackages {
           cmdLineToolsVersion = "20.0";
           toolsVersion = null;
@@ -59,6 +60,21 @@
           systemImageTypes = [ "android-tv" ];
           abiVersions = [ "x86_64" ];
         }).androidsdk;
+
+      phone-emulator-sdk =
+        (emulatorPkgs.androidenv.composeAndroidPackages {
+          cmdLineToolsVersion = "20.0";
+          toolsVersion = null;
+          buildToolsVersions = [ ];
+          platformVersions = [ "36" ];
+          includeCmake = false;
+          includeEmulator = true;
+          includeSystemImages = true;
+          systemImageTypes = [ "google_apis" ];
+          abiVersions = [ "x86_64" ];
+        }).androidsdk;
+
+      };
 
       devShells.${system}.default = pkgs.mkShell {
         packages = tools;

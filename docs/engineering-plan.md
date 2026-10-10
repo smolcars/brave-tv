@@ -96,6 +96,20 @@ poll, and bind edits to a separate renderer content/selection revision. Add
 bytecode class/method checks and correct JNI reference types/override qualifier
 reported by the second build. Both attempts stopped below 8 GiB peak.
 
+### Phone remote slice 3 — simulated LAN acceptance setup
+
+Use the locked Nixpkgs SDK catalog to add an optional API 36 Google APIs phone
+image (separate package, same emulator version; no Chromium upgrade). Emulator
+36.5 supports a shared virtual Wi-Fi network, so a phone AVD can reach the TV's
+private address directly without ADB forwarding. Start the phone only after the
+compile finishes and resource headroom is checked. Safari/iOS is unavailable on
+this Linux host. Preserve the three existing TV AVDs and all SDK/build caches.
+
+T3 preview_open is blocked by host AppArmor; its exact error is recorded in the
+remote evidence. Use the installed headless Chromium/Playwright for companion
+layout/integration tests without changing network security flags. Add focused
+session checks to root test discovery and synthetic native-field fixtures.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.

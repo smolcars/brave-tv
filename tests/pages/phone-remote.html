@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Phone remote fixture</title>
+<style>body{font:24px sans-serif;padding:32px;background:#eee}input,textarea,[contenteditable]{font:24px sans-serif;padding:12px;display:block;margin:16px 0;min-width:400px}button{font:24px sans-serif;padding:20px;margin:20px}.spacer{height:1600px}#events{white-space:pre-wrap}</style>
+<h1>Phone remote fixture</h1><button id="click">Clicked 0 times</button><a href="phone-remote.html?next">Next document</a>
+<label>Plain text<input id="plain" value="hello"></label><label>Second text<input id="second" value="second"></label>
+<label>Text area<textarea id="area">A line</textarea></label><div id="editable" contenteditable="true" aria-label="Editable content">Editable</div>
+<label>Password<input id="password" type="password" value="synthetic-secret"></label>
+<p id="events"></p><div class="spacer">Scroll space</div><p>Bottom of fixture</p>
+<script>let clicks=0;document.querySelector('#click').onclick=e=>{e.target.textContent=`Clicked ${++clicks} times`};window.events=[];for(const name of ['input','compositionstart','compositionupdate','compositionend'])document.addEventListener(name,e=>{window.events.push({type:name,id:e.target.id,data:e.data});document.querySelector('#events').textContent=JSON.stringify(window.events.slice(-4))});</script></html>
