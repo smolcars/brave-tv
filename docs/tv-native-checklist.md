@@ -2,6 +2,18 @@
 
 Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), implement direct source changes, run focused checks and the cached emulator build, review only the latest implementation commit, then commit evidence and push `master`. Record failed or partial checks honestly. Return to the Chromecast after emulator flows are usable.
 
+## Current priority (user direction, 10 October)
+
+- [x] Fix the restored-home startup panel issue. `44ccdafef` passes the previously failing 20-step home replay; real webpages retain automatic browser controls.
+- [ ] Resolve the intermittent Android 14 first-launch handoff with a repeatable, awake-device reproduction and verified correction.
+- [ ] Scope the user's next important feature when specified.
+
+The user defers broader device acceptance (including a second device), release
+identity/signing/packaging, unattended upstream filter refresh publication and
+ongoing browser-update automation to future work. Existing unchecked items
+below remain the backlog, not prerequisites for starting that next feature.
+This does not declare the original broad tester-release criteria complete.
+
 ## Source fork
 
 - [x] Create the Brave source fork with upstream history and check it into `brave/` as a pinned submodule.

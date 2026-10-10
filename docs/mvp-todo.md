@@ -4,6 +4,14 @@ Build a usable Android TV browser by adapting Brave’s existing Android applica
 
 Background: [feasibility research](feasibility.html). Implementation is in progress; unchecked items include partial work and unverified device acceptance. See the [build log](build.md) and [proposed device/site matrix](device-tests.md).
 
+Current direction (10 October): resolve intermittent launch issues, then scope
+the user's next important feature. The user defers the remaining release and
+broader acceptance work below, including second-device coverage, signing and
+distribution, recurring filter publication and browser-update automation.
+Detailed implementation progress is tracked in [tv-native-checklist.md](tv-native-checklist.md).
+The historical multi-device release criteria below describe future completion;
+they do not block the next development feature.
+
 ## Scope and completion criteria
 
 Target Android TV and Google TV devices running Android 10 or newer, subject to the selected Brave release’s requirements. Validate on two physical devices: one modest device and one faster device. A standard D-pad, OK and Back remote must be enough for all core tasks; a keyboard, mouse or phone is optional.

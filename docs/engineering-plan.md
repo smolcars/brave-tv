@@ -1267,3 +1267,13 @@ URL using the existing URL utility; retain auto-controls for real webpages.
 Keep the correction TV-only and small, run the formerly failing home replay
 and a webpage-restart control, then cached Nix build and latest-only review.
 The Android 14 first-run completion issue is separate and remains open.
+
+The restored-home correction passes its cached build and formerly failing
+20-step replay; a webpage-restart control still opens Browser controls.
+The user now prioritizes intermittent issues and defers broader acceptance,
+publication automation and release preparation. Resume the Android 14
+investigation in the isolated test profile, checking awake/unlocked/setup
+state before invoking first run so idle sleep cannot masquerade as a handoff
+failure. Preserve original users and restore user 0 after testing. Do not
+change the completion handoff without an actual failing loop. The next feature
+is not specified yet; ask for its scope while completing independent work.

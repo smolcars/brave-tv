@@ -1282,3 +1282,39 @@ This is bounded DOM/playback evidence: observation begins after page load,
 later positions use a programmatic seek, and no claim is made about the entire
 pre-roll, uninterrupted mid-roll schedule, signed-in sessions or every video.
 No YouTube blocking source change is justified by these passing samples.
+
+The new emulator's user 10 also provides fresh-profile delivery evidence:
+without copying a signed fixture or using the manual update action, its
+`Default/adblock_snapshot/filters.bundle` has the published sequence-2 file
+hash `c347c370e5ba289383b77cb1db86729c6a34b55cc11ae1aee4bfca9b23a24232`.
+After the ordinary test restarts, both active DAT headers identify
+`TV signed adblock 787bc07fdeba958e8cd5edc76692ce5e1546c97d9082dd8914b50a6d3e073977`.
+The foreground request probe still passes. This demonstrates automatic
+download and activation in a fresh profile across the baseline/identity
+update session, not a captured first-download timestamp or newer upstream
+rules. The bootstrap feed still republishes pinned rules; upstream refresh
+publication is manual, and Chromecast delivery acceptance remains open.
+
+### Restored-home startup correction
+
+The final `tv-home.ad` replay fails at step 3 on `e41398dd1`: Browser controls
+cover the restored `chrome-native://newtab/` tab. The tab previously displayed
+a real webpage before Home was selected, so its history keeps it from being
+discarded as an unused blank tab. A direct force-stop and LEANBACK launcher
+intent reproduce the same panel without the replay driver. Startup checks the
+native view type before the restored home view is ready.
+
+Source `44ccdafef` uses the existing new-tab URL predicate in the TV-only
+startup guard. Build r52 passes with blocking analysis in 3m33.55s, using the
+same limits/cache; the last observed cgroup peak is 13.54 GiB, not a captured
+final peak. The preserved artifact is
+`tv-home-44ccdafef-x64-debug-20261010/BraveMonox64.apk`, 850,986,420 bytes,
+SHA-256 `0f70aec1d2a3a4132c2c058906eea7addc2ab9f6911fa39c294ce76e10cb8375`.
+V2 signature verification and in-place emulator installation pass.
+
+The formerly failing 20-step home replay now passes in 4.1s on the same
+profile/tab state, including initial address focus, attribution links and
+controls entry. A separate real-webpage restart still opens Browser controls
+with Address or search focused. Foreground request-blocking assertions also
+pass on this final APK. No first-run handoff or hardware fix is claimed by
+this change. No new crash/ANR appears in the bounded identity-test inspection.

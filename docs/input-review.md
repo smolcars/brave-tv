@@ -482,3 +482,9 @@ matches the existing launcher-banner exception; blocking analysis remains on.
 Cached x64 build r51 passes, including static analysis. Packaged manifest and
 resources resolve the neutral launcher icon and television app-name alias;
 runtime media-session labeling and fresh-profile request blocking pass.
+
+Restored TV home startup `44ccdafef` against `e41398dd1`: Standards 0, Spec 0.
+The latest-only reviews confirm the URL-based classification remains in the
+TV-only branch, preserves null handling and leaves webpage auto-controls and
+the separate first-run handoff intact. Build/runtime acceptance is recorded
+in device-tests.md.
