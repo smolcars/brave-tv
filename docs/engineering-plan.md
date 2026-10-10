@@ -1605,3 +1605,15 @@ and may return an empty object, unlike the initial synthetic JSON-error test.
 Add the actual failed-poll regression before changing code. Treat an empty state
 response as revoked; if the connection fails before an approval epoch exists,
 return to fresh-invitation guidance. Preserve reconnect for approved sessions.
+
+Native recovery slice: the paired emulator reproduces final-tab closure entering
+an unusable native tab switcher. Observe completed tab removals centrally in the
+TV controller, post recovery outside the model mutation, and create normal TV
+home only when the normal model is still selected and empty in the foreground.
+Recheck on focus restoration for existing empty sessions; unregister at destroy.
+Test both phone closure and the native Close tab action. Preserve incognito and
+modal input boundaries. A second red probe shows Back opens controls while a
+renderer fullscreen document remains fullscreen; use WebContents' authoritative
+fullscreen state for exit and phone Back availability, excluding only the
+fullscreen handler from the native-UI input guard. Test native and phone Back,
+video/container fullscreen, cursor pixels, and native/private pause regressions.

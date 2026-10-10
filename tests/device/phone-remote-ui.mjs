@@ -316,7 +316,7 @@ try {
   await page.getByText("Waiting for approval on the TV…", {exact:true}).waitFor();
   server.closeAllConnections();
   await new Promise(resolve => server.close(resolve));
-  await page.waitForTimeout(700);
+  await page.getByText("Session unavailable. Start a new invitation on the TV.", {exact:true}).waitFor();
   assert.equal(await page.locator("#approval").isVisible(), false,
     "Closed listener must not leave a stale approval instruction");
   assert.equal(await page.locator("#pairForm").isVisible(), true);
