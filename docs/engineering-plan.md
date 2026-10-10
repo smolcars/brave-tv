@@ -1115,3 +1115,12 @@ Review only each latest implementation commit and push source before root.
 Finally restore diagnostic flags/network/IME settings and stop all identifiable
 task-owned builds, emulator, fixture servers, captures and helper sessions.
 Preserve caches, profiles and artifacts; do not stop T3 or unrelated user services.
+
+The first privacy build stops in Sync P3A with Chromium's unreachable-code
+warning: constant Android early returns leave the reporting body unguarded.
+Use explicit compile-time branches around those bodies so the compiler discards
+Android reporting while retaining desktop code. Apply this consistently to the
+new unconditional Android guards. Latest review also finds the Android Sync
+service history-reporting test still expects samples; keep that reporting-only
+case on desktop and add an Android no-query/no-sample assertion through the
+service entry point. Rebuild from cache; the failed attempt is not acceptance.
