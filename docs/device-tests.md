@@ -947,3 +947,72 @@ executed. The first compile invocation failed because Nix cleared PYTHONPATH;
 setting it inside the development command resolves that tooling issue. Device
 regressions above execute the actual APK. YouTube video-ad acceptance, signed
 update transport and hardware acceptance remain open.
+
+## Signed delivery and TV update status (10 October UTC)
+
+Source `95b26f1ba` passes the cached x64 Debug build with blocking Android
+analysis in 10m45.60s (wrapper 10m49.08s). Four workers, 18 GiB memory-high,
+22 GiB hard limit and no swap remain configured. The highest observed cgroup
+usage is 19,333,165,056 bytes (18.01 GiB); final peak was not captured after the
+service exited. Artifact `tv-signed-delivery-95b26f1ba-x64-debug-20261010/BraveMonox64.apk`
+is 852,923,820 bytes, SHA-256
+`c8cee2d41384789fcd3e643977d64bd3c34c0f23c2651b86294d8255c25e2434`.
+Signature verification and profile-preserving installation pass. The artifact
+directory preserves GN args, signature output and provenance; build prefix is
+`build-simple-browser-x64-20261010-r46` under the external logs directory.
+
+All 17 signed parser/storage/updater host tests pass, including a valid envelope
+larger than 5 MiB, rejection/rollback, atomic staging, body limit, timeout,
+coalescing, HTTPS redirects and persistent daily scheduling. Three signer tests
+also pass. The host runner required a complete test URL factory header; the
+corrected run is `updater-host-tests-r3.log`.
+
+The public `filters-current` release and immutable `filters-sequence-2` release
+contain the same 10,192,014-byte signed artifact, metadata and SHA256SUMS.
+Sequence 2 publication is `2026-10-10T04:33:24.887Z`; file SHA-256 is
+`c347c370e5ba289383b77cb1db86729c6a34b55cc11ae1aee4bfca9b23a24232`.
+An unauthenticated HTTPS-only download matches the local signed artifact
+byte-for-byte. This bootstrap uses the existing pinned rules. It is not a newly
+refreshed upstream ruleset or evidence of universal YouTube video-ad blocking.
+See [publication and refresh](filter-updates.md).
+
+On `emulator-5558` with the existing profile:
+
+- Initial status reports signed snapshot 1 and no recorded check. Without a
+  manual action, the startup timer fetches and stages sequence 2. The on-device
+  bundle matches the public file hash; both active DAT files retain the
+  sequence-1 payload identity `2e9e8c9d…3a1` until restart.
+- Reopening shows downloaded/restart status, active publication date and last
+  attempt. A repeated manual check retains the restart requirement.
+- Throttling the emulator to 1,000 bits/s each way produces a download failure.
+  Back through Content Filters to Settings and reopening during the in-flight
+  operation works; the failure leaves both current data and the pending restart
+  intact. Restoring unlimited speed permits a successful manual retry. Android
+  also reports Ethernet disconnected during this impairment. This establishes
+  impaired-network failure/recovery, not an exact 60-second device timeout or a
+  controlled complete-disconnection test; the exact deadline passes on host.
+- Restart confirmation focuses Cancel. Cancel returns safely. Confirmed restart
+  changes the browser PID from 4247 to 5559 and preserves all 13 normal-tab IDs
+  and URLs exactly. Both DAT files switch to authenticated payload digest
+  `787bc07fdeba958e8cd5edc76692ce5e1546c97d9082dd8914b50a6d3e073977`.
+- The restored document passes `startup-cookie-on` before any reload. Separate
+  request checks before and after restart load the ordinary control and reject
+  ad/cookie-list requests with `ERR_BLOCKED_BY_CLIENT`.
+- The next manual check reports the latest published snapshot, retains the
+  persisted last-attempt date and has no restart action. The native update
+  navigation replay passes all 18 steps in 2.3s, including Back focus restoration.
+
+Screenshots `filter-update-{staged,timeout,restart-confirm,current}-95b26f1ba.png`
+are saved under external logs. Inspected status and failure panels fit at
+1920×1080/density 320, with readable status, one focused action and no clipped
+panel content. The first snapshot taken during process restart reports
+insufficient foreground content; retry after stabilization succeeds. Crash
+buffer inspection is bounded to this test window; older crash records must
+not be attributed to this build.
+
+Network speed is restored to unlimited, latency remains zero, optional cookie
+and mobile-promo lists remain On, normal tabs are preserved and no private tabs
+were created. Fresh-install delivery, complete disconnection, private restart,
+large-font/translation and physical-device acceptance remain open. The existing
+startup panel can still show stale Stop loading until reopened; that separate
+UI state issue is not fixed by delivery work.

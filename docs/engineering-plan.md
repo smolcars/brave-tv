@@ -1070,7 +1070,7 @@ type in AdBlockService's public header so callers using the default refcounted
 argument do not depend on transitive includes. All 17 focused host tests now pass.
 
 Delivery acceptance on `95b26f1ba` passes automatic HTTPS staging, repeated
-manual check, 60-second throttled-network failure/retry, Back/reopen while
+manual check, throttled-network failure/retry, Back/reopen while
 checking, Cancel-first restart, all 13 normal-tab IDs/URLs restored, signed
 DAT identity transition, and real blocking before/after restart. Add a focused
 D-pad replay for update entry, manual completion and Back focus restoration.

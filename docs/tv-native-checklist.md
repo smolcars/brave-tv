@@ -16,7 +16,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Check filter, cosmetic and scriptlet resources on the current emulator and after restart. Clean-profile coverage remains open.
 - [x] Demonstrate network blocking and a Shields-off/on control with observable resource results.
 - [x] Fix the reproduced cold-start blocking failure. `fd1db3384`/`dbeaa9a61` defer queries until complete engines/resources are ready; cached and uncached no-reload checks, reload request assertions and optional-list toggles pass. Native delayed-catalog test compiles; execution remains pending. See device evidence.
-- [ ] Verify resource updates and identify any development-build service configuration blocker.
+- [x] Verify independent signed resource updates on the existing emulator profile. The upstream development updater returned 403; fork-owned HTTPS delivery, validation, staging and restart activation pass on `95b26f1ba`. Clean-install/offline/hardware coverage remains open.
 - [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
 - [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive transitions, restart persistence and actual blocking pass on `d88cef8a9`.
 
@@ -52,7 +52,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Replace TV toolbar branding with neutral protection-state icons and route its protection action to the native TV panel; off/on request checks pass. Preserve the existing single focus ring.
 - [x] Provide native optional content-filter toggles; off/on request effects, restart persistence, private entry and remembered Settings focus pass. Large catalogs, custom subscriptions and independent updates remain open.
 - [x] Verify Standard/aggressive mode persistence and actual request blocking after restart.
-- [ ] Finish advanced filter/update behavior, including independent signed delivery and freshness UI.
+- [x] Implement independent signed delivery and TV freshness/manual-check/restart UI. Seventeen native tests and existing-profile emulator delivery, failure recovery, restart/cache transition and actual blocking pass; public feed published.
+- [ ] Finish advanced filters/custom subscriptions and remaining clean-install, full-disconnection, private restart and hardware update acceptance.
 - [x] Verify local network errors, certificate warning/Back to safety, alert/confirm/prompt and location refusal on the emulator. Strong native focus and Back recovery pass; broader permissions/external-app flows remain open.
 - [x] Hide the idle cursor/hint, wake safely without clicking, and retain exactly one click on held OK. Real uinput and pixel checks pass, including fullscreen video.
 - [x] Add native playback controls and verify ordinary video pause/resume/ten-second fallback seeking, site-defined YouTube seeks, captions and fullscreen/Back. Sustained/adaptive and hardware acceptance remain separate.
