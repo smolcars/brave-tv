@@ -661,3 +661,18 @@ flake URL with `?submodules=1`; keep the checks compiling the real pinned source
 Do not copy Java source into this repository or upgrade the user's Nix install.
 Nix's automatic `inputs.self.submodules` option was introduced in 2.27, beyond
 this host (official release notes: https://releases.nixos.org/nix/nix-2.27.0/manual/release-notes/rl-2.27.html).
+
+#### Standard protection mode crash
+
+Aggressive blocking survives background/restart on the local Shields fixture,
+but selecting Standard aborts the browser. The native crash says
+`brave_shields_utils.cc:260: type != ControlType::DEFAULT (3 vs. 3)` in the
+`setAdControlType` JNI path. Add a D-pad replay beginning on the same normal
+fixture with Aggressive selected, selecting Standard and asserting the panel
+remains present with Aggressive now the enabled alternative. Demonstrate its
+failure before changing source. Inspect the shared Android mode constants and
+existing phone caller, then use its actual standard mode; preserve per-origin
+storage, explicit protection state and reload behavior. Check both directions,
+normal restart and the blocking fixture, and review only the latest commit.
+The native assertion is direct evidence of an invalid argument, so no speculative
+instrumentation or broad bisection is needed.
