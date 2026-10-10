@@ -1080,3 +1080,11 @@ version. Keep signature/timing/rejection checks in the native tests and
 record exact runtime status separately. Update delivery docs and checklist
 with this evidence, retaining full-disconnection, fresh-install and hardware
 limits. No additional APK build is needed for test/documentation-only changes.
+
+Pause after committing and pushing the accepted delivery slice at the user's
+request to close out for bed; defer Chromecast work until the user resumes it.
+Next software slice: remove the remaining Android Shields/filter-list local
+analytics producers, first establishing a focused histogram regression. Keep
+full traffic audit, YouTube video-ad reproduction, focus/state edge cases and
+broader video/lifecycle tests open. No hardware installation is part of this
+closeout. Naming and independent release-signing/backup decisions remain open.

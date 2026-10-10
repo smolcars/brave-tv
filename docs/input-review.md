@@ -458,3 +458,8 @@ the full shared-factory type needed by default refcounted argument callers.
 These reviews cover only each latest implementation commit, not the branch.
 All 17 signed-storage/updater host tests execute successfully; three signer tests
 also pass. APK build r46 and real public-feed/UI acceptance remain pending.
+
+Root update navigation regression `5fab713` against `39c177e`: Standards 0,
+Spec 0. Both read-only reviews confirm the explicit fixture, bounded waits,
+manual-check completion and Back focus checks. The executed 18-step replay
+passes in 2.3s; it does not claim a particular feed result or validate signatures.
