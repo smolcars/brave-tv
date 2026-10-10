@@ -1061,3 +1061,10 @@ Represent active signed metadata as an optional sequence/publication pair,
 and express the mandatory preferences dependency as a non-null reference.
 The initial host build was intentionally stopped before completion to apply
 these findings; preserve its newly compiled cache outputs.
+
+The integrated UI review requests sequence assertions on the new FilterListService
+async callback targets and current delivery-status documentation. Add its sequence
+checker, retain existing lifetime guards, and distinguish implemented transport/UI
+from pending feed publication and APK acceptance. Include the full shared-factory
+type in AdBlockService's public header so callers using the default refcounted
+argument do not depend on transitive includes. All 17 focused host tests now pass.
