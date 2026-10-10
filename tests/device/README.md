@@ -69,6 +69,32 @@ from an alphabetic virtual keyboard. The click count must stay zero: keyboard
 events must retain upstream handling instead of driving the TV cursor. This
 replay is not a physical-remote test.
 
+## Native playback controls
+
+Start a finite video in a normal web tab, then open Browser controls → Playback.
+Use D-pad/OK to pause and resume; the focused button should change its label
+without closing the panel or moving focus. With ADB DevTools forwarded to port
+9222, check the actual page state after the native action:
+
+```sh
+node tests/device/media-probe.mjs 'EXACT_PAGE_URL' paused
+node tests/device/media-probe.mjs 'EXACT_PAGE_URL' playing
+```
+
+Pause again and record the reported time. Select Seek forward, then assert the
+paused position with an optional third argument (original time + the site's
+seek distance, ten seconds for Chromium's native fallback). Select Seek backward
+and assert the original time. Avoid the ends of the video. The one-second
+tolerance allows media seek precision. The probe only
+reads the page; it does not drive the product controls. `adShowing` is a sampled
+YouTube DOM signal, not proof that ads cannot appear.
+
+Verify Back restores focus to Playback, a page without media disables all three
+media actions, and Home/relaunch closes the old panel. Check tab/document changes
+while the panel is open cannot control the previous page. Use the documented
+uinput remote for site cursor/fullscreen interactions; native panel navigation
+can use agent-device's virtual keyboard.
+
 ## Direct first launch
 
 The TV onboarding redesign is superseded: the browser now completes first-run
