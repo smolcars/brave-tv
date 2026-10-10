@@ -1068,3 +1068,15 @@ checker, retain existing lifetime guards, and distinguish implemented transport/
 from pending feed publication and APK acceptance. Include the full shared-factory
 type in AdBlockService's public header so callers using the default refcounted
 argument do not depend on transitive includes. All 17 focused host tests now pass.
+
+Delivery acceptance on `95b26f1ba` passes automatic HTTPS staging, repeated
+manual check, 60-second throttled-network failure/retry, Back/reopen while
+checking, Cancel-first restart, all 13 normal-tab IDs/URLs restored, signed
+DAT identity transition, and real blocking before/after restart. Add a focused
+D-pad replay for update entry, manual completion and Back focus restoration.
+Start from the existing two-list Content Filters fixture with cookie blocking
+On; do not toggle lists, restart the browser or require a particular feed
+version. Keep signature/timing/rejection checks in the native tests and
+record exact runtime status separately. Update delivery docs and checklist
+with this evidence, retaining full-disconnection, fresh-install and hardware
+limits. No additional APK build is needed for test/documentation-only changes.
