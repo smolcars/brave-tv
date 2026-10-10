@@ -137,6 +137,16 @@ Cancel starts focused; Right reaches Delete, Left returns Cancel, and Cancel
 retains the fixture. Keep that group for upgrade validation. Uncontended baseline
 launch samples are saved separately in `tv-ui-baseline-uncontended.json`.
 
+Compact proof follow-up: source `f10b4864f` builds with blocking analysis (966
+cached Android steps, 7m52s; observed peak14.21 GiB). Native headings now have
+warm contrast and More/Back moves actual focus correctly. Raw accessibility
+nodes expose the focused TV Surface separately from its label/button semantics
+with the pinned newer Compose runtime. Text-plus-focus selectors therefore fail.
+Publish one actionable, labelled semantic node with tracked native focus,
+disabled state and a guarded accessibility click; keep TV Material key delivery.
+Acceptance requires labelled focused Button nodes and the actual overflow replay,
+not a selector relaxed to text existence. Continue native proof and shared state.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
