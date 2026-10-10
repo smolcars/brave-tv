@@ -1144,3 +1144,26 @@ Full disconnection, broader permissions/policy/private-data edge cases and
 release identity/signing remain separate checklist work; do not call the whole
 MVP finished from this emulator closeout. The user requested stopping all
 task-owned processes after these checks; preserve profiles, artifacts and caches.
+
+
+### Resume Chromecast acceptance with the tested source
+
+The user enables wireless debugging and confirms the builder is already paired.
+Discover its current connection endpoint without re-pairing or clearing device
+data. Verify model, supported ABI, storage, installed package and signing
+compatibility before the preserving update. Keep both emulators stopped.
+
+Build committed source `5c9a36c74` in the retained `android_Static_arm` output
+using Nix, four local workers, MemoryHigh 18 GiB, MemoryMax 22 GiB, no build
+swap, blocking Android analysis, `symbol_level=0` and
+`debuggable_apks=false`. Preserve the previous APK and all caches. Verify
+signature, ARM ABI, package/version and non-debuggable manifest; save the
+artifact and provenance outside Git. Install as an update when space permits.
+
+Validate direct launch, home/settings/keyboard/cursor focus with the physical
+remote, then actual blocking and YouTube playback, fullscreen/Back and sustained
+memory/crash/ANR behavior. Distinguish injected input from user-confirmed remote
+results. Diagnose reproduced regressions before source changes, review only the
+latest implementation commit, and commit evidence incrementally to master.
+Stop task-owned helpers/builds after testing; retain caches/profiles. Public
+release signing and final product naming remain outside this development APK.
