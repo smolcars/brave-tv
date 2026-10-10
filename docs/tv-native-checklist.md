@@ -12,12 +12,12 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 ## Shields and YouTube
 
-- [ ] Reproduce the reported video-ad symptom or record the exact reproduction limit.
+- [x] Record the video-ad reproduction limit: three signed-out YouTube videos play at initial/later positions without observed ads on `5c9a36c74`. This does not establish universal or signed-in blocking.
 - [x] Check filter, cosmetic and scriptlet resources on the current emulator and after restart. Clean-profile coverage remains open.
 - [x] Demonstrate network blocking and a Shields-off/on control with observable resource results.
 - [x] Fix the reproduced cold-start blocking failure. `fd1db3384`/`dbeaa9a61` defer queries until complete engines/resources are ready; cached and uncached no-reload checks, reload request assertions and optional-list toggles pass. Native delayed-catalog test compiles; execution remains pending. See device evidence.
 - [x] Verify independent signed resource updates on the existing emulator profile. The upstream development updater returned 403; fork-owned HTTPS delivery, validation, staging and restart activation pass on `95b26f1ba`. Clean-install/offline/hardware coverage remains open.
-- [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
+- [x] Fix the demonstrated engine/resource failures and repeat blocking, then sample YouTube playback. The reported hardware video-ad symptom has not been reproduced on the emulator.
 - [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive transitions, restart persistence and actual blocking pass on `d88cef8a9`.
 
 ## Simple launch, privacy and home (supersedes onboarding redesign)
@@ -25,7 +25,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Remove the TV consent/onboarding layouts and use direct browser startup. Preserved incomplete-onboarding and fresh profiles launch directly.
 - [x] Exclude Web Discovery and usage-ping services; make P3A and crash uploads inert, including old opt-in preferences. Blocking build passes; old reporting preferences persist as false. Full traffic audit remains open.
 - [x] Stop constructing Android process/profile/search analytics collectors and remove the Java connection/retry/usage timer. Blocking build and before/after native search-histogram regression pass; provider selection still works.
-- [ ] Audit remaining local analytics collectors and promotional services; verify no reporting requests on startup, navigation or search.
+- [x] Remove the observed remaining Android Shields, News, Sync and savings collectors. Native before/after histograms and a 348-second startup/settings/search/video traffic sample pass on `5c9a36c74`; website analytics and local engine timing diagnostics are distinct. This is bounded runtime evidence.
 - [x] Implement native home with “Simple, private, and ad-blocking,” address/search, controls, private-session labeling and Brave/Chromium attribution.
 - [x] Add remote-accessible public GitHub/source and license links. Both navigate successfully; generated credits contain 1,058 notices.
 - [x] Implement Google default for new Android profiles and TV provider selection including Brave Search. Existing choice is preserved; normal choice survives restart and private choice is independent. Fresh normal/private defaults are Google; private restart coverage remains open.
@@ -63,10 +63,10 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Search, navigate links, edit forms, scroll nested content and recover from input traps.
 - [ ] Exercise tab/bookmark/history/private workflows and restore normal state after restart.
 - [ ] Exercise Shields toggles and resource updates without relying solely on counters.
-- [ ] Play ordinary and adaptive video; use play/pause, seeking and fullscreen/Back.
-- [ ] Recover from Home, app switching, network interruption and process recreation.
+- [x] Emulator ordinary and adaptive playback pass; native pause/seek and ordinary fullscreen/Back pass on `5c9a36c74`. Earlier YouTube fullscreen acceptance is retained; this run does not re-prove its physical remote cursor behavior.
+- [ ] Complete full-disconnection recovery. Home/background return, severe network throttling/recovery, process recreation and restored tabs pass on `5c9a36c74`.
 - [x] Complete 30 minutes of ordinary video playback with whole-process memory samples, crash/ANR checks and frame counters.
-- [ ] Complete sustained mixed browsing/lifecycle and adaptive-video validation.
+- [x] Complete a bounded 15-minute mixed emulator session with adaptive YouTube, ordinary looping video, settings/app switching and process recreation; 12 minutes of whole-process memory samples, no new crash/ANR. This supplements the earlier 30-minute ordinary-video run; physical-TV endurance remains open.
 - [ ] Save visual evidence at TV density, including focus, text legibility and panel edges.
 
 ## Physical TV follow-up
@@ -83,7 +83,7 @@ Production identity, signing, distribution and upstream-update rehearsal remain 
 
 - [ ] Choose a product name and original launcher icon/banner; replace Brave product branding in onboarding, app labels and other user-facing surfaces. A name is pending; do not imply an official Brave release.
 - [ ] Preserve upstream copyright/license notices and source availability; provide factual Brave/Chromium attribution and independent-maintainer identification.
-- [ ] Complete the no-analytics service/traffic audit; do not retain consent UI for removed reporting services.
+- [x] Complete the current Android service/histogram audit and bounded startup/search traffic check; removed services have no consent UI. Recheck delayed traffic and new services on future upstream updates.
 - [ ] Plan application ID/signing/update identity and migration separately so rebranding does not silently discard existing profiles.
 
 Basis checked 9 October 2026: [MPL §§2.3 and 3](https://www.mozilla.org/en-US/MPL/2.0/) grant no contributor trademark rights and require license/source notices; [Brave terms](https://brave.com/terms-of-use/) distinguish open-source rights from their executable/service terms. Independent branding is the project recommendation; this is not legal clearance for a chosen name.

@@ -1016,3 +1016,122 @@ were created. Fresh-install delivery, complete disconnection, private restart,
 large-font/translation and physical-device acceptance remain open. The existing
 startup panel can still show stale Stop loading until reopened; that separate
 UI state issue is not fixed by delivery work.
+
+
+## Final emulator privacy and video checks (10 October UTC)
+
+Source `5c9a36c74`, x64 Debug, cached build r49: blocking Android analysis
+passes in 45.92s (wrapper 49.93s). The preceding two builds failed on
+constant-condition unreachable-code warnings; explicit compile-time branches
+correct those failures. Four workers and the 18/22 GiB cgroup limits were kept;
+a final cgroup peak was not captured. The preserved artifact is
+`tv-privacy-5c9a36c74-x64-debug-20261010/BraveMonox64.apk`, 850,957,740 bytes,
+SHA-256 `27e6071d88b309dd18935d500f7d438b8ab1cf3f9268e93e5f803678daee7d2f`.
+Signature verification and profile-preserving emulator installation pass.
+
+All five modified Android test translation units compile: Shields settings,
+filter-list P3A, Sync P3A, Sync service and profile manager/News factory. The
+first direct test-object build lacked Brave's Python path; exporting
+`PYTHONPATH=$PWD/brave/script` fixes the generator prerequisite. Retry succeeds
+in 12.11s. This is compile coverage, not execution of the native test binaries.
+
+The installed `95b26f1ba` baseline exposes `Brave.Shields.FilterLists.2` through
+the actual native histogram request. The new build's same probe reports absent
+after startup, native cookie-list Off/On and Google/Brave searches. A broad
+`Brave.` native request also finds no Shields usage/cookie-list, News, Sync,
+Search or bandwidth-usage histograms. Remaining entries are local engine,
+request and resource-load timing diagnostics. Evidence:
+`shields-analytics-before.json`, `analytics-after-5c9a36c74.json`.
+Actual ad and cookie-list fixture requests still fail with
+`ERR_BLOCKED_BY_CLIENT` while the control script loads, both before and after
+settings toggles and restart. No temporary cosmetic/scriptlet test rule was
+installed in this run; those earlier regressions are separate evidence.
+
+A default-redaction NetLog sample covers 347.923 seconds and 159,561 complete
+events across startup, native settings, Google/Brave searches and YouTube.
+The live capture's incomplete final event is excluded when reconstructing
+valid JSON; raw and reconstructed files stay outside Git. The sample contains
+five upstream component-update requests, two Brave Search `/api/feedback`
+requests explicitly initiated by `https://search.brave.com`, and normal search
+assets. It contains no separate Brave reporting host. Website-origin traffic
+is not a browser collector; no website consent setting was changed. This is
+bounded evidence, not proof about every delayed request or every website.
+Files: `netlog-privacy-5c9a36c74-{capture,complete-events,summary}.json`.
+
+Signed-out YouTube checks use three live recommended videos:
+`plN7JMbadRg` (Eat Everything In A Grocery Store), `pAnGwRiQ4-4` (Futuristic
+Tech), and `Iu8ZmhRphSU` (World's Fastest Workers). Content plays from the
+beginning and at later positions around 20, 15 and 5 minutes respectively.
+No video ad was reproduced in these samples. DOM ad-state samples are paired
+with visible content/captions and advancing media clocks; they cannot prove
+universal pre-roll or mid-roll blocking, nor represent signed-in/geographic
+variants. Later positions were set diagnostically, not presented as remote
+scrubbing acceptance. Separate audio/video formats 251/243 and independent
+buffer ranges confirm adaptive delivery.
+
+Native Pause stops the first video at 52.231s; native Seek forward reaches
+57.231s (YouTube's five-second handler); Play resumes and Back returns focus
+to Playback. The temporary test initially assumed the wrong two-column
+geometry; corrected D-pad navigation passes. Back from the main browser panel
+then follows page history, so the later-position check reopens the video.
+A site controls accessibility ref resolves to the YouTube home location; this
+run does not add a new fullscreen/remote-cursor acceptance claim.
+
+On the second video, emulator network throttling to 1,000 bits/s and a seek
+to 900s produces buffering (readyState 1). Restoring full speed recovers to
+913.33s, playing, readyState 4, with no media error. This tests impairment and
+recovery, not full disconnection. Home/background/reopen resumes playback.
+A deliberate process recreation restores the active video and 17 normal tabs.
+The 16-step native panel replay passes before/after recreation (4.4s/4.7s);
+the 28-step settings/provider/Back replay passes in 4.0s with Google selected.
+
+
+The ordinary 24.109-second local MP4 loops successfully on the new build,
+including native fullscreen entry, Back without stopping playback, and a
+Settings-app switch/return. At the 2,466-frame observation no frames were
+dropped and no media error was present. Snapshot evidence is saved as
+`media-fullscreen-5c9a36c74.png`; the ordinary-media probe output is kept
+with the private build logs. Later diagnostic tabs bring the normal count
+to 19; none of the existing tabs or profile data were cleared.
+
+One ADB transport interruption ends the first logcat stream after about a
+minute; it is restarted, and the persistent crash buffer, activity exit-info
+and event buffer are inspected to cover the gap. Old crash-buffer entries
+are from 9 October, before this APK. No new crash/ANR event appears during
+this run; deliberate force-stop/package-update exits are not crashes.
+The before/after analytics check also passes after process recreation.
+Remaining limitations: native test binaries were not executed, full
+disconnection was not tested, hardware is deferred, and the previously
+recorded intermittent home focus and stale loading-action UI cases remain
+open. A successful bounded session is not a whole-MVP completion claim.
+
+
+Whole-browser memory (main process, zygote, GPU/privileged and isolated
+renderers) is sampled 25 times over 12 minutes of the mixed session. Summed
+PSS ranges from 788.05 to 1,019.33 MiB and ends at 888.71 MiB. This is a
+2-GiB API-36 x64 Debug emulator with 17–19 restored/diagnostic tabs, not a
+release Chromecast budget or a leak-proof result. Android guest swap PSS
+is reported separately by dumpsys; host builds still use no swap. Logs:
+`reliability-whole-5c9a36c74.jsonl`, `reliability-5c9a36c74*.logcat`,
+`reliability-5c9a36c74-{events.log,exit-info.txt,crash-buffer.log}`.
+
+
+Three additional cold panel replays pass (16 steps each, 4.4s, 5.2s and
+5.1s). These exercise loaded-webpage startup; they do not close the separate
+intermittent private/native-home focus issue. YouTube observation files include
+paused/restored/background snapshots; repeated timestamps are not counted as
+uninterrupted playback. The sampled positions and playback assertions above
+are the actual acceptance evidence.
+
+
+The overall mixed session completes 31 main-process samples across 900 seconds,
+with the 12-minute whole-process series above nested within it. The final
+crash/event/exit-info inspection finds no new browser crash or ANR.
+
+Closeout: restored full-speed/zero-latency emulator networking and the Google
+TV keyboard, removed temporary diagnostic flags/debug-app settings and ADB
+forwards, closed the agent session, shut down the emulator, and stopped all
+four fixture servers, captures, samplers and the task's agent-device daemon.
+No task build/emulator service or fixture listener remains running. T3/shared
+platform services remain available. Profiles, APKs, logs and compile caches
+were preserved; no Chromecast was accessed. Source `master` is pushed.

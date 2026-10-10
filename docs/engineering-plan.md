@@ -1129,3 +1129,18 @@ The next compiler pass identifies the two direct Sync-status histogram guards
 that still use ordinary constant conditions. Make those explicit compile-time
 branches too, nesting the real setup-state condition inside the startup branch.
 This is the same Android recording exclusion, with no functional Sync change.
+
+
+Closeout evidence on `5c9a36c74`: cached blocking APK build, all five changed
+Android native test-source compiles, native analytics before/after, normal
+blocking, search traffic, three signed-out YouTube samples, adaptive stream
+recovery, Home/restart, and native panel/settings replays pass within the
+recorded limits. Final sampled memory/crash evidence and task-process cleanup
+are recorded in device-tests.md. No Chromecast work is included.
+
+The next UI slice still needs to reproduce the intermittent cold/private-home
+focus race and refresh the main panel's loading action while it remains open.
+Full disconnection, broader permissions/policy/private-data edge cases and
+release identity/signing remain separate checklist work; do not call the whole
+MVP finished from this emulator closeout. The user requested stopping all
+task-owned processes after these checks; preserve profiles, artifacts and caches.

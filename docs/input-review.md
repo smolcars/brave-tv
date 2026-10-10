@@ -463,3 +463,14 @@ Root update navigation regression `5fab713` against `39c177e`: Standards 0,
 Spec 0. Both read-only reviews confirm the explicit fixture, bounded waits,
 manual-check completion and Back focus checks. The executed 18-step replay
 passes in 2.3s; it does not claim a particular feed result or validate signatures.
+
+
+Android analytics `7326504e5` against `4e5850842`: Standards 0, Spec 0.
+News/Sync/savings removal `01c89470c` against `7326504e5`: Standards 1
+(Android history-reporting test retained desktop expectations), Spec 0.
+Correction `ba5c07f6a` against `01c89470c`: Standards 0, Spec 0.
+Final compile-time Sync guards `5c9a36c74` against `ba5c07f6a`:
+Standards 0, Spec 0. Each review is limited to that latest implementation.
+The final APK and all five changed Android native test translation units compile;
+runtime native-histogram and blocking checks pass. The unit/browser-test binaries
+were not executed. See the final emulator evidence in device-tests.md.
