@@ -715,3 +715,10 @@ Build from cache with existing limits. After a process restart, require the
 startup histogram to be absent while search/settings and ordinary navigation
 still work. Audit remaining promotional services and network reporting
 separately; a missing local histogram alone does not prove no outbound traffic.
+
+The foreground native histogram probe confirms the startup sample present on
+`d88cef8a9` (enabled passes, disabled fails). Background discarded tabs can
+time out and must be brought forward before this check. Source inspection also
+finds a profile-level initial P3A recorder (sponsored-image and Shields settings
+metrics); exclude this Android invocation/helper in the same startup slice.
+Keep actual Shields settings/migrations unchanged.
