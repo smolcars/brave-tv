@@ -147,6 +147,19 @@ disabled state and a guarded accessibility click; keep TV Material key delivery.
 Acceptance requires labelled focused Button nodes and the actual overflow replay,
 not a selector relaxed to text existence. Continue native proof and shared state.
 
+Shared state slice (Stage3): extract a small UI-thread browser session owned by
+the TV controller. Observe the selected native tab/WebContents and document
+navigation, focus, fullscreen and viewport changes. Capture immutable identity
+contexts for panel callbacks and held-OK; URL equality alone must not authorize
+input. Reuse navigation actions from TV and the authenticated phone caller;
+retain phone allowlists, editable revisions and side-effect-free rejection.
+Dispose native observers with activity lifetime. Loading/history updates change
+Compose panel state while preserving keyed button focus, rather than recreating
+the dialog/WebContents. Acceptance: blocking build, same-URL navigation/held-OK
+cancellation, live Reload/Stop, stale callback and existing phone security/input
+regressions on actual Chromium. No broad core-surface migration before those
+gates; independent implementation and design work continues during builds.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

@@ -114,3 +114,40 @@ background blur or decorative animation. Disabled actions retain readable
 labels and cannot activate. Empty/loading/failure states use existing localized
 native resources with an explicit return/retry route. Long text/RTL/font scaling
 and actual screen-reader operation remain runtime checks, not inferred from CSS.
+
+
+## Native Compose proof and current limits (10 October)
+
+Pinned source `7ef938f03` builds the TV home and compact sibling/dialog controls
+inside the existing GN x64 Debug APK. Reproducible artifact:
+`~/.cache/brave-tv/artifacts/compose-accessibility-7ef938f03-x64-debug-20261010/BraveMonox64.apk`,
+852,580,286 bytes, SHA256
+`97f25b208191a25ae735c010d2e65a066e625522868a557cc894768ea7e86d54`.
+Blocking Android analysis and signature verification passed; cached build r12
+completed in1m34s. Last build memory observation was11.08 GiB (cgroup peak was
+not retained after the successful transient unit exited). Explicit emulator
+update installation preserved the source5829 synthetic profile.
+
+Actual retained Chromium evidence on the TV AVD: remote-input and precise-input
+pages render under Compose; uinput held OK produces exactly one click and the
+cursor pixel check passes. The real stock TV keyboard types into a Chromium
+InputConnection field, then Back dismisses it and returns to controls. Native
+media-session controls report the fixture playing at427×240; fullscreen/Back
+returns to browser controls with no black compositor. Private-home and controls
+windows are secure; History is disabled and closing the last private tab returns
+to the original normal media tab. Native Alert focus/OK/Back replay passes.
+Process relaunches retain normal fixture tabs/groups and DuckDuckGo selection.
+These checks establish the hosting/input proof; complete Unicode/selection,
+permission/interstitial, private leakage, recreation and phone regression gates
+remain unchecked. No WebContents ownership moved to Compose.
+
+The r12 accessibility fix passes labelled focused Button selectors, including
+More→History. The full home→controls replay remains red because it restores the
+previous Home action as initial panel focus; the shared-state slice corrects
+that and explicitly re-focuses Address when an existing home is selected.
+Do not call a written regression or this predecessor artifact final acceptance.
+Baseline panel/input latency, installed footprint and a controlled load comparison
+still need measurement. Hardware, screen reader, font/RTL and real-phone checks
+remain pending. Two source-independent design variants and the eight prototype
+route/focus checks are recorded above; design acceptance is separate from APK
+runtime acceptance.

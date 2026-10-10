@@ -219,29 +219,31 @@ recomposition. Existing browser models remain the source of truth.
 
 ## 5. Ordered implementation backlog
 
-All items below start unchecked. Each stage needs a source commit, relevant
+Completed items have evidence in [the surface inventory](tv-ui-inventory.md)
+and the current [engineering log](engineering-plan.md). Unchecked items include
+partial work and pending runtime/device acceptance. Each stage needs a source commit, relevant
 tests and evidence before completion. Design work and source inventory can
 overlap; native integration and migration gates cannot be skipped.
 
 ### Stage 0 — inventory and baseline
 
-- [ ] **0.1** Enumerate every reachable TV surface and entry point: startup,
+- [x] **0.1** Enumerate every reachable TV surface and entry point: startup,
   home, address, toolbar/menu, normal/private tabs and groups, bookmarks/history,
   downloads, Shields, filters, settings, About, clear data and phone pairing.
-- [ ] **0.2** Include transient routes: JavaScript dialogs, permissions, HTTP and
+- [x] **0.2** Include transient routes: JavaScript dialogs, permissions, HTTP and
   certificate indicators/interstitials, renderer/network errors, authentication,
   file chooser, external intents, popups/new windows and private unlock.
   Record owner, model/storage, initial focus, Back and replacement strategy.
-- [ ] **0.3** Identify activity/layout/toolbar assumptions in Chromium/Brave
+- [x] **0.3** Identify activity/layout/toolbar assumptions in Chromium/Brave
   integration. Trace attachment, insets, fullscreen, content offsets, IME and
   lifecycle observers before extracting any controller.
-- [ ] **0.4** Capture current emulator screenshots and repeatable core flows.
+- [x] **0.4** Capture current emulator screenshots and repeatable core flows.
   Separate known bugs/unverified reports from newly introduced regressions.
   Include the QR pending state, fullscreen cursor, empty tabs and group popup.
 - [ ] **0.5** Record performance methodology and baseline: cold/warm startup,
   panel-open/input latency, frame pacing, process/renderer memory, APK/installed
   footprint and a controlled webpage/video load. Record build type and device.
-- [ ] **0.6** Select provisional performance budgets and supported configurations
+- [x] **0.6** Select provisional performance budgets and supported configurations
   from those measurements. Mark physical measurements pending until authorized;
   emulator responsiveness does not prove Chromecast performance.
 
@@ -251,16 +253,16 @@ rebuilding UI fixes an unmeasured renderer/network problem.
 
 ### Stage 1 — visual and interaction design
 
-- [ ] **1.1** Produce two coherent visual directions covering home, browsing
+- [x] **1.1** Produce two coherent visual directions covering home, browsing
   controls and tab switcher. Include real content, long titles and empty states.
   Select one direction with the user before broad visual implementation.
-- [ ] **1.2** Make a navigable prototype of home → address → page → controls →
+- [x] **1.2** Make a navigable prototype of home → address → page → controls →
   tabs → library/settings, plus fullscreen return and final-tab recovery.
   Model D-pad and Back, not just mouse clicks on static mockups.
-- [ ] **1.3** Define tokens for typography, spacing, surfaces, shape, focus,
+- [x] **1.3** Define tokens for typography, spacing, surfaces, shape, focus,
   contrast and motion. Define loading/error/offline/disabled states and resource
   strings. Use TV material patterns; avoid mixing mobile and TV themes casually.
-- [ ] **1.4** Write the focus/Back transition table, including keyboard, nested
+- [x] **1.4** Write the focus/Back transition table, including keyboard, nested
   dialogs, private unlock, native prompts and return from an external app.
   Decide the exact root Back/home/exit behavior and controls-opening gesture.
 - [ ] **1.5** Check screen-edge safety, long/localized text, RTL, font scaling,
@@ -274,13 +276,13 @@ known inaccessible core action. A polished home alone does not satisfy this stag
 
 ### Stage 2 — Compose and Chromium integration proof
 
-- [ ] **2.1** Inventory pinned Kotlin/compiler/Compose dependencies and build
+- [x] **2.1** Inventory pinned Kotlin/compiler/Compose dependencies and build
   flags. Add the smallest compatible Compose for TV target/dependency set if
   feasible, using reproducible source-fork integration and license metadata.
   Verify the compatibility/minimum-API constraints rather than upgrading Chromium.
-- [ ] **2.2** Build one actual Compose TV screen and compact overlay in the
+- [x] **2.2** Build one actual Compose TV screen and compact overlay in the
   existing APK through GN/Ninja. A separate Gradle demo is not acceptance.
-- [ ] **2.3** Keep the existing Chromium content host; prove its z-order,
+- [x] **2.3** Keep the existing Chromium content host; prove its z-order,
   surface attachment, input coordinates, insets and overlay focus. Evaluate
   `ComposeView`/View interop based on that ownership, not a speculative rewrite
   of the entire activity. Prevent duplicate content parents/observers.
