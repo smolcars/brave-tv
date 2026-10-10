@@ -543,3 +543,19 @@ labels instead of promising a fixed ten seconds: retain Chromium's site action
 semantics, with ten seconds for its native fallback. Check the actual seek
 effect on the target site and document its distance. This changes our proposed
 button wording, not a user-required duration.
+
+#### Idle cursor and native safety dialogs
+
+The fullscreen screenshot shows the pointer and mode hint remaining over video
+without input. After playback acceptance, hide the noninteractive cursor layer
+after three idle seconds. Remote movement reveals it immediately; the first OK
+when hidden reveals it without blindly clicking, and the next OK clicks normally.
+Keep the pointer position/mode, native fullscreen/keyboard/Back priority, and
+remove the pending hide callback on detach/pause/destroy. Verify visible → hidden
+→ movement/OK wake, held OK and tab cleanup with the existing uinput/pixel checks.
+
+Prepare a local page for alert, confirm, prompt and popup checks, with explicit
+buttons and visible results. Use native D-pad to accept/dismiss and recover to
+browser controls. Exercise certificate/network errors and site permission prompts
+separately, preserving security choices. A fixture is diagnostic content, not
+product UI or a replacement for physical-remote acceptance.
