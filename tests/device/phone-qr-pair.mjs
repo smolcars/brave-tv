@@ -34,7 +34,7 @@ try {
       .querySelector("#status")
       .textContent.includes("Waiting for approval"),
   );
-  assert.equal(new URL(page.url()).hash, "");
+  assert.ok(new URL(page.url()).hash === "", "Invitation fragment was not removed");
   adb("shell", "input", "keyevent", "23");
   await page.waitForFunction(() => connected && !state.paused);
   console.log(
