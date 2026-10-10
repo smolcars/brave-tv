@@ -394,3 +394,14 @@ Standards 0, Spec 0. The Android bridge, view-counter and diagnostic consumers
 handle the absent service; removing takeover registration closes its CHECKing
 controller entry. The new profile assertion is included for Android, while
 enabled sponsored-home browser tests remain desktop-only. Runtime is pending.
+
+Source TV inactive-tab promotion guard `c8957a6c3` against `68404c30c`:
+Standards 1 (add the Android BytecodeTest hook-signature assertion), Spec 0.
+The correction `6554e1f40` against `c8957a6c3`: Standards 0, Spec 0.
+Root typed diagnostic correction `2dabec4` against `45edbf7`: Standards 0,
+Spec 0. JVM behavior and full Nix checks pass; Android instrumentation is pending.
+
+Source signed snapshot packager `eb5310d58` against `6554e1f40`:
+Standards 0, Spec 0. Eleven tools/tv tests pass, including wrong-key/tamper
+rejection and refusal to overwrite an artifact. Native activation and feed
+publication remain separate work.

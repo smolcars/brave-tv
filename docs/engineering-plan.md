@@ -861,3 +861,15 @@ On the emulator require version/cache transition and actual blocking after
 restart; repeat list toggles. YouTube observations remain a separate test and
 must not be promoted to universal ad-blocking claims. Plan/review/build each
 implementation increment using the established cache and resource limits.
+
+The first native increment isolates authenticated bundle parsing and its tests.
+Accept only the fixed five IDs, APK catalog hash, exact engine/format, nonempty
+UTF-8 payload fields and matching per-file provenance hashes. Verify Ed25519
+before JSON parsing; use a digest of the authenticated payload for cache identity.
+Reject publications more than one day in the future. New downloads must be no
+older than 90 days; retained cached data may be older for offline use. Keep this
+age policy explicit at the caller. Sequence rollback and atomic activation belong
+to the subsequent storage increment, which must compare active and staged data.
+Run a focused native test target using the cached host toolchain, then integrate
+that target into the regular Shields unit tests. No feed is enabled by this parser
+increment, and no publisher key is embedded until generation/publication setup.
