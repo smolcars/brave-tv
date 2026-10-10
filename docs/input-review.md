@@ -380,3 +380,7 @@ Source `9bec810f8` against `57ebe9bbc`: Standards 1 (enabled-Leo WebUI tests
 still included on Android), Spec 1 (Java availability and native preference
 registration diverge). The compile also detects unreachable feature queries;
 `009b544f8` addresses those compiler errors. Caller/test corrections follow.
+
+Source `3696a9154` against `009b544f8`: Standards 0, Spec 1 (three Android
+menu tests still expect Leo). The prior preference-registration crash is
+resolved; update those menu expectations without re-enabling the feature.

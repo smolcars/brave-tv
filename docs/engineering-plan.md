@@ -774,3 +774,8 @@ checks with one Android support constant, retain Android preference/migration
 registration, exclude enabled-only WebUI tests on Android, and add a disabled
 service/preserved-pref assertion to existing profile browser tests. Preserve
 desktop checks; do not hide a failing enabled-service test by weakening it.
+
+The correction review finds three Android menu expectations still include Leo
+despite the new hard support gate. Remove that item from the normal/NTP
+expected menus while retaining `@EnableFeatures(AI_CHAT)` to verify an old
+raw flag cannot restore Leo. Keep all other menu assertions.
