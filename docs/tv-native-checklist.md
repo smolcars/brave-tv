@@ -47,7 +47,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Add scoped native clearing: history, site data and cache effects verified in isolated Android user 10; bookmarks preserved, private clearing excluded.
 - [ ] Finish delayed-operation exit/reopen and managed-policy coverage for history/privacy.
 - [x] Replace TV toolbar branding with neutral protection-state icons and route its protection action to the native TV panel; off/on request checks pass. Preserve the existing single focus ring.
-- [ ] Finish remote usability of remaining protection settings and content-filter screens.
+- [x] Provide native optional content-filter toggles; off/on request effects, restart persistence, private entry and remembered Settings focus pass. Large catalogs, custom subscriptions and independent updates remain open.
+- [ ] Finish protection mode persistence and remaining advanced filter/update behavior.
 - [ ] Verify error pages, certificate warnings, permissions and native dialogs remain reachable and escapable.
 
 ## Emulator acceptance

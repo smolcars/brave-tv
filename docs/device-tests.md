@@ -338,3 +338,32 @@ history, the first row now receives initial focus. Home/app return while the
 history panel is open dismisses it and restores the previous home-card focus
 without reopening history. User 10 is stopped and preserved; owner user 0 is
 active. Synthetic delayed callbacks remain untested.
+
+## Native content filters (10 October 2026 UTC)
+
+Source `b289ae6db` passes the cached blocking x64 build in 7m32.56s
+(962 Siso steps); observed cgroup peak is 15,248,793,600 bytes. Preserved APK:
+`~/.cache/brave-tv/artifacts/tv-filters-b289ae6db-x64-debug-20261010/BraveMonox64.apk`,
+853,005,218 bytes, SHA-256
+`248be96be42daaaa8a2d4499fc6bde3dac30913e796e01f8346d8ee37d2859ce`.
+Signature verification and the profile-preserving update pass on emulator-5558.
+
+The original replay fails on the old APK at the cookie-list assertion. Its
+first new-build run also fails because Down is sent before Settings acquires
+focus. Root `e8d9705` synchronizes those transitions and fixes the localized
+Content Filters capitalization; all 20 steps then pass. Both toggles retain
+cookie-row focus, and Back restores Content Filters focus in Settings.
+
+Request-specific probes on normal `shields.html` pass: cookie-list on blocks
+`/1_cookie.js` with `ERR_BLOCKED_BY_CLIENT`; off permits that exact request;
+Home, persistence time and process relaunch retain off. A new private tab's
+native filter panel also shows off. Enabling there and closing only that test
+private tab restores blocking in the normal tab. The ordinary ad fixture stays
+blocked and the control script loads throughout. These probes do not require
+temporary custom cosmetic/scriptlet rules and do not establish YouTube results.
+The original enabled preference is restored. Private Settings still omits
+Clear browsing data. More/Previous lists are disabled for the two-entry bundled
+catalog; larger-catalog paging and connection failures are not runtime-tested.
+
+Signed component delivery remains unresolved; this panel is not an update
+service. Bundled list data still refreshes with browser builds.
