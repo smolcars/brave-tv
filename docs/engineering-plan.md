@@ -597,3 +597,9 @@ its pending queue empties while another modal is still shown. Require the manage
 to report no active modal before restoring focus. A separate-window modal may
 close before the activity regains window focus; retain its return target and retry
 from the existing window-focus callback, with the same page/lifecycle checks.
+
+The idle-wake replay review found that checking only the final count after two
+presses could miss a reversed bug (first press clicks, second is swallowed).
+Split the replay at the first release: require `Clicks: 0` and a visible cursor
+before sending the second held press, then require `Clicks: 1`. Keep both real
+uinput sequences and the independent idle-absence pixel check.
