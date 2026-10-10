@@ -761,3 +761,8 @@ entry points that assert a service instead of handling disabled support; guard
 them before querying the service. The Rewards worker must not create its
 adaptive-captcha service when Rewards is unavailable. Include these callers
 in the same service-removal slice.
+
+The first service-support compile rejects the constant-false Android boolean
+expression as unreachable code under Chromium's warnings-as-errors. Use
+platform preprocessor guards for the Leo/VPN helper bodies, preserving the
+desktop feature query. Do not suppress the compiler check.
