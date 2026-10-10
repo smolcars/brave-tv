@@ -1477,3 +1477,13 @@ Keep at most the existing coalesced motion and one waiting poll action; never
 replay after disconnect. Add held-poll drag-then-tap ordering assertions. Return
 actual command acceptance from the client helper so a rejected move cannot
 authorize the following click.
+
+### Phone home D-pad correction
+
+With the experimental home row visible, Address → Down still jumps to Project
+and source: the old explicit focus links bypass the new phone action. Reproduce
+with a native hierarchy/focus assertion, then route the three main cards down
+to the phone row and the footer up through it. Phone Up returns to Address;
+Phone Down reaches the source link. Preserve the original links when the feature
+is unavailable. Verify both directions and entry from Browser controls with
+explicitly targeted emulator key events; include this in the final cached build.
