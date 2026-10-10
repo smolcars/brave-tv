@@ -1135,3 +1135,22 @@ four fixture servers, captures, samplers and the task's agent-device daemon.
 No task build/emulator service or fixture listener remains running. T3/shared
 platform services remain available. Profiles, APKs, logs and compile caches
 were preserved; no Chromecast was accessed. Source `master` is pushed.
+
+
+## Current-source Chromecast preparation (10 October)
+
+Wireless discovery reconnects the paired Android-14 `sabrina` without a new
+code. It reports ARMv7, approximately 2 GiB RAM, an existing 1920×1080 display
+override at 320 dpi and 1,057,160 KiB available storage before installation.
+Active user 0 has the old package uninstalled; user 10 retains it. No user or
+browser data is cleared. The latest-only source review remains the already
+recorded `5c9a36c74` review; this slice changes no application source.
+
+The [verified ARM candidate](build.md#current-source-arm-candidate-10-october)
+is attempted with `adb install -r --user 0`. Android rejects it with
+`INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`.
+Package version/update time and both users' installed flags remain unchanged.
+No active/finalized install session, `vmdl*` staging directory or temporary APK
+is exposed by the shell after failure. The user is asked to free 300–400 MB
+and aim for 1.3–1.4 GiB available before retry. Installation/runtime acceptance
+are still pending; the successful build is not hardware acceptance.
