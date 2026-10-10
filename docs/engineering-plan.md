@@ -89,6 +89,14 @@ does not need to depend on Compose internals. T3 preview's six design checks
 pass after editor/fullscreen/final-tab/cancel corrections. Baseline synthetic
 `remote-input.html` is now bookmarked through BookmarkModel for upgrade checks.
 
+Design focus correction: review found that Clear/Down could leave the previous
+CSS focus highlight while moving actual focus. Centralize prototype focus
+updates (logical index, CSS and DOM) and test Clear/Down/Escape specifically.
+
+Sixth attempt passes Kotlin and Java headers; Chromium's direct bytecode
+dependency check requires the already pinned CoroutineScope target used by
+LaunchedEffect. Add that direct dependency, keeping all bytecode checks enabled.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
