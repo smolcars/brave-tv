@@ -904,3 +904,19 @@ valid stage/restart, same-sequence conflict, rollback before/after restart,
 tamper rejection preserving bytes, write failure, stale cached/offline use,
 invalid cache fallback and immutable active data across multiple stages.
 Provider wiring, production key and transport are the next increment.
+
+Wire the store into Android's existing bundled-data path behind an independent
+updates feature. Generate the publisher Ed25519 key locally with owner-only
+permissions outside Git; embed only its public half. Add the pinned catalog
+hash to the existing generated snapshot header and its refresh generator.
+Construct one store in AdBlockService and pass owned references to resource,
+filter and DAT-cache workers; keep defaults for existing callers/tests.
+
+When this path is enabled, the APK catalog, default resources and five supplied
+baseline lists use the independent snapshot exclusively, with packaged fallback.
+Do not register their duplicate upstream components: an asynchronously arriving
+catalog/resource component could otherwise break the fixed permissions or mix
+snapshots mid-session. Other component types and their CRX verification remain
+unchanged. Include snapshot digest in the compiled DAT prefix. Check packaged
+startup first, then signed stage/restart and cache transitions after transport is
+wired. Continue to preserve existing list choices and custom subscriptions.
