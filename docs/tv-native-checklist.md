@@ -39,12 +39,13 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Replace the prototype list dialog with a readable landscape native browser panel.
 - [x] Add clear focus, predictable D-pad movement, remembered selection and Back escape; panel replay passes.
 - [ ] Provide address/search, Back/Forward, Reload/Stop and clear page cursor/scroll actions.
-- [ ] Provide a native home/start view with bookmark shortcuts using existing browser storage.
+- [x] Provide direct home bookmark access through existing browser storage; home and bookmark replays pass, aligned three-card screenshot verified.
 - [x] Correct normal/private New tab handoff to native home with search focused; both failing replays now pass. Closing the private test tab restores normal home.
-- [ ] Adapt remaining tab flows: toolbar tab entry, switching/closing, pagination and restart restoration.
+- [x] Adapt toolbar tab entry, selection/closing, pagination and ordinary restoration. Current-home focus passes; loaded fixtures restore. Upstream intentionally drops unused blank homes.
 - [x] Adapt bookmarks: add, open and remove through existing storage; D-pad workflow and restart pass. Pagination/policy/private coverage remains open.
-- [ ] Adapt history: open, delete and clear through existing storage.
-- [ ] Adapt private browsing and clear-data controls; verify isolation.
+- [x] Adapt history: native open, Cancel/remove, paging and scoped all-time clearing pass on local fixtures. Native continuation beyond one query batch remains in broader acceptance.
+- [x] Add scoped native clearing: history, site data and cache effects verified in isolated Android user 10; bookmarks preserved, private clearing excluded.
+- [ ] Finish delayed-operation exit/reopen and managed-policy coverage for history/privacy.
 - [x] Replace TV toolbar branding with neutral protection-state icons and route its protection action to the native TV panel; off/on request checks pass. Preserve the existing single focus ring.
 - [ ] Finish remote usability of remaining protection settings and content-filter screens.
 - [ ] Verify error pages, certificate warnings, permissions and native dialogs remain reachable and escapable.

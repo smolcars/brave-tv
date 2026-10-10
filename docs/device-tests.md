@@ -324,3 +324,17 @@ fixture tabs were retained alongside an active home; five unused blank homes wer
 removed. Chromium's `TabPersistenceUtils.shouldSkipTab` intentionally excludes
 ungrouped, unpinned native new-tab pages. Only tabs created for these checks were
 closed afterward, restoring the two original web fixtures plus a fresh home.
+
+
+Alignment source `872f16da5` passes blocking build in 3m38.69s (16 steps),
+observed peak 15,328,387,072 bytes (14.28 GiB). Artifact:
+`~/.cache/brave-tv/artifacts/tv-home-alignment-872f16da5-x64-debug-20261010/BraveMonox64.apk`,
+852,990,624 bytes, SHA-256
+`7a4a6198396564801c5ef9502f994ee6594192c74bf1b3faa81a9c5a1fc5b1a1`.
+Signature/update pass; home (20), home bookmarks (10) and toolbar tabs (16)
+replays all pass. `home-aligned-872f16da5.png` shows all three cards aligned,
+with the controls label readable on two lines. On owner user 0's multi-entry
+history, the first row now receives initial focus. Home/app return while the
+history panel is open dismisses it and restores the previous home-card focus
+without reopening history. User 10 is stopped and preserved; owner user 0 is
+active. Synthetic delayed callbacks remain untested.

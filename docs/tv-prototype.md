@@ -123,3 +123,14 @@ Home/menu/panel navigation, search-provider changes, the local search-collector 
 Source `942dca26f` fixes normal/private new-tab handoff, replaces the TV toolbar lion with neutral protection-state icons, and opens the native TV protection panel. The cached blocking build passes in 3m33.18s; signature verification and profile-preserving update pass. APK: `~/.cache/brave-tv/artifacts/tv-toolbar-942dca26f-x64-debug-20261009/BraveMonox64.apk`, 852,950,251 bytes, SHA-256 `995375f1cf1460d65c7154c05fddfac6c0023a81bdf4958cd52bfd7cde843e0d`. This is an x64 Debug emulator artifact.
 
 The formerly failing normal/private new-tab replays pass, the toolbar menu still activates through D-pad, and final screenshots show a single native focus ring. [Runtime evidence](device-tests.md#new-tab-handoff-and-neutral-toolbar-9-october-2026) records the preceding build's protection off/on check and the rejected double-outline design. Chromecast and remaining MVP acceptance stay open.
+
+
+## Current tabs, history and privacy emulator artifact (10 October UTC)
+
+Source `872f16da5` is the installed x64 Debug emulator build. It adds native
+toolbar tabs, history open/removal, scoped privacy clearing and direct home
+bookmark access. The final cached build passes blocking analysis in 3m38.69s.
+[Executed device checks](device-tests.md#native-privacy-and-home-bookmarks-10-october-2026-utc)
+record artifacts, data-isolation checks, screenshots and remaining limits.
+The Chromecast still runs an older revision; hardware and release acceptance
+are pending.
