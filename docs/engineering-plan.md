@@ -200,6 +200,42 @@ key listener for older key delivery. Clear held context references on cancellati
 and release as well, so closed private content is not retained by a stale lease.
 Acceptance: unchanged overflow replay, native dialogs and continued phone gates.
 
+Phone/session gates on source65ce: QR auto-pair/approval, real touch gestures,
+Back/Forward/Reload, normal tab actions, exact protocol numbers, stale document,
+duplicate/field rejection, native Unicode/composition/selection/deletion and
+password exclusion pass. Direct private-address transport rejects invalid
+Host/Origin/method/parser inputs and bounds idle sockets; short disconnect
+restores the same session in457ms without replay. These are Android emulators,
+not real iOS/camera/hardware proof. The fullscreen probe passes from center but
+fails from a left-edge start: diagnostic x130 produces dx1570, exceeding the
+existing1000 command bound. Correct the test to travel in bounded steps, exercise
+the left edge explicitly, and retain real native cursor-pixel acceptance. Native
+bounds/security must remain unchanged. Review source da718 and root751cd found
+no actionable Standards or Spec findings; corrected Back runtime is pending.
+
+Back correction source `da7183c3f` passes blocking analysis (r15 4m21s,
+observed peak13.35GiB), APK signature/update install and the unchanged19-step
+home/overflow replay. Artifact852,603,270 bytes, SHA256
+`5f3962618fc4d44ec1a30fc64f7519e62aaef690bd40ba37076087e695449cfb`.
+The bounded fullscreen/cursor probe passes with a forced left-edge traversal.
+On this APK, raw authenticated phone commands are rejected while a real native
+alert or private tab owns input; paused responses contain only revision/paused.
+The alert remains until remoteOK and returns to the same page. Private Address
+focus remains unchanged by rejected commands; the actual window has SECURE.
+No private screenshots or physical-device operations were used.
+
+Next complete slice: replace the shared TV panel renderer with the selected
+Compose theme, retaining native dialog windows, callbacks and storage/security
+owners. Migrate tabs/bookmarks/history/settings/Shields/filter/media/QR surfaces
+through that renderer, including live media labels/enabled/focus state and native
+QR image interop. Keep lists bounded and scrollable; dispose compositions when
+dialogs close and protect private windows. Correct root-controls Back to dismiss
+to its home/page invoker rather than forward the same Back into page history.
+Acceptance: native panel traversal/scroll, Cancel-before-delete, parent/focus
+restoration, media-state updates, QR pairing, and unchanged security/model tests.
+Address/home data/tab actions/download improvements follow as separate slices;
+a renderer migration alone is not complete feature acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

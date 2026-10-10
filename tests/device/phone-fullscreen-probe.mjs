@@ -127,15 +127,28 @@ try {
       url,
     );
     await settled();
-    assert.equal(
-      await phone.evaluate(() =>
-        command("move", {
-          dx: Math.round(1700 - state.x),
-          dy: Math.round(900 - state.y),
-        }),
-      ),
-      true,
-    );
+    async function moveTo(x, y) {
+      for (let step = 0; step < 4; step++) {
+        const point = await phone.evaluate(() => ({ x: state.x, y: state.y }));
+        if (point.x === x && point.y === y) return;
+        const movement = {
+          dx: Math.max(-1000, Math.min(1000, x - point.x)),
+          dy: Math.max(-1000, Math.min(1000, y - point.y)),
+        };
+        assert.equal(
+          await phone.evaluate((delta) => command("move", delta), movement),
+          true,
+        );
+      }
+      assert.deepEqual(
+        await phone.evaluate(() => ({ x: state.x, y: state.y })),
+        { x, y },
+      );
+    }
+    // A previous form test can leave the pointer near the edge. Each command
+    // must still respect native movement bounds when crossing the whole screen.
+    await moveTo(100, 900);
+    await moveTo(1700, 900);
     const { x, y } = await phone.evaluate(() => ({ x: state.x, y: state.y }));
     let white = 0;
     let ring = false;

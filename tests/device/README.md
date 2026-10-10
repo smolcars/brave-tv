@@ -60,6 +60,12 @@ single-use invitation is consumed; this checks encoding, not a physical camera.
 versions, sequence numbers and document identities are rejected while valid
 commands still work.
 
+`phone-paused-probe.mjs PLAYWRIGHT_CORE` requires an approved session with a
+native modal open or a private tab selected. It sends authenticated actions
+directly, bypassing disabled companion controls, and requires native rejection
+with only revision/pause metadata. Verify the native owner remains unchanged
+afterward and dismiss it using the remote; run separately for both owners.
+
 `phone-reconnect-probe.mjs PLAYWRIGHT_CORE` briefly takes the phone page offline,
 checks that an attempted click is discarded, then measures restoration of the
 same session and observes subsequent polls for replay. It restores connectivity
