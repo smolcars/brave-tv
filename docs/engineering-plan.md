@@ -1599,3 +1599,9 @@ Pairing slice: the host regression fails because the QR token is accepted but
 its token is pending, show an explicit TV-approval section, restore manual entry
 on terminal failure, and hide approval on connection. Exercise pending, approved
 and rejected/expired states with the real bundled JavaScript before packaging.
+
+Review correction for pairing: real TV cancellation/expiry closes the listener
+and may return an empty object, unlike the initial synthetic JSON-error test.
+Add the actual failed-poll regression before changing code. Treat an empty state
+response as revoked; if the connection fails before an approval epoch exists,
+return to fresh-invitation guidance. Preserve reconnect for approved sessions.

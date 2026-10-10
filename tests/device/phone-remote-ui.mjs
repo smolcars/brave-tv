@@ -6,7 +6,7 @@ import { createRequire } from "node:module";
 import { resolve } from "node:path";
 const require = createRequire(resolve(process.argv[2], "package.json"));
 const { chromium } = require("playwright-core");
-const assets = resolve("brave/android/java/brave-res/raw");
+const assets = resolve(process.argv[3] || "brave/android/java/brave-res/raw");
 const commands = [];
 let approved = false;
 let approvalError = "approval";
@@ -309,6 +309,17 @@ try {
   await page.getByText("Session unavailable. Start a new invitation on the TV.", {exact:true}).waitFor();
   assert.equal(await page.locator("#pairForm").isVisible(), true);
   assert.equal(await page.locator("#approval").isVisible(), false);
+  // TV rejection/expiry closes the listener rather than returning a JSON error.
+  approvalError = "approval";
+  await page.goto('about:blank');
+  await page.goto(`http://127.0.0.1:${server.address().port}/#synthetic-retry`);
+  await page.getByText("Waiting for approval on the TV…", {exact:true}).waitFor();
+  server.closeAllConnections();
+  await new Promise(resolve => server.close(resolve));
+  await page.waitForTimeout(700);
+  assert.equal(await page.locator("#approval").isVisible(), false,
+    "Closed listener must not leave a stale approval instruction");
+  assert.equal(await page.locator("#pairForm").isVisible(), true);
   assert.deepEqual(errors, []);
   console.log(
     "Companion regression passed: QR approval/retry UI, fragment removal, polling-time action, one click, acknowledged selection/typing, conflicting edit rejection, portrait/landscape overflow, no script errors.",
