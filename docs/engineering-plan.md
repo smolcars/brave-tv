@@ -1014,3 +1014,41 @@ disabled and initialized local providers, asserting no load notification before
 explicit catalog delivery and notification afterward. Run the cached and
 no-DAT startup probes/traces on the corrected APK; report native-unit execution
 separately from device acceptance.
+
+#### Signed delivery and TV freshness
+
+Build on the verified immutable store; keep downloaded rules inactive until the
+next browser process. Add a small core updater using SimpleURLLoader and the
+existing system URL loader factory, injected from the browser process through
+AdBlockService. Fetch only the fixed fork-owned GitHub release asset
+`https://github.com/smolcars/brave-tv/releases/download/filters-current/filters.bundle`.
+Use GET, credentials omitted, no cache, a 24 MiB body limit, a 60-second timeout,
+and reject HTTPS downgrades. No retries within a check. Verification and atomic
+staging stay on a sequenced worker; destruction cancels owned download/timer and
+weak replies. A failed/interrupted fetch or rejected bundle retains current data.
+
+Persist the last attempt in local state. Schedule the first automatic check no
+sooner than 30 seconds after service construction and no more than once per day;
+reschedule daily for a long-running process. Manual checks bypass that interval,
+coalesce with an in-flight check, and reschedule the next automatic attempt.
+Treat clock changes conservatively without permanently suppressing updates.
+Expose checking, unchanged, staged/restart, download failure and rejected-update
+states. Read active publication/sequence on the worker; distinguish packaged data
+from a signed snapshot, and distinguish publication date from last-check time.
+Keep the updater disabled when independent bundled data or its factory is absent.
+
+First compile and exercise the updater with TestURLLoaderFactory plus the real
+signed store (daily scheduling, coalescing, timeout/failure, bounded body, valid
+stage, repeat, rejection and immutable active data). Then wire the service and
+Mojo methods into a native TV update panel reached from Content Filters, with
+localized status, a clear check action, lifecycle guards and stable remote focus.
+Build through the existing Nix cache/limits. Publish a verified bootstrap feed
+with source/provenance/license links; retain historical assets and keep the
+private publisher key outside Git/logs. The bootstrap contains the already-pinned
+baseline and must not be presented as a newly refreshed upstream ruleset.
+
+On emulator verify real HTTPS fetch, last-check status, staged/restart activation,
+DAT identity transition and actual blocking; exercise offline/error handling and
+Back/reopen during a check. Update source publication/refresh instructions and
+record exact limits. Review only each latest implementation commit, push source
+master before root master, then continue the remaining MVP acceptance work.
