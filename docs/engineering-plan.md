@@ -816,3 +816,8 @@ separately until a repeatable cause is established.
 The full Nix check catches the diagnostic reusing `source` for both text and a
 Path. Rename the latter to `source_path`; retain strict typing and rerun the
 actual JVM regression and full source checks. Product code is unchanged.
+
+Standards review requires the existing Android `BytecodeTest` to assert the
+new hook's method signature (AND-022), in addition to the behavioral JVM
+diagnostic. Add the void/no-arguments method check beside the existing
+ChromeTabbedActivity entries; its class is already covered.
