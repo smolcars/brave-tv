@@ -51,5 +51,13 @@ if args.action == 'delete':
     adb('input', 'keyevent', '22')
     focus('Browser controls')
 else:
-    assert any(n.get('content-desc') == 'See 1 tab' for n in tree.iter('node')), 'Cancel closed the tab'
+    assert any(n.get('text') == '10.0.2.2:18088/remote-input.html'
+               for n in tree.iter('node')), 'Cancel lost the original fixture'
+    adb('input', 'keyevent', '4')
+    focus('Close tab')
+    adb('input', 'keyevent', '23')
+    tree = hierarchy()
+    assert any(n.get('text') == 'Close tab and delete group?'
+               for n in tree.iter('node')), 'Cancel lost the original group'
+    focus('Cancel')
 print(f'PASS: actionable initial focus, D-pad buttons and {args.action} outcome')

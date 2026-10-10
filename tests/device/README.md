@@ -236,9 +236,10 @@ and delete group?**. No other normal tabs should remain. With the dialog open:
 python3 tests/device/tv-group-dialog.py emulator-5554 cancel
 ```
 
-Open Browser controls and Close tab again, then run the same script with
-`delete`. The probe checks initial Cancel focus, left/right access to the actual
-buttons, preservation after Cancel, and native home/D-pad recovery after Delete.
+The Cancel probe verifies the fixture URL and reopens the group confirmation.
+Then run the same script with `delete`. The probe checks initial Cancel focus,
+left/right access to the actual buttons, preservation after Cancel, and native
+home/D-pad recovery after Delete.
 It intentionally rejects physical serials: its Delete action is for disposable
 fixtures. Repeat ordinary site alert/confirm/prompt focus after changes to the
 shared modal helper. Do not suppress the group confirmation or automate real
