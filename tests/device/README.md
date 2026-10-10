@@ -38,6 +38,17 @@ cursor correction must pass both. These coordinates and ring size are specific
 to the documented emulator; do not apply this pixel assertion to another density
 or viewport. Screenshots and logs belong outside Git.
 
+## Idle cursor wake
+
+Use the same centered cursor, initial scroll and `Clicks: 0` preconditions as
+`dpad-click.jsonl`. Run `dpad-idle-wake-click.jsonl` through uinput. It moves onto
+the button, waits four seconds, then holds/releases OK twice. The first press
+must only reveal the hidden cursor; the second must click exactly once. Assert
+`Clicks: 1`. Before idle hiding, both presses click and this assertion fails
+with `Clicks: 2`. Also capture the idle screen separately and use the pixel
+check at 960,700 with `absent`; after a directional wake, check the new position.
+Do not count a final value of one alone as evidence that the cursor disappeared.
+
 ## Precise input and tab replacement
 
 Open `http://127.0.0.1:8000/precise-input.html`, relaunch to center the cursor,
