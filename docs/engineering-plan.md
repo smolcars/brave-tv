@@ -812,3 +812,7 @@ missing-hook failure, then rebuild with blocking analysis. Repeat private
 close-to-home and normal restart on the emulator; require no promotion and
 visible home focus. Keep the single intermittent home replay failure recorded
 separately until a repeatable cause is established.
+
+The full Nix check catches the diagnostic reusing `source` for both text and a
+Path. Rename the latter to `source_path`; retain strict typing and rerun the
+actual JVM regression and full source checks. Product code is unchanged.

@@ -81,10 +81,10 @@ with tempfile.TemporaryDirectory(prefix="tv-tab-promo-adapter-") as tmp:
                     str(target)], check=True)
     subprocess.run(["java", "-ea", "-Xverify:all", "-cp", tmp, "verify.Run"], check=True)
 
-    source = work / "org/chromium/chrome/browser/ChromeTabbedActivity.java"
-    source.write_text(source.read_text().replace(
+    source_path = work / "org/chromium/chrome/browser/ChromeTabbedActivity.java"
+    source_path.write_text(source_path.read_text().replace(
         "initiateArchivedTabsAutoDeletePromoManager", "renamedUpstreamMethod"))
-    subprocess.run(["javac", "-cp", tmp, "-d", tmp, str(source)], check=True)
+    subprocess.run(["javac", "-cp", tmp, "-d", tmp, str(source_path)], check=True)
     missing = subprocess.run(
         ["java", "-cp", f"{tmp}:{CP}", "org.brave.bytecode.Rewrite", str(target)],
         capture_output=True, text=True)
