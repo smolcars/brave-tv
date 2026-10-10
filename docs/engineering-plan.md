@@ -501,3 +501,15 @@ has acquired focus and opens Search engine instead. Manual D-pad navigation
 reaches the filter panel. Await each destination's focused entry before the
 next key, and use the actual localized `Content Filters` label in the return
 assertion. Keep the off/on behavior assertions unchanged.
+
+#### Remaining Rewards onboarding notification entry points
+
+The traffic audit found no reporting host in its bounded sample, but source
+inspection finds a separate legacy entry: `BraveOnboardingNotification` can
+still display a Rewards first-ad notification or follow its promotional deep
+link on TV. The retention receiver already has a TV guard. Add the same guard
+to the onboarding receiver and its direct display entry, and cancel only that
+notification's existing tag/ID during TV startup. Keep website/download and
+security notifications intact. Do not claim this replaces auditing all native
+service factories. Compile the Java changes with blocking analysis, check TV
+startup and notification state, and review only this implementation commit.
