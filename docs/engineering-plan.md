@@ -1541,3 +1541,11 @@ bilinearly scaling to the 360-pixel TV slot reproduces failure, while direct
 360-pixel encoding passes. Generate the bitmap at the slot's final physical size
 and suppress bitmap density/view scaling. Keep the original decoder unchanged;
 require fresh full-screen QR captures to pass after packaging the correction.
+
+Outcome: source `7f2ad4c6c` passes blocking x64 build checks, ten fresh full-screen
+QR decodes and the uninterrupted 30-minute session (181 commands, p95 69.8 ms).
+Native input/control, security-boundary, reconnect and lifecycle evidence is in
+`phone-remote-evidence.md`. The authorized emulator scope is complete as a
+debug-only HTTP experiment. Release transport, real phones/Safari and physical
+TV acceptance remain open; the Chromecast was untouched. Restore emulator
+settings and stop only task-owned emulators/fixtures, preserving all caches.

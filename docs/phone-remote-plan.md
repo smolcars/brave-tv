@@ -178,7 +178,7 @@ UI takeover must say control is paused rather than falsely acknowledge success.
 
 - [x] Write the engineering slice, exact protocol, threat model and server/library
   choice before code changes. Inspect existing source/build dependencies.
-- [ ] Serve bundled UI and a paired command channel from the TV emulator. Test
+- [x] Serve bundled UI and a paired command channel from the TV emulator. Test
   unauthenticated rejection, expiry, revocation, Origin/Host checks and limits.
 - [x] Exercise a second client via a private-address route; document simulator
   NAT/forwarding. A loopback ADB forward is only adapter evidence, not LAN proof.
@@ -189,11 +189,11 @@ UI takeover must say control is paused rather than falsely acknowledge success.
 
 ### 2. Complete one local pairing-to-navigation flow
 
-- [ ] Add Use your phone, bundled serving, QR/manual fallback, TV approval,
+- [x] Add Use your phone, bundled serving, QR/manual fallback, TV approval,
   connected indicator, disconnect, expiry and network-change teardown.
 - [x] Pair a simulated/browser client and open address/search; return actual
   page identity/loading/error state and preserve selected search provider.
-- [ ] Confirm companion assets and control require no external host or internet.
+- [x] Confirm companion assets and control require no external host or internet.
   Use local fixture pages to distinguish remote operation from internet browsing.
 
 ### 3. Finish remote controls and visual design
@@ -201,23 +201,27 @@ UI takeover must say control is paused rather than falsely acknowledge success.
 - [x] Touchpad, tap exactly once, scroll, accessible alternatives and cursor state.
 - [x] Back/Forward, Reload/Stop and normal-tab create/select/close with live state.
 - [x] Native eligible-field keyboard bridge and clear unsupported-field feedback.
-- [ ] Polish phone layout, TV pairing and connection UI; check keyboard resize,
+- [x] Polish phone layout, TV pairing and connection UI; check keyboard resize,
   portrait/landscape, zoom, contrast, focus and screen-reader labels.
 
 ### 4. Reliability and emulator acceptance — authorized now
 
-- [ ] Test local disconnect/reconnect, browser restart, TV background/resume,
-  interface/IP changes, permission denial, isolation/unreachable network and
+- [x] Test emulator disconnect/reconnect, browser restart, TV background/resume,
+  active-interface changes, native permission rejection, unreachable network and
   duplicate/malformed/oversized/late commands. Drop queued actions on reconnect.
-- [ ] Race tab/navigation/focus/private/modal transitions against clicks and text.
-- [ ] Verify no unpaired state leaks, cross-site control, payload logging or
+- [x] Race tab/navigation/focus/private/modal transitions against clicks and text.
+- [x] Verify no unpaired state leaks, cross-site control, payload logging or
   indefinitely retained sockets/timers; listener is absent when remote is off.
 - [x] Rerun affected home, D-pad, tabs, native dialogs, Shields and playback checks.
-- [ ] Run a bounded 30-minute session and repeated pair/disconnect cycles;
+- [x] Run a bounded 30-minute session and repeated pair/disconnect cycles;
   compare whole-browser memory/CPU and measure input/reconnect latency.
-- [ ] Test available Chromium/mobile-browser emulation and Android phone emulator.
-  Use Safari/iOS simulator only if available; do not call desktop mobile emulation
-  equivalent to Safari or physical-phone acceptance. Keep unavailable checks open.
+  Final run: 181 commands, p95 round trip 69.8 ms; reconnect 456 ms. See
+  [evidence and remaining gates](phone-remote-evidence.md).
+- [x] Test available Chromium/mobile-browser emulation and Android phone emulator.
+  Android Chrome 133 and Brave Chromium 155 pass the private-address flow.
+- [ ] Safari/iOS simulator is unavailable on this Linux host. Real OS local-network
+  permission denial, router guest isolation and physical-phone acceptance remain
+  open below; desktop mobile emulation is not equivalent evidence.
 
 Proposed usability targets: p95 command round trip below 100 ms on a healthy
 LAN, no queued-action burst after reconnect, and usable state within 10 seconds

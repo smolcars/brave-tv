@@ -1,7 +1,8 @@
 # Local phone remote experiment — 10 October 2026
 
-Implementation and acceptance are in progress. No physical Chromecast operation
-is authorized or performed. This is not release acceptance.
+The authorized emulator implementation scope is complete on source `7f2ad4c6c`.
+No physical Chromecast operation was performed. HTTP remains an explicitly
+enabled development experiment; this is not release acceptance.
 
 ## Transport and threat model
 
@@ -352,3 +353,43 @@ the 360-pixel ImageView reproduces the failure, while direct 360-pixel encoding
 passes. The correction generates at the view's physical size, disables bitmap
 density scaling and centers the bitmap without interpolation. Original full-screen
 decoding and the uninterrupted soak must pass after the corrected APK.
+
+## r15 QR acceptance and final session
+
+Source `7f2ad4c6c` passes blocking build r15 in 3m30.07s (16 steps), observed
+peak 15,638,188,032 bytes. Retained APK:
+`phone-remote-7f2ad4c6c-x64-debug-20261010/BraveMonox64.apk`, 851,003,103 bytes,
+SHA-256 `a3dfa4b38bb4ee88937256a79412a8f22886b0f4295e06b1d7aaec5431b1beef`.
+Ten fresh full-screen invitations decode with the unchanged ZXing reader; the
+first nine are explicitly cancelled and the tenth pairs successfully through
+the phone browser with TV approval. Screenshots are retained as
+`phone-qr-r15-{1..10}.png`; the consumed invitation is also in
+`qr-test-r15-paired.png`. No scanner hint, crop or credential logging is used in
+this acceptance. The prior runtime checks remain applicable to unchanged input,
+protocol and lifecycle code. A fresh local fixture starts the corrected soak,
+with measurements in `~/.cache/brave-tv/artifacts/phone-soak-r15.json`.
+
+The uninterrupted run passes: 1,800,247 ms, 181 accepted command samples,
+p95 round trip 69.8 ms, and the same approved session throughout. All 31 memory
+samples contain three browser package processes. Whole-package PSS falls from
+661.85 to 615.67 MiB; after minute two it stays within 615.58–618.08 MiB.
+That steady segment averages 0.592% of one CPU core, maximum 0.733%. There is no
+observed growth in this fixture run. These are debug-emulator results on shared
+virtual Wi-Fi, not household Wi-Fi, hardware performance or display presentation
+latency. The earlier failed/partial runs above are not substituted for this pass.
+
+Final phone Disconnect clears the credential and the private listener explicitly
+refuses connections. Cleanup restores TV debug_app to null, removes its task
+command-line file, disables Wi-Fi and enables Ethernet. Gboard is restored and
+the test IME is absent. Owned diagnostic forwards and temporary UI dumps are
+removed; reverse ports were already absent after emulator restart. Both task
+AVDs and all four fixture services are stopped. Shared ADB/T3 services, emulator
+userdatas, SDKs, build outputs, caches and artifacts are preserved.
+
+Remaining gates: authenticated release transport, actual iPhone Safari/Android
+phones and camera QR scanning, OS local-network permission denial, router guest
+isolation, physical screen-reader use, hardware video/audio/performance and the
+user-deferred Chromecast/second-TV checks. Only selected private IPv4 Wi-Fi or
+Ethernet is supported. Off-origin companion requests were blocked during pairing;
+the guest's internet link was not physically disconnected. Local operation uses
+no external companion service; ordinary website browsing still needs its network.
