@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 
 const expected = process.argv[2];
 assert.ok(['enabled', 'disabled'].includes(expected),
-  'Usage: node tests/device/search-metrics-probe.mjs enabled|disabled');
-const metric = 'Brave.Search.DefaultEngine.4';
+  'Usage: node tests/device/search-metrics-probe.mjs enabled|disabled [metric]');
+const metric = process.argv[3] ?? 'Brave.Search.DefaultEngine.4';
 const timeout = setTimeout(() => {
-  console.error('Search metrics probe timed out');
+  console.error('Histogram probe timed out');
   process.exit(1);
 }, 10000);
 let socket;

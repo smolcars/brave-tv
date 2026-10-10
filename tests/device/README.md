@@ -281,3 +281,10 @@ Standard and requires the panel to survive with Aggressive as the enabled
 alternative. It fails with the native invalid-mode assertion on `360b81ac7`.
 Check reverse selection and restart persistence separately; restore the original
 mode afterward. This replay changes only the dedicated fixture origin's mode.
+
+The same native histogram probe accepts an optional exact metric name, for
+example `node tests/device/search-metrics-probe.mjs disabled Brave.Core.CrashReportsEnabled`.
+Open the matching `chrome://histograms/Brave.Core.CrashReportsEnabled` page
+first. Restart the browser process after an implementation change; accumulated
+samples from the old process are not evidence of new collection. This checks
+local collection, not outbound reporting.
