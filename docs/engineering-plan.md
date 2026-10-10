@@ -144,6 +144,24 @@ the paired phone. Put the home phone action on a separate compact row so the
 existing Bookmarks label does not break mid-word. Stop task-owned emulators
 before the cached build, preserving data and shared services.
 
+### Phone remote editor acknowledgement correction
+
+The packaged hook now exports native field state, native Unicode replacement
+works, and background teardown preserves the browser PID. The first typing
+probe fails when phone selection arrives before typing: that acknowledged
+selection advances the field version while the locally coalesced text retains
+its old base version. Track one in-flight same-field edit until renderer state
+confirms its expected text. Rebase only subsequent local typing on that exact
+acknowledgement; discard on rejection, document/focus change, disconnect or
+conflicting renderer text. Add a held-selection-response regression before
+changing the client. Also expose actual error-page state and retain the final
+coalesced gesture movement on release when delivery is available.
+
+The server deliberately binds only its private address, so ADB's loopback TCP
+forward cannot reach it. Run HTTP boundary probes with explicitly targeted
+phone-emulator netcat directly to the TV address; retain only diagnostic
+DevTools forwards. Re-run native editing and transport/lifecycle checks.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.

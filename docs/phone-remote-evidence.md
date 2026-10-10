@@ -160,3 +160,26 @@ thread/join. The PID-preserving background check must pass after installation.
 Temporary emulator settings to restore: TV debug_app was null, command-line
 file absent, Wi-Fi disabled, Ethernet enabled. Both emulator userdatas and
 compiled caches remain preserved. The Chromecast has not been operated.
+
+## Runtime correction and editor acknowledgement
+
+Source `01145f29b` passes r8 (232 steps, 4m18.87s, peak 19,329,957,888
+bytes) with blocking analysis and the same four-worker/18/22 GiB limits.
+Artifact `phone-remote-01145f29b-x64-debug-20261010/BraveMonox64.apk` is
+851,003,879 bytes, SHA-256
+`3800678dbc6b15d457309d7e08e93d75d3b918f278acece19d8d77d6ec83eaaa`.
+The transformed IME JAR now contains all four hook calls. The actual phone
+focuses a TV field and sends `héllo हिन्दी 🌍` through the native bridge.
+Background teardown preserves the browser PID, fixing the earlier crash.
+
+The first typing attempt also exposes a selection/typing acknowledgement race:
+phone selection changes the renderer version before coalesced typing is sent.
+The new held-response host regression fails before the correction, then passes
+with same-field expected-text acknowledgement; conflicting TV text still
+cancels the pending edit. Full native text acceptance awaits the corrected APK.
+
+`phone-transport-probe.py` passes against this APK directly from emulator-5556
+netcat to TV 10.0.2.17:36345: bundled assets/security headers, unauthorized state,
+Host/Origin/Fetch-Site/cookie/method/path rejection, malformed/deep/oversize JSON,
+and five idle sockets bounded by the five-second deadline. These requests
+travel through shared virtual Wi-Fi, not an ADB remote-traffic forward.

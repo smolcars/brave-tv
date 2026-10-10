@@ -176,13 +176,13 @@ UI takeover must say control is paused rather than falsely acknowledge success.
 
 ### 1. Local feasibility and bounded input experiment
 
-- [ ] Write the engineering slice, exact protocol, threat model and server/library
+- [x] Write the engineering slice, exact protocol, threat model and server/library
   choice before code changes. Inspect existing source/build dependencies.
 - [ ] Serve bundled UI and a paired command channel from the TV emulator. Test
   unauthenticated rejection, expiry, revocation, Origin/Host checks and limits.
-- [ ] Exercise a second client via a private-address route; document simulator
+- [x] Exercise a second client via a private-address route; document simulator
   NAT/forwarding. A loopback ADB forward is only adapter evidence, not LAN proof.
-- [ ] Record HTTP/HTTPS bootstrap findings and supported browser/API behavior;
+- [x] Record HTTP/HTTPS bootstrap findings and supported browser/API behavior;
   select a release-capable route or keep HTTP restricted to development.
 - [ ] Prove native pointer and Unicode/composition/selection/deletion on harmless
   inputs, textarea and contenteditable; test password/focus-change rejection.

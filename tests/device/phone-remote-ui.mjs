@@ -11,6 +11,8 @@ const commands = [];
 let pollStarted;
 let releasePoll;
 let delayedPoll = false;
+let selectionStarted;
+let releaseSelection;
 const initial = {
   revision: 1,
   paused: false,
@@ -66,11 +68,34 @@ const server = createServer(async (req, res) => {
   }
   if (data.op === "state" && delayedPoll) {
     delayedPoll = false;
-    const barrier = new Promise((r) => { releasePoll = r; });
+    const barrier = new Promise((r) => {
+      releasePoll = r;
+    });
     pollStarted?.();
     await barrier;
   }
   if (data.op !== "state") commands.push(data);
+  if (data.edit === "select" && selectionStarted) {
+    const barrier = new Promise((r) => {
+      releaseSelection = r;
+    });
+    selectionStarted();
+    await barrier;
+    initial.editable.start = data.start;
+    initial.editable.end = data.end;
+    initial.editable.version++;
+  }
+  if (data.edit === "replace") {
+    const ok = data.version === initial.editable.version;
+    if (ok) {
+      initial.editable.text = data.text;
+      initial.editable.start = data.start;
+      initial.editable.end = data.end;
+      initial.editable.version++;
+    }
+    res.end(JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial }));
+    return;
+  }
   res.end(
     JSON.stringify({ ok: true, epoch: "synthetic-epoch", state: initial }),
   );
@@ -97,10 +122,17 @@ try {
   await new Promise((r) => {
     pollStarted = r;
   });
-  const backResponse = page.waitForResponse((response) =>
-    response.request().method() === "POST" && response.request().postDataJSON().op === "back");
+  const backResponse = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      response.request().postDataJSON().op === "back",
+  );
   await page.getByRole("button", { name: "← Back", exact: true }).click();
-  assert.equal(commands.length, 0, "action waits while the poll response is held");
+  assert.equal(
+    commands.length,
+    0,
+    "action waits while the poll response is held",
+  );
   releasePoll();
   await backResponse;
   await page.waitForFunction(() => !busy);
@@ -110,12 +142,45 @@ try {
     "one button press during polling must deliver once",
   );
   await page.getByText("Pointer & scroll buttons", { exact: true }).click();
-  const clickResponse = page.waitForResponse((response) =>
-    response.request().method() === "POST" && response.request().postDataJSON().op === "click");
+  const clickResponse = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      response.request().postDataJSON().op === "click",
+  );
   await page.getByRole("button", { name: "Click", exact: true }).click();
   await clickResponse;
   await page.waitForFunction(() => !busy);
   assert.equal(commands.filter((c) => c.op === "click").length, 1);
+  await page.locator("#showKeyboard").click();
+  const selected = new Promise((r) => {
+    selectionStarted = r;
+  });
+  await page.locator("#editor").evaluate((e) => e.setSelectionRange(0, 5));
+  await selected;
+  await page.locator("#editor").fill("héllo 🌍");
+  releaseSelection();
+  await page.waitForFunction(
+    () => state.editable.text === "héllo 🌍",
+    undefined,
+    { timeout: 3000 },
+  );
+  assert.equal(commands.find((c) => c.edit === "replace").version, 2);
+  await page.waitForFunction(() => !busy && !pendingEdit);
+  const replacements = commands.filter((c) => c.edit === "replace").length;
+  const conflictingSelection = new Promise((r) => {
+    selectionStarted = r;
+  });
+  await page.locator("#editor").evaluate((e) => e.setSelectionRange(0, 1));
+  await conflictingSelection;
+  await page.locator("#editor").fill("discard this stale edit");
+  initial.editable.text = "Changed on TV";
+  releaseSelection();
+  await page.waitForFunction(() => !busy && !pendingEdit && !dirty);
+  assert.equal(
+    commands.filter((c) => c.edit === "replace").length,
+    replacements,
+  );
+  assert.equal(await page.locator("#editor").inputValue(), "Changed on TV");
   await page.screenshot({
     path: "/home/nitesh/.cache/brave-tv/artifacts/phone-remote-ui-portrait.png",
     fullPage: true,
@@ -135,10 +200,11 @@ try {
   );
   assert.deepEqual(errors, []);
   console.log(
-    "Companion regression passed: fragment removal, polling-time action, one click, portrait/landscape overflow, no script errors.",
+    "Companion regression passed: fragment removal, polling-time action, one click, acknowledged selection/typing, conflicting edit rejection, portrait/landscape overflow, no script errors.",
   );
 } finally {
   releasePoll?.();
+  releaseSelection?.();
   await browser.close();
   server.close();
 }

@@ -1,5 +1,48 @@
 # TV device regressions
 
+## Local phone remote experiment
+
+Use only emulator serials. Enable the debug-only `tv-local-remote-experiment`
+switch using Chromium's Android debug command-line mechanism, then start the
+experiment on the TV and approve the phone. Use synthetic fields only.
+[Remote evidence](../../docs/phone-remote-evidence.md) records shared virtual
+Wi-Fi setup, exact tested browser versions and tool limitations. The companion
+must open the TV's private origin directly; these diagnostic forwards do not
+establish LAN reachability:
+
+```sh
+adb -s emulator-5554 forward tcp:9222 localabstract:chrome_devtools_remote
+adb -s emulator-5556 forward tcp:9223 localabstract:chrome_devtools_remote
+```
+
+Serve `tests/pages` on host loopback 18088 and use the companion address UI to
+open `http://10.0.2.2:18088/phone-remote.html` on the TV. With its plain text field
+visible and the companion keyboard panel closed, run:
+
+```sh
+node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
+```
+
+This sends pointer/edit commands through the actual companion and reads native
+renderer results. DevTools is automation only; it never assigns the TV field's
+value. `phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
+server and does not count as device evidence.
+
+For HTTP rejection/timeout probes, use the phone emulator's netcat against the
+TV's exact numeric Host. The listener binds only its private address, so an ADB
+TCP forward to guest loopback cannot reach it:
+
+```sh
+python3 tests/device/phone-transport-probe.py emulator-5556 TV_IP:TV_LISTENER_PORT
+```
+
+With the listener confirmed active, `phone-background-probe.py emulator-5554`
+presses Android Home and asserts that the browser process survives teardown.
+It failed on `e0a6bba45` because the UI thread joined the server thread. Also
+verify the former listener refuses connections and that returning to Brave
+requires a new opt-in/pairing. Remove only these emulator forwards and restore
+the original debug flags/network settings after the run.
+
 `shields-probe.mjs startup-cookie-on` observes the already-restored local
 `http://127.0.0.1:18081/shields.html` document without navigating or reloading it.
 Use after a cold agent-device relaunch with protection and the cookie list on,
