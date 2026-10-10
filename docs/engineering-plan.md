@@ -1220,3 +1220,19 @@ record exact build/runtime evidence. Extend the YouTube sample to later
 positions and cold restarts, separating website ad observations from local
 fixture blocking. Stop the emulator and task helpers at closeout; preserve
 all profiles and build outputs.
+
+Baseline: the retained TV system image rejects root and has a two-user limit,
+so an isolated `brave_tv_launch_followup_api36` AVD preserves both old AVDs.
+Both fresh users launch directly on Android 16 (direct launcher intent and
+agent-device launch); the Android-14 rejection is not reproduced there. Keep
+that issue open rather than infer a validated handoff correction. The Shields
+fixture does reproduce the branded modal bubble on the new emulator.
+
+First implementation: skip `checkForTooltip` in television mode using the
+toolbar's existing mode predicate; leave blocking and phone behavior intact.
+Use a television-qualified `app_name` resource alias to the existing neutral
+prototype label, covering media-session/system labels without changing IDs or
+signing. Give the TV launcher alias a neutral browser-window vector icon,
+consistent with its existing banner. Verify packaged resources, preserved
+attribution, a fresh tooltip-eligible profile, actual blocking and media-session
+label after the cached build. No final product name is selected.
