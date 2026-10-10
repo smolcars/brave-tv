@@ -734,3 +734,21 @@ Do not conflate Brave's promotional AdsService with the blocking engine.
 Update any Android test expectations reachable in the actual GN graph, then
 compile and verify native settings, normal/private page navigation and the
 request-level blocking probe. Continue Rewards/Leo/VPN audit separately.
+
+#### Remaining out-of-scope Android services
+
+After AdsService, disable Android support for Rewards, Leo and Brave VPN at
+their shared feature/support queries. These products are explicitly outside
+the MVP and the user requested their removal. Inspect factory and JNI/WebUI
+callers first; disabled support must prevent lazy construction as well as
+startup. Preserve underlying settings/data for migration and retain desktop
+behavior. Do not disable Chromium security or filter delivery. Use existing
+feature gates rather than adding a fork preference or silently requiring a
+command-line flag. Update relevant existing Android feature expectations.
+
+Compile with the bounded cached build; test direct home, native Settings,
+normal/private pages, Shields request effects and the disabled internal-page
+paths. Then repeat a bounded default-redaction network capture while browsing
+and searching Google and Brave Search; distinguish website requests from
+browser reporting. Record remaining background services instead of claiming
+full removal from this one check.

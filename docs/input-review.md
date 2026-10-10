@@ -371,3 +371,7 @@ Source startup analytics `2b20fbc7a` against `266425387`: Standards 0, Spec 0.
 An initial Spec concern about the helper's Android browser tests was withdrawn
 after tracing `android_test_exception_deps`: `brave/test/BUILD.gn` subtracts
 the ads browser-test target on Android. Desktop tests remain unchanged.
+
+Source promotional AdsService guard `57ebe9bbc` against `2b20fbc7a`:
+Standards 0, Spec 0. JNI, tab/search and WebUI consumers tolerate the null
+service; runtime acceptance is separate.
