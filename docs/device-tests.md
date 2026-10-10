@@ -1197,3 +1197,31 @@ recorded underruns in its completed audio track. These observations are
 bounded hardware playback evidence, not frame-perfect or universal ad-blocking
 claims. Renderer exits recorded during tab navigation say ISOLATED NOT NEEDED,
 with no crash entry at this checkpoint.
+
+The third sample, `Iu8ZmhRphSU`, reaches content playback with changing
+captions and the expected media-session title. Agent input enters YouTube's
+actual fullscreen player (browser toolbar absent); after leaving it untouched,
+the user confirms fullscreen and one physical-remote Back return work.
+The browser remains on the same video with PLAYING media state. No separate
+mid-roll absence claim is made: visual video regions are unavailable in the
+capture, and only the first sample has an explicit user no-ad observation.
+
+The mixed hardware run collects 21 complete whole-browser PSS samples across
+605 seconds, including main, zygote, GPU and isolated renderer processes
+(6–8 processes, up to five tabs). Total PSS ranges from 374.84 to 655.36 MiB,
+ending at 512.97 MiB during test-tab cleanup. The series includes page loading,
+three YouTube samples, native pause/play, fullscreen/Back, app return and tab
+switching/closing; it is not ten minutes of uninterrupted video or proof against
+leaks. The final crash buffer, crash/ANR events, application exit-info and
+captured logcat show no new browser crash/ANR. Remaining free storage is
+1,014,308 KiB. Logs are outside Git under `~/.cache/brave-tv/logs/`, prefixed
+`chromecast-{memory,acceptance,media-metrics,exit-info}` with source `5c9a36c74`.
+
+Closeout: closed the temporary fixture tabs and the extra YouTube tab, leaving
+the original Example Domain and current World's Fastest Workers video open.
+Site protection is on and the native Google TV keyboard is unchanged. Removed
+the fixture reverse mapping and stopped the HTTP server, log capture, memory
+sampler, host device daemon and Android snapshot helper. Both emulators remain
+stopped; browser profile, APK and compile caches are preserved. No source change
+or build occurs in this acceptance slice. First-launch handoff, promotional
+branding, longer video/ad scenarios and second-device acceptance remain open.

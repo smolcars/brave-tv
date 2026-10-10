@@ -1186,7 +1186,8 @@ Hardware follow-up checklist after fresh-install acceptance:
 - [x] Physical remote enters example.com and the page remains responsive.
 - [x] Visible page cursor delivers exactly one click for a held OK press.
 - [x] Native site-protection off/on changes actual fixture request delivery.
-- [ ] Complete hardware playback/fullscreen/recovery and memory observations.
+- [x] Complete bounded hardware playback/fullscreen/Back and memory observations
+  (21 samples over 605 seconds; limits recorded in device-tests.md).
 - [ ] Reproduce the first-launch TvLauncher background-start rejection with a
   repeatable non-destructive harness before changing the first-run handoff.
 - [ ] Remove the fresh-profile Brave Shields education bubble in TV mode;
