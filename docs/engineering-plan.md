@@ -112,6 +112,11 @@ This is also a useful visual cue; expose an optional drawable ID in the small
 presentation action rather than coupling Kotlin to browser resource ownership.
 Acceptance remains mandatory lint and real APK focus/runtime checks.
 
+Ninth attempt and both latest-commit reviewers identify the same incorrect
+resource identifier in the icon predicate: the existing Page cursor action is
+`brave_tv_pointer`. Correct that one predicate; Java compilation failed with
+`cannot find symbol brave_tv_cursor`. No APK/runtime acceptance is implied.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
