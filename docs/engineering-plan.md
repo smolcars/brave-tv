@@ -1236,3 +1236,9 @@ signing. Give the TV launcher alias a neutral browser-window vector icon,
 consistent with its existing banner. Verify packaged resources, preserved
 attribution, a fresh tooltip-eligible profile, actual blocking and media-session
 label after the cached build. No final product name is selected.
+
+Build r50 stops on lint's unused-resource warning for the new launcher icon.
+The generated merged manifest explicitly references it on TvLauncher; the
+existing banner already has a resource-specific exception for the same alias
+analysis limitation. Add the adjacent icon-only exception, retain blocking
+analysis, then rerun from cache and verify the packaged manifest/icon.
