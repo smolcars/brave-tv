@@ -1154,3 +1154,21 @@ No active/finalized install session, `vmdl*` staging directory or temporary APK
 is exposed by the shell after failure. The user is asked to free 300–400 MB
 and aim for 1.3–1.4 GiB available before retry. Installation/runtime acceptance
 are still pending; the successful build is not hardware acceptance.
+
+The user subsequently authorizes uninstalling the browser. A global
+`adb uninstall com.brave.browser_default` succeeds, removing its retained
+user-10 installation and browser data. The package is absent even from
+`pm list packages -u`; available storage rises from 698,328 to 1,424,944 KiB.
+No other application or Android profile is removed, and no reboot is needed.
+The same verified APK then installs successfully for user 0. Package flags
+omit DEBUGGABLE; user 0 is installed and user 10 is not. Available storage
+immediately after installation is 1,064,412 KiB. This is fresh-install
+acceptance, not preservation of existing browser data.
+
+The first automated launch returns to Google TV. Android logs a blocked
+background PendingIntent launch of TvLauncher at 10:31:00 local time, with
+no crash-buffer entry. A second launch displays the native home directly,
+with Address or search focused and one tab. This first-launch return needs
+follow-up; successful installation does not close it. The real Google TV
+keyboard remains selected, and physical-remote address-entry confirmation
+is requested before further TV input. Source remains `5c9a36c74` unchanged.
