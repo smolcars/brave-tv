@@ -3,11 +3,14 @@ open com.brave.browser_default --relaunch
 wait "text=\"Address or search\" focused=true" 5000
 tv-remote right
 tv-remote select
+wait "text=\"Address or search\" focused=true" 3000
 tv-remote down
 tv-remote down
 wait "text=\"Settings\" focused=true" 3000
 tv-remote select
+wait "text=\"Search engine\" focused=true" 3000
 tv-remote down
+wait "text=\"Content Filters\" focused=true" 3000
 tv-remote select
 wait "text=\"Cookie notice blocker: On\" focused=true" 3000
 tv-remote select
@@ -15,4 +18,4 @@ wait "text=\"Cookie notice blocker: Off\" focused=true" 3000
 tv-remote select
 wait "text=\"Cookie notice blocker: On\" focused=true" 3000
 tv-remote back
-wait "text=\"Content filters\" focused=true" 3000
+wait "text=\"Content Filters\" focused=true" 3000
