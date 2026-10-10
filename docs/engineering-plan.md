@@ -262,6 +262,20 @@ focus. This correction is required before accepting the shared panel candidate.
 The r16 build still uses committed3516; do not mutate its cached checkout while
 it runs. Build the reviewed correction incrementally afterward.
 
+Shared-panel r17 source386 passes blocking build/signature/update install;
+1m40.61s, observed memory lower bound12,484,333,568 bytes (completed service
+peak unavailable). Artifact852,618,882 bytes, SHA256
+`c31cf1f13985a7b267f935fc7de99df75ffc6cfb86236f0ec6cc9ad62cda35b5`.
+Home/overflow/root-Back replay passes22 steps. Opening Tabs fails twice: the
+new native panel manually measures ComposeView immediately after dialog.show,
+before Android attaches it; crash is `Cannot locate windowRecomposer` from
+TvBrowserPanel.show109. New real-panel replay fails at New tab focused.
+Correction slice: remove premature manual measurement, bound the presentation
+column to90% logical display height and let the attached native window measure
+its wrap-content height. Retain native width/private/disposal policy. Acceptance
+requires unchanged real-panel regression, scroll and child Back on actual APK;
+no renderer migration acceptance based on this compiling-but-crashing build.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
