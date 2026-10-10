@@ -225,6 +225,25 @@ an agent ref for setup; the dialog itself is driven by D-pad/OK. Also check
 confirmation Cancel/OK, prompt editing/Cancel, and location Block/Back manually.
 Do not grant location or accept certificate warnings merely to pass a check.
 
+## Final grouped-tab confirmation
+
+On a disposable normal emulator profile, open `bookmark.html`, long-press its
+link and select **Open in new tab in group**. Close the first grouped tab using
+TV Browser controls, then close the remaining grouped tab to show **Close tab
+and delete group?**. No other normal tabs should remain. With the dialog open:
+
+```sh
+python3 tests/device/tv-group-dialog.py emulator-5554 cancel
+```
+
+Open Browser controls and Close tab again, then run the same script with
+`delete`. The probe checks initial Cancel focus, left/right access to the actual
+buttons, preservation after Cancel, and native home/D-pad recovery after Delete.
+It intentionally rejects physical serials: its Delete action is for disposable
+fixtures. Repeat ordinary site alert/confirm/prompt focus after changes to the
+shared modal helper. Do not suppress the group confirmation or automate real
+security permission choices.
+
 ## Direct first launch
 
 The TV onboarding redesign is superseded: the browser now completes first-run

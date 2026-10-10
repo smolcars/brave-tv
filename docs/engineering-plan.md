@@ -1632,3 +1632,18 @@ cursor cycles passed on its native-code predecessor. The bounded loading sample
 does not establish a polling bottleneck or explain Chromecast latency. Exact
 builds, tests and remaining hardware limitations are in phone-remote evidence.
 No Chromecast operation or ARM build was performed in this follow-up.
+
+
+### Grouped final-tab confirmation focus
+
+The user's Chromecast exposes a case missing from final-tab coverage: the
+native “Close tab and delete group?” dialog. Directional keys cannot establish
+focus; a diagnostic Tab key seeds the checkbox, but Down focuses the inert
+spinner wrapper instead of its button. Preserve this confirmation and its
+Cancel choice. Reproduce with a disposable grouped tab on the emulator, check
+initial focus and directional access to actual Cancel/Delete actions, then fix
+the shared TV modal focus adapter. Check whether its posted focus pass precedes
+layout and ensure custom button containers do not intercept focus. Cover Cancel,
+Delete, empty-home recovery, and ordinary site dialogs. Phone control must remain
+paused while a native confirmation is showing. Build/test x64 first, then update
+the authorized Chromecast with the verified optimized ARM build; retain caches.
