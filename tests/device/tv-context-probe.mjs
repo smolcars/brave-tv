@@ -1,12 +1,17 @@
 // Requires a normal remote-input.html page, with the native pointer over its counter button.
 // Usage: node tv-context-probe.mjs PLAYWRIGHT_CORE EMULATOR_SERIAL
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
 const [modulePath, serial] = process.argv.slice(2);
 assert.match(serial ?? "", /^emulator-\d+$/, "Emulator-only input fixture");
+const forwards = execFileSync("adb", ["-s", serial, "forward", "--list"],
+  { encoding: "utf8", timeout: 10000 });
+assert.ok(forwards.split("\n").some(line =>
+  line.trim() === `${serial} tcp:9222 localabstract:chrome_devtools_remote`),
+  "CDP port9222 must target the same emulator as native input");
 const { chromium } = createRequire(resolve(modulePath, "package.json"))("playwright-core");
 const browser = await chromium.connectOverCDP("http://127.0.0.1:9222");
 try {
@@ -23,6 +28,8 @@ try {
     process.on("error", reject);
     process.on("exit", code => code === 0 ? resolve() : reject(new Error(errors || `uinput: ${code}`)));
   });
+  // Preserve the rejection for cleanup without an unhandled rejection during a token wait.
+  ended.catch(() => {});
   const send = (command, fields = {}) => process.stdin.write(JSON.stringify({ id: 1, command, ...fields }) + "\n");
   const key = (code, down) => send("inject", { events: [1, code, down ? 1 : 0, 0, 0, 0] });
   const wait = async token => {
@@ -43,6 +50,7 @@ try {
     await page.waitForFunction(() => document.querySelector("#click").textContent === "Clicks: 1");
     await page.reload();
     key(353, true);
+    send("delay", { duration: 150 });
     send("sync", { syncToken: "held" });
     await wait("held");
     await page.reload(); // Genuine navigation to the same URL; never assign a DOM input value.
@@ -53,10 +61,26 @@ try {
     await wait("released");
     assert.equal(await page.locator("#click").textContent(), "Clicks: 0",
       "Held OK clicked a replacement document with the same URL");
+    key(353, true); key(353, false);
+    send("delay", { duration: 300 });
+    send("sync", { syncToken: "postflight" });
+    await wait("postflight");
+    assert.equal(await page.locator("#click").textContent(), "Clicks: 1",
+      "Cancellation prevented a fresh valid click on the replacement document");
     console.log("PASS: native click preflight and held-OK cancellation across same-URL document replacement");
   } finally {
     process.stdin.end();
-    await ended;
+    let timeout;
+    try {
+      await Promise.race([ended, new Promise((_, reject) => {
+        timeout = setTimeout(() => {
+          process.kill("SIGKILL");
+          reject(new Error("Timed out closing task-owned adb/uinput process"));
+        }, 5000);
+      })]);
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 } finally {
   await browser.close();

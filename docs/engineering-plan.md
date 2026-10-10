@@ -177,6 +177,15 @@ fixture first, then holds OK across a real same-URL document reload and requires
 zero clicks on the replacement. CDP performs navigation/readback, never injected
 text values. Device runtime acceptance remains pending on the corrected APK.
 
+Native race probe review correction: bind the CDP forward to the same explicit
+emulator as uinput, bound child-process teardown to5s, allow the held key to reach
+the UI before reloading, and add a fresh-click postcondition after cancellation.
+The exact strengthened probe fails on installed predecessor `7ef938f03`:
+preflight reaches the native page, but held-OK release after same-URL reload
+produces `Clicks: 1` instead of0. This confirms the missing document-identity
+protection and gives a real red regression; the corrected APK must pass unchanged.
+No data wipe/downgrade, DOM input injection or physical operation was used.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
