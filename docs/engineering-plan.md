@@ -105,6 +105,13 @@ Baseline installed APK hash matches the preserved source5829 artifact:
 `80d0649ca66dafa19374a10aa7c7bdb767ef0b2e911b35044ff7ca8cb49f9605`,
 851,001,060 bytes. Synthetic bookmark/history remain in the emulator profile.
 
+Eighth attempt rejects the retired generated drawable still present in the
+retained output directory. Preserve that cache as required: restore the icon
+list entry and use the existing cursor icon beside its Compose action label.
+This is also a useful visual cue; expose an optional drawable ID in the small
+presentation action rather than coupling Kotlin to browser resource ownership.
+Acceptance remains mandatory lint and real APK focus/runtime checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
