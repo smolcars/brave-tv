@@ -634,3 +634,11 @@ Check play/pause through browser controls, captions/fullscreen through the real
 remote cursor, idle cursor disappearance over video, Home/relaunch cleanup and
 tab/document replacement. The short looping clip is not long-form/adaptive
 stream acceptance; retain the independent YouTube and sustained checks.
+
+The bear clip passes caption/fullscreen checks but its 2.747-second duration
+makes Chromium classify it as transient (`media/base/media_content_type.cc`:
+persistent content must exceed five seconds). The native panel correctly leaves
+its actions disabled. Switch the ordinary fixture to the existing 24.109-second
+`bbb-320x240-2video-2audio.mp4` sample so it can exercise a persistent session,
+and extend the caption cue. Preserve the bear results as short-video evidence;
+this is a test-input correction, not a change to Chromium's media policy.
