@@ -255,3 +255,31 @@ Signature verification and profile-preserving emulator update pass. The initial
 reselecting the active home leaves toolbar focus; the extended 16-step replay
 reproduces failure on its final search-focus assertion. This is diagnostic
 acceptance only, pending the correction and full tab flows.
+
+### Native history and selected-home focus (10 October 2026 UTC)
+
+Source `cad19c086` passes the blocking cached build in 7m36.97s (962 steps),
+observed peak 15,106,527,232 bytes (14.07 GiB). Artifact:
+`~/.cache/brave-tv/artifacts/tv-history-cad19c086-x64-debug-20261010/BraveMonox64.apk`,
+852,976,864 bytes, SHA-256
+`f7ee964b6f72a657892132a4a13fd62bf00ed16a40db73f4fb6cf11baf654fb8`.
+Signature and profile-preserving update pass. The previously failing 16-step
+`tv-toolbar-tabs.ad` now passes, including current-home search focus.
+
+History loads the preserved profile's real visits. A dedicated long-query
+fixture opens through the native detail panel; Cancel starts focused and returns
+without deleting. Confirmed removal refreshes after native completion, and the
+fixture stays absent on closing/reopening history. The screenshot
+`~/.cache/brave-tv/logs/history-confirm-cad19c086.png` visibly shows title, date
+and site despite the long URL. Six disposable pagination visits bring the list
+to nine entries: More visits reaches the ninth, and Previous visits returns.
+This exercises UI paging within a query batch, not native continuation beyond
+the bridge's batch limit.
+
+Runtime found that unkeyed history rows matched the panel's zero preferred-action
+sentinel and initially focused the last row. Source `7759740ca` corrects this;
+rebuild/runtime acceptance remains pending. Privacy/home-bookmark source
+`85e02d812` is building separately. Android user 10, named `TV privacy checks`,
+was created for isolated destructive checks; owner user 0 remains intact and
+active. The loopback privacy fixture passes HTTP header/counter smoke checks;
+browser clearing acceptance is still pending.
