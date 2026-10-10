@@ -406,4 +406,31 @@ the existing process switch; official and named release channels are excluded.
 Pinned Chromium permits `/data/local/tmp/chrome-command-line` for the selected
 Android debug app with ADB enabled even when the APK itself is non-debuggable.
 TV opt-in, the unencrypted warning, pairing approval and all session limits remain.
-Hardware results will be recorded after the build and test.
+The source `d9a219d45` ARM build passed blocking Android analysis in 7m43.42s
+(1,264 executed steps), four workers; observed cgroup peak 19,729,092,608 bytes.
+The first build was stopped early to incorporate the annotation review correction
+before advancing the external checkout. No checkout changes occurred during a build.
+Both latest-commit review axes are clear.
+
+Artifact: `~/.cache/brave-tv/artifacts/phone-remote-d9a219d45-arm-nodebug-20261010/BraveMonoarm.apk`
+(367,485,126 bytes), SHA-256
+`f1819aa2c2c96be0b2d463bfef20b82a1e12fe457bc2a1e1d05344347725777e`.
+Package `com.brave.browser_default`, version code 429700000, `armeabi-v7a`,
+non-debuggable. APK verification passed; signing certificate matches the previous
+retained APK (SHA-256 `32a2fc74d731105859e5a85df16d95f102d85b22099b8064c5d8915c61dad1e0`).
+
+Avahi discovered the existing paired Chromecast endpoint `192.168.4.50:39757`;
+explicit ADB connection identified `sabrina`, Android 14, active user 0. T3 opened
+that exact device; its agent-device helper still returned `Remote daemon is
+unavailable`, so the install used exact-serial ADB. T3 browser preview also
+remained unavailable because of host AppArmor; a task-owned desktop test client
+and synthetic fixture were prepared, then stopped after the install failure.
+
+The streamed in-place `install -r --user 0` failed with
+`INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`.
+Available storage was 782 MiB before and 432 MiB immediately afterward; Android
+reported no active install sessions. Existing package `lastUpdateTime` remained
+10:30:41 and user-0 data inode remained 82194. No uninstall, data clear, profile
+switch, debug-app change, command-line change, reboot or remote test occurred.
+The user was asked to free space while keeping Brave installed. The new APK is
+ready, but installation and physical pairing/control acceptance remain pending.
