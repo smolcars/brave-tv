@@ -8,18 +8,20 @@ Write or update this engineering plan before each implementation stage. Keep inc
 
 ## Next feature: phone remote (10 October)
 
-The user supplied [phone remote research](phone-remote-research.md) and requested
-a plan. The [phone remote implementation plan](phone-remote-plan.md) records
-the proposed controller-first scope, source boundaries, pairing/privacy contract,
-ordered checklist and emulator/Chromecast acceptance. Start with authenticated
-transport and native text-input experiments, then a paired address/search flow,
-then gestures, tabs and keyboard. Validate reliability before real-phone and
-Chromecast acceptance. Live view is a separate future experiment. Hosting and
-library choices remain explicit implementation decisions.
+The user selected a **local-only, same-network phone remote** and authorized
+implementation in a new T3 thread using Astra with high reasoning. Follow the
+revised [implementation plan](phone-remote-plan.md): TV-hosted bundled companion,
+local pairing/command channel, native text input, then gestures/tabs and reliability.
+Resolve browser reachability and transport security early; plain local HTTP is
+not encrypted and remains a development experiment pending a release decision.
+The earlier [research](phone-remote-research.md) remains background. Relay hosting
+is a fallback if local feasibility fails, not the default architecture.
 
-This change is planning only: no source, builds, devices or deployment changes.
-It supersedes the earlier note that the next feature was unspecified, without
-reopening the paused broad MVP goal or the user-deferred release backlog.
+Live view/streaming is removed from scope and backlog. **Do not use the physical
+Chromecast now: the user is watching TV.** Test on emulators/simulated clients;
+real-phone and Chromecast acceptance remains pending. Preserve caches and use
+Nix, plan each slice and commit incrementally to master. This does not reopen
+the paused broad MVP goal or the user-deferred release backlog.
 
 ## Active work: source fork and TV-native emulator development (9 October)
 

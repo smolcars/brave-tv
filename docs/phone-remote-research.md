@@ -2,6 +2,11 @@
 
 Researched 2026-10-10. This is a feasibility assessment and product recommendation, not an implementation or a device-tested compatibility claim. Product examples below are first-party descriptions; they were not installed or audited.
 
+Product decision, later 10 October: the user chose a local-only same-network
+remote, with relay only as fallback, and removed live view entirely. Follow the
+[revised implementation plan](phone-remote-plan.md); the recommendations below
+are retained as research history. Chromecast testing is currently prohibited.
+
 **Yes: scan a QR code, open a web page on an iPhone or Android phone, and use it to operate the actual browser running on the TV.** The most useful first version would put an address/search field, keyboard, touchpad, scrolling, back/forward, and tabs on the phone. The TV would keep the real website, cookies, media playback, and browsing session. Seeing and directly tapping that TV page on the phone is also feasible, but adds a separate screen-streaming problem.
 
 ## What already exists

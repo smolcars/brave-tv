@@ -1,304 +1,267 @@
-# Phone remote implementation plan
+# Local phone remote implementation plan
 
-Status: planned, not implemented. Requested 10 October 2026. Based on
-[phone remote research](phone-remote-research.md) and source inspection at
-`44ccdafef82661c8188e0b43c98368b369651360`.
+Status: implementation authorized in a new T3 thread, 10 October 2026.
+This revision supersedes the relay-first plan at `bf3e5d9` and follows the
+user's explicit preference for same-network operation. The original
+[research](phone-remote-research.md) remains background, not the chosen transport.
+Source integration was inspected at `44ccdafef82661c8188e0b43c98368b369651360`.
+
+**Current test restriction: do not connect to, launch, install on, reset, wake,
+reboot or otherwise operate the physical Chromecast. The user is watching TV.
+Use Android TV emulators and available simulated/browser clients. Physical-TV
+acceptance waits for renewed user authorization.**
 
 ## Product scope
 
-Add **Use your phone** to the TV home and browser controls. Scan a QR code,
-open a mobile website, approve the connection on the TV, and use the phone
-to operate the existing TV browser. No phone app, account or analytics.
-The TV retains its website sessions, cookies, rendering, Shields and audio.
+Add **Use your phone** to the TV home and browser controls. The TV starts a
+local server while the feature is active, shows a QR code for its LAN address,
+and approves one paired phone. The phone opens the remote in its browser.
+Commands go directly to the TV; no cloud relay, hosted companion, account,
+analytics or external asset fetch is required. The remote should work without
+internet access, although websites still need their normal network access.
 
-Recommended first delivery:
+Implement:
 
-- Address/search, using the TV's selected search provider and URL handling.
-- A large touchpad: relative movement, tap once to click, two-finger scroll,
-  and accessible alternatives to gestures.
-- Page Back/Forward and Reload/Stop, with state reflecting the TV.
-- List, open, select and close normal tabs through the existing tab model.
-- Text entry into a focused webpage field, with Unicode, composition,
-  selection and deletion validated through native input.
-- Visible connection state, connected-phone label and Disconnect on the TV.
-- Reconnection that fetches fresh TV state before enabling controls.
+- Address/search using the TV's selected search provider and normal URL handling.
+- A large touchpad, visible TV pointer, one tap/one click, two-finger scrolling
+  and accessible alternatives to gesture-only actions.
+- Page Back/Forward and Reload/Stop with authoritative enabled/loading state.
+- List, create, select and close normal tabs using the existing tab model.
+- Native text entry into an eligible focused webpage field, including Unicode,
+  composition, selection and deletion validated against the real input path.
+- Readable current title/address, connection state, and immediate Disconnect
+  on both TV and phone. Keep the physical TV remote usable.
+- Safe reconnection that fetches fresh state before accepting input.
 
-V1 is a controller used while looking at the TV. Live page preview is a
-separate follow-up experiment, not a hidden requirement for shipping these
-controls. Also defer private-tab control, persistent remembered phones,
-multiple simultaneous controllers, LAN/offline transport, phone-to-TV login
-transfer, voice, file transfer and control of other TV apps. Native permission
-and security dialogs continue to require the TV remote. Password fields are
-outside the initial text-entry scope; do not export their contents.
+**Live TV/page preview, screen streaming and mirroring are removed from this
+feature and its backlog.** No capture, MediaProjection, video WebRTC or TURN work.
+Also exclude persistent remembered phones, multiple controllers, private-tab
+control, password entry/readback, account transfer, voice, files and control of
+other TV apps. Permission/security dialogs require the TV remote.
 
-This is the proposed scope for implementation, not evidence of device support.
+## Local architecture
 
-## Experience and visual direction
+The APK bundles the companion's HTML/CSS/JS. A small embedded HTTP/WebSocket
+server serves that static content and a narrow command channel from the same
+origin. Start it only on explicit Use your phone, and stop it when the session
+ends or expires. Reuse a suitable maintained server already available in the
+pinned source if possible; inspect dependencies before adding one. Do not
+write a general HTTP/WebSocket parser, embed Node, or start a WebView for transport.
 
-**TV:** reuse the current native cards and themed panels. Make pairing a
-deliberate action, not onboarding. The pairing panel has a large black-on-white
-QR with a quiet zone, one sentence of instructions, expiry, a manual fallback
-and an obvious Cancel button. Validate scan distance on the actual TV. Never
-reuse the existing QR sharing dialog's theme-dependent QR colors. After
-approval, return to the page and show a small connection indicator with a
-remote-accessible disconnect action; do not cover video with a permanent panel.
+Select an active Wi-Fi/Ethernet LAN interface and bind explicitly to its local
+address, not all interfaces. Do not expose the listener on cellular, VPN or a
+public interface, configure router port forwarding, use UPnP, or discover devices
+by scanning the subnet. Reject unsupported/ambiguous interfaces visibly. Start
+with a tested private IPv4 path; document IPv6-only networks as unsupported unless
+implemented and verified. Handle address changes by revoking the old session,
+closing the listener and regenerating pairing information. The QR carries the
+exact numeric address/port; mDNS is optional and not a prerequisite.
 
-**Phone:** a compact dark surface with one accent color, readable page identity
-at the top, an address/search action, a generous central touchpad, and a small
-bottom row for navigation, keyboard and tabs. Selected, disabled, connecting
-and disconnected states must look different. Use real buttons, visible labels,
-screen-reader descriptions and generous touch targets. Handle phone keyboard
-resizing, safe areas, portrait/landscape and browser zoom. No decorative feed,
-onboarding carousel, third-party fonts, scripts or tracking.
+The first compatibility experiment may use same-origin `http://<TV-IP>:<port>`
+and `ws://` on an isolated development network. This is a local reachability
+baseline, not an encrypted connection. Confirm real private-address behavior,
+not just localhost: secure-context exceptions for loopback do not establish
+behavior for another LAN device. Avoid APIs that require secure contexts unless
+the selected deployment actually supplies one. See the
+[Secure Contexts specification](https://www.w3.org/TR/secure-contexts/).
 
-The keyboard sheet identifies the target page. If focus or page identity
-changes, stop sending text and require a fresh target. If a native dialog or
-private tab takes over, explain on the phone that control is paused. Never show
-an optimistic success when the TV rejected an action.
+Serving UI and socket from one local origin avoids introducing a public-site
+connection to a private server, but does not prove every phone browser permits
+it. Test stock browser behavior and permission denial; do not require insecure
+browser flags or disabling device security. Chrome's
+[local-network access guidance](https://developer.chrome.com/blog/local-network-access)
+is background; its initial milestone notes are not a current cross-browser
+compatibility guarantee. Verify current primary documentation during the spike.
 
-## Architecture and source boundaries
+A guest network may isolate phone and TV even with the same Wi-Fi name. Show
+useful connection-failure guidance; do not silently send traffic through a relay.
+Cellular-only phones and operation away from home are outside the local feature.
 
-Use an HTTPS web companion and an outbound secure WebSocket connection from
-each endpoint to a small relay. This follows the research recommendation;
-it requires internet and a hosted service. Ordinary TV browsing must remain
-usable when the service is unavailable. Do not open a listening server on the
-TV or request local-network access as a prerequisite for this version.
+## Security decision before a distributable build
 
-Proposed ownership:
+Local-only does not imply confidential or trusted. HTTP can expose session
+credentials, URLs and typed text to a network observer; an active attacker can
+replace the served JavaScript. Adding encryption to later commands cannot fix
+an unauthenticated HTTP bootstrap. A QR fragment avoids an initial HTTP query
+leak, but it does not fix that bootstrap either.
 
-| Boundary | Responsibility and likely location |
-| --- | --- |
-| TV pairing/session | A focused Java owner under `brave/android/java/org/chromium/chrome/browser/tv/`; invitation, authentication, connection lifetime, bounded queues and teardown. Owned by the TV activity lifecycle. |
-| TV command adapter | Validate each command against current foreground activity, tab, document, viewport and editable target; call native browser actions on the UI thread. Network callbacks never hold a `Tab` or `ContentView` as authority. |
-| Existing TV controls | Reuse pointer delivery and cursor overlay from `TvBrowserControls`, navigation/tab operations and existing private/native UI guards. Extend or extract only the small shared input operations needed by both remotes. |
-| Phone web client | Proposed `remote/web/` in the root repo; small TypeScript application, mobile UI, gestures, local composition, authenticated channel and authoritative state rendering. |
-| Relay | Proposed `remote/relay/`; TypeScript on the Node toolchain already provided by Nix, bounded ephemeral routing and connection limits. No browsing database or account service. |
-| Protocol and evidence | Language-neutral schemas/test vectors, interoperability fixtures and tests under `remote/`; browser fixtures and device procedures alongside existing `tests/`. |
+Stage 1 must record a concrete transport/threat-model decision. Investigate a
+usable authenticated HTTPS/WSS local path without shared private keys, mandatory
+CA installation or certificate-warning bypasses. Do not pretend a self-signed
+certificate is automatically trusted because its fingerprint is inside a QR.
+Do not invent cryptography to mask certificate/bootstrap constraints.
 
-`TvRemoteInput.Target` already exposes width/height, pointer display, click and
-scroll, but its policy is D-pad based. It has no phone gesture, transport or
-authentication semantics. Do not translate every swipe into repeated D-pad
-keys. Reuse its tested physical-remote behavior while adding bounded relative
-pointer input to the shared delivery path.
+The authorized initial work can implement and exercise a bounded, explicitly
+labeled development-only HTTP remote using synthetic data. It must remain off
+by default and must not be described as encrypted or safe on hostile/shared LANs.
+If a shippable app-free local experience requires accepting this trusted-network
+limitation, surface the concrete result and tradeoff before enabling it in a
+public build. The user's same-network preference is not blanket approval to
+weaken the browser's security. Continue independent UI/input/emulator work while
+that release decision is pending. A relay remains the alternative below.
 
-`TvBrowserControls.nativeUiOwnsInput`, `currentPage`, `canAccessTabs` and
-`runControl` demonstrate relevant guards, but are not a network authorization
-API. In particular, the private-tab helper can initiate native unlock; the
-phone adapter must reject private access without invoking that side effect.
-`BraveActivity` already forwards pause, window focus and destruction to the TV
-controller. Use those lifecycle boundaries to suspend input and release resources.
-Add the entry points through `TvHomePage` and the existing browser panel.
+Regardless of transport:
 
-Existing Android QR code generation uses ZXing. Verify its actual GN dependency
-before reusing it. Select a TV WebSocket client and compatible crypto library
-only after checking the pinned source/dependencies and completing the first
-experiment. Do not introduce a WebView merely to run transport or cryptography.
+- The listener is off until requested. Pairing invitations are random,
+  high-entropy, single-use and expire after a proposed two minutes.
+- Put QR secrets in fragments, consume and remove them from the phone URL,
+  and never persist them or log request secrets/payloads. No third-party scripts,
+  fonts, service worker or external subresource dependence. Set restrictive CSP,
+  no-store, frame-ancestors and referrer policy headers.
+- Require TV approval of the pending phone before any state or command access.
+  Only one pending/active controller; prevent unsolicited prompt floods.
+- A manual local URL plus short code needs expiry, aggressive attempt limits
+  and explicit TV approval. Specify token exchange/session binding; do not
+  treat a short code as an encryption key or permanent bearer credential.
+- Validate exact Host and Origin against the issued local origin, reject
+  unexpected/null origins where applicable, DNS rebinding and cross-site
+  WebSocket attempts. Do not allow wildcard CORS or mutating unauthenticated GETs.
+  Origin validation is additional protection, not a replacement for authentication.
+- Bound handshake time, requests, connections, headers, frame/message size,
+  command rate and queues. Reject malformed/unknown protocol versions and input.
+- Revoke locally on Disconnect, expiry, process exit or network change. Limit
+  reconnect to the same authenticated session within a proposed two-minute
+  window, refresh state and drop unsent actions; no persisted pairing in v1.
+- Pause commands on TV background/screen-off, native modal or private context;
+  suspend/close the listener on background with a documented bounded lifetime.
+  Normal browsing must not keep an idle network server running indefinitely.
+- Export only permitted normal-tab metadata. No private tabs, cookies, stored
+  passwords, history, ADB, DevTools, arbitrary JS or general Android key injection.
 
-## Pairing, security and lifecycle contract
+## Browser integration and UI
 
-Before implementation, write the exact handshake and command schema, including
-error responses and size/rate limits. These are release requirements:
+Keep network/session work outside the UI thread; validate and deliver commands
+on it. Reuse `TvBrowserControls` pointer events, cursor overlay and tab/navigation
+operations. `TvRemoteInput.Target` is a physical-remote input boundary, not a
+network API; preserve its existing tests and do not synthesize D-pad repeats
+for phone gestures. Extract only the small delivery operations that need sharing.
 
-- Pairing is off until requested. Generate a high-entropy, short-lived,
-  single-use invitation. Proposed lifetime: two minutes, renewable explicitly.
-  One active phone per TV session; replacement needs TV approval.
-- The QR includes pairing material in the URL fragment. Remove it from the
-  address bar after reading it; never put it in query strings, logs, analytics,
-  persistent browser storage or shared caches. Use a strict content security
-  policy and no third-party executable content.
-- Authenticate the handshake to the QR material using an established reviewed
-  protocol/library, with separate directional keys, authenticated encryption
-  and replay protection. Require TV confirmation before enabling commands.
-  TLS alone is insufficient for keeping URLs and typed text opaque to the relay.
-- Choose and test the manual fallback during the security experiment. A short
-  lookup code is not sufficient authentication. Use an established password-
-  authenticated exchange or a cryptographically bound comparison shown on
-  both screens and explicitly confirmed on TV. Rate-limit attempts and expire
-  invitations; do not improvise a short-code encryption scheme.
-- A forwarding relay sees connection metadata, timing and sizes, but should
-  not receive plaintext URLs, titles, tabs or text. The web host still supplies
-  executable client code and is a trust boundary; document this limitation.
-- Validate origins where applicable, roles, protocol versions, message sizes,
-  payload types and routing membership. Bound sessions, attempts, bandwidth,
-  queues and idle time so unauthenticated traffic cannot exhaust the service.
-- Session states: idle, inviting, awaiting approval, connected, suspended,
-  reconnecting and closed. Approval and revoked/expired credentials cannot be
-  recovered by replaying a previous handshake.
-- Resume only the same authenticated session within a proposed two-minute
-  reconnect window, using a fresh encrypted channel and fresh state snapshot.
-  Keep credentials in memory. Browser-process or phone-page restart requires
-  pairing again. TV Disconnect invalidates the session immediately; relay
-  deletion alone is not revocation enforcement.
-- Losing TV foreground/focus, entering private browsing or showing sensitive
-  native UI immediately suspends applicable commands. Opening pairing does not
-  enable remote security approvals. Screen-off/background state cannot be used
-  to operate an invisible browser. Disconnect after a bounded suspension;
-  stop reconnect timers and sockets at teardown.
-- Physical remote input remains available. Its navigation/focus changes revoke
-  the phone's current input target; cancel pending gestures/composition. Define
-  and test arbitration on the UI thread instead of allowing two input streams
-  to hold a gesture open.
-- Export normal-tab metadata only while permitted. Clear the phone's displayed
-  state when suspended/disconnected. Do not expose ADB, DevTools, arbitrary JS,
-  cookies, stored passwords, browsing history or general Android key injection.
+Preserve `nativeUiOwnsInput`, tab lifecycle and private guards. In particular,
+`canAccessTabs` can initiate native unlock: remote rejection must not invoke
+that side effect. Use `BraveActivity` pause/focus/destroy callbacks to suspend
+input and close resources. Add entry points through `TvHomePage` and the native
+controls panel; reuse the existing ZXing dependency after checking its GN target.
 
-No payload logging. Development evidence should use synthetic fixture data.
-Publish the relay's metadata retention policy before public use; operational
-counters must not grow into product analytics.
+Use opaque tab IDs, session epoch, command sequence, document generation,
+viewport revision and editable-target generation. URL equality alone is not
+identity. Navigation, reload, renderer loss, tab changes and focus/geometry
+changes invalidate the applicable targets. Revalidate at execution time;
+reject stale input and return fresh state. Deduplicate discrete actions;
+never replay a click, text commit or tab-close after reconnect. Coalesce motion
+and discard stale movement under backpressure. Cancel phone gestures when the
+physical remote changes the target, so neither input stream retains a held press.
 
-## Command and text model
+Reuse safe URL/search interpretation and limit remote destinations to normal
+web navigation/search; reject executable, file, intent and privileged schemes.
+Validate Chromium's native input connection for Unicode, composition, selection
+and deletion, including UTF-16 boundaries. Do not inject DOM values or substitute
+ASCII keycodes. Exclude password fields. If a reliable editing bridge is not
+available, record a narrower supported behavior honestly before declaring it done.
 
-The TV is authoritative. Use a session epoch, command sequence, opaque tab ID,
-document generation and viewport revision; add an editable-target generation
-for text. An unchanged URL is not enough to identify a document. Navigation,
-reload, tab replacement, renderer loss and viewport/focus changes invalidate
-the relevant generations. Same-document navigation also invalidates pending
-page actions where the target may have changed.
+Proposed source ownership: Java server/session and command adapter under the
+existing `brave/.../browser/tv/` directory; bundled companion sources/assets in
+the fork's Android resource build so the pinned source is self-contained; fast
+protocol/fixture tests alongside the relevant code, integration/device evidence
+in root `tests/` and `docs/`. Pick precise GN packaging after inspection. No
+relay package or general transport abstraction solely for a possible fallback.
 
-Process commands on the UI thread after rechecking live state. Reject stale,
-out-of-range, unavailable and unauthorized commands with a bounded reason and
-fresh state. Ack means accepted or rejected by the adapter; page loading and
-other asynchronous completion are reported separately. Deduplicate discrete
-actions and never replay unacknowledged clicks, tab closes or text after reconnect.
-
-Coalesce pointer movement, bound scroll and message rates, discard stale motion
-under backpressure, and send taps as discrete actions rather than indefinitely
-held buttons. Apply coordinate bounds using current TV viewport geometry. Drop
-all pending movement on loss of connection. Tab create/switch/close operations
-need the expected model revision so a race cannot affect a different tab.
-
-For address/search, reuse Chromium's normal URL/search interpretation with the
-TV provider. Explicitly restrict remote navigation to allowed web destinations
-and normal search input; reject executable, local-file, intent and privileged
-browser schemes rather than feeding arbitrary input into a privileged loader.
-
-For webpage text, validate a bridge to Chromium's live native input connection.
-Do not set DOM values with injected JavaScript or fake ASCII keycodes. Define
-how the phone's composition, selection offsets and deletion map to the current
-editable, including UTF-16/surrogate boundaries. Any text/context readback needs
-explicit scope and must exclude passwords. If reliable native editing cannot
-be established, record the limitation and revise scope before calling the
-keyboard feature complete. An append-only prototype is not full text editing.
+TV pairing uses the existing themed cards, large high-contrast QR, expiry,
+manual address/code, Cancel and obvious connected/disconnect state. Phone UI
+uses a calm dark surface, one accent, readable page identity, a generous touchpad
+and compact navigation/keyboard/tabs. Include accessible labels, touch targets,
+visible disabled/error states and phone keyboard/safe-area handling. Native/private
+UI takeover must say control is paused rather than falsely acknowledge success.
 
 ## Ordered implementation checklist
 
-Each stage gets a brief engineering-plan update before source changes, focused
-checks, an incremental commit and evidence. All boxes below are unimplemented.
+### 1. Local feasibility and bounded input experiment
 
-### 1. Resolve the risky integration points
+- [ ] Write the engineering slice, exact protocol, threat model and server/library
+  choice before code changes. Inspect existing source/build dependencies.
+- [ ] Serve bundled UI and a paired command channel from the TV emulator. Test
+  unauthenticated rejection, expiry, revocation, Origin/Host checks and limits.
+- [ ] Exercise a second client via a private-address route; document simulator
+  NAT/forwarding. A loopback ADB forward is only adapter evidence, not LAN proof.
+- [ ] Record HTTP/HTTPS bootstrap findings and supported browser/API behavior;
+  select a release-capable route or keep HTTP restricted to development.
+- [ ] Prove native pointer and Unicode/composition/selection/deletion on harmless
+  inputs, textarea and contenteditable; test password/focus-change rejection.
 
-- [ ] Specify handshake, manual fallback, state transitions, command envelopes
-  and compatibility/version errors; select compatible maintained libraries.
-- [ ] Demonstrate paired encrypted message exchange between the Android target
-  and a browser client, including bad authentication and replay rejection.
-- [ ] Prove real native text insertion/composition/selection/deletion on fixture
-  fields: accented text, emoji, CJK composition, RTL and contenteditable, plus
-  password rejection and changing focus/navigation mid-composition.
-- [ ] Confirm pointer delivery, geometry and user-activation behavior through
-  the native path without breaking the existing physical D-pad tests.
+### 2. Complete one local pairing-to-navigation flow
 
-Exit: record working APIs, dependency/build impact and remaining limitations.
-Do not build a polished remote around an unproven input or security bridge.
+- [ ] Add Use your phone, bundled serving, QR/manual fallback, TV approval,
+  connected indicator, disconnect, expiry and network-change teardown.
+- [ ] Pair a simulated/browser client and open address/search; return actual
+  page identity/loading/error state and preserve selected search provider.
+- [ ] Confirm companion assets and control require no external host or internet.
+  Use local fixture pages to distinguish remote operation from internet browsing.
 
-### 2. Deliver one paired vertical slice
+### 3. Finish remote controls and visual design
 
-- [ ] Implement relay and companion development commands inside Nix, locked
-  dependencies and a documented local test setup; no paid deployment yet.
-- [ ] Add TV Use your phone, QR/manual fallback, approval, connected state and
-  Disconnect. Implement expiry, cancellation and one-controller policy.
-- [ ] Open an address/search from the paired phone and return actual title,
-  address, loading state and command result. Verify provider choice is retained.
-- [ ] Verify unauthorized clients cannot read state or issue commands, including
-  before approval and after cancellation/revocation.
-
-Exit: emulator-to-web end-to-end flow with encryption enabled, real browser
-navigation and repeatable negative tests. No plaintext transitional release.
-
-### 3. Finish the controller and phone UI
-
-- [ ] Touchpad, visible TV cursor, one tap/one click, scroll and accessible controls.
+- [ ] Touchpad, tap exactly once, scroll, accessible alternatives and cursor state.
 - [ ] Back/Forward, Reload/Stop and normal-tab create/select/close with live state.
-- [ ] Native webpage keyboard bridge from stage 1, safe target identity and
-  honest unsupported-field feedback.
-- [ ] Finish the mobile layout, pairing panel and TV connection indicator;
-  check contrast, focus, labels, keyboard resizing and empty/error states.
+- [ ] Native eligible-field keyboard bridge and clear unsupported-field feedback.
+- [ ] Polish phone layout, TV pairing and connection UI; check keyboard resize,
+  portrait/landscape, zoom, contrast, focus and screen-reader labels.
 
-Exit: a user can navigate, click, fill a fixture form and manage tabs from the
-phone, while the physical remote still works and native dialogs retain priority.
+### 4. Reliability and emulator acceptance — authorized now
 
-### 4. Reliability, privacy and emulator acceptance
+- [ ] Test local disconnect/reconnect, browser restart, TV background/resume,
+  interface/IP changes, permission denial, isolation/unreachable network and
+  duplicate/malformed/oversized/late commands. Drop queued actions on reconnect.
+- [ ] Race tab/navigation/focus/private/modal transitions against clicks and text.
+- [ ] Verify no unpaired state leaks, cross-site control, payload logging or
+  indefinitely retained sockets/timers; listener is absent when remote is off.
+- [ ] Rerun affected home, D-pad, tabs, native dialogs, Shields and playback checks.
+- [ ] Run a bounded 30-minute session and repeated pair/disconnect cycles;
+  compare whole-browser memory/CPU and measure input/reconnect latency.
+- [ ] Test available Chromium/mobile-browser emulation and Android phone emulator.
+  Use Safari/iOS simulator only if available; do not call desktop mobile emulation
+  equivalent to Safari or physical-phone acceptance. Keep unavailable checks open.
 
-- [ ] Exercise phone background/resume, TV Home/resume, browser/process restart,
-  relay restart, Wi-Fi loss/change, expired pairing and duplicate/out-of-order
-  commands. Never resume input before fresh state synchronization.
-- [ ] Race navigation/tab close/resize/focus/private transitions against queued
-  clicks and text; assert no action reaches the replacement target.
-- [ ] Test parser limits, invalid authentication, replay, pairing floods,
-  slow readers and connection cleanup with bounded service resource use.
-- [ ] Verify logs/storage contain no pairing secrets or browsing/text payloads;
-  confirm idle unpaired browsing makes no relay connection.
-- [ ] Rerun existing home, physical input, native-dialog, tabs, Shields and
-  playback checks affected by the shared paths.
-- [ ] Record latency, memory, CPU and reconnect results with/without the remote,
-  including a 30-minute active session and repeated pair/disconnect cycles.
+Proposed usability targets: p95 command round trip below 100 ms on a healthy
+LAN, no queued-action burst after reconnect, and usable state within 10 seconds
+of restored reachability if the old session remains valid. Measure presentation
+latency separately from acks. Record actual measurements, not promises; emulator
+forwarding numbers are not hardware LAN measurements.
 
-Proposed usability targets, to validate rather than claim: p95 command round
-trip below 150 ms on a healthy nearby relay; no action backlog after disconnect;
-connected UI within 10 seconds of network restoration where the session is
-still valid. Measure motion presentation separately from command acknowledgments.
-Compare browser memory/CPU against the same baseline workload, look for retained
-growth after disconnect, and set hardware budgets from measurements before release.
-If relay latency makes the touchpad unpleasant, revisit transport before shipping.
+### 5. Later acceptance — not authorized to use Chromecast now
 
-### 5. One Chromecast and real phones
+- [ ] Real iPhone Safari and Android Chrome on home Wi-Fi: QR/manual pairing,
+  keyboard/gestures, foreground/resume, denied permissions and unavailable TV.
+- [ ] Existing Chromecast, only after the user releases it for testing: preserve
+  its profile, use a cached optimized build, repeat video/audio/fullscreen and
+  physical remote arbitration; check memory and real Wi-Fi behavior.
+- [ ] Resolve the transport release decision, publish tested versions, local-
+  network limitations, setup/disconnect instructions and rollback/off switch.
 
-- [ ] Choose the companion domain, TLS hosting, relay region, operating budget,
-  abuse limits and owner. Prepare a concrete deployment for approval where
-  external accounts/spending are required; do not infer these from GitHub access.
-- [ ] Test real iPhone Safari and Android Chrome; record exact OS/browser versions,
-  QR scan, manual pairing, typing, gestures, accessibility and background/resume.
-- [ ] Test the existing Chromecast with the cached optimized ARM build, including
-  phone cellular versus TV Wi-Fi and service outage behavior. Preserve its profile.
-- [ ] Repeat video/audio/fullscreen and physical-remote arbitration under control
-  traffic; measure whole-browser memory and UI responsiveness on hardware.
-- [ ] Publish setup/disconnect instructions, privacy limits, tested versions and
-  rollback procedure. Keep the feature disableable independently of browsing.
+A second TV remains deferred. No capture or streaming acceptance is needed.
 
-Exit: working phone controller on the existing Chromecast and both phone browser
-families, with failures and measured limits recorded. A second TV is not a gate
-for this feature; it remains in the user's deferred acceptance backlog.
+## Relay fallback, only if local feasibility fails
 
-### 6. Optional live-view experiment — future scope
+If normal phone browsers cannot connect reliably without security bypasses, or
+there is no acceptable local bootstrap/security tradeoff, document the failing
+case and propose switching to an HTTPS companion plus authenticated encrypted
+relay. Do not silently route traffic externally or deploy a shared service.
+Hosting/provider/domain/cost decisions would then be needed; none are needed
+for the local prototype. Reuse the bounded browser command boundary and UI, not
+speculative relay scaffolding. The user has permitted considering this fallback.
 
-- [ ] Compare browser-owned viewport capture with MediaProjection consent and
-  secure-content restrictions on the actual Chromecast.
-- [ ] Prototype authenticated WebRTC signaling/video delivery, including TURN
-  fallback cost; retain the existing command authorization boundary.
-- [ ] Bind taps to frame ID, document and viewport geometry; handle fit/zoom,
-  stale frames and native/private UI without leaking unintended content.
-- [ ] Measure readability, latency, CPU, memory, heat and TV playback impact.
-  Keep audio on the TV and explicitly show unsupported protected video.
+## Build, review and handoff
 
-Decide whether to productize live view only after those results. No capture,
-TURN deployment or phone-screen mirroring is included in the first controller.
+Use Nix and locked dependencies. Edit the source fork directly, not TV patch
+files. Preserve existing Chromium/x64/ARM caches and artifacts; four workers,
+18/22 GiB memory thresholds, no swap and blocking Android analysis. Do not
+upgrade Chromium or clear outputs. Start at most one TV AVD; add a phone AVD
+only if resources permit. The AVDs were reset on 10 October, so reinstall the APK.
+Call `device_list` then `device_open` for emulator use and explicitly target its
+serial for every command. Never issue an unqualified ADB command that could
+operate the connected physical TV. Browser checks should use T3 preview tools.
 
-## Build, review and closeout
-
-Use `nix develop` for tooling and locked phone/relay dependencies. Edit the
-source fork directly. Reuse the existing Chromium checkout and x64/ARM build
-caches, four build workers, 18/22 GiB memory limits and blocking Android analysis.
-Do not upgrade Chromium or clear build outputs for this feature.
-
-The emulator data was reset at the user's request on 10 October; the next run
-requires a fresh install. Start one test AVD, use `device_list` then `device_open`,
-and preserve new evidence. Do not claim old emulator profiles remain available.
-Run fast protocol/input tests before cached Android builds; exercise actual
-Android input and real phone browsers before declaring integration complete.
-
-Commit incremental implementation slices to source `master`, then update the
-root source pin and evidence on root `master`. Review only the latest
-implementation commit in each affected repo. Keep failed/unexecuted acceptance
-checks unchecked. Stop task-owned servers, watchers and emulator processes at
-closeout. The unrelated Android 14 first-launch observation stays open pending
-a reproducible failure; this plan does not restart or declare complete the
-previous broad MVP goal.
+Plan each slice, implement, test, commit incrementally and push `master` in the
+source fork and root repo (with source pin/evidence). Review only the latest
+implementation commit in each affected repo. Keep partial acceptance unchecked.
+Stop task-owned helper servers/watchers/emulators at closeout, preserving shared
+ADB/T3 services and caches. Do not resume the previous broad MVP goal or the
+unreproduced Chromecast launch investigation. The new implementation thread owns
+this work; this planning thread must not concurrently edit or run builds.
