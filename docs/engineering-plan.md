@@ -603,3 +603,20 @@ presses could miss a reversed bug (first press clicks, second is swallowed).
 Split the replay at the first release: require `Clicks: 0` and a visible cursor
 before sending the second held press, then require `Clicks: 1`. Keep both real
 uinput sequences and the independent idle-absence pixel check.
+
+#### Visible focus on upstream native dialogs
+
+The permission screenshot confirms the safe Block-first selection works but
+its native focus fill is subdued. Add a theme-aware three-dp outline only while
+an enabled dialog control has keyboard focus. Apply it when the existing TV
+modal observer receives the attached dialog, keeping the upstream background,
+text, click listeners, tap protection and accessibility semantics. Preserve any
+existing foreground instead of replacing it. Style all enabled interactive
+focus candidates, including buttons after a prompt editor, before selecting the
+initial control; keep already focused controls and Cancel/editor preference.
+
+Use Android's state-list/gradient drawables and current theme contrast color;
+no new assets, dependencies or focus listeners. Verify confirmation Cancel → OK,
+prompt editor → buttons, permission Block and alert regression on the emulator,
+including visible focus moving away from the old control. Build with the same
+cached x64 blocking checks and review only the latest implementation commit.
