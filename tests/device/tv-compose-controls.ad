@@ -1,0 +1,20 @@
+# Requires a normal native home; verifies actual Compose semantics/focus and compact overflow.
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote down
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote select
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote down
+tv-remote right
+tv-remote right
+tv-remote right
+wait "text=\"More controls\" focused=true" 3000
+tv-remote select
+wait "text=\"History\" focused=true" 3000
+tv-remote back
+wait "text=\"More controls\" focused=true" 3000
+tv-remote up
+tv-remote left
+tv-remote left
+tv-remote left
+wait "text=\"Address or search\" focused=true" 3000

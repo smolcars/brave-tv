@@ -71,3 +71,46 @@ Remote-visible action response target: 100 ms median / 200 ms p95 on controlled
 native panels; display cadence animation with no continuous decorative work.
 These are investigation thresholds, not measured hardware promises. Hardware
 performance, real iOS/phone IME, physical remote and second TV remain pending.
+
+### Recorded baseline and design evidence
+
+The installed baseline was verified against the preserved source5829 APK:
+SHA-256 `80d0649ca66dafa19374a10aa7c7bdb767ef0b2e911b35044ff7ca8cb49f9605`,
+851,001,060 bytes. TV AVD `brave_tv_clean_api36`, API36/x64, 1920×1080,
+320 dpi; guest Vulkan disabled for the documented host compatibility problem.
+Task-owned fixture server serves existing synthetic pages on loopback 18088.
+No app-data reset. Baseline home replay passes 20 steps; native Alert/Confirm/
+Prompt start on OK/Cancel/editor respectively and dismiss through remote input.
+
+Preserved screenshots/metrics are under `~/.cache/brave-tv/artifacts/`:
+`tv-ui-baseline-home.png` and `tv-ui-baseline-metrics.json`. Three cold Activity
+launch TotalTime samples: 1108/966/929 ms; warm task-return WaitTime: 22/28/13 ms.
+These samples were collected during a build and need uncontended comparison.
+Activity launch is not webpage readiness. Initial live browser PSS was
+222,909 KiB; the 336-frame mixed-flow window reported median16/p9530 ms and
+11.31% jank. That is exploratory evidence, not a controlled performance pass.
+
+The preserved normal profile contains a native bookmark/history entry for
+`remote-input.html`, loaded dialog/popup fixture tabs, DuckDuckGo as selected
+search provider, Cookie notice blocker On, Mobile app promo blocker Off and
+a Shields-off exception for the synthetic 10.0.2.2 origin. Verify all of these
+through native UI after upgrading; popup group membership needs explicit
+confirmation evidence before claiming group migration acceptance.
+
+The source-owned [design prototype](../brave/docs/tv-ui-design-prototype.html)
+shows charcoal/sage and warm/amber alternatives. Charcoal/sage is selected under
+the autonomous visual-direction override. T3 preview checks eight transitions:
+Address invoker restoration; Clear/Down focus; Escape after editing; Enter
+submission; final-tab home recovery; fullscreen Back; page-to-controls escape;
+Cancel initial focus. These are synthetic interaction proofs only.
+
+Design tokens: charcoal `#151719`, surface `#25282b`, warm text `#f3efe7`, quiet
+text `#bbb9b3`, sage `#c7d8af`; 36sp home heading, 24sp panel heading, 18sp action,
+16sp metadata, 14sp attribution. Screen safe margins start at 48dp horizontal /
+32dp vertical; panel24dp, action spacing12–16dp. Filled rounded targets, a single
+focused sage surface with visible scale/edge distinction, no default outlined
+button stack. Focus motion is short and respects system motion settings; no
+background blur or decorative animation. Disabled actions retain readable
+labels and cannot activate. Empty/loading/failure states use existing localized
+native resources with an explicit return/retry route. Long text/RTL/font scaling
+and actual screen-reader operation remain runtime checks, not inferred from CSS.

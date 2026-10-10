@@ -117,6 +117,26 @@ resource identifier in the icon predicate: the existing Page cursor action is
 `brave_tv_pointer`. Correct that one predicate; Java compilation failed with
 `cannot find symbol brave_tv_cursor`. No APK/runtime acceptance is implied.
 
+Actual GN APK proof now builds on source `ad0075be5`: blocking lint/Error Prone
+passed, elapsed3m45.71s, observed peak15,160,426,496 bytes (14.12 GiB). Preserved
+artifact `compose-spike-ad0075be5-x64-debug-20261010/BraveMonox64.apk`, 852,560,037
+bytes, SHA256 `109e6148cd9d6505fa97479bf33df336a5f140844aca5d0be36a3cc03d09342f`;
+signature verification and explicit emulator update installation passed. APK
+growth is 1,558,977 bytes. Real Compose home/controls render and D-pad/OK works;
+headings incorrectly inherit black, button semantics need an explicit role,
+and the four-row core panel is too tall. Correct those in the presentation
+module: warm content-color provider, headings/button roles, restrained rounded
+shapes and a two-row default panel with More/return. Scoped dialog Back collapses
+More before retaining the existing native root Back handler. Acceptance: actual
+heading contrast/semantics and remote-only compact/More/return focus replay,
+then continue mandatory IME/compositor/lifecycle/security tests before migration.
+
+Baseline group proof: popup created a native group; closing its synthetic child
+then attempting to close its final parent opens the real group-delete dialog.
+Cancel starts focused; Right reaches Delete, Left returns Cancel, and Cancel
+retains the fixture. Keep that group for upgrade validation. Uncontended baseline
+launch samples are saved separately in `tv-ui-baseline-uncontended.json`.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
