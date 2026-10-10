@@ -75,6 +75,20 @@ property shadowing the palette color; rename that token to `backgroundColor`.
 No toolkit incompatibility is established by these ordinary source errors.
 Peak cgroup observation for this attempt was 8,649,408,512 bytes (8.06 GiB).
 
+Design review follow-up: preserve Address invoker on Back/Escape, and model
+explicit editing mode so the prototype can submit/leave its input using D-pad
+and OK. Clarify CloseWatcher/native handling in the inventory. Validate these
+routes in T3 preview before marking navigable design acceptance. This changes
+the synthetic design demonstration only; actual Chromium input is not replaced.
+
+Fifth attempt compiles the Kotlin screen, then Java header compilation fails
+because TvHomePage exposes ComposeView without a direct AndroidX dependency.
+Keep the presentation seam small: factories return Android View, and expose
+explicit UI-thread disposal for factory-created views; Java browser ownership
+does not need to depend on Compose internals. T3 preview's six design checks
+pass after editor/fullscreen/final-tab/cancel corrections. Baseline synthetic
+`remote-input.html` is now bookmarked through BookmarkModel for upgrade checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

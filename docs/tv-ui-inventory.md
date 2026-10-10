@@ -52,7 +52,7 @@ take precedence over physical pointer policy. Fullscreen alone is not a modal.
 | TV child library/settings/filter row | One visible TV focus, stable item identity | Return parent, restore invoking action; destroyed/stale result ignored |
 | TV root controls | TV focus; disabled actions cannot activate | Existing native Back history/exit owner; explicit Page cursor returns to content |
 | Home | Address initially; no phone requirement | Open controls through existing callback; native exit only through existing Back owner |
-| Page / cursor / scroll | Scoped page input; held OK one click; idle wake no click | Fullscreen exit first; otherwise controls, independent of CloseWatcher |
+| Page / cursor / scroll | Scoped page input; held OK one click; idle wake no click | Fullscreen exit first; preserve applicable native/webpage Back handling with a reachable controls escape |
 | External app return | Native result routing | Restore surviving invoker, never stale Tab/View reference |
 
 ## Measurement contract and provisional budgets
