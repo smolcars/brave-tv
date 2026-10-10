@@ -1562,3 +1562,7 @@ remain excluded. Reuse Chromium's debug-app command-line mechanism to enable
 this development-only test without enabling the APK's debugger flag. Build with
 the existing limits, verify signing/ABI, update in place, and exercise harmless
 pairing/native controls. Do not reopen first-run investigations or reset profiles.
+
+The latest-commit standards review found one stale traffic-annotation gate
+description. Update it to match the non-official local-channel restriction
+before the optimized build; the spec review found no issues.
