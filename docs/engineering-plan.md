@@ -821,3 +821,43 @@ Standards review requires the existing Android `BytecodeTest` to assert the
 new hook's method signature (AND-022), in addition to the behavioral JVM
 diagnostic. Add the void/no-arguments method check beside the existing
 ChromeTabbedActivity entries; its class is already covered.
+
+#### Independent signed filter feed
+
+The current startup/search capture still receives HTTP 403 for all 12 upstream
+component requests. Public static hosting cannot serve the updater's Omaha
+POST protocol. Add a fork-owned, data-only feed over HTTPS with a pinned
+Ed25519 verification key, using Chromium's existing crypto and URL loader APIs.
+Leave upstream component signature verification and security-component updates
+unchanged; do not borrow service keys or treat downloaded bytes as a component.
+
+Ship the existing resources.json and five baseline filter texts as one signed,
+size-bounded payload. Keep catalog IDs, permissions and preferences fixed by
+the APK; adding new trusted groups requires an app update. The payload includes
+a format/engine identifier, increasing sequence, publication time and source
+provenance. Signing uses Node's standard crypto library and an explicitly
+provided private-key file outside Git. Tests use temporary keys. Never include
+the publisher private key in the repository, APK, release assets or logs.
+
+First implement and test the deterministic packager against the existing pinned
+snapshot. Then implement native verification and storage: signature before
+parsing, strict schema/size/engine checks, future/stale-download rejection,
+monotonic sequence and atomic replacement only after full validation. Retain
+last-good cached data offline and packaged data if cache validation fails.
+Use one immutable snapshot shared by filter/resource providers and DAT-cache
+versioning, loaded on a worker. A staged update becomes active at the next
+browser restart; do not mix new resources with old compiled filters.
+
+Add bounded credential-free download, at most one automatic check per day,
+and a manual check in the native Content Filters panel. Show the active
+snapshot date/source, update failure or staged/restart state honestly. Keep
+callbacks scoped to service/dialog lifetimes and avoid blocking the UI thread.
+Publish a signed public feed only after the packager/verifier checks pass;
+document key custody, repeatable refresh/publication and source/license links.
+
+Acceptance covers valid update, tampering, wrong key, rollback, incompatible
+engine, oversized/truncated data, failed/interrupted fetch and offline restart.
+On the emulator require version/cache transition and actual blocking after
+restart; repeat list toggles. YouTube observations remain a separate test and
+must not be promoted to universal ad-blocking claims. Plan/review/build each
+implementation increment using the established cache and resource limits.
