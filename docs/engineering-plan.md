@@ -642,3 +642,13 @@ its actions disabled. Switch the ordinary fixture to the existing 24.109-second
 `bbb-320x240-2video-2audio.mp4` sample so it can exercise a persistent session,
 and extend the caption cue. Preserve the bear results as short-video evidence;
 this is a test-input correction, not a change to Chromium's media policy.
+
+Persistent media pause/resume works, but the Python fixture server does not
+serve byte ranges: the page reports a seekable range of [0,0], duration grows
+while buffering, and native seek actions are disabled. Replace that diagnostic
+server with a loopback-only Node server exposing only the fixed upstream MP4.
+Support ordinary GET/HEAD and one bounded byte range, including suffix ranges;
+reject malformed/unsatisfiable ranges and keep the binary outside Git. Check
+real HTTP status/length/body for full, prefix, suffix and invalid requests before
+repeating browser seekability and native actions. Do not alter product seeking
+based on this server limitation.
