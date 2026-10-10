@@ -388,3 +388,9 @@ resolved; update those menu expectations without re-enabling the feature.
 Source menu expectation correction `8a208dfc1` against `3696a9154`:
 Standards 0, Spec 0. The review covers only this latest implementation;
 the Android menu tests themselves have not yet been executed.
+
+Source sponsored-home shutdown `68404c30c` against `8a208dfc1`:
+Standards 0, Spec 0. The Android bridge, view-counter and diagnostic consumers
+handle the absent service; removing takeover registration closes its CHECKing
+controller entry. The new profile assertion is included for Android, while
+enabled sponsored-home browser tests remain desktop-only. Runtime is pending.
