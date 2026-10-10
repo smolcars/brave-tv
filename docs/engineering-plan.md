@@ -45,6 +45,14 @@ Initial host observation: 29 GiB RAM, 6.2 GiB used, 23 GiB available, no swap;
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`, both clean. Physical, real-phone
 and second-device acceptance stays pending.
 
+First integration attempt: source `0c0234883`, root `33dcb30`, failed at GN
+regeneration before compilation. Chromium's Kotlin source allowlist rejects
+the new presentation path. Add only that source-owned package to the existing
+allowlist through Brave's tracked internal_rules patch; retain all assertions
+and analysis. Review also requests a safe empty-action contract and removal of
+duplicated home links. Complete the compact Compose panel proof in this slice
+before treating toolkit integration as accepted. No cache was removed.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
