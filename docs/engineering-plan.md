@@ -1525,3 +1525,11 @@ button counter without proving the pointer was over it. Add a successful remote
 click as a positive control before taking the phone offline; rerun after the
 soak. Also block all off-origin companion requests during QR pairing and require
 the three bundled assets, making the no-external-host assertion executable.
+
+The first complete 30-minute run retains the session but fails the latency
+sample-count assertion: a fixed ten-second sample can repeatedly collide with
+the 500 ms state poll. Wait briefly for an eligible foreground slot before
+sampling, and persist each minute's measurements before final assertions so a
+failed run still leaves its evidence. A separate 120-command run measures latency;
+repeat the corrected soak alongside final APK acceptance rather than labeling
+the failed probe a pass.

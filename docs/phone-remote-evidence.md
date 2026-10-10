@@ -303,3 +303,14 @@ Phone pinch zoom reaches 2.0× and restores successfully. Host reflow checks cov
 These checks cover labels/focus/reflow, not a physical screen-reader session.
 The documented submodule-aware Nix flake check passes both checks, all fifteen
 unit tests and strict typing of ten Python files.
+
+The r13 run reaches 1,800,196 ms with the same approved connection in every
+sample, but fails its final minimum-command-count assertion. Fixed sampling
+collided with state polling and skipped commands; the probe wrote its aggregate
+only after that assertion, so no complete JSON result was retained. This is
+partial endurance evidence, not a passing soak. The final steady sample is
+549,617 KiB whole-package PSS, three processes, 0.433% of one CPU core. A separate
+120-command foreground run passes with p95 72.7 ms (68.3–108.9 ms range), retained
+as `~/.cache/brave-tv/artifacts/phone-latency-r13.json`. These are command round
+trips, not measured display presentation latency. Correct the sampler's busy
+arbitration and incremental evidence persistence, then repeat with the final APK.

@@ -36,6 +36,9 @@ try {
     await new Promise((r) =>
       setTimeout(r, Math.max(0, started + tick * 10000 - Date.now())),
     );
+    if (await page.evaluate(() => connected && state?.page && !state.paused)) {
+      await page.waitForFunction(() => !busy, undefined, { timeout: 2000 });
+    }
     const sample = await page.evaluate(async (expectedEpoch) => {
       const result = {
         connected,
@@ -111,11 +114,17 @@ try {
         ...sample,
       });
       console.log(JSON.stringify(samples.at(-1)));
+      await writeFile(
+        output,
+        JSON.stringify({ complete: false, samples, roundTrips }, null, 2) +
+          "\n",
+      );
     }
   }
   assert.ok(roundTrips.length >= 100, "Too few foreground command samples");
   roundTrips.sort((a, b) => a - b);
   const result = {
+    complete: true,
     durationMs: Date.now() - started,
     commandCount: roundTrips.length,
     commandP95Ms: roundTrips[Math.ceil(roundTrips.length * 0.95) - 1],
