@@ -979,3 +979,27 @@ choices unchanged. Capture red results before investigating readiness, restored
 resource cache behavior or provider selection. Do not call this a demonstrated
 YouTube root cause. Complete the current panel screenshots, then prioritize the
 reproduced protection failure before independent update transport.
+
+The existing `brave.adblock` startup trace confirms empty-engine queries:
+the main document is checked at +2.56ms, its blocked scripts at +132.99/133.03ms,
+but default/additional DAT engines are installed at +892.84/+920.31ms. Trace
+capture uses temporary Android command-line settings, restored afterward; no
+diagnostic source logging is necessary. The no-reload observer remains red.
+
+For the independent bundled-data path, defer AdBlockService's public engine
+queries and cosmetic receiver binding until both engines have loaded filters
+and resources successfully. Keep initialization tasks on the existing sequenced
+worker and bypass this query queue so loading cannot wait on itself. Drain queued
+work once, in order, after readiness; destruction drops owned pending callbacks.
+Retain valid DAT loading, failed-DAT fallback, list choices and snapshot identity.
+Desktop and the disabled independent-update path retain their current dispatch.
+Do not wait for remote component delivery: this path has the local fixed catalog,
+verified signed or packaged data, and local custom lists. Later list updates
+continue using the already-valid engines while replacements load.
+
+Verify the original cold-start observer repeatedly, the ordinary request-level
+reload probe, and initialization with DAT caching temporarily disabled (without
+deleting caches). Use the existing trace to establish checks occur after engine
+loading. Retest native optional-list toggles and navigation; measure the added
+startup wait. Build/review this source increment independently and preserve
+all temporary flag/settings state.
