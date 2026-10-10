@@ -881,3 +881,8 @@ execution. The first test-build invocation stopped during GN generation because
 it lacked Brave's Python module path; rerun with the same `brave/script` path
 used by the standard build wrapper. No compiler or test result came from that
 invocation.
+
+GN now reaches the focused test target and detects host/Android runner scripts
+with the same output name. Generate the standalone test executable only in the
+host toolchain; Android still includes these cases through the existing Shields
+unit-test source set. Keep the explicit host-test group for reproducible builds.
