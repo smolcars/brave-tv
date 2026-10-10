@@ -384,3 +384,7 @@ registration diverge). The compile also detects unreachable feature queries;
 Source `3696a9154` against `009b544f8`: Standards 0, Spec 1 (three Android
 menu tests still expect Leo). The prior preference-registration crash is
 resolved; update those menu expectations without re-enabling the feature.
+
+Source menu expectation correction `8a208dfc1` against `3696a9154`:
+Standards 0, Spec 0. The review covers only this latest implementation;
+the Android menu tests themselves have not yet been executed.

@@ -779,3 +779,20 @@ The correction review finds three Android menu expectations still include Leo
 despite the new hard support gate. Remove that item from the normal/NTP
 expected menus while retaining `@EnableFeatures(AI_CHAT)` to verify an old
 raw flag cannot restore Leo. Keep all other menu assertions.
+
+#### Remaining sponsored-home services
+
+The Android background-image bridge eagerly requests the sponsored-home
+service even though the TV home uses no downloaded wallpapers. Return null
+from the shared Android background-image service accessor; its bridge and
+view-counter factory already handle absence. Remove registration of Android's
+old new-tab takeover WebUI, whose controller otherwise CHECKs that service.
+Keep desktop behavior, existing preferences and security/filter components.
+Also stop constructing the Android day-zero UI experiment observer; the
+independent browser has no P3A-driven onboarding experiment.
+
+Add an Android browser assertion for absent background/view-counter services.
+Build from the preserved cache after the current build finishes; check native
+normal/private home, settings, ads-internals and direct old takeover navigation
+for safe behavior. Record browser-test execution separately from APK compilation
+and emulator checks. Review only the resulting latest source commit.
