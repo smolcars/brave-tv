@@ -261,8 +261,9 @@ The server listens only on loopback and exposes only its two fixture routes.
 
 Alongside the existing page server on 18081, serve the pinned Chromium checkout's
 `src/media/test/data` on loopback port 18083 and reverse that port through ADB.
-For example, in Nix use `python3 -m http.server 18083 --bind 127.0.0.1 --directory
-/home/nitesh/.cache/brave-tv/workspace/src/media/test/data`. Open
+Use `nix develop --command node tests/device/media-fixture-server.mjs
+/home/nitesh/.cache/brave-tv/workspace/src/media/test/data`. This server supports
+byte ranges, which the ordinary Python server lacks. Open
 `http://127.0.0.1:18081/media.html`. The `bbb-320x240-2video-2audio.mp4` sample exceeds Chromium’s five-second
 persistent-session threshold. The media binary stays in the upstream
 checkout with its existing notices; the test page does not bundle it.
