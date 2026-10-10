@@ -23,7 +23,7 @@ def adb(*args: str) -> str:
                           text=True, timeout=10, check=True).stdout.strip()
 
 
-def listener_response() -> bytes:
+def listener_response() -> tuple[bytes, bytes, int]:
     with subprocess.Popen(["adb", "-s", phone, "shell", "toybox", "nc", "-w", "7",
                            "-W", "7", address, port], stdin=subprocess.PIPE,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE) as client:
@@ -35,11 +35,12 @@ def listener_response() -> bytes:
         finally:
             if client.poll() is None:
                 client.kill()
-        output, _ = client.communicate()
-        return output
+        output, errors = client.communicate()
+        return output, errors, client.returncode
 
 
-assert listener_response().startswith(b"HTTP/1.1 200"), "Start the listener first"
+output, errors, status = listener_response()
+assert status == 0 and not errors and output.startswith(b"HTTP/1.1 200"), "Start the listener first"
 pid = adb("shell", "pidof", package)
 assert pid, "Browser must be running"
 adb("shell", "input", "keyevent", "3")
@@ -51,6 +52,9 @@ while True:
         break
     assert time.monotonic() < deadline, "Brave did not leave the foreground"
     time.sleep(0.1)
-assert not listener_response(), "Listener remains reachable after backgrounding"
+output, errors, status = listener_response()
+assert not output and status != 0 and b"connection refused" in errors.lower(), (
+    "Expected connection refusal, not an accepted connection, timeout or ADB failure", errors
+)
 assert adb("shell", "pidof", package) == pid, "Backgrounding killed the browser"
 print("PASS: foreground departure, listener closure and browser process survival")
