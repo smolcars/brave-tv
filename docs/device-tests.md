@@ -596,3 +596,21 @@ Pause → repeated Seek backward reaches 0, Seek forward reaches exactly 10,
 Seek backward returns to 0, and Play resumes at 0.128108. The read-only probe
 confirms each state with readyState 4 and no media error. No product seek policy
 was changed for this fixture correction.
+
+Home while Playback is open closes that panel; ordinary app reopen exposes the
+page and Back restores browser controls with Playback selected. Playback is
+still active on immediate return (an exploratory paused-state assertion fails;
+pause-on-Home was not the specified behavior). Explicit native Pause works,
+and switching to the preserved Shields tab leaves the old media paused.
+
+Aggressive protection mode persists after Home and a process restart on the
+Shields fixture. Switching back to Standard crashes twice on `360b81ac7`;
+`tv-shields-standard.ad` fails at step 14 and the captured native abort names
+`SetAdControlType` receiving `ControlType::DEFAULT`. Source `d88cef8a9` corrects
+the shared Java conversion; cached build and replay are pending. Standard-mode
+persistence must not yet be marked accepted.
+
+The 14 project tests and strict mypy pass. Plain `nix flake check` fails because
+Nix 2.25.3 omits the source submodule. The documented explicit Git flake URL with
+`?submodules=1` passes both flake checks without upgrading Nix or duplicating
+source. This validates project tooling, not the pending Android mode correction.

@@ -356,3 +356,6 @@ review does not establish an active MediaSession.
 Root persistent-media sample `a4bff09` against `4a5f3b0`: Standards 0, Spec 0.
 Root byte-range media server/check `96262a9` against `c66ba1f`: Standards 0,
 Spec 0. Only each named latest implementation was reviewed against its parent.
+
+Root Standard-mode replay `3902084` against `3297b2c`: Standards 0, Spec 0.
+The emulator reproduces the crash independently of these read-only reviews.
