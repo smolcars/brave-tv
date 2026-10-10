@@ -338,3 +338,12 @@ Source return-focus change `e0498ae07` against `77e234039`: Standards 0,
 Spec 2 (queued-modal dismissal and delayed activity window focus). Its correction
 `681e99ced` against `e0498ae07` receives Standards 0, Spec 0. Each comparison is
 only the named latest implementation against its parent.
+
+Source idle-cursor change `720c05f99` against its parent: Standards 1 (missing
+activity lifetime guard in delayed hide callback), Spec 0. Correction
+`c1f0762ed` against `720c05f99`: Standards 0, Spec 0.
+Root initial idle replay `69949f4` against its parent: Standards 0, Spec 1
+(final count cannot identify which press clicked). The replay was split into
+wake-only and visible-held-click checks. Latest correction `1470e9f` against
+`68268a7` adds an explicit directional wake to avoid a timer race: Standards 0,
+Spec 0. All reviews cover only the named latest implementation versus its parent.

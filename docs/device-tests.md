@@ -520,3 +520,30 @@ the page Permissions API confirms `denied`. The fixture's earlier timeout result
 is not used as evidence of refusal. No coordinates were collected. The screenshot
 `dialog-block-focus-77e234039.png` shows a visible but subdued native focus fill;
 stronger TV focus contrast remains polish work.
+
+## Dialog return and idle cursor (10 October UTC)
+
+Source `681e99ced` passes blocking analysis in 3m34.84s (Siso 3m31.28s),
+observed cgroup peak 14,530,093,056 bytes. Preserved artifact:
+`~/.cache/brave-tv/artifacts/tv-modal-return-681e99ced-x64-debug-20261010/BraveMonox64.apk`,
+852,997,246 bytes, SHA-256
+`e3fc5be47d91ace48d7bec4283a015221536e31a21207f61e5e8db206d45d679`.
+Signature verification and profile-preserving update pass. The native alert
+replay now passes all five steps, including Back to browser controls.
+
+The preceding `77e234039` cursor remains visible after four idle seconds;
+`cursor-idle-fail-77e234039.png` fails the absent-cursor pixel assertion.
+On `681e99ced`, the initial two-held-press replay produces `Clicks: 2`, failing
+the expected one. Review then strengthens that replay by separating the
+wake-only assertion from the visible held-click assertion.
+
+Source `c1f0762ed` passes blocking analysis in 3m35.34s (Siso 3m32.36s,
+16 steps), observed cgroup peak 15,236,648,960 bytes. Preserved artifact:
+`~/.cache/brave-tv/artifacts/tv-idle-cursor-c1f0762ed-x64-debug-20261010/BraveMonox64.apk`,
+852,996,574 bytes, SHA-256
+`8548e7d4be717737a4ca7c32f85ae74dc34730aafe0c5885b994baa6459cc5dd`.
+Signature verification and profile-preserving update pass. On the actual
+non-alphabetic uinput remote, `dpad-idle-wake.jsonl` leaves `Clicks: 0` and the
+separate `dpad-held-click.jsonl` produces `Clicks: 1`. The idle screenshot
+`cursor-idle-pass-c1f0762ed.png` passes absence at 960,700. Further fullscreen
+and lifecycle checks remain separate from these local input results.
