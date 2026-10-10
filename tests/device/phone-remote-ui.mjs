@@ -9,6 +9,7 @@ const { chromium } = require("playwright-core");
 const assets = resolve("brave/android/java/brave-res/raw");
 const commands = [];
 let pollStarted;
+let releasePoll;
 let delayedPoll = false;
 const initial = {
   revision: 1,
@@ -65,8 +66,9 @@ const server = createServer(async (req, res) => {
   }
   if (data.op === "state" && delayedPoll) {
     delayedPoll = false;
+    const barrier = new Promise((r) => { releasePoll = r; });
     pollStarted?.();
-    await new Promise((r) => setTimeout(r, 200));
+    await barrier;
   }
   if (data.op !== "state") commands.push(data);
   res.end(
@@ -95,20 +97,24 @@ try {
   await new Promise((r) => {
     pollStarted = r;
   });
+  const backResponse = page.waitForResponse((response) =>
+    response.request().method() === "POST" && response.request().postDataJSON().op === "back");
   await page.getByRole("button", { name: "← Back", exact: true }).click();
-  await page.waitForFunction(
-    () =>
-      document.getElementById("status").textContent === "Connected to your TV",
-  );
-  await new Promise((r) => setTimeout(r, 250));
+  assert.equal(commands.length, 0, "action waits while the poll response is held");
+  releasePoll();
+  await backResponse;
+  await page.waitForFunction(() => !busy);
   assert.equal(
     commands.filter((c) => c.op === "back").length,
     1,
     "one button press during polling must deliver once",
   );
   await page.getByText("Pointer & scroll buttons", { exact: true }).click();
+  const clickResponse = page.waitForResponse((response) =>
+    response.request().method() === "POST" && response.request().postDataJSON().op === "click");
   await page.getByRole("button", { name: "Click", exact: true }).click();
-  await new Promise((r) => setTimeout(r, 150));
+  await clickResponse;
+  await page.waitForFunction(() => !busy);
   assert.equal(commands.filter((c) => c.op === "click").length, 1);
   await page.screenshot({
     path: "/home/nitesh/.cache/brave-tv/artifacts/phone-remote-ui-portrait.png",
@@ -132,6 +138,7 @@ try {
     "Companion regression passed: fragment removal, polling-time action, one click, portrait/landscape overflow, no script errors.",
   );
 } finally {
+  releasePoll?.();
   await browser.close();
   server.close();
 }

@@ -117,6 +117,9 @@
               cp -r ${./tests} tests
               mkdir -p brave/android/java/org/chromium/chrome/browser/tv
               cp ${./brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java} brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java
+              cp ${./brave/android/java/org/chromium/chrome/browser/tv/TvRemoteSession.java} brave/android/java/org/chromium/chrome/browser/tv/TvRemoteSession.java
+              mkdir -p brave/tools/tv/remote-tests
+              cp ${./brave/tools/tv/remote-tests/TvRemoteSessionTest.java} brave/tools/tv/remote-tests/TvRemoteSessionTest.java
               python3 -m unittest discover -s tests -v
               mypy --strict tools tests
               touch "$out"

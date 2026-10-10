@@ -119,6 +119,14 @@ on all supported Android versions. Format bundled sources for review, preserving
 the tested UI behavior. Repeat host companion/session checks before the next
 cached build; no new product surface.
 
+### Phone remote reproducible checks
+
+The sandboxed Nix source-tools check needs the same two Java session sources
+as local unittest discovery. Include those explicit inputs beside the existing
+physical-input source; retain strict compiler warnings. Replace timing guesses
+in the companion polling regression with an explicit held-response barrier,
+then rerun the sandboxed checks and latest-commit review.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
