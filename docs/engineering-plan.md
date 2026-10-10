@@ -1003,3 +1003,14 @@ deleting caches). Use the existing trace to establish checks occur after engine
 loading. Retest native optional-list toggles and navigation; measure the added
 startup wait. Build/review this source increment independently and preserve
 all temporary flag/settings state.
+
+Latest-commit review of `fd1db3384` identifies a second ordering requirement:
+without DAT caching, the existing component-provider sentinel is absent. An
+already-initialized custom provider can start a partial engine before the async
+catalog has registered baseline lists. Extend that existing sentinel condition
+to the independent bundle-store path, with DAT either enabled or disabled;
+retain legacy behavior otherwise. Add a focused manager regression with DAT
+disabled and initialized local providers, asserting no load notification before
+explicit catalog delivery and notification afterward. Run the cached and
+no-DAT startup probes/traces on the corrected APK; report native-unit execution
+separately from device acceptance.
