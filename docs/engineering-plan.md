@@ -533,3 +533,13 @@ without rebuilding the dialog. Verify native pause/resume, ten-second seeking,
 Back/focus, no-media state and lifecycle cleanup on emulator video; use the
 documented non-alphabetic uinput remote for page-cursor interactions. The
 agent-device virtual keyboard intentionally bypasses the cursor policy.
+
+Latest-commit review found two API constraints before acceptance: Brave's
+document-change callback is dispatched only to the upstream media helper's
+observer, and Chromium discards the requested seek offset when routing to a
+site-provided seek handler. Observe committed primary-frame navigation directly
+through the tab to close the old panel. Use “Seek backward” / “Seek forward”
+labels instead of promising a fixed ten seconds: retain Chromium's site action
+semantics, with ten seconds for its native fallback. Check the actual seek
+effect on the target site and document its distance. This changes our proposed
+button wording, not a user-required duration.
