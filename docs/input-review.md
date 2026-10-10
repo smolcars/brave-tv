@@ -444,3 +444,17 @@ notifications before/after explicit catalog delivery. Only each latest
 implementation commit is reviewed. APK and device evidence is recorded in
 [device tests](device-tests.md#cold-start-blocking-correction-10-october-utc);
 the native test source compiles but its test binary was not executed.
+
+Source independent updater `a50b513df` against `dbeaa9a61`: Standards 2
+(optional active metadata and mandatory preferences reference), Spec 1
+(P1: SimpleURLLoader's string helper is capped at 5 MiB, below the real bundle).
+Correction `98a9bb6c0` against `a50b513df`: Standards 0, Spec 0. The updater
+streams with a 24 MiB cap before append; a signed 6 MiB regression passes.
+
+Source browser/TV integration `bcc8531d7` against `98a9bb6c0`: Standards 2
+(sequence assertions on new callback targets and delivery documentation), Spec 0.
+Correction `95b26f1ba` against `bcc8531d7`: Standards 0, Spec 0. It also includes
+the full shared-factory type needed by default refcounted argument callers.
+These reviews cover only each latest implementation commit, not the branch.
+All 17 signed-storage/updater host tests execute successfully; three signer tests
+also pass. APK build r46 and real public-feed/UI acceptance remain pending.
