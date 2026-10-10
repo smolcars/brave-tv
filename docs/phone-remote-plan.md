@@ -7,8 +7,10 @@ user's explicit preference for same-network operation. The original
 Source integration was inspected at `44ccdafef82661c8188e0b43c98368b369651360`.
 
 **Updated authorization: the user now permits installation and a short test on
-the Chromecast while watching. Preserve its profile and use an optimized,
-non-debuggable local development build. Real-phone and broader hardware
+the Chromecast while watching. Use an optimized,
+non-debuggable local development build. After storage blocked the update, the
+user explicitly authorized deleting Brave and its data from all profiles for
+a fresh installation. Preserve Android profiles and unrelated apps. Real-phone and broader hardware
 acceptance remain separate gates.**
 
 ## Product scope
@@ -233,8 +235,9 @@ forwarding numbers are not hardware LAN measurements.
 
 - [ ] Real iPhone Safari and Android Chrome on home Wi-Fi: QR/manual pairing,
   keyboard/gestures, foreground/resume, denied permissions and unavailable TV.
-- [ ] Existing Chromecast, now authorized for a short test: preserve
-  its profile, use a cached optimized build, repeat video/audio/fullscreen and
+- [ ] Existing Chromecast, now authorized for a short test: use the cached
+  optimized build (fresh install explicitly authorized after the failed update),
+  repeat video/audio/fullscreen and
   physical remote arbitration; check memory and real Wi-Fi behavior.
 - [ ] Resolve the transport release decision, publish tested versions, local-
   network limitations, setup/disconnect instructions and rollback/off switch.

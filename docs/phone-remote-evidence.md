@@ -434,3 +434,64 @@ reported no active install sessions. Existing package `lastUpdateTime` remained
 switch, debug-app change, command-line change, reboot or remote test occurred.
 The user was asked to free space while keeping Brave installed. The new APK is
 ready, but installation and physical pairing/control acceptance remain pending.
+
+### Fresh installation and physical smoke test
+
+The user then explicitly confirmed uninstalling the existing Brave from **all
+Chromecast profiles**, deleting its data, and installing the new APK. Global
+`adb -s 192.168.4.50:39757 uninstall com.brave.browser_default` succeeded.
+Package queries for users 0, 10, 11 and 12 returned no installation. No Android
+profile or other app was deleted. Free space rose to about 1.1 GiB. The same
+verified APK installed successfully with `install --streaming --user 0`.
+This was a fresh installation; the previous browser data was intentionally
+removed, not preserved. The new app is installed only for user 0; users 10–12
+report `installed=false` and data inode 0. Free space after testing was 824 MiB.
+
+The first launch reported `WelcomeOnboardingActivity`; an immediate native
+hierarchy read was unavailable. One subsequent launch showed native TV home.
+This is not a fix or investigation of the older first-launch issue. Before
+setting the experiment switch, home had no **Use your phone** action. Selecting
+the package with `am set-debug-app --persistent` (without debugger waiting),
+writing the explicit switch to `/data/local/tmp/chrome-command-line`, and
+relaunching exposed the action. APK flags still omit `DEBUGGABLE`.
+
+The controller was host HeadlessChrome 154.0.8037.92, not a real phone. It loaded
+bundled assets directly from `http://192.168.4.50:41157` over the actual LAN,
+decoded the untouched TV QR screenshot, removed the invitation fragment and
+waited for explicit native TV approval. No external companion asset request or
+HTTP blocking interstitial occurred. The host was `192.168.5.69/22`; the TV
+was `192.168.4.50`. No ADB forward carried companion requests.
+
+The TV could not reach the host's synthetic fixture on its LAN port: navigation
+remained pending and the fixture received no request. Router/firewall settings
+were not changed or diagnosed. Only the harmless test page was moved to
+`http://127.0.0.1:18089/phone-remote.html` using an explicitly targeted ADB reverse;
+diagnostic CDP used local port 9235, while the controller stayed on the TV's
+LAN origin. The existing controls probe was adapted for those explicit endpoints.
+An early invocation before fixture readiness failed its target assertion; the
+complete rerun passed:
+
+- Companion address navigation to the synthetic fixture; simulated touchpad
+  tap, drag and two-finger scroll delivered native input to the Chromecast.
+- Back, Forward, Reload; stale-document and duplicate-command rejection.
+- Normal-tab creation, selection and closing.
+- Native Hindi/Japanese text and emoji insertion, whole-codepoint emoji deletion,
+  and selection. This establishes the TV native bridge, not real phone IME behavior.
+- Remote address navigation to `https://example.com/` reached non-loading,
+  non-error state. A separate DOM-title check selected the wrong diagnostic tab
+  and was canceled during cleanup; it is not counted as a content assertion.
+- Closing the test tab restored one native-home tab. Companion Disconnect revoked
+  the controller and the LAN listener refused a subsequent connection. Browser
+  PID 13401 remained unchanged throughout this bounded control test.
+
+Our fixture/client services were stopped, diagnostic forward 9235 and reverse
+18089 removed, and the temporary native hierarchy file removed. Shared ADB/T3
+services, compile outputs, artifacts and Android profiles remain. The explicit
+experiment switch/debug-app selection are intentionally retained so the user
+can test; the TV is left at the unencrypted warning with **Start experiment**
+focused, with no active test controller or invitation. TV Disconnect stops the
+listener; leaving the app also revokes the session. The new phone must pair
+and receive TV approval. This does not close real Android/iPhone browser,
+physical-remote arbitration, sustained hardware performance or release-transport
+gates. Local artifact: `chromecast-remote-update-20261010.json`; ready-screen
+capture: `chromecast-remote-ready.png` in the artifacts directory.

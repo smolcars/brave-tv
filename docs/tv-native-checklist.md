@@ -8,6 +8,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Resolve the intermittent Android 14 first-launch handoff with a repeatable, awake-device reproduction and verified correction. Ten fresh Chromecast initializations pass, including actual agent launch/inspection; the original rejection is unreproduced and is not claimed fixed.
 - [x] Scope the phone companion from the supplied research; see [phone remote plan](phone-remote-plan.md) for proposed scope, ordered stages and acceptance checks.
 - [x] Implement and verify the local-only phone remote development experiment: TV-hosted companion, pairing/native text input, controls and emulator reliability. HTTP remains development-only; release transport and real-device gates remain open. See the [plan](phone-remote-plan.md) and [evidence](phone-remote-evidence.md). Relay is fallback only; live view is removed.
+- [x] Install source `d9a219d45` on the Chromecast after explicit authorization to delete Brave from all profiles; verify LAN pairing and controls with a desktop browser client. QR/approval, pointer, scrolling, navigation/tabs, native Unicode/selection/deletion and disconnect passed. Real phone IME/gestures and sustained hardware acceptance remain open.
 - [ ] Validate real phones and the Chromecast. The user now authorizes installation and a short Chromecast test while watching; broader hardware acceptance remains open.
 
 The user defers broader device acceptance (including a second device), release

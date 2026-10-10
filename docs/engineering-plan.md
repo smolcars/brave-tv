@@ -1566,3 +1566,15 @@ pairing/native controls. Do not reopen first-run investigations or reset profile
 The latest-commit standards review found one stale traffic-annotation gate
 description. Update it to match the non-official local-channel restriction
 before the optimized build; the spec review found no issues.
+
+### Authorized fresh Chromecast installation and smoke test
+
+After the in-place update failed for storage, the user explicitly confirmed
+uninstalling Brave from every Chromecast profile, deleting its data, and
+installing the new APK. That authorization supersedes profile preservation for
+this installation only; keep Android profiles and unrelated apps intact.
+Use the already verified ARM artifact, verify package removal across users,
+install for the active user, and run the bounded pairing/control smoke test.
+Record real LAN remote traffic separately from diagnostic fixture forwarding.
+Leave the experiment available for the user's phone test with our controller
+revoked and task-owned test services stopped.
