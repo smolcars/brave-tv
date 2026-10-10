@@ -297,3 +297,22 @@ Open the matching `chrome://histograms/Brave.Core.CrashReportsEnabled` page
 first. Restart the browser process after an implementation change; accumulated
 samples from the old process are not evidence of new collection. This checks
 local collection, not outbound reporting.
+
+## Independent filter update navigation
+
+`tv-filter-updates.ad` starts in Settings with Search engine focused, the two
+bundled optional lists present and Cookie notice blocker On. It enters Filter
+updates, performs a real manual check against the public feed, and verifies
+Back focus restoration through Content Filters to Settings. It changes no list
+choices and does not restart. A check may stage a newer verified feed.
+
+Run with the device/session/config arguments returned by `device_open`:
+
+```sh
+agent-device replay tests/device/tv-filter-updates.ad <device/session/config arguments>
+```
+
+The waits allow the updater's 60-second request deadline plus UI dispatch. This
+replay tests focus/navigation, not whether the returned status is current,
+staged or failed. Verify those outcomes and active DAT identity independently;
+see [delivery acceptance](../../docs/device-tests.md#signed-delivery-and-tv-update-status-10-october-utc).

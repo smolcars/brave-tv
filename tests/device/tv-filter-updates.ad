@@ -1,0 +1,22 @@
+# Start in Settings with Search engine focused, two bundled optional lists,
+# and Cookie notice blocker On. Checks the public feed without restarting.
+# Result status is deliberately not asserted: current/staged/failure depend on
+# the installed snapshot and network; this replay checks navigation and focus.
+wait "text=\"Search engine\" focused=true" 3000
+tv-remote down
+wait "text=\"Content Filters\" focused=true" 3000
+tv-remote select
+wait "text=\"Cookie notice blocker: On\" focused=true" 3000
+tv-remote down
+tv-remote down
+wait "text=\"Filter updates\" focused=true" 3000
+tv-remote select
+wait "text=\"Check for updates\" focused=true" 65000
+tv-remote select
+wait "text=\"Check for updates\" focused=true" 65000
+tv-remote back
+wait "text=\"Filter updates\" focused=true" 3000
+tv-remote back
+wait "text=\"Content Filters\" focused=true" 3000
+tv-remote up
+wait "text=\"Search engine\" focused=true" 3000
