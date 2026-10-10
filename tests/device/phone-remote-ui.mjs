@@ -125,7 +125,9 @@ try {
   await page.goto(
     `http://127.0.0.1:${server.address().port}/#synthetic-invite`,
   );
-  await page.getByText("Waiting for approval on the TV…", { exact: true }).waitFor();
+  await page
+    .getByText("Waiting for approval on the TV…", { exact: true })
+    .waitFor();
   assert.equal(
     await page.locator("#pairForm").isVisible(),
     false,
@@ -306,19 +308,32 @@ try {
   );
   approvalError = "revoked";
   approved = false;
-  await page.getByText("Session unavailable. Start a new invitation on the TV.", {exact:true}).waitFor();
+  await page
+    .getByText("Session unavailable. Start a new invitation on the TV.", {
+      exact: true,
+    })
+    .waitFor();
   assert.equal(await page.locator("#pairForm").isVisible(), true);
   assert.equal(await page.locator("#approval").isVisible(), false);
   // TV rejection/expiry closes the listener rather than returning a JSON error.
   approvalError = "approval";
-  await page.goto('about:blank');
+  await page.goto("about:blank");
   await page.goto(`http://127.0.0.1:${server.address().port}/#synthetic-retry`);
-  await page.getByText("Waiting for approval on the TV…", {exact:true}).waitFor();
+  await page
+    .getByText("Waiting for approval on the TV…", { exact: true })
+    .waitFor();
   server.closeAllConnections();
-  await new Promise(resolve => server.close(resolve));
-  await page.getByText("Session unavailable. Start a new invitation on the TV.", {exact:true}).waitFor();
-  assert.equal(await page.locator("#approval").isVisible(), false,
-    "Closed listener must not leave a stale approval instruction");
+  await new Promise((resolve) => server.close(resolve));
+  await page
+    .getByText("Session unavailable. Start a new invitation on the TV.", {
+      exact: true,
+    })
+    .waitFor();
+  assert.equal(
+    await page.locator("#approval").isVisible(),
+    false,
+    "Closed listener must not leave a stale approval instruction",
+  );
   assert.equal(await page.locator("#pairForm").isVisible(), true);
   assert.deepEqual(errors, []);
   console.log(

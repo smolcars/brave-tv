@@ -412,3 +412,33 @@ The waits allow the updater's 60-second request deadline plus UI dispatch. This
 replay tests focus/navigation, not whether the returned status is current,
 staged or failed. Verify those outcomes and active DAT identity independently;
 see [delivery acceptance](../../docs/device-tests.md#signed-delivery-and-tv-update-status-10-october-utc).
+
+## Phone fullscreen and empty-home regressions
+
+With TV `emulator-5554`, phone `emulator-5556`, diagnostic CDP forwards 9222/9223,
+fixtures on host 18088 and the media range server reversed on TV 18083, pair the
+real phone browser over the emulators' shared Wi-Fi network. Do not run these
+probes on a physical device. Use the Playwright directory already supplied by T3:
+
+```sh
+node tests/device/phone-fullscreen-probe.mjs PLAYWRIGHT_DIR back
+node tests/device/phone-fullscreen-probe.mjs PLAYWRIGHT_DIR phone-back
+node tests/device/phone-fullscreen-probe.mjs PLAYWRIGHT_DIR cursor
+node tests/device/phone-fullscreen-probe.mjs PLAYWRIGHT_DIR empty
+```
+
+The fullscreen cases attach the cursor before playing video, enter fullscreen,
+require usable phone input, exit without leaving the document, and check the
+native cursor pixels. `empty` closes the normal fixture tabs and requires exactly
+one TV home plus a working phone New tab. Only use a disposable emulator tab set.
+For physical-remote recovery, leave exactly one normal home tab and run
+`python3 tests/device/phone-home-probe.py emulator-5554 --close-last-tab`; this
+closes it through native controls and checks D-pad focus on the replacement home.
+
+`phone-loading-probe.mjs PLAYWRIGHT_DIR` records a bounded, ordered on/off/off/on
+comparison of companion polling for the local media fixture and one public
+YouTube page. Freezing the companion's page suspends its polling, while keeping
+the same paired TV listener. It restores the page in `finally`. Results include
+load/video-readiness deadlines, navigation timing and renderer task time. This
+comparison cannot establish optimized Chromecast performance or separate every
+network/cache effect; record individual samples rather than implying a benchmark.
