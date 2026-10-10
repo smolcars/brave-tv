@@ -1624,3 +1624,11 @@ with unchanged tab IDs. Pausing clears rows while retaining the render cache;
 clear that cache too so the first resumed state rebuilds controls. Keep paused
 metadata redaction unchanged. Repackage the bundled asset and verify the actual
 phone after native-panel resume before closeout.
+
+Recovery outcome: source `17a312c16` packages all follow-up fixes. QR approval,
+native-panel pause/resume tab rows, native/phone fullscreen Back with cursor
+pixels, and final-tab recovery pass on the final x64 APK. Five public YouTube
+cursor cycles passed on its native-code predecessor. The bounded loading sample
+does not establish a polling bottleneck or explain Chromecast latency. Exact
+builds, tests and remaining hardware limitations are in phone-remote evidence.
+No Chromecast operation or ARM build was performed in this follow-up.

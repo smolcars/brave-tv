@@ -105,3 +105,13 @@ Production identity, signing, distribution and upstream-update rehearsal remain 
 - [ ] Plan application ID/signing/update identity and migration separately so rebranding does not silently discard existing profiles.
 
 Basis checked 9 October 2026: [MPL §§2.3 and 3](https://www.mozilla.org/en-US/MPL/2.0/) grant no contributor trademark rights and require license/source notices; [Brave terms](https://brave.com/terms-of-use/) distinguish open-source rights from their executable/service terms. Independent branding is the project recommendation; this is not legal clearance for a chosen name.
+
+### Phone remote recovery follow-up (emulator first)
+
+- [x] Replace the empty manual-code form after QR acceptance with TV-approval guidance; return to pairing guidance on rejection/listener closure.
+- [x] Restore normal TV home after the final normal tab closes through phone or native controls; verify phone New tab and physical D-pad recovery.
+- [x] Exit renderer fullscreen before page history/controls with phone and native Back, preserving private/native guards.
+- [x] Verify cursor pixels after media fullscreen and five YouTube fullscreen cycles, including physical cursor movement. Persistent Chromecast cursor disappearance remains a hardware check.
+- [x] Reproduce and fix missing phone tab rows after native-panel pause/resume; host and final packaged-asset regressions pass (one authoritative tab and one rendered row after resume).
+- [x] Compare bounded emulator loading with polling active/suspended; no clear persistent polling slowdown in the small sample.
+- [ ] Verify these fixes on the user's Chromecast and real iPhone after the emulator work; diagnose the reported hardware YouTube latency there. No hardware operation in this follow-up.

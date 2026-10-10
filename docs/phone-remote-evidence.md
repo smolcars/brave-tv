@@ -495,3 +495,143 @@ and receive TV approval. This does not close real Android/iPhone browser,
 physical-remote arbitration, sustained hardware performance or release-transport
 gates. Local artifact: `chromecast-remote-update-20261010.json`; ready-screen
 capture: `chromecast-remote-ready.png` in the artifacts directory.
+
+## User-reported recovery regressions — emulator follow-up
+
+The user requested simulator fixes before touching the TV. No Chromecast command,
+installation, screenshot, input, panel selection or other operation occurred in
+this follow-up. Discovery still listed the connected hardware. All ADB actions
+used `emulator-5554` (TV API 36) or `emulator-5556` (phone API 36, Chrome
+133.0.6943.137); no iOS simulator is available on this Linux host.
+
+### Reproduction and fixes
+
+- QR acceptance already supplied the invitation, but the manual code form stayed
+  visible while waiting for TV approval. The host regression failed before
+  `5e4cde3d5`. The page now shows a separate approval instruction. A second red
+  test closes the listener during approval; `2d7a122a2` restores pairing guidance
+  for this real rejection/expiry path, including empty server responses.
+- Closing the final normal tab reproduced the user's native empty-switcher trap.
+  `863fcf887` observes completed model removals, restores one normal TV home after
+  mutation, and rechecks foreground/private/modal conditions. Both phone closure
+  and native Close tab pass, including physical D-pad focus on the replacement
+  home and phone New tab. This is shared recovery, not a phone-only workaround.
+- Native Back left the video document fullscreen and opened Browser controls.
+  `863fcf887` uses WebContents fullscreen state for both native and phone Back,
+  reports Back as available in fullscreen, and invalidates remote context on
+  fullscreen transitions. Only the fullscreen handler is excluded from native
+  input ownership; other native/private guards remain.
+- A final emulator check found another resume bug: `state.tabs.length` was one
+  while rendered phone tab rows remained zero. Pausing cleared rows but retained
+  their render cache. The host test failed `0 !== 1`; `17a312c16` clears that
+  cache and passes the host regression. Final packaged-asset verification also
+  passes, as recorded below.
+
+### Runtime checks on native recovery source `863fcf887`
+
+The paired phone accesses the TV's `10.0.2.17` Wi-Fi address directly through
+shared emulator Netsim; the phone address after restart is `10.0.2.18`. This is
+virtual LAN evidence. CDP forwards 9222/9223 only instrument tests. Host fixture
+18088 uses AVD NAT (`10.0.2.2`); video bytes on 18083 use an explicit TV reverse.
+It does not establish arbitrary home-router behavior or real iPhone compatibility.
+
+- QR decoding from the full TV screenshot, explicit approval and TV-only assets
+  pass. The new approval states also pass the bundled-JavaScript host tests.
+- Playing media: phone input during fullscreen, native Back, phone Back, and
+  document fullscreen exit pass. Native screenshots show the cursor afterward.
+  The probe waits for two matching viewport revisions before movement; an earlier
+  immediate post-exit move was correctly rejected during viewport change.
+- Five consecutive public YouTube fullscreen cycles pass using actual phone
+  commands to tap the player/fullscreen button and exit with Back. Native pixel
+  probes find the white cursor and black outline within 0.17–0.21 seconds after
+  acknowledged movement. One cycle starts with the physical Page cursor mode;
+  subsequent non-alphabetic D-pad movement also paints the cursor at 960,540.
+  An earlier single screenshot missed the cursor; the timed repeat did not
+  reproduce a persistent invisible cursor. Do not label the Chromecast-specific
+  disappearance independently diagnosed or verified fixed.
+- Native-panel and private-tab states contain only `paused` and `revision` and
+  reject a direct authenticated Back request. The private test tab is closed.
+  A held physical OK via Android uinput produces exactly one fixture click.
+- Protocol number/context validation, 15 host tests and strict mypy pass.
+  Standards and Spec reviews of each latest implementation commit report no
+  remaining findings. Test-review corrections refresh opaque tab IDs per closure
+  and verify the original session between bounded polling comparisons.
+
+### Bounded loading comparison
+
+The installed Chromecast artifact from the earlier task is optimized
+(`is_debug=false`, `debuggable_apks=false`), so its slowness cannot simply be
+attributed to a Debug APK. No hardware loading measurement was performed here.
+The retained x64 Debug emulator is not a performance proxy for that device.
+
+With polling active/suspended/suspended/active, elapsed load plus video readiness
+in the final navigation-only probe was:
+
+| Page | Active 1 | Suspended 1 | Suspended 2 | Active 2 |
+| --- | ---: | ---: | ---: | ---: |
+| Local video fixture | 252 ms | 178 ms | 189 ms | 180 ms |
+| Public YouTube video | 4,082 ms | 3,485 ms | 3,669 ms | 3,526 ms |
+
+Every sample reached video readyState 4 with no media error or deadline failure.
+The same authenticated session was verified before each sample; each suspension
+was bounded below idle expiry. These few ordered samples do not isolate cache,
+network or CPU effects and show no clear persistent polling slowdown. They do
+not resolve the reported Chromecast loading latency. An initial renderer CPU
+counter delta reset across navigation and went negative; that invalid metric was
+removed from the probe and excluded from conclusions. Raw navigation samples are
+in `remote-regress-863fcf887-x64-debug-20261010/loading-navigation.jsonl` under the
+artifact cache.
+
+### Build and tooling
+
+Native recovery build: four workers, blocking Android analysis, 18/22 GiB limits,
+no swap; total 4m00.49s, observed cgroup peak 19,329,785,856 bytes. Signed x64 APK:
+`remote-regress-863fcf887-x64-debug-20261010/BraveMonox64.apk`, 851,001,185 bytes,
+SHA-256 `543a2ab6df8536655525417193cefb0b0a8bf9a072b2730e6471fe262524d1a2`.
+Logs: `remote-regress-863fcf887-x64.{log,time}`. The final asset correction is
+built separately; no ARM build or Chromecast update belongs to this follow-up.
+
+T3 preview remains unavailable under the host AppArmor configuration. Device
+panels attach, but the exact returned agent-device CLI reports `Remote daemon is
+unavailable`; exact-serial ADB and existing Playwright diagnostic scripts are
+used instead. Default emulator Vulkan crashed the virtual device during media
+work; affected runs were discarded. The stable restart uses `-feature -Vulkan`.
+Nix's temporary TMPDIR produced a separate Netsim initially; unsetting TMPDIR for
+emulator launch restores shared discovery. T3 later attempted the phone on the
+TV's occupied port; only that task-owned phone process was stopped and restarted
+explicitly on 5556. No shared ADB/Netsim/T3 service or cache was reset.
+
+One earlier diagnostic session disconnected after the lifecycle/polling probes;
+its stop reason was not captured. Fresh pairing then supported the five YouTube
+cycles and the remaining checks. No new uninterrupted soak is claimed by this
+follow-up; hardware reliability and that isolated disconnect remain unconfirmed.
+
+### Final packaged verification — source `17a312c16`
+
+The final x64 APK passes screenshot QR pairing in the actual phone emulator:
+manual code entry is hidden during TV approval, the approval explanation is
+visible, the invitation fragment is removed, and all assets come from the TV.
+Opening Browser controls pauses the phone; returning to Page cursor restores
+both the authoritative tab and its rendered row (`tabs: 1`, `rows: 1`). Native
+Back and phone Back both exit playing-video fullscreen without history
+navigation, keep phone input usable, and paint the native cursor. Closing every
+normal tab recovers exactly one home tab and phone New tab works. The native
+Close tab action also recovers home and D-pad traversal through both rows passes
+on this final APK.
+
+Final build used the same four-worker, 18/22 GiB, zero-swap limits and blocking
+Android analysis. It completed in 1m37.24s, observed cgroup peak 15,405,371,392
+bytes. The signed APK was installed in place only on `emulator-5554`:
+`remote-regress-17a312c16-x64-debug-20261010/BraveMonox64.apk`, 851,001,184 bytes,
+SHA-256 `2e73238bbf88e51dcf79093915618af12f0d15f673a613741a2d3648c8b2ba72`.
+Its artifact directory retains `args.gn`, signature verification, APK badging
+and `provenance.json`; build logs are `remote-regress-17a312c16-x64.{log,time}`.
+No ARM build, physical-device operation or Chromecast update was performed.
+
+Cleanup: the phone's Disconnect action clears its credential and shows
+Disconnected. A diagnostic wait also expected the separate `connected` variable
+to clear and timed out; direct inspection confirmed the actual credential and UI
+state. The emulator-only startup flag/debug-app setting and network changes were
+restored, and explicit test forwards/reverse were removed. Task-owned TV/phone
+emulators and both fixture services were stopped. Shared ADB/Netsim/T3 services,
+AVD userdata, source/build caches and artifacts were preserved.
