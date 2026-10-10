@@ -635,3 +635,42 @@ state. The emulator-only startup flag/debug-app setting and network changes were
 restored, and explicit test forwards/reverse were removed. Task-owned TV/phone
 emulators and both fixture services were stopped. Shared ADB/Netsim/T3 services,
 AVD userdata, source/build caches and artifacts were preserved.
+
+
+### Authorized Chromecast replacement — source `17a312c16`
+
+After the emulator follow-up, the user explicitly requested replacing the TV
+APK and authorized removing Brave and its data from all profiles if storage
+blocked an update. The retained source checkout already matched the committed
+pin; no source change or checkout mutation was needed. The optimized ARM build
+passed in 4m12.10s with blocking Android analysis, four workers, 18/22 GiB limits
+and no swap. Observed cgroup peak was 19,328,151,552 bytes.
+
+Artifact: `~/.cache/brave-tv/artifacts/remote-fixes-17a312c16-arm-nodebug-20261010/BraveMonoarm.apk`,
+367,485,127 bytes, SHA-256
+`6ab91c0d0c6390f8cc2847cc660d3c735152b4ddf59ef6fbfaaff8940d97053a`.
+Signature verification passed and the certificate matches the previous APK.
+Badging confirms `com.brave.browser_default`, `armeabi-v7a`, and no debuggable
+flag. The artifact directory retains GN arguments, signature, badging,
+provenance, and before/after installation metadata. Build logs use
+`remote-fixes-17a312c16-arm.{log,time}`.
+
+T3 discovered/opened the exact paired device `192.168.4.50:39757`. Its returned
+agent-device CLI still reports `Remote daemon is unavailable`; installation
+used explicitly targeted ADB. With about 825 MiB available, streamed `install
+-r --user 0` failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE`. The authorized
+global uninstall then succeeded; package queries confirmed Brave absent from
+users 0, 10, 11 and 12. No other app or Android profile was removed. Available
+space rose to about 1.2 GiB and the streamed fresh installation succeeded for
+user 0. Users 10–12 remain uninstalled with data inode 0. This is a fresh install,
+not data preservation; the old browser data was intentionally removed.
+
+The installed package reports first/last installation time 16:42:01 on 10 October
+2026 and no `DEBUGGABLE` flag. Free storage afterward was about 879 MiB. The
+previous explicit experiment switch and debug-app selection remain present;
+neither was changed. Launch returned success in 1.129s and reported
+`WelcomeOnboardingActivity`. Onboarding, new phone pairing, and physical
+fullscreen/cursor/loading acceptance are left to the user; this installation
+is not evidence that the reported hardware behavior is fixed. No emulator,
+fixture server or build remains running from this operation; caches and
+artifacts are preserved.
