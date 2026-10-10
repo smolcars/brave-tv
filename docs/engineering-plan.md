@@ -247,6 +247,12 @@ falls back to the toggle) and disables the phone entry in private controls.
 Final private closure on da718 returns to the retained normal dialogs fixture;
 no private URL/title is copied into normal browsing.
 
+Root-controls Back regression added to the native home/overflow replay. On the
+installed da718 predecessor, overflow collapse passes but root Back forwards
+into the retained page history instead of returning to home. Keep this failing
+postcondition for the shared-panel candidate; do not relax it to any visible page.
+Latest root correction review has no Standards or Spec findings.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

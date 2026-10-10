@@ -18,3 +18,7 @@ tv-remote left
 tv-remote left
 tv-remote left
 wait "text=\"Address or search\" focused=true" 3000
+# Root Back returns to its home invoker without forwarding into page history.
+tv-remote back
+wait "text=\"The web. On your terms.\"" 3000
+wait "text=\"Address or search\" focused=true" 3000
