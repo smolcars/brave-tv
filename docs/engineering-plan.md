@@ -85,6 +85,17 @@ which participates in the final DEX registration, and use its generated Chrome
 JNI header. Correct the pinned IME teardown hook to `destroyFromNative`.
 No cache reset or checkout mutation during a build. Rebuild the same output.
 
+### Phone remote review and compiler correction
+
+Review of source `80a4ed1e8` found missing bytecode test coverage, recoverable
+thread-start CHECK, generic translation descriptions, dropped actions during
+polling, an independently unbounded UI delivery queue, and stale same-field
+replacement. Address these before emulator acceptance: cap four UI deliveries,
+rate-limit socket admissions, arbitrate one waiting discrete command against a
+poll, and bind edits to a separate renderer content/selection revision. Add
+bytecode class/method checks and correct JNI reference types/override qualifier
+reported by the second build. Both attempts stopped below 8 GiB peak.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
