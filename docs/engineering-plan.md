@@ -97,6 +97,14 @@ Sixth attempt passes Kotlin and Java headers; Chromium's direct bytecode
 dependency check requires the already pinned CoroutineScope target used by
 LaunchedEffect. Add that direct dependency, keeping all bytecode checks enabled.
 
+Seventh attempt reaches blocking APK lint, which reports the cursor drawable
+unused after replacing its only Java control. Remove only `ic_cursor.xml` from
+the source-owned generated icon list after verifying no remaining callers;
+do not suppress lint. Peak build memory was 14,268,887,040 bytes (13.29 GiB).
+Baseline installed APK hash matches the preserved source5829 artifact:
+`80d0649ca66dafa19374a10aa7c7bdb767ef0b2e911b35044ff7ca8cb49f9605`,
+851,001,060 bytes. Synthetic bookmark/history remain in the emulator profile.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
