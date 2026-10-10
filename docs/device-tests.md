@@ -494,3 +494,29 @@ The dialog-focus build at `9d78aa3e4` fails Java compilation because
 `View.addFocusables` requires `ArrayList<View>`, not its `List<View>` interface.
 Source `77e234039` fixes that declaration and includes the no-media correction.
 The cached retry is in progress; neither failure is counted as accepted.
+
+## No-media and native dialog checks (10 October UTC)
+
+Source `77e234039` passes blocking analysis in 4m19.12s (Siso 4m16.01s,
+16 steps). Observed cgroup peak: 13,143,293,952 bytes. Artifact:
+`~/.cache/brave-tv/artifacts/tv-media-dialogs-77e234039-x64-debug-20261010/BraveMonox64.apk`,
+852,997,842 bytes, SHA-256
+`a7c8a21db1649cea27ec0ac687cb07ba75ae8eae86c1b10f64aa76db3ab84e09`.
+Signature and profile-preserving update pass. The formerly crashing no-media
+replay now passes all 11 steps; Play and both seek buttons are disabled, with
+Browser controls focused, and Back restores Playback focus.
+
+The native alert replay fails on `9ece2a633` at initial OK focus. On `77e234039`
+it passes that focus and dismissal check but fails the final Back-to-controls
+assertion by exiting to the launcher. Source `681e99ced` corrects return focus,
+including queued-dialog and separate-window guards; its build is pending.
+
+On `77e234039`, confirmations initially focus Cancel. Select returns false;
+Right → OK → Select returns true. Prompts focus their editor; after restoring
+the real TV IME from the automation helper, D-pad Select opens the keyboard,
+Select types `q`, Back hides the keyboard, and Down → Right → Select submits
+`Sampleq`. Location permission initially focuses Block; Select denies it, and
+the page Permissions API confirms `denied`. The fixture's earlier timeout result
+is not used as evidence of refusal. No coordinates were collected. The screenshot
+`dialog-block-focus-77e234039.png` shows a visible but subdued native focus fill;
+stronger TV focus contrast remains polish work.

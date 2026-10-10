@@ -332,3 +332,9 @@ Source `57002766b` against `9d78aa3e4`, and root no-media replay `4350f6d`
 against `b48e7a6`: Standards 0, Spec 0. The native nullable return and disabled
 panel path were reviewed. Source API declaration fix `77e234039` against
 `57002766b`: Standards 0, Spec 0. Runtime results are separate from these reviews.
+
+Root native alert replay `af8cf7f` against `d3556f9`: Standards 0, Spec 0.
+Source return-focus change `e0498ae07` against `77e234039`: Standards 0,
+Spec 2 (queued-modal dismissal and delayed activity window focus). Its correction
+`681e99ced` against `e0498ae07` receives Standards 0, Spec 0. Each comparison is
+only the named latest implementation against its parent.
