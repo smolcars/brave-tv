@@ -674,3 +674,23 @@ as a product pass. No new browser crash appears in the crash buffer.
 
 This establishes the bounded startup collector removal, not all analytics
 call sites or reporting traffic. Promotional service audit remains open.
+
+## Promotional AdsService shutdown (10 October UTC)
+
+Source `57ebe9bbc` passes cached x64 blocking build in 32.13s, observed peak
+17,205,739,520 bytes. Artifact
+`tv-no-ads-service-57ebe9bbc-x64-debug-20261010/BraveMonox64.apk` is
+852,996,118 bytes, SHA-256
+`8f468f80db281cffdf1ef027d8e47aeffe08f3b299f9f5c907341dcb82e3561a`.
+Signature and preserving install pass. Before the update, native
+`chrome://ads-internals` shows Service Status Running; afterward its General
+page no longer has the Service/Status section, consistent with the handler's
+empty response for a missing service. This diagnostic doesn't replace the
+remaining navigation/private/blocking checks.
+
+The update also exposes a remaining Rewards signup modal above the browser
+controls. Back dismisses it without enrollment. Screenshot
+`ads-service-dialog-57ebe9bbc.png` was inspected and retained externally.
+The shared Rewards support shutdown is the next planned correction. The
+agent-device “React Native overlay” hint on ads-internals is a heuristic false
+positive from the page's ordinary warning text; this browser is not React Native.
