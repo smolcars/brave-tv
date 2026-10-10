@@ -27,10 +27,11 @@ try {
   phone.setDefaultTimeout(10000);
   await phone.waitForFunction(() => connected && !busy && !state.paused);
   if (mode === "empty") {
-    const ids = await phone.evaluate(() => state.tabs.map((t) => t.id));
-    assert.ok(ids.length, "Start with normal fixture tabs");
-    for (const id of ids) {
+    const count = await phone.evaluate(() => state.tabs.length);
+    assert.ok(count, "Start with normal fixture tabs");
+    for (let i = 0; i < count; i++) {
       await phone.waitForFunction(() => !busy && !state.paused);
+      const id = await phone.evaluate(() => state.tabs.at(-1).id);
       assert.equal(
         await phone.evaluate((id) => command("closeTab", { tab: id }), id),
         true,

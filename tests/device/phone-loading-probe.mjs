@@ -29,6 +29,7 @@ try {
     .pages()
     .find((p) => p.url() === fixture);
   assert.ok(tv);
+  const serverEpoch = await phone.evaluate(() => epoch);
   phoneCdp = await phone.context().newCDPSession(phone);
   const cdp = await tv.context().newCDPSession(tv);
   await cdp.send("Performance.enable");
@@ -37,20 +38,32 @@ try {
     ["youtube", "https://m.youtube.com/watch?v=plN7JMbadRg"],
   ]) {
     for (const polling of [true, false, false, true]) {
-      await phoneCdp.send("Page.setWebLifecycleState", {
-        state: polling ? "active" : "frozen",
-      });
+      // Renew and verify the same session between samples, including frozen ones.
+      const renewed = phone.waitForResponse(
+        (r) =>
+          r.request().method() === "POST" &&
+          r.request().postDataJSON().op === "state",
+        { timeout: 5000 },
+      );
+      await phoneCdp.send("Page.setWebLifecycleState", { state: "active" });
+      const reply = await (await renewed).json();
+      assert.ok(
+        reply.epoch === serverEpoch && reply.state,
+        "Original paired session must still be polling",
+      );
+      if (!polling)
+        await phoneCdp.send("Page.setWebLifecycleState", { state: "frozen" });
       const before = (await cdp.send("Performance.getMetrics")).metrics.find(
         (m) => m.name === "TaskDuration",
       ).value;
       const start = performance.now();
       let failure = null;
       try {
-        await tv.goto(url, { waitUntil: "load", timeout: 45000 });
+        await tv.goto(url, { waitUntil: "load", timeout: 30000 });
         await tv.waitForFunction(
           () => document.querySelector("video")?.readyState >= 2,
           undefined,
-          { timeout: 20000 },
+          { timeout: 10000 },
         );
       } catch {
         failure = "load or video readiness deadline";
