@@ -544,6 +544,16 @@ semantics, with ten seconds for its native fallback. Check the actual seek
 effect on the target site and document its distance. This changes our proposed
 button wording, not a user-required duration.
 
+No-media runtime regression: `9ece2a633` crashes when opening Playback on
+`dialogs.html`, because `MediaSession.fromWebContents()` returns null. The JNI
+implementation uses `MediaSessionImpl::GetIfExists`, despite the Java API's
+non-null annotation. Treat the session and observer as optional and render
+disabled actions with the existing start-playback explanation. Never construct
+an observer or invoke a session method when absent. Add a native replay that
+opens this no-media panel and returns focus to Playback; it must fail on the
+crashing build and pass on the correction. This direct exception/JNI evidence
+does not require speculative instrumentation or changing the upstream API.
+
 #### Idle cursor and native safety dialogs
 
 The fullscreen screenshot shows the pointer and mode hint remaining over video
