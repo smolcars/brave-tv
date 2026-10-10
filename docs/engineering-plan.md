@@ -1052,3 +1052,12 @@ DAT identity transition and actual blocking; exercise offline/error handling and
 Back/reopen during a check. Update source publication/refresh instructions and
 record exact limits. Review only each latest implementation commit, push source
 master before root master, then continue the remaining MVP acceptance work.
+
+Updater review finds SimpleURLLoader's string API is limited to 5 MiB, below
+our approximately 10 MiB envelope. Use its stream-consumer API and enforce the
+24 MiB cap before every append, preserving the 60-second deadline, HTTPS-only
+redirects and worker validation/staging. Do not use an unbounded string helper.
+Represent active signed metadata as an optional sequence/publication pair,
+and express the mandatory preferences dependency as a non-null reference.
+The initial host build was intentionally stopped before completion to apply
+these findings; preserve its newly compiled cache outputs.
