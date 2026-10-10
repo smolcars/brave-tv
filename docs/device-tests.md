@@ -1185,3 +1185,15 @@ exposes a leftover Brave-branded Shields education bubble; remove it in a
 follow-up UI fix. On `remote-input.html`, the user confirms a visible cursor
 and exactly one click after holding/releasing OK using the physical remote.
 Playback and sustained-session checks remain in progress.
+
+YouTube hardware sample `plN7JMbadRg`: the user confirms moving video and
+sound with no pre-roll ad observed. Native Playback Pause changes the system
+media session to PAUSED at 43,859 ms; Play resumes it. Device screenshots
+capture the video region as black even though the user sees playback, so
+those captures cannot establish visual video/ad state. The second sample,
+`pAnGwRiQ4-4`, exposes content progress (0:18 / 23:03) and media metadata;
+Android reports Amlogic VP9 decoding at 640×360 and HDMI audio with zero
+recorded underruns in its completed audio track. These observations are
+bounded hardware playback evidence, not frame-perfect or universal ad-blocking
+claims. Renderer exits recorded during tab navigation say ISOLATED NOT NEEDED,
+with no crash entry at this checkpoint.

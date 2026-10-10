@@ -1180,3 +1180,20 @@ The local device daemon was stopped during the requested cleanup, leaving the
 host config pointing at its old port. Restarting that versioned helper and
 refreshing its local connection config from its daemon state restores pinned
 agent-device snapshots. No pairing key or auth token is written to repo/logs.
+
+Hardware follow-up checklist after fresh-install acceptance:
+
+- [x] Physical remote enters example.com and the page remains responsive.
+- [x] Visible page cursor delivers exactly one click for a held OK press.
+- [x] Native site-protection off/on changes actual fixture request delivery.
+- [ ] Complete hardware playback/fullscreen/recovery and memory observations.
+- [ ] Reproduce the first-launch TvLauncher background-start rejection with a
+  repeatable non-destructive harness before changing the first-run handoff.
+- [ ] Remove the fresh-profile Brave Shields education bubble in TV mode;
+  verify that protection still works and required attribution remains visible.
+- [ ] Include the media-session label in the remaining neutral-identity audit.
+
+Keep this acceptance run on the verified APK. Plan and test any resulting
+source fix separately with the existing cached build limits and latest-only
+implementation review; do not erase the user's newly created hardware profile
+to obtain a first-run reproduction.
