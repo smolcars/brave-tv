@@ -9,6 +9,7 @@ const { chromium } = require("playwright-core");
 const assets = resolve(process.argv[3] || "brave/android/java/brave-res/raw");
 const commands = [];
 let approved = false;
+let nativePaused = false;
 let approvalError = "approval";
 let pollStarted;
 let releasePoll;
@@ -71,6 +72,16 @@ const server = createServer(async (req, res) => {
   }
   if (!approved) {
     res.end(JSON.stringify({ error: approvalError }));
+    return;
+  }
+  if (nativePaused) {
+    res.end(
+      JSON.stringify({
+        ok: true,
+        epoch: "synthetic-epoch",
+        state: { revision: 2, paused: true },
+      }),
+    );
     return;
   }
   if (data.op === "state" && delayedPoll) {
@@ -305,6 +316,17 @@ try {
       () => document.documentElement.scrollWidth > innerWidth,
     ),
     false,
+  );
+  nativePaused = true;
+  await page.getByText("Control paused", { exact: true }).waitFor();
+  assert.equal(await page.locator("#tabs .tab").count(), 0);
+  nativePaused = false;
+  initial.revision = 3;
+  await page.waitForFunction(() => state && !state.paused);
+  assert.equal(
+    await page.locator("#tabs .tab").count(),
+    1,
+    "Resuming the same page must restore its tab controls",
   );
   approvalError = "revoked";
   approved = false;

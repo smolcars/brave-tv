@@ -49,6 +49,12 @@ try {
     new URL(page.url()).hash === "",
     "Invitation fragment was not removed",
   );
+  assert.equal(
+    await page.locator("#pairForm").isVisible(),
+    false,
+    "QR approval must not ask for the code again",
+  );
+  assert.equal(await page.locator("#approval").isVisible(), true);
   adb("shell", "input", "keyevent", "23");
   await page.waitForFunction(() => connected && !state.paused);
   assert.ok(!externalRequest, "Companion attempted an external request");

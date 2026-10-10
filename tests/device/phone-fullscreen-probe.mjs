@@ -26,6 +26,26 @@ try {
   assert.ok(phone, "Pair the phone emulator first");
   phone.setDefaultTimeout(10000);
   await phone.waitForFunction(() => connected && !busy && !state.paused);
+  async function settled() {
+    let revision;
+    for (let i = 0; i < 10; i++) {
+      const response = await phone.waitForResponse(
+        (r) =>
+          r.request().method() === "POST" &&
+          r.request().postDataJSON().op === "state",
+      );
+      const next = (await response.json()).state;
+      if (next && !next.paused && !next.loading && next.revision === revision) {
+        await phone.waitForFunction(
+          (r) => !busy && state.revision === r,
+          revision,
+        );
+        return;
+      }
+      revision = next?.revision;
+    }
+    throw new Error("TV viewport did not settle");
+  }
   if (mode === "empty") {
     const count = await phone.evaluate(() => state.tabs.length);
     assert.ok(count, "Start with normal fixture tabs");
@@ -71,6 +91,7 @@ try {
       .find((p) => p.url() === url);
     assert.ok(tv);
     tv.setDefaultTimeout(10000);
+    await settled();
     // Keep a cursor attached before the compositor enters and leaves fullscreen.
     assert.equal(
       await phone.evaluate(() => command("move", { dx: 20, dy: 20 })),
@@ -92,7 +113,7 @@ try {
       false,
       "Webpage video fullscreen must not pause phone input",
     );
-    await phone.waitForFunction(() => !busy);
+    await settled();
     assert.equal(
       await phone.evaluate(() => command("move", { dx: 10, dy: 10 })),
       true,
@@ -105,6 +126,7 @@ try {
       (u) => !state.paused && !busy && state.url === u,
       url,
     );
+    await settled();
     assert.equal(
       await phone.evaluate(() =>
         command("move", {
@@ -116,6 +138,7 @@ try {
     );
     const { x, y } = await phone.evaluate(() => ({ x: state.x, y: state.y }));
     let white = 0;
+    let ring = false;
     const deadline = Date.now() + 2500;
     do {
       // Native screenshot includes the cursor overlay, unlike a WebContents screenshot.
@@ -129,6 +152,8 @@ try {
       );
       const header = raw.length - width * height * 4;
       assert.ok(header === 12 || header === 16);
+      const edge = header + ((Math.round(y) - 14) * width + Math.round(x)) * 4;
+      ring = raw[edge] === 0 && raw[edge + 1] === 0 && raw[edge + 2] === 0;
       white = 0;
       for (let dy = -4; dy <= 4; dy++)
         for (let dx = -4; dx <= 4; dx++) {
@@ -136,9 +161,9 @@ try {
             header + ((Math.round(y) + dy) * width + Math.round(x) + dx) * 4;
           if (raw[i] > 240 && raw[i + 1] > 240 && raw[i + 2] > 240) white++;
         }
-    } while (white <= 60 && Date.now() < deadline);
+    } while ((white <= 60 || !ring) && Date.now() < deadline);
     assert.ok(
-      white > 60,
+      white > 60 && ring,
       `Cursor must be visibly painted after fullscreen exit (${white}/81 white center pixels)`,
     );
     console.log(

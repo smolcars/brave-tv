@@ -31,8 +31,6 @@ try {
   assert.ok(tv);
   const serverEpoch = await phone.evaluate(() => epoch);
   phoneCdp = await phone.context().newCDPSession(phone);
-  const cdp = await tv.context().newCDPSession(tv);
-  await cdp.send("Performance.enable");
   for (const [site, url] of [
     ["fixture", fixture],
     ["youtube", "https://m.youtube.com/watch?v=plN7JMbadRg"],
@@ -53,9 +51,6 @@ try {
       );
       if (!polling)
         await phoneCdp.send("Page.setWebLifecycleState", { state: "frozen" });
-      const before = (await cdp.send("Performance.getMetrics")).metrics.find(
-        (m) => m.name === "TaskDuration",
-      ).value;
       const start = performance.now();
       let failure = null;
       try {
@@ -69,9 +64,6 @@ try {
         failure = "load or video readiness deadline";
       }
       const elapsed = performance.now() - start;
-      const after = (await cdp.send("Performance.getMetrics")).metrics.find(
-        (m) => m.name === "TaskDuration",
-      ).value;
       const sample = await tv.evaluate(() => {
         const n = performance.getEntriesByType("navigation")[0];
         const v = document.querySelector("video");
@@ -88,14 +80,12 @@ try {
           site,
           polling,
           elapsed: Math.round(elapsed),
-          rendererTaskMs: Math.round((after - before) * 1000),
           ...sample,
           failure,
         }),
       );
     }
   }
-  await cdp.detach();
 } finally {
   if (phoneCdp) {
     await phoneCdp.send("Page.setWebLifecycleState", { state: "active" });

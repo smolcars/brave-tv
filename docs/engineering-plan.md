@@ -1617,3 +1617,10 @@ renderer fullscreen document remains fullscreen; use WebContents' authoritative
 fullscreen state for exit and phone Back availability, excluding only the
 fullscreen handler from the native-UI input guard. Test native and phone Back,
 video/container fullscreen, cursor pixels, and native/private pause regressions.
+
+Final recovery follow-up: actual emulator native-panel pause/resume reports one
+normal tab but renders zero phone tab rows. The host regression reproduces this
+with unchanged tab IDs. Pausing clears rows while retaining the render cache;
+clear that cache too so the first resumed state rebuilds controls. Keep paused
+metadata redaction unchanged. Repackage the bundled asset and verify the actual
+phone after native-panel resume before closeout.

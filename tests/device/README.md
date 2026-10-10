@@ -439,6 +439,6 @@ closes it through native controls and checks D-pad focus on the replacement home
 comparison of companion polling for the local media fixture and one public
 YouTube page. Freezing the companion's page suspends its polling, while keeping
 the same paired TV listener. It restores the page in `finally`. Results include
-load/video-readiness deadlines, navigation timing and renderer task time. This
+load/video-readiness deadlines, navigation timing. This
 comparison cannot establish optimized Chromecast performance or separate every
 network/cache effect; record individual samples rather than implying a benchmark.
