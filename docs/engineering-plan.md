@@ -1124,3 +1124,8 @@ new unconditional Android guards. Latest review also finds the Android Sync
 service history-reporting test still expects samples; keep that reporting-only
 case on desktop and add an Android no-query/no-sample assertion through the
 service entry point. Rebuild from cache; the failed attempt is not acceptance.
+
+The next compiler pass identifies the two direct Sync-status histogram guards
+that still use ordinary constant conditions. Make those explicit compile-time
+branches too, nesting the real setup-state condition inside the startup branch.
+This is the same Android recording exclusion, with no functional Sync change.
