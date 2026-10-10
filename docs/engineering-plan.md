@@ -796,3 +796,19 @@ Build from the preserved cache after the current build finishes; check native
 normal/private home, settings, ads-internals and direct old takeover navigation
 for safe behavior. Record browser-test execution separately from APK compilation
 and emulator checks. Review only the resulting latest source commit.
+
+#### Inactive-tab promotion on TV
+
+Closing a private test tab on source `3696a9154` exposes Chromium's phone
+inactive-tab auto-delete promotion over native home, with Brave branding.
+Do not dismiss it by fabricating a decision preference: its dismissal path
+enables automatic deletion. Preserve existing archive/retention preferences.
+At the existing ChromeTabbedActivity bytecode adapter, skip initialization
+of this promotion manager on `DeviceInfo.isTV()`, leaving the phone path
+intact. This prevents both direct and tab-observer-triggered display.
+
+Verify the actual adapter on the JVM with TV/non-TV method side effects and
+missing-hook failure, then rebuild with blocking analysis. Repeat private
+close-to-home and normal restart on the emulator; require no promotion and
+visible home focus. Keep the single intermittent home replay failure recorded
+separately until a repeatable cause is established.
