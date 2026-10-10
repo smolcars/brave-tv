@@ -14,4 +14,4 @@ wait "text=\"Tabs\" focused=true" 3000
 tv-remote right
 wait "text=\"Bookmarks\" focused=true" 3000
 tv-remote select
-wait "text=\"Bookmarks\"" 3000
+wait "text=\"More bookmarks\"" 3000

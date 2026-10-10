@@ -276,6 +276,11 @@ its wrap-content height. Retain native width/private/disposal policy. Acceptance
 requires unchanged real-panel regression, scroll and child Back on actual APK;
 no renderer migration acceptance based on this compiling-but-crashing build.
 
+Latest attachment review: Standards has no findings; Spec identifies the final
+Bookmarks text wait as matching its invoker. Require panel-only More bookmarks
+instead, preserving the New tab focus assertion. Child Back must also restore
+Tabs; the existing NTP reset may expose a separate failure after attachment.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
