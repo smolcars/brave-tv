@@ -1469,3 +1469,11 @@ the final coalesced movement just because a state poll is in flight. Retain only
 that bounded movement until delivery; existing context/disconnect cancellation
 still clears it. CPU sampling must use live process counters because Android's
 cpuinfo service reports a stale boot-time interval on this image.
+
+Review of retained motion identifies a dependent-tap ordering race: a tap waiting
+on the same poll can overtake the movement timer. Require a click to drain the
+pending movement first, then revalidate connection/context before delivery.
+Keep at most the existing coalesced motion and one waiting poll action; never
+replay after disconnect. Add held-poll drag-then-tap ordering assertions. Return
+actual command acceptance from the client helper so a rejected move cannot
+authorize the following click.

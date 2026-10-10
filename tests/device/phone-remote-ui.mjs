@@ -158,10 +158,21 @@ try {
       response.request().postDataJSON().op === "move",
     { timeout: 1000 },
   );
+  const dragClick = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      response.request().postDataJSON().op === "click",
+    { timeout: 1000 },
+  );
+  await page.mouse.click(pad.x + 80, pad.y + 40);
   releasePoll();
-  await movement;
+  await Promise.all([movement, dragClick]);
   await page.waitForFunction(() => !busy);
   assert.equal(commands.filter((c) => c.op === "move").length, 1);
+  assert.deepEqual(
+    commands.slice(-2).map((c) => c.op),
+    ["move", "click"],
+  );
   await page.getByText("Pointer & scroll buttons", { exact: true }).click();
   const clickResponse = page.waitForResponse(
     (response) =>
@@ -171,7 +182,7 @@ try {
   await page.getByRole("button", { name: "Click", exact: true }).click();
   await clickResponse;
   await page.waitForFunction(() => !busy);
-  assert.equal(commands.filter((c) => c.op === "click").length, 1);
+  assert.equal(commands.filter((c) => c.op === "click").length, 2);
   await page.locator("#showKeyboard").click();
   const selected = new Promise((r) => {
     selectionStarted = r;
