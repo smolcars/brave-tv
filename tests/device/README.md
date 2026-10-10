@@ -187,3 +187,7 @@ verify a cacheable fixture must be fetched again. Wait for native completion;
 close/pause during another clear and require no late dialog to reopen. Private
 Settings must not expose clearing. Preserve this isolated profile afterward for
 follow-up rather than wiping or deleting it without authorization.
+
+`tv-home-bookmarks.ad` checks the third home card with D-pad, opens the existing
+native bookmark list without changing saved data, and backs out to controls.
+Its Bookmarks focus assertion fails on the older two-card home (`ef6cabbb4`).
