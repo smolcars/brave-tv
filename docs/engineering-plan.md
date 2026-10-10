@@ -966,3 +966,16 @@ at the resolved panel width with an AT_MOST height of 90% of the display, then
 size the window to that bounded content height. Keep the same trailing/centered
 placement and scrolling for overflowing lists. Verify short confirmation,
 Settings, filters and paginated tabs visually; preserve initial Cancel and Back.
+
+#### Cold-start blocking regression
+
+During the panel acceptance on `0597ee53c` and `c509c9254`, the restored local
+Shields fixture reports both blocked scripts loaded before any diagnostic reload.
+The existing reload-based request probe passes afterward. Add a bounded
+read-only diagnostic that observes the current document and script execution
+flags without reloading, asserting the ordinary control loaded and both blocked
+fixtures did not. Repeat a normal cold relaunch of the same fixture with list
+choices unchanged. Capture red results before investigating readiness, restored
+resource cache behavior or provider selection. Do not call this a demonstrated
+YouTube root cause. Complete the current panel screenshots, then prioritize the
+reproduced protection failure before independent update transport.
