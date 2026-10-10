@@ -755,3 +755,24 @@ from its own origin; its website also shows its own usage-metrics notice.
 Google-origin requests include its page services. These website requests are
 not evidence of a browser collector; no website consent preference was changed.
 The sample cannot establish absence of every delayed collector or service.
+
+## Native independent-filter checks (10 October UTC)
+
+The host-only focused test target builds with the cached Android output's
+`clang_x64` toolchain, through Nix and the established four-worker, 18/22 GiB
+cgroup. The initial GN invocations lacked the Python module path (the Nix shell
+reinitializes it); exporting `PYTHONPATH=.../src/brave/script` inside the shell
+fixes that. GN then caught duplicate host/Android runner output names, corrected
+by generating this standalone runner only for the host. The normal Shields
+unit-test source set retains the cases for Android.
+
+Source `65ef6c4ea` focused build succeeds in 1m52.62s, with an observed
+cgroup peak of 6,411,182,080 bytes. All seven native parser tests pass. Source
+`485926bb1` adds real temporary-file storage cases; all ten pass. Source
+`f3938b1c0` extends those checks through the actual resource/filter/version
+loaders; all ten pass. Corrected source `8d52513b1` additionally checks legacy
+DAT-prefix rejection; all ten pass before starting the blocking APK build.
+Logs are `filter-verifier-host-r4*`, `filter-store-host-r1*`, and
+`filter-provider-host-r1*`/`r2*` under the external logs directory. These checks
+exercise real Chromium crypto, parsers and atomic file writes; they do not
+establish Android runtime, network delivery or public-feed acceptance.

@@ -411,3 +411,10 @@ Source native parser `5f7bdc317` against `eb5310d58`: Standards 2
 `adc9b2ea0` against `5f7bdc317`: Standards 0, Spec 0.
 Host-runner guard `65ef6c4ea` against `adc9b2ea0`: Standards 0, Spec 0.
 These are read-only reviews; focused native execution is tracked separately.
+
+Source immutable storage `485926bb1` against `65ef6c4ea`: Standards 0,
+Spec 0. Source provider integration `f3938b1c0` against `485926bb1`:
+Standards 1 (update precedence documentation), Spec 1 (independent packaged
+fallback reused the legacy DAT prefix). Correction `8d52513b1` against
+`f3938b1c0`: Standards 0, Spec 0. The corrected prefix distinguishes the
+independent packaged snapshot before its first signed update.
