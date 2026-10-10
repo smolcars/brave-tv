@@ -359,3 +359,7 @@ Spec 0. Only each named latest implementation was reviewed against its parent.
 
 Root Standard-mode replay `3902084` against `3297b2c`: Standards 0, Spec 0.
 The emulator reproduces the crash independently of these read-only reviews.
+
+Source Standard-mode conversion `d88cef8a9` against `360b81ac7`: Standards 0,
+Spec 0. Source TV tab-group visibility `266425387` against `d88cef8a9`:
+Standards 0, Spec 0. Each review covers only the named latest implementation.

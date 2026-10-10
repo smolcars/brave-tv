@@ -698,3 +698,20 @@ Use the current Android configuration rather than mutating preferences or
 ungrouping tabs. Check the existing grouped fixture before/after, native tab
 switching, Back and restart; retain non-TV behavior. Review only this latest
 implementation and reuse the bounded cached Java build.
+
+#### Remaining Android startup analytics
+
+The installed build records a local `Brave.Core.CrashReportsEnabled` sample
+during startup despite disabled uploads. The shared main extra parts still
+call their initial P3A recorder; the Android ads stats helper also observes
+profiles/preferences solely for reporting. Extend the existing native histogram
+probe with an optional metric name and show the current startup metric present
+before changing production code. Exclude the initial recorder on Android and
+make the ads stats helper accessor return null there, matching other disabled
+analytics factories. Its only production caller initializes it without
+dereferencing the result. Preserve desktop behavior and protection services.
+
+Build from cache with existing limits. After a process restart, require the
+startup histogram to be absent while search/settings and ordinary navigation
+still work. Audit remaining promotional services and network reporting
+separately; a missing local histogram alone does not prove no outbound traffic.
