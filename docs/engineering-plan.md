@@ -959,3 +959,10 @@ Keep compact lists unchanged. Reduce the wide panel's heading/outer spacing
 and use 48dp minimum grid actions so all English primary controls fit at the
 standard 960×540dp TV viewport. Retain scrolling for larger fonts, long URLs
 and translations, and preserve the existing three-column focus order.
+
+The confirmation screenshot also exposes unnecessary empty space: a two-button
+prompt inherits the list panel's full height. Measure the populated native root
+at the resolved panel width with an AT_MOST height of 90% of the display, then
+size the window to that bounded content height. Keep the same trailing/centered
+placement and scrolling for overflowing lists. Verify short confirmation,
+Settings, filters and paginated tabs visually; preserve initial Cancel and Back.
