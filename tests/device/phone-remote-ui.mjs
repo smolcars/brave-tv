@@ -13,6 +13,7 @@ let releasePoll;
 let delayedPoll = false;
 let selectionStarted;
 let releaseSelection;
+let conflictingCaret = false;
 const initial = {
   revision: 1,
   paused: false,
@@ -81,7 +82,7 @@ const server = createServer(async (req, res) => {
     });
     selectionStarted();
     await barrier;
-    initial.editable.start = data.start;
+    initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
     initial.editable.end = data.end;
     initial.editable.version++;
   }
@@ -89,7 +90,7 @@ const server = createServer(async (req, res) => {
     const ok = data.version === initial.editable.version;
     if (ok) {
       initial.editable.text = data.text;
-      initial.editable.start = data.start;
+      initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
       initial.editable.end = data.end;
       initial.editable.version++;
     }
@@ -174,6 +175,20 @@ try {
   await conflictingSelection;
   await page.locator("#editor").fill("discard this stale edit");
   initial.editable.text = "Changed on TV";
+  releaseSelection();
+  await page.waitForFunction(() => !busy && !pendingEdit && !dirty);
+  assert.equal(
+    commands.filter((c) => c.edit === "replace").length,
+    replacements,
+  );
+  assert.equal(await page.locator("#editor").inputValue(), "Changed on TV");
+  const caretSelection = new Promise((r) => {
+    selectionStarted = r;
+  });
+  conflictingCaret = true;
+  await page.locator("#editor").evaluate((e) => e.setSelectionRange(0, 2));
+  await caretSelection;
+  await page.locator("#editor").fill("discard stale caret edit");
   releaseSelection();
   await page.waitForFunction(() => !busy && !pendingEdit && !dirty);
   assert.equal(

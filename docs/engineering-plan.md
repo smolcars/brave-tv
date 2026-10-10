@@ -1442,3 +1442,11 @@ it as an open observation requiring contemporaneous logs if it recurs. The
 restored-home startup issue is verified fixed; broad release/acceptance tasks
 remain user-deferred. Restore the original hardware profile/timeouts and stop
 all task-owned test processes before closeout.
+
+Latest-commit review requires acknowledgement of selection as well as text:
+compare the expected caret/range (composition places it at the composed text's
+end), and add a same-text/conflicting-selection regression. Strengthen the
+background probe to check Home delivery, observe foreground departure and
+confirm listener closure, in addition to preserving the process. These changes
+remain in the editable source until the running r9 build completes; never
+advance its checkout while compiling.

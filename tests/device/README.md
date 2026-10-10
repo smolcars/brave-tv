@@ -36,8 +36,9 @@ TCP forward to guest loopback cannot reach it:
 python3 tests/device/phone-transport-probe.py emulator-5556 TV_IP:TV_LISTENER_PORT
 ```
 
-With the listener confirmed active, `phone-background-probe.py emulator-5554`
-presses Android Home and asserts that the browser process survives teardown.
+`phone-background-probe.py emulator-5554 emulator-5556 TV_IP:TV_LISTENER_PORT`
+confirms the listener is active, presses Android Home, observes foreground
+departure, then checks listener closure and browser process survival.
 It failed on `e0a6bba45` because the UI thread joined the server thread. Also
 verify the former listener refuses connections and that returning to Brave
 requires a new opt-in/pairing. Remove only these emulator forwards and restore
