@@ -63,6 +63,12 @@ contract. Baseline emulator exited during native browser rendering under T3's
 default Vulkan configuration, matching the existing documented host problem;
 restart only the TV AVD with guest Vulkan disabled and preserve its data.
 
+Third GN attempt reaches the imported template and rejects its unused
+`target_name`. Mark that template parameter unused, keeping GN's checks active.
+The baseline native home replay now passes all 20 steps on the Vulkan-disabled
+TV emulator. Capture the two navigable design alternatives in source docs and
+select the charcoal/sage direction; prototypes remain separate from APK proof.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
