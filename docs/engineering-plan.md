@@ -583,3 +583,11 @@ or weaken button-tap protection. Remove the observer on controller destruction;
 stale posted work must reject a detached dialog or destroyed activity. Verify
 alert OK, confirm Cancel/OK, prompt editing/Cancel and permission refusal with
 D-pad, plus Back and focus visibility. Keep upstream dialog text and decisions.
+
+`77e234039` passes initial alert focus and OK dismissal, but the replay's final
+Back exits to the launcher: the modal presenter leaves focus outside ContentView,
+so the TV controller correctly gives native focus priority. Restore keyboard
+focus to the captured page when the last modal closes, only if that exact page
+is still current/attached and the activity remains foreground/alive. Clear the
+captured return target on pause/destroy. Keep the final Back assertion unchanged;
+do not weaken the existing native-input priority rules.
