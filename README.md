@@ -21,6 +21,7 @@ For automatic tools, review `.envrc` and run `direnv allow`. Enter `nix develop`
 ## Project documents
 
 - [Engineering plan](docs/engineering-plan.md)
+- [TV UI rebuild plan and implementation todo](docs/tv-ui-rebuild-plan.md)
 - [Active TV-native checklist](docs/tv-native-checklist.md)
 - [Direct-source workflow](docs/source-workflow.md)
 - [MVP checklist](docs/mvp-todo.md)

@@ -6,7 +6,22 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
-## Next feature: phone remote (10 October)
+## Current direction: TV UI rebuild planning (10 October)
+
+The user requested an in-depth plan for a beautiful, convenient TV-first UI
+using Kotlin/Compose while retaining Chromium. Follow the
+[TV UI rebuild plan and ordered todo](tv-ui-rebuild-plan.md) for scope,
+presentation/model ownership, design work, integration proof, migration and
+acceptance gates. Implementation has not started. The next implementation
+slice begins with the surface inventory and pinned Compose dependency audit;
+do not rewrite browser storage or replace Chromium with a WebView.
+
+The sections below record earlier implementation decisions and evidence.
+Time-specific device restrictions/permissions describe those earlier tasks;
+follow the user's current authorization for future device work. This planning
+task does not operate the Chromecast or reopen the deferred release backlog.
+
+## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
 implementation in a new T3 thread using Astra with high reasoning. Follow the

@@ -4,8 +4,8 @@ Build a usable Android TV browser by adapting Brave’s existing Android applica
 
 Background: [feasibility research](feasibility.html). Implementation is in progress; unchecked items include partial work and unverified device acceptance. See the [build log](build.md) and [proposed device/site matrix](device-tests.md).
 
-Current direction (10 October): resolve intermittent launch issues, then scope
-the user's next important feature. The user defers the remaining release and
+Current direction (10 October): plan the [TV UI rebuild](tv-ui-rebuild-plan.md),
+retaining Chromium and existing browser storage/security. The user defers the remaining release and
 broader acceptance work below, including second-device coverage, signing and
 distribution, recurring filter publication and browser-update automation.
 Detailed implementation progress is tracked in [tv-native-checklist.md](tv-native-checklist.md).
@@ -20,7 +20,11 @@ The MVP includes URL/search entry, webpage interaction, a small tab switcher, bo
 
 The MVP is complete when all phase acceptance criteria below pass, the agreed must-work website flows pass on both devices, and a tester can install and update the signed build without developer assistance.
 
-Out of scope: Apple TV, Fire TV/Vega support, older Android versions, a replacement browser engine, extensions, Brave Sync/accounts, Wallet, Rewards, VPN, Leo, News, a phone companion, a new download manager, guaranteed DRM-service compatibility and guaranteed 4K/HDR playback. Ads in other installed apps are outside the browser’s scope.
+Out of scope: Apple TV, Fire TV/Vega support, older Android versions, a replacement browser engine, extensions, Brave Sync/accounts, Wallet, Rewards, VPN, Leo, News, a new download manager, guaranteed DRM-service compatibility and guaranteed 4K/HDR playback. Ads in other installed apps are outside the browser’s scope.
+
+A phone companion was outside the original MVP scope. The user subsequently
+authorized the [local phone remote experiment](phone-remote-plan.md); its
+implementation and remaining security/device gates are tracked separately.
 
 ## 1 Establish the baseline
 
@@ -118,9 +122,12 @@ These tasks are separate from MVP completion.
 - [ ] Recheck current Google Play TV requirements, then address required target SDK, 32/64-bit architecture coverage, 16 KB page sizes, signing and app-bundle packaging. Start from the [TV quality requirements](https://developer.android.com/develop/adaptive-apps/quality-guidelines/tv-app-quality).
 - [ ] Prepare the store listing, TV screenshots/banner, privacy disclosures, reviewer instructions and any required test access; complete the TV review process.
 - [ ] Expand the supported-device and website matrix based on tester evidence.
-- [ ] Evaluate phone-to-TV URL entry, enhanced spatial navigation, voice shortcuts and broader media compatibility as separate improvements.
+- [ ] Evaluate enhanced spatial navigation, voice shortcuts and broader media compatibility as separate improvements. Phone-to-TV URL entry is now tracked in the local phone remote plan.
 - [ ] Revisit other platforms only after the Android release and update process are sustainable.
 
 ## Suggested next task
 
-Start with phase 1: inventory the available TVs and Linux builder, select the initial website flows, and reproduce an unmodified Brave Android build. Use that evidence to choose the smallest viable input adaptation.
+Follow the [TV UI rebuild plan](tv-ui-rebuild-plan.md#10-first-implementation-slice)
+for the next development work. The baseline build already exists; the remaining
+unchecked MVP items above include historical partial work and deferred release
+acceptance, not an instruction to restart setup or retest hardware now.
