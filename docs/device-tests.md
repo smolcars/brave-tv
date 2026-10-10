@@ -694,3 +694,64 @@ controls. Back dismisses it without enrollment. Screenshot
 The shared Rewards support shutdown is the next planned correction. The
 agent-device “React Native overlay” hint on ads-internals is a heuristic false
 positive from the page's ordinary warning text; this browser is not React Native.
+
+## Promotional services and native home follow-up (10 October UTC)
+
+Source `3696a9154` passes blocking x64 build in 11m08.71s (wrapper
+11m11.71s), observed peak 18,454,167,552 bytes. Artifact
+`tv-no-promotional-services-3696a9154-x64-debug-20261010/BraveMonox64.apk`
+is 852,996,334 bytes, SHA-256
+`879820e13d6a454b2555703f77eaab51d33981a0ae245b660142303d2e9c4a66`.
+Signature verification and preserving installation pass. The native panel replay
+passes 16 steps in 4.3s; Settings shows Google selected, and Back restores its
+focus. The cookie-on request probe passes with the control loaded and ad/cookie
+requests blocked by client, without custom test rules enabled.
+
+A private-new-tab replay first fails at step 6: Right/Select from home enters
+the address field instead of browser controls. Immediate retry passes all
+17 steps in 4.7s. Keep this intermittent focus failure open for reproduction.
+The private panel disables History. Closing the owned private blank tab exposes
+an inactive-tab auto-delete promotion over normal home, motivating the guard
+below. The test did not dismiss it or set a retention decision. An accidental
+normal-tab Close while navigating was immediately undone; all 12 tabs returned.
+
+Source `68404c30c` passes blocking build in 44.86s (wrapper 48.48s).
+Last observed memory peak was 9,354,117,120 bytes, not a captured final peak.
+Artifact `tv-no-sponsored-home-68404c30c-x64-debug-20261010/BraveMonox64.apk`
+is 852,799,726 bytes, SHA-256
+`f401fe9eb5c4fbbcb839abff57866dab9f3e4d82e1f741e55d3549ee2afd5398`.
+Signature and preserving install pass. The home replay passes 20 steps in 4.2s.
+Google and Brave Search queries load. Direct old `chrome://new-tab-takeover`
+navigation shows a blank WebView without the prior controller being registered;
+no crash was observed, but error/Back acceptance was not completed.
+
+Source `c8957a6c3` passes blocking build in 26.06s (wrapper 30.27s), with
+18/22 GiB limits and four workers; no final memory peak was captured.
+Artifact `tv-no-tab-promo-c8957a6c3-x64-debug-20261010/BraveMonox64.apk`
+is 852,799,698 bytes, SHA-256
+`d80c39c1f565fd472a39f3415c5eea9054fa4adca98f70402be7eb7df48e5ef1`.
+Signature, preserving install, launch and ordinary-media playback probe pass.
+The actual bytecode adapter regression fails on the old implementation and
+passes with the guard (TV no initialization, phone initialization preserved,
+missing upstream hook rejected). Full Nix checks pass after the diagnostic
+variable-type correction. Android instrumentation/profile/menu tests are not
+executed by these APK builds. Private-close-to-home runtime acceptance remains
+pending while the uninterrupted playback run uses this APK.
+
+## Bounded startup/search traffic sample (10 October UTC)
+
+Source `68404c30c`: default-redaction NetLog records 62,764 complete events
+across 160.096 seconds of startup, Google search and Brave Search. The temporary
+command-line file and persistent debug-app setting were absent beforehand and
+restored afterward. Raw logs remain outside Git in the private build logs:
+`netlog-search-68404c30c-final.json`; summary is
+`netlog-search-68404c30c-summary.json`.
+
+All 12 `go-updater.brave.com` component requests receive HTTP 403. This supports
+implementing a separately authenticated fork-owned filter feed. No separate
+Brave reporting host appears in this bounded window. Brave Search initiates
+nine `/api/feedback` requests and one `/api/chatllm/with_ask/run_tool` request
+from its own origin; its website also shows its own usage-metrics notice.
+Google-origin requests include its page services. These website requests are
+not evidence of a browser collector; no website consent preference was changed.
+The sample cannot establish absence of every delayed collector or service.

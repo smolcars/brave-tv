@@ -17,7 +17,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Demonstrate network blocking and a Shields-off/on control with observable resource results.
 - [ ] Verify resource updates and identify any development-build service configuration blocker.
 - [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
-- [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive mode persistence still needs explicit coverage.
+- [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive transitions, restart persistence and actual blocking pass on `d88cef8a9`.
 
 ## Simple launch, privacy and home (supersedes onboarding redesign)
 
@@ -48,7 +48,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Finish delayed-operation exit/reopen and managed-policy coverage for history/privacy.
 - [x] Replace TV toolbar branding with neutral protection-state icons and route its protection action to the native TV panel; off/on request checks pass. Preserve the existing single focus ring.
 - [x] Provide native optional content-filter toggles; off/on request effects, restart persistence, private entry and remembered Settings focus pass. Large catalogs, custom subscriptions and independent updates remain open.
-- [ ] Finish protection mode persistence and remaining advanced filter/update behavior.
+- [x] Verify Standard/aggressive mode persistence and actual request blocking after restart.
+- [ ] Finish advanced filter/update behavior, including independent signed delivery and freshness UI.
 - [x] Verify local network errors, certificate warning/Back to safety, alert/confirm/prompt and location refusal on the emulator. Strong native focus and Back recovery pass; broader permissions/external-app flows remain open.
 - [x] Hide the idle cursor/hint, wake safely without clicking, and retain exactly one click on held OK. Real uinput and pixel checks pass, including fullscreen video.
 - [x] Add native playback controls and verify ordinary video pause/resume/ten-second fallback seeking, site-defined YouTube seeks, captions and fullscreen/Back. Sustained/adaptive and hardware acceptance remain separate.
