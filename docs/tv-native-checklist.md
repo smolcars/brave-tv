@@ -36,6 +36,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 ## Native browser UI
 
+- [ ] Replace oversized outlined dialogs with polished shared TV panels; inspect Settings, controls, filters, tabs, confirmations and home on the emulator and verify D-pad/Back behavior.
+
 - [x] Replace the prototype list dialog with a readable landscape native browser panel.
 - [x] Add clear focus, predictable D-pad movement, remembered selection and Back escape; panel replay passes.
 - [ ] Provide address/search, Back/Forward, Reload/Stop and clear page cursor/scroll actions.

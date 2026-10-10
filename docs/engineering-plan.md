@@ -928,3 +928,27 @@ cannot be paired with the new packaged resources. Add a regression that rejects
 the legacy prefix and verify actual DAT replacement on first emulator launch.
 Update the bundled-data README's precedence explanation; downloader delivery is
 still pending and must not be described as available yet.
+
+#### Shared TV panel visual redesign
+
+The user rejects the oversized central Settings dialog and repeated bright
+outlines. Prioritize this visual correction before independent feed transport.
+Use a compact trailing-edge panel for settings and lists, with a quiet themed
+gradient, generous outer margins, a prominent heading, subdued description,
+left-aligned rows and existing Nala icons. Only the focused row receives the
+strong filled accent and outline. Keep the main browser controls wider with
+their existing three-column D-pad order; compact panels use two action columns.
+Keep headings separate from scrolling items so long lists retain context.
+
+Change the shared TvBrowserPanel, its main-controls layout selection and Settings
+presentation; reuse the current home palette and Material components, without
+new dependencies, bitmaps or custom icon assets. Preserve action IDs, callbacks,
+privacy/profile guards, disabled states and remembered focus. Home uses the
+shared button factory and must retain its intended three-card layout.
+
+Build the cached x64 APK through Nix with four workers and 18/22 GiB limits.
+Inspect real Settings, controls, filters and home screenshots; replay D-pad
+navigation including scroll-to-bottom, Back and restored focus. Check search,
+tabs and confirmation layouts for clipped labels. Record actual evidence and
+limitations. Commit incrementally on master and review only the latest source
+implementation against its parent before pushing source and the parent pin.
