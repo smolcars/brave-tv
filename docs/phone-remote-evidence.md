@@ -75,7 +75,17 @@ Private/native contexts pause commands and export no tab/editor metadata.
   polling arbitration, recoverable startup failure and bytecode method tests.
   Build r3 stopped on the wildcard opcode import in 6.42 seconds;
   peak 6,926,839,808 bytes. No APK claimed.
-- `b973caee8`: explicit opcode imports; build r4 running.
+- `b973caee8`: explicit opcode imports; r4 stopped on two pinned Java API/resource
+  mismatches after 41.48 seconds, peak 19,332,571,136 bytes (18.00 GiB).
+- `9acc146ce`: fixed those mismatches; r5 compiled Java/bytecode but blocking
+  lint caught an API-33 stream method against minimum API 29 after 2m22.75s,
+  peak 16,287,571,968 bytes. Replaced with Chromium FileUtils in follow-up.
+- Host companion regression passes fragment removal, a button action arriving
+  during polling, exactly one click, portrait/landscape overflow and script-error
+  checks. These use a synthetic server, not Android runtime evidence.
+- Fifteen root tests and strict mypy pass. Locked optional phone SDK (API 36
+  Google APIs x64 revision 7, emulator 36.5.11) built and a new
+  `brave_phone_remote_api36` Pixel 7 AVD was created without overwriting a profile.
 
 Two-axis code-review skill reviewed only `80a4ed1e8` and root `63531da`.
 Standards: three findings (bytecode coverage, thread-start CHECK, translation

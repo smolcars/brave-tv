@@ -48,31 +48,31 @@
     {
       # Optional runtime test SDK; Chromium still builds with its DEPS-selected SDK.
       packages.${system} = {
-      tv-emulator-sdk =
-        (emulatorPkgs.androidenv.composeAndroidPackages {
-          cmdLineToolsVersion = "20.0";
-          toolsVersion = null;
-          buildToolsVersions = [ ];
-          platformVersions = [ "36" ];
-          includeCmake = false;
-          includeEmulator = true;
-          includeSystemImages = true;
-          systemImageTypes = [ "android-tv" ];
-          abiVersions = [ "x86_64" ];
-        }).androidsdk;
+        tv-emulator-sdk =
+          (emulatorPkgs.androidenv.composeAndroidPackages {
+            cmdLineToolsVersion = "20.0";
+            toolsVersion = null;
+            buildToolsVersions = [ ];
+            platformVersions = [ "36" ];
+            includeCmake = false;
+            includeEmulator = true;
+            includeSystemImages = true;
+            systemImageTypes = [ "android-tv" ];
+            abiVersions = [ "x86_64" ];
+          }).androidsdk;
 
-      phone-emulator-sdk =
-        (emulatorPkgs.androidenv.composeAndroidPackages {
-          cmdLineToolsVersion = "20.0";
-          toolsVersion = null;
-          buildToolsVersions = [ ];
-          platformVersions = [ "36" ];
-          includeCmake = false;
-          includeEmulator = true;
-          includeSystemImages = true;
-          systemImageTypes = [ "google_apis" ];
-          abiVersions = [ "x86_64" ];
-        }).androidsdk;
+        phone-emulator-sdk =
+          (emulatorPkgs.androidenv.composeAndroidPackages {
+            cmdLineToolsVersion = "20.0";
+            toolsVersion = null;
+            buildToolsVersions = [ ];
+            platformVersions = [ "36" ];
+            includeCmake = false;
+            includeEmulator = true;
+            includeSystemImages = true;
+            systemImageTypes = [ "google_apis" ];
+            abiVersions = [ "x86_64" ];
+          }).androidsdk;
 
       };
 
@@ -113,13 +113,13 @@
               ];
             }
             ''
-                cp -r ${./tools} tools
-                cp -r ${./tests} tests
-                mkdir -p brave/android/java/org/chromium/chrome/browser/tv
-                cp ${./brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java} brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java
-                python3 -m unittest discover -s tests -v
-                mypy --strict tools tests
-                touch "$out"
+              cp -r ${./tools} tools
+              cp -r ${./tests} tests
+              mkdir -p brave/android/java/org/chromium/chrome/browser/tv
+              cp ${./brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java} brave/android/java/org/chromium/chrome/browser/tv/TvRemoteInput.java
+              python3 -m unittest discover -s tests -v
+              mypy --strict tools tests
+              touch "$out"
             '';
       };
 

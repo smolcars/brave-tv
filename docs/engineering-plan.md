@@ -110,6 +110,15 @@ remote evidence. Use the installed headless Chromium/Playwright for companion
 layout/integration tests without changing network security flags. Add focused
 session checks to root test discovery and synthetic native-field fixtures.
 
+### Phone remote lifecycle/compatibility follow-up
+
+Before simulated LAN acceptance, revalidate Android Network identity as well as
+its address (a Wi-Fi/Ethernet switch can retain an address). Include browser
+content offset in viewport revisions. Use Chromium FileUtils for resource reads
+on all supported Android versions. Format bundled sources for review, preserving
+the tested UI behavior. Repeat host companion/session checks before the next
+cached build; no new product surface.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
