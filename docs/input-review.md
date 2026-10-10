@@ -430,3 +430,17 @@ Spec 0. Source bounded content sizing `03aa6d30d` against `c509c9254`:
 Standards 0, Spec 0. Each review is limited to its latest implementation commit.
 Root no-reload diagnostic `022ad2c` against `72ab780`: Standards 0, Spec 0.
 The diagnostic accurately distinguishes document effects from request traces.
+
+Source startup readiness `fd1db3384` against `03aa6d30d`: Standards 0,
+Spec 1 (P1: without DAT caching, an already-ready local provider could create a
+partial engine before catalog registration, releasing queued checks too early).
+The emulator trace confirms those premature builds, although that run's queries
+happened to execute after the full builds and its blocking assertions passed.
+
+Source catalog gate correction `dbeaa9a61` against `fd1db3384`:
+Standards 0, Spec 0. Separate read-only reviews confirm the existing sentinel
+now also covers independent uncached startup and the regression checks public
+notifications before/after explicit catalog delivery. Only each latest
+implementation commit is reviewed. APK and device evidence is recorded in
+[device tests](device-tests.md#cold-start-blocking-correction-10-october-utc);
+the native test source compiles but its test binary was not executed.

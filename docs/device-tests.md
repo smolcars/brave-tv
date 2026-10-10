@@ -894,3 +894,56 @@ The no-reload diagnostic proves document effects, not historical request events.
 This is a confirmed open startup protection bug; the reload result cannot close
 it, and it is not yet established as the cause of YouTube video ads. Prioritize
 its diagnosis after this visual acceptance, before independent feed transport.
+
+### Cold-start blocking correction (10 October UTC)
+
+The `brave.adblock` startup trace on `03aa6d30d` establishes the failure's cause:
+page checks at +2.56ms and ad/cookie script checks at +132.99/133.03ms precede
+engine installation at +892.84/+920.31ms. Source `fd1db3384` queues public
+engine queries and cosmetic receiver binding until both independent engines
+have filters and resources; initialization bypasses that queue. Its cached
+cold-start observer passes, with the first page check at +538.08ms after both
+DAT loads. The no-DAT run also passes, but its trace reveals premature partial
+engine builds before the full lists, confirming the ordering concern found in
+review. Source `dbeaa9a61` extends the existing catalog gate to independent
+startup with DAT caching disabled.
+
+Final source `dbeaa9a61` passes these checks on emulator-5558:
+
+- Cached cold startup: no reload; ordinary script loads and both ad/cookie
+  scripts remain blocked. Engines install at +431.31/+454.15ms; the first page
+  check occurs at +596.55ms. A separate ordinary relaunch passes again.
+- DAT caching temporarily disabled: the same no-reload observer passes. Only
+  two complete engine builds remain, installing at +1201.19/+3605.04ms; the
+  first page check follows at +3605.16ms. No cache files were deleted. These
+  timings are single emulator samples relative to service construction, not
+  whole-browser launch measurements or hardware estimates.
+- Request-level reload probes pass for cookie blocking On, Off, then restored
+  On. The ordinary ad stays blocked throughout; cookie requests fail with
+  ERR_BLOCKED_BY_CLIENT only when the optional list is enabled.
+- Native main-panel replay passes 16 steps / 3.8s; Settings passes 28 / 2.5s,
+  including Back and remembered selection.
+
+Trace setup temporarily adds an owned Android command-line file and debug-app
+selection, restoring both afterward. Trace captures, no-reload outputs and
+request logs remain at `~/.cache/brave-tv/logs/adblock-{fd1db,dbeaa}-{cached,no-dat}-trace.json`
+and `shields-dbeaa-*.log`. Cookie and mobile-promo blockers are restored On.
+The previously owned blank home tab was closed; 13 normal tabs remain, with
+the existing correct local Shields fixture foreground. No profile/cache reset.
+
+Cached Nix APK builds pass blocking Android analysis in **75.36s** (`r44`,
+`fd1db3384`) and **36.18s** (`r45`, final source), with four workers, 18/22 GiB
+limits and no swap. Last observed r44 cgroup peak is **17,678,696,448 bytes**;
+r45 peak was not captured. Final APK:
+`~/.cache/brave-tv/artifacts/tv-startup-dbeaa9a61-x64-debug-20261010/BraveMonox64.apk`,
+**852,834,356 bytes**, SHA-256
+`f23a57f352d0984762dec1cb2dcff091501042d3dddf906d6636c6e1ec5d0eec`.
+Signature verification and profile-preserving installation pass; args and
+provenance are preserved alongside it.
+
+The new native delayed-catalog regression compiles successfully through Nix
+(`catalog-test-compile-r2.log`, 17.73s), but its test binary was not linked or
+executed. The first compile invocation failed because Nix cleared PYTHONPATH;
+setting it inside the development command resolves that tooling issue. Device
+regressions above execute the actual APK. YouTube video-ad acceptance, signed
+update transport and hardware acceptance remain open.

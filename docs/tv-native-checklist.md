@@ -15,7 +15,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Reproduce the reported video-ad symptom or record the exact reproduction limit.
 - [x] Check filter, cosmetic and scriptlet resources on the current emulator and after restart. Clean-profile coverage remains open.
 - [x] Demonstrate network blocking and a Shields-off/on control with observable resource results.
-- [ ] Fix cold-start blocking: restored fixture loads ad/cookie scripts on `0597ee53c`/`c509c9254`, while the reload-based request probe passes. Establish and retain a no-reload regression before fixing it.
+- [x] Fix the reproduced cold-start blocking failure. `fd1db3384`/`dbeaa9a61` defer queries until complete engines/resources are ready; cached and uncached no-reload checks, reload request assertions and optional-list toggles pass. Native delayed-catalog test compiles; execution remains pending. See device evidence.
 - [ ] Verify resource updates and identify any development-build service configuration blocker.
 - [ ] Fix demonstrated failures and rerun the original check, then sample YouTube playback.
 - [x] Make per-site protection state and exceptions readable and remote-accessible. Standard/aggressive transitions, restart persistence and actual blocking pass on `d88cef8a9`.
