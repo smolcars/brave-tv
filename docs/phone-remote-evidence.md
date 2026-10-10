@@ -482,7 +482,7 @@ complete rerun passed:
   and was canceled during cleanup; it is not counted as a content assertion.
 - Closing the test tab restored one native-home tab. Companion Disconnect revoked
   the controller and the LAN listener refused a subsequent connection. Browser
-  PID 13401 remained unchanged throughout this bounded control test.
+  PID 13401 was observed after the native-text check and again after Disconnect.
 
 Our fixture/client services were stopped, diagnostic forward 9235 and reverse
 18089 removed, and the temporary native hierarchy file removed. Shared ADB/T3
