@@ -322,3 +322,8 @@ navigation observer and uses site-defined seek wording: Standards 0, Spec 0.
 Root `6126a05` against `c146d56` adds the actual-media-state probe and instructions:
 Standards 0, Spec 0. Each review was limited to the named latest implementation
 against its parent; runtime acceptance remains separate.
+
+Root dialog fixture `27a85ac` against `e56632b`: Standards 0, Spec 0.
+Source modal focus correction `9d78aa3e4` against `9ece2a633`: Standards 0,
+Spec 0. Reviews cover only those latest implementation commits; emulator
+confirmation of the focus correction is pending.

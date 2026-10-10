@@ -450,3 +450,14 @@ This emulator sample is not hardware decoding or sustained-performance acceptanc
 First playback implementation `07c33b653` fails Java header compilation because
 the pinned Chromium uses the `TabObserver` interface rather than
 `EmptyTabObserver`. The corrected build `9ece2a633` is pending verification.
+
+The local `dialogs.html` fixture on `8164e10cd` demonstrates a native-modal
+focus failure: D-pad keys leave `compositor_view_holder` focused while alert,
+confirmation, prompt and location-permission dialogs remain visible. Corrected
+non-alphabetic uinput events reproduce the confirmation failure. An earlier
+diagnostic command contained malformed event arrays and is excluded as evidence.
+Back closes the alert, returns `false` from confirmation and `null` from prompt;
+it also dismisses location permission without granting it. The permission
+screenshot `dialog-focus-fail-8164e10cd.png` is preserved in external logs.
+The fixture is touch/agent-ref initiated; remote interaction under test is the
+native dialog. Source `9d78aa3e4` is the planned focus correction, awaiting build.
