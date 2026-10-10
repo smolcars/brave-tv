@@ -148,6 +148,12 @@ exist in the TV flow. With a normal native home tab active, run
 attribution actions, and entry into the browser panel. Verify actual GitHub and
 license navigation, keyboard behavior and private mode separately.
 
+For restored-home coverage, first load a real webpage in a normal tab, select
+Home from Browser controls, then run the same replay. Retaining that tab's page
+history exercises restoration before the native home view is ready; an unused
+blank tab can be discarded at restart and misses this case. Also restart on a
+real webpage and confirm Browser controls still open there.
+
 `replay tests/device/tv-toolbar-menu.ad` starts from the same normal home,
 reaches the toolbar menu from the controls card, then asserts that D-pad Select
 opens the native panel. Its original center-key assertion failed while touch
