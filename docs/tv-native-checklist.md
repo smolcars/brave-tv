@@ -115,3 +115,11 @@ Basis checked 9 October 2026: [MPL §§2.3 and 3](https://www.mozilla.org/en-US/
 - [x] Reproduce and fix missing phone tab rows after native-panel pause/resume; host and final packaged-asset regressions pass (one authoritative tab and one rendered row after resume).
 - [x] Compare bounded emulator loading with polling active/suspended; no clear persistent polling slowdown in the small sample.
 - [ ] Verify these fixes on the user's Chromecast and real iPhone after the emulator work; diagnose the reported hardware YouTube latency there. No hardware operation in this follow-up.
+
+
+### Grouped final-tab popup
+
+- [x] Reproduce focus on descriptive text/inert spinner containers in the group-delete confirmation.
+- [x] Verify initial Cancel focus, actual Cancel/Delete button traversal, preserved group after Cancel, and home recovery after Delete on the emulator and authorized Chromecast using injected D-pad/OK.
+- [x] Check ordinary native Alert, Confirm and Prompt focus/dismissal on the emulator.
+- [ ] Repeat this popup with the user's physical remote and re-paired phone; unrelated loading/fullscreen hardware checks remain open.

@@ -1647,3 +1647,10 @@ layout and ensure custom button containers do not intercept focus. Cover Cancel,
 Delete, empty-home recovery, and ordinary site dialogs. Phone control must remain
 paused while a native confirmation is showing. Build/test x64 first, then update
 the authorized Chromecast with the verified optimized ARM build; retain caches.
+
+Grouped-dialog outcome: source `5829c55f0` passes the real grouped-tab regression
+on the x64 emulator and optimized Chromecast APK with injected D-pad/OK. Cancel
+preserves the original group; Delete returns to usable TV home. Ordinary site
+dialogs also pass on the emulator. Root test review strengthened the Cancel
+postcondition to reject replacement-home false passes. Evidence records the
+authorized storage fallback/fresh installation and exact hardware limitations.

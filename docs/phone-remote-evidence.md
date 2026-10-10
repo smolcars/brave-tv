@@ -674,3 +674,82 @@ fullscreen/cursor/loading acceptance are left to the user; this installation
 is not evidence that the reported hardware behavior is fixed. No emulator,
 fixture server or build remains running from this operation; caches and
 artifacts are preserved.
+
+
+### Grouped final-tab popup — source `5829c55f0`
+
+The user authorized inspecting the Chromecast's stuck last-tab popup. It was
+Chromium's native **Close tab and delete group?** confirmation, not ordinary
+last-tab recovery. An exact-serial D-pad sequence left every actionable control
+unfocused. A diagnostic Tab key focused the checkbox, then Down focused the
+inert spinner wrapper. The captured page URL was user content and is excluded
+from this evidence.
+
+A disposable emulator group reproduced the same dialog. Before the fix,
+`python3 tests/device/tv-group-dialog.py emulator-5554 cancel` failed:
+`Expected actionable focus 'Cancel', got ['This will permanently delete the
+group from your device']`. The shared TV modal helper now runs after layout,
+removes focus from inert spinner containers, recognizes custom Cancel buttons,
+and assigns the preferred actionable control rather than retaining description
+focus. The native confirmation, user decision, and private/modal phone guards
+are unchanged.
+
+On the packaged x64 build, both `cancel` and `delete` probes pass. Cancel keeps
+the original fixture URL and reopens its group confirmation; this avoids a
+false pass where deleting the tab creates one replacement home. Delete returns
+to normal TV home with focused Address and working D-pad navigation. Native
+site Alert (OK), Confirm (Cancel), and Prompt (editor then Back) initial focus
+and dismissal also pass using `dialogs.html` and the cache diagnostic
+`group-site-dialogs.mjs`. The companion was not re-paired for this focus-only
+slice; its unchanged native-modal pause boundary was reviewed in source.
+
+The x64 build passed blocking Android analysis in the retained cache with four
+workers and 18/22 GiB, zero-swap limits; observed peak 16,965,459,968 bytes.
+Artifact: `group-focus-5829c55f0-x64-debug-20261010/BraveMonox64.apk` under the
+artifact cache, 851,001,060 bytes, SHA-256
+`80d0649ca66dafa19374a10aa7c7bdb767ef0b2e911b35044ff7ca8cb49f9605`.
+Signature/badging/GN arguments/provenance are retained; logs use
+`group-focus-5829c55f0-x64.{log,time}`. Both latest source-review axes are clear;
+the root test's Cancel false-pass finding was corrected and re-reviewed clear.
+
+T3 device screenshot/agent commands remained unavailable. Tests used explicit
+serials. T3's default emulator launch again exited during interaction; that run
+was discarded and the stable `-feature -Vulkan` launch used. Updating the APK
+required restoring the emulator's debug-app selection for CDP diagnostic
+access; it was cleared again before the emulator was stopped. The test CDP
+forward was removed. No user profile or compile cache was reset for emulator
+testing.
+
+
+The optimized ARM build then passed in 3m51.27s with the same limits and blocking
+analysis; observed peak 19,328,978,944 bytes. Artifact:
+`group-focus-5829c55f0-arm-nodebug-20261010/BraveMonoarm.apk`, 367,485,127 bytes,
+SHA-256 `a6d96e77c29085e5ac0861f4936a2dff3e5e50c1d17861cd85e93d626b4e8c2a`.
+The signing certificate matches previous builds and the APK is non-debuggable.
+The x64 build's total wrapper duration was 3m34.07s.
+
+At about 789 MiB free, Chromecast in-place installation failed for storage.
+Following the user's earlier explicit fallback authorization, Brave was globally
+uninstalled and confirmed absent from users 0, 10, 11 and 12. The first fresh
+install also failed for storage. There were no active installer sessions; a
+later check showed about 1.2 GiB available, and retry succeeded without further
+deletions. Old Brave data was intentionally removed; other apps/profiles were
+not changed. Installation remains only in user 0. The existing development
+experiment selection/switch were preserved.
+
+The initial native hierarchy checks could not get idle state; a screenshot
+showed the TV's screensaver. Waking the device exposed native home. Using only
+a disposable local fixture over exact-device ADB reverse 18088, created one
+group, closed its first tab, then exercised the last-tab confirmation. The
+explicit-serial cache adaptation `group-tv-probe.py` passed Cancel and Delete
+with the same assertions as the emulator test and the localhost fixture URL.
+A native screenshot confirms the visible Cancel focus outline. Cancel preserves
+the original fixture and group; Left/Right reaches both real buttons; Delete
+closes the final tab and returns to home with working D-pad traversal. These
+commands inject D-pad/OK key events; a human physical-button session and phone
+re-pairing were not repeated. No public site or security permission was used.
+
+The test reverse and fixture service were removed/stopped. The app is left open
+on native TV home. Owned emulator/build units are inactive; shared ADB/T3
+services, AVD data and compile/artifact caches remain intact. This verifies the
+grouped-tab popup fix, not the unrelated hardware loading/fullscreen concerns.
