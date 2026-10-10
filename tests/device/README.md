@@ -46,10 +46,9 @@ button, waits four seconds, then holds/releases OK once. Assert `Clicks: 0`:
 this press must only reveal the hidden cursor. Before idle hiding this fails
 with `Clicks: 1`.
 
-Immediately check the cursor at 960,700, then run `dpad-held-click.jsonl` and
-assert `Clicks: 1`. Complete this second press within three seconds of the
-first release (including the 1.5-second device registration delay); otherwise
-use a directional wake and return to the button before this second sequence.
+Run `dpad-held-click.jsonl` and assert `Clicks: 1`. It moves left then right
+to reveal the cursor at the same button before holding OK; this avoids a race
+with the idle timer while reading the intermediate result.
 This separately proves a visible held press clicks exactly once. Also capture
 the idle screen after four seconds and use the pixel check with `absent`;
 after a directional wake, check the new position. Do not count click results
