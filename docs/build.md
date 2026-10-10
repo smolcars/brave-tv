@@ -131,12 +131,12 @@ The 18 GiB threshold starts memory reclamation; the 22 GiB hard limit can termin
 ```sh
 python3 -m unittest discover -s tests -v
 mypy --strict tools tests
-nix flake check
+nix flake check "git+file://$(pwd)?submodules=1"
 nix fmt flake.nix
 git diff --check
 ```
 
-`nix flake check` runs both the toolchain smoke check and the local checkout tests/typecheck in Nix build environments. The local tests use disposable Git repositories and require no network or TV. They verify the setup command's behavior, not Android compilation, Shields effectiveness or media playback.
+The explicit Git flake URL includes the pinned `brave/` submodule on the builder’s Nix 2.25.3; plain `nix flake check` omits it and fails to find `TvRemoteInput.java`. This command runs both the toolchain smoke check and the local checkout tests/typecheck in Nix build environments. The local tests use disposable Git repositories and require no network or TV. They verify the setup command's behavior, not Android compilation, Shields effectiveness or media playback.
 
 ## Chromecast ARM development build
 
