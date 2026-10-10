@@ -873,3 +873,11 @@ to the subsequent storage increment, which must compare active and staged data.
 Run a focused native test target using the cached host toolchain, then integrate
 that target into the regular Shields unit tests. No feed is enabled by this parser
 increment, and no publisher key is embedded until generation/publication setup.
+
+Latest parser review requests two local corrections: return an optional parsed
+publication time rather than a bool/output parameter, and restrict the internal
+GN source-set visibility to its local consumers. Apply these before native
+execution. The first test-build invocation stopped during GN generation because
+it lacked Brave's Python module path; rerun with the same `brave/script` path
+used by the standard build wrapper. No compiler or test result came from that
+invocation.
