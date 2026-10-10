@@ -191,3 +191,11 @@ follow-up rather than wiping or deleting it without authorization.
 `tv-home-bookmarks.ad` checks the third home card with D-pad, opens the existing
 native bookmark list without changing saved data, and backs out to controls.
 Its Bookmarks focus assertion fails on the older two-card home (`ef6cabbb4`).
+
+For cache/storage evidence run `nix develop --command node
+ tests/device/privacy-fixture-server.mjs` and reverse TCP 18082 through ADB.
+Open `http://127.0.0.1:18082/` in the isolated user. Seed site storage once;
+reloading does not re-seed it. Repeated cached-file reads should show the same
+network-fetch number, and clearing cached files should cause the next read to
+increment it. Record storage and history separately from the cache observation.
+The server listens only on loopback and exposes only its two fixture routes.

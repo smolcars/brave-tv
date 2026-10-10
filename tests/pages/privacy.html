@@ -1,0 +1,26 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>TV privacy isolation fixture</title>
+<style>body{background:#12151b;color:#fff;font:24px sans-serif;padding:48px}button{font:inherit;padding:16px;margin:8px}</style>
+<h1>TV privacy isolation fixture</h1>
+<p>Use only in the disposable Android privacy test user.</p>
+<button id="seed">Seed site storage</button>
+<button id="read">Read site storage</button>
+<button id="cache">Fetch cached file</button>
+<pre id="result"></pre>
+<script>
+const result = document.querySelector('#result');
+function read() {
+  result.textContent = JSON.stringify({cookie: document.cookie, storage: localStorage.getItem('tv-privacy')});
+}
+document.querySelector('#seed').onclick = () => {
+  document.cookie = 'tv_privacy=seeded; Path=/; SameSite=Lax';
+  localStorage.setItem('tv-privacy', 'seeded');
+  read();
+};
+document.querySelector('#read').onclick = read;
+document.querySelector('#cache').onclick = async () => {
+  result.textContent = await (await fetch('/cached.txt', {cache: 'force-cache'})).text();
+};
+read();
+</script>
