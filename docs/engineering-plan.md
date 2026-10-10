@@ -253,6 +253,15 @@ into the retained page history instead of returning to home. Keep this failing
 postcondition for the shared-panel candidate; do not relax it to any visible page.
 Latest root correction review has no Standards or Spec findings.
 
+Panel source review: Standards has no findings; Spec identifies live playback
+becoming disabled between panel creation and the first-frame focus request.
+Give each existing action its own initial focus target and choose the currently
+enabled preferred/fallback action at the handoff. Later updates keep their native
+focus-recovery path, without re-running initial focus or stealing established
+focus. This correction is required before accepting the shared panel candidate.
+The r16 build still uses committed3516; do not mutate its cached checkout while
+it runs. Build the reviewed correction incrementally afterward.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
