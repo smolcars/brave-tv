@@ -160,6 +160,13 @@ cancellation, live Reload/Stop, stale callback and existing phone security/input
 regressions on actual Chromium. No broad core-surface migration before those
 gates; independent implementation and design work continues during builds.
 
+Shared-state latest review: Spec reports no actionable findings; Standards asks
+for the public focusHome UI-thread/factory-view/asynchronous contract and flags
+redundant Tab-plus-Context parameters. Document focus and pass the context alone
+through panel callbacks, deriving its tab after validation so mismatched pairs
+cannot occur. Review corrections before broadening the UI. Root session/input
+tests pass15/15; the real shared-state APK/phone gates are still pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
