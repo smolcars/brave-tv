@@ -184,7 +184,7 @@ UI takeover must say control is paused rather than falsely acknowledge success.
   NAT/forwarding. A loopback ADB forward is only adapter evidence, not LAN proof.
 - [x] Record HTTP/HTTPS bootstrap findings and supported browser/API behavior;
   select a release-capable route or keep HTTP restricted to development.
-- [x] Prove native pointer and Unicode/composition/selection/deletion on harmless
+- [ ] Prove native pointer and Unicode/composition/selection/deletion on harmless
   inputs, textarea and contenteditable; test password/focus-change rejection.
 
 ### 2. Complete one local pairing-to-navigation flow

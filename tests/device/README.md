@@ -24,11 +24,17 @@ node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 ```
 
 This sends pointer/edit commands through the actual companion and reads native
-renderer results, including composition, selection, deletion, textarea,
+renderer results, including live composing state before and after acknowledgement,
+composition commit without duplication, selection, deletion, textarea,
 contenteditable and password/focus rejection. It resamples coordinates when the
 native keyboard pans or resizes the visual viewport. DevTools is automation only; it never assigns the TV field's
 value. `phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
 server and does not count as device evidence.
+
+`phone-qr-pair.mjs PLAYWRIGHT_CORE ZXING_JAR SCREENSHOT_PATH` decodes the TV
+QR with `PhoneQr.java`, opens its invitation in the phone browser and approves
+on the TV. It never logs the invitation. Keep the screenshot private until the
+single-use invitation is consumed; this checks encoding, not a physical camera.
 
 `phone-controls-probe.mjs` uses real phone touch events and current tab rows to
 check gestures/navigation/tabs and stale/duplicate rejection. It takes the same

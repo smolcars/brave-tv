@@ -1,6 +1,7 @@
 // Requires an approved phone page and the harmless phone-remote.html TV fixture.
 // DevTools is test instrumentation; remote commands still travel over the LAN.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
@@ -108,6 +109,12 @@ try {
       state?.editable?.ready && state.editable.text === expected && !busy,
     text,
   );
+  // Android resizes the visual viewport for its keyboard. Dismiss it before
+  // targeting toolbar buttons; desktop coordinates can hit the wrong element.
+  if (await phone.evaluate(() => visualViewport.height < innerHeight - 100)) {
+    execFileSync("adb", ["-s", "emulator-5556", "shell", "input", "keyevent", "4"]);
+    await phone.waitForFunction(() => visualViewport.height >= innerHeight - 100);
+  }
   await phone.locator("#delete").click();
   await tv.waitForFunction(
     (expected) => document.querySelector("#plain").value === expected,
@@ -124,7 +131,13 @@ try {
     selectionStart: 2,
     selectionEnd: 2,
   });
+  assert.equal(
+    await phone.evaluate(() => composing),
+    true,
+    "Phone composition must remain active",
+  );
   await settled("日本");
+  assert.equal(await phone.evaluate(() => composing), true);
   await tv.waitForFunction(() =>
     window.events.some(
       (e) => e.type === "compositionstart" && e.id === "plain",
@@ -132,6 +145,8 @@ try {
   );
   await ime.send("Input.insertText", { text: "日本" });
   await settled("日本");
+  assert.equal(await phone.evaluate(() => composing), false);
+  assert.equal(await phone.locator("#editor").inputValue(), "日本");
   await tv.waitForFunction(() =>
     window.events.some((e) => e.type === "compositionend" && e.id === "plain"),
   );

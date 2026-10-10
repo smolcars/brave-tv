@@ -193,9 +193,10 @@ observed peak 11,464,462,336 bytes. The preceding r9 also passed in 3m31.85s
 SHA-256 `a3920a4a08cf51badd699ce3268eb39557b6e3670ed66397d54b3240a2ebe9de`.
 
 The actual Chrome 133 phone/TV pair passes native Unicode replacement,
-composition start/end (phone CDP IME instrumentation), selection, whole-code-point
+selection, whole-code-point
 emoji deletion, textarea/contenteditable replacement, stale-focus rejection and
-password exclusion. No TV DOM values are assigned. The probe resamples the
+password exclusion. No TV DOM values are assigned. TV composition events were observed, but the stronger later composing-state
+check below invalidates that as proof of correct composition. The probe resamples the
 visual viewport after native keyboard pan/resize; its earlier fixed-coordinate
 attempts were invalid and are not acceptance evidence. This proves the native
 IME path, not every physical phone keyboard/autocorrect implementation.
@@ -215,3 +216,29 @@ Android cpuinfo was stale since boot, so subsequent CPU measurements use live
 per-process utime/stime and the guest's reported CLK_TCK, with process changes
 marked unavailable. Both latest-review axes have no remaining findings after
 caret validation and the connection-refusal correction.
+
+## Newer phone engine and composition correction
+
+Source `87a1c7b35` passes r12 blocking checks in 3m31.82s (63 steps), observed
+peak 13,707,550,720 bytes. Retained APK is 851,003,686 bytes, SHA-256
+`5c1f2843682761d53ba82e6d6e463af79bd44400351d017a90ab515a5e774fdd`.
+The new home D-pad probe fails before the focus-link correction and passes on
+this APK. The artifact directory includes source/build provenance.
+
+The same APK runs as a normal phone browser on emulator-5556, exposing Chromium
+155 in its reduced user agent. Its companion directly loads the TV private
+origin, pairs from a decoded screenshot of the TV QR, removes the fragment,
+waits for TV approval and navigates a local fixture. This validates QR encoding
+and screen readability for ZXing, not a physical phone camera. There are no
+certificate/security bypass flags or remote-traffic forwards. Changing the TV's
+active network from Wi-Fi to Ethernet revokes the listener with explicit TCP
+connection refusal while the browser PID survives.
+
+The stronger native test catches a client composition defect: textarea
+oncompositionstart/end properties are unsupported and merely stored functions.
+The composing flag stays false despite real events, and state rendering can end
+the phone's composition. The host test reproduces this (false vs expected true).
+Using actual event listeners makes live composition and composing/final protocol
+edits pass. Native acceptance and the full soak must be repeated after packaging;
+earlier TV composition events alone were insufficient. Both preliminary soaks
+were intentionally stopped short of 30 minutes and are not completion evidence.

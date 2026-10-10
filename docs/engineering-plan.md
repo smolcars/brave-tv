@@ -1487,3 +1487,14 @@ to the phone row and the footer up through it. Phone Up returns to Address;
 Phone Down reaches the source link. Preserve the original links when the feature
 is unavailable. Verify both directions and entry from Browser controls with
 explicitly targeted emulator key events; include this in the final cached build.
+
+### Phone composition event correction
+
+Chromium 155 reports that fresh textareas have no oncompositionstart/end event
+properties; assignments create inert own properties. The newer-phone probe
+records composition events while the client's composing flag stays false,
+allowing renderer state to replace the phone's live composition. Register actual
+compositionstart/end listeners and require live client composition plus a
+composing protocol edit in the host regression. Re-run native composition on
+the phone. Earlier TV composition-event observations alone are insufficient
+acceptance; stop the preliminary soak and restart it after this correction.

@@ -76,12 +76,14 @@ const server = createServer(async (req, res) => {
     await barrier;
   }
   if (data.op !== "state") commands.push(data);
-  if (data.edit === "select" && selectionStarted) {
-    const barrier = new Promise((r) => {
-      releaseSelection = r;
-    });
-    selectionStarted();
-    await barrier;
+  if (data.edit === "select") {
+    if (selectionStarted) {
+      const barrier = new Promise((r) => {
+        releaseSelection = r;
+      });
+      selectionStarted();
+      await barrier;
+    }
     initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
     initial.editable.end = data.end;
     initial.editable.version++;
@@ -227,6 +229,41 @@ try {
     replacements,
   );
   assert.equal(await page.locator("#editor").inputValue(), "Changed on TV");
+  selectionStarted = undefined;
+  conflictingCaret = false;
+  await page.locator("#editor").fill("");
+  await page.waitForFunction(
+    () => state.editable.text === "" && !busy && !pendingEdit,
+  );
+  await page.locator("#editor").focus();
+  const ime = await page.context().newCDPSession(page);
+  await ime.send("Input.imeSetComposition", {
+    text: "日本",
+    selectionStart: 2,
+    selectionEnd: 2,
+  });
+  assert.equal(
+    await page.evaluate(() => composing),
+    true,
+    "Real compositionstart must enter composing mode",
+  );
+  await page.waitForFunction(
+    () => state.editable.text === "日本" && !busy && !pendingEdit,
+  );
+  assert.equal(
+    commands.filter((c) => c.edit === "replace").at(-1).composing,
+    true,
+  );
+  await ime.send("Input.insertText", { text: "日本" });
+  await page.waitForFunction(
+    () => !composing && !dirty && !busy && !pendingEdit,
+  );
+  assert.equal(
+    commands.filter((c) => c.edit === "replace").at(-1).composing,
+    false,
+  );
+  assert.equal(await page.locator("#editor").inputValue(), "日本");
+  await ime.detach();
   await page.screenshot({
     path: "/home/nitesh/.cache/brave-tv/artifacts/phone-remote-ui-portrait.png",
     fullPage: true,
@@ -236,6 +273,14 @@ try {
       () => document.documentElement.scrollWidth > innerWidth,
     ),
     false,
+  );
+  await page.setViewportSize({ width: 320, height: 700 });
+  assert.equal(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > innerWidth,
+    ),
+    false,
+    "320px reflow",
   );
   await page.setViewportSize({ width: 844, height: 390 });
   assert.equal(
