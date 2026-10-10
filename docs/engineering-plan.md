@@ -513,3 +513,23 @@ notification's existing tag/ID during TV startup. Keep website/download and
 security notifications intact. Do not claim this replaces auditing all native
 service factories. Compile the Java changes with blocking analysis, check TV
 startup and notification state, and review only this implementation commit.
+
+#### Native playback controls
+
+YouTube playback and fullscreen/Back work, but the mobile seek bar does not
+respond to the remote cursor's tap at its timeline. Add a native Playback entry
+to browser controls for web tabs. Its panel uses the active tab's Chromium
+MediaSession, with Play/Pause and backward/forward ten-second actions; do not
+inject page JavaScript or send global media keys that could control another app.
+Keep the panel open and focus stable after actions. Disable seek actions unless
+the session advertises them, and explain when playback must first start on the
+page. Keep private-tab access checks, detach observers on pause/dismiss/tab or
+document change, and ignore stale callbacks. Fullscreen remains the site's
+existing control in this slice.
+
+Use the existing panel/button style and localized strings. Allow the panel
+builder to return the buttons it creates so state updates change those views
+without rebuilding the dialog. Verify native pause/resume, ten-second seeking,
+Back/focus, no-media state and lifecycle cleanup on emulator video; use the
+documented non-alphabetic uinput remote for page-cursor interactions. The
+agent-device virtual keyboard intentionally bypasses the cursor policy.
