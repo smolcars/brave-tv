@@ -19,7 +19,36 @@ try {
   assert.ok(tv && phone, "Open the fixture and pair the phone first");
   await phone.waitForFunction(() => connected && !busy && !state.paused);
   const originalEpoch = await phone.evaluate(() => epoch);
-  const before = await tv.locator("#click").textContent();
+  const initialClicks = Number(
+    (await tv.locator("#click").textContent()).match(/\d+/)[0],
+  );
+  const target = await tv.locator("#click").evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const scale = devicePixelRatio * visualViewport.scale;
+    return {
+      x: (rect.x + rect.width / 2 - visualViewport.offsetLeft) * scale,
+      y:
+        (rect.y + rect.height / 2 - visualViewport.offsetTop) * scale +
+        outerHeight * devicePixelRatio -
+        innerHeight * scale,
+    };
+  });
+  assert.ok(
+    await phone.evaluate(async (point) => {
+      return (
+        (await command("move", {
+          dx: Math.round(point.x - state.x),
+          dy: Math.round(point.y - state.y),
+        })) && (await command("click"))
+      );
+    }, target),
+  );
+  const before = `Clicked ${initialClicks + 1} times`;
+  await tv.waitForFunction(
+    (text) => document.querySelector("#click").textContent === text,
+    before,
+  );
+  // The positive control proves a replay at this pointer position changes the counter.
   const connection = await phone.context().newCDPSession(phone);
   const network = { latency: 0, downloadThroughput: -1, uploadThroughput: -1 };
   try {

@@ -264,7 +264,9 @@ correctly resulted in a discarded edit. No TV field value is assigned by tests.
 The normal phone Brave build identifies its engine as Chromium 155.0.8059.40.
 Actual touch tap/drag/two-finger scroll, Back/Forward/Reload and tab operations
 pass. A short simulated phone outage restores the same session in 452 ms; an
-offline click is rejected and subsequent polls show no replay. The TV and phone
+offline click is rejected. Review found that the original no-replay assertion
+did not first position the pointer over the counter; the strengthened probe adds
+a successful target click before the outage and awaits a fresh run. The TV and phone
 use the shared virtual Wi-Fi route directly. The browser shows its ordinary
 insecure-connection address-bar indicator, but no blocking HTTP or local-network
 permission dialog in the tested flow. This is not Safari/physical-phone coverage.
@@ -293,3 +295,11 @@ A new live negative test finds that JSONObject.getInt accepts v=1.5 as version 1
 is added to source and the pure session self-check passes; it still needs the
 next APK and live rejection test. This boundary correction does not change the
 r13 performance/lifecycle implementation being soaked.
+
+Phone pinch zoom reaches 2.0× and restores successfully. Host reflow checks cover
+320/390-pixel portrait and 844-pixel landscape widths. Normal text contrast is
+16.19:1, muted text 8.31:1, warning text 9.53:1, footer 5.92:1 and button text
+11.90:1; controls have 48-pixel minimum height and named non-gesture alternatives.
+These checks cover labels/focus/reflow, not a physical screen-reader session.
+The documented submodule-aware Nix flake check passes both checks, all fifteen
+unit tests and strict typing of ten Python files.

@@ -24,6 +24,17 @@ assert.ok(/^#[A-Za-z0-9_-]{43}$/.test(url.hash), "Unexpected invitation shape");
 const browser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
   const page = browser.contexts()[0].pages().at(-1);
+  const assets = new Set();
+  let externalRequest = false;
+  await page.route("**/*", (route) => {
+    const target = new URL(route.request().url());
+    if (target.origin !== url.origin) {
+      externalRequest = true;
+      return route.abort();
+    }
+    assets.add(target.pathname);
+    return route.continue();
+  });
   try {
     await page.goto(invitation);
   } catch {
@@ -34,11 +45,19 @@ try {
       .querySelector("#status")
       .textContent.includes("Waiting for approval"),
   );
-  assert.ok(new URL(page.url()).hash === "", "Invitation fragment was not removed");
+  assert.ok(
+    new URL(page.url()).hash === "",
+    "Invitation fragment was not removed",
+  );
   adb("shell", "input", "keyevent", "23");
   await page.waitForFunction(() => connected && !state.paused);
+  assert.ok(!externalRequest, "Companion attempted an external request");
+  assert.ok(
+    ["/", "/remote.js", "/remote.css"].every((path) => assets.has(path)),
+    "Bundled assets were not loaded",
+  );
   console.log(
-    "PASS: screenshot QR decode, fragment removal and explicit TV approval at " +
+    "PASS: TV-only assets, screenshot QR decode, fragment removal and explicit TV approval at " +
       url.origin,
   );
 } finally {

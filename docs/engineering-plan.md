@@ -1519,3 +1519,9 @@ in the existing session policy, covered by its host self-check. Keep the running
 soak on d23276267; this boundary-only correction requires a subsequent bounded
 build and targeted live rejection/native-input checks, not a repeated performance
 run or mutation of the checkout while it is running.
+
+The latest review finds a false-pass gap in the reconnect probe: it watched a
+button counter without proving the pointer was over it. Add a successful remote
+click as a positive control before taking the phone offline; rerun after the
+soak. Also block all off-origin companion requests during QR pairing and require
+the three bundled assets, making the no-external-host assertion executable.
