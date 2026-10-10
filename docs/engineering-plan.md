@@ -1167,3 +1167,16 @@ results. Diagnose reproduced regressions before source changes, review only the
 latest implementation commit, and commit evidence incrementally to master.
 Stop task-owned helpers/builds after testing; retain caches/profiles. Public
 release signing and final product naming remain outside this development APK.
+
+
+Wireless discovery finds the already-paired Chromecast and ADB connects without
+a new pairing code. Active Android user 0 has the browser marked uninstalled;
+user 10 retains the installed development package. Install for active user 0
+with replacement enabled, preserving other-user data. This cannot establish
+an upgrade-preserved browser profile for user 0. Available storage is
+1,056,600 KiB; recheck against the finished APK before installation.
+
+The local device daemon was stopped during the requested cleanup, leaving the
+host config pointing at its old port. Restarting that versioned helper and
+refreshing its local connection config from its daemon state restores pinned
+agent-device snapshots. No pairing key or auth token is written to repo/logs.
