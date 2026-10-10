@@ -1,0 +1,18 @@
+# Normal native home; cookie list initially enabled. Restores it to enabled.
+open com.brave.browser_default --relaunch
+wait "text=\"Address or search\" focused=true" 5000
+tv-remote right
+tv-remote select
+tv-remote down
+tv-remote down
+wait "text=\"Settings\" focused=true" 3000
+tv-remote select
+tv-remote down
+tv-remote select
+wait "text=\"Cookie notice blocker: On\" focused=true" 3000
+tv-remote select
+wait "text=\"Cookie notice blocker: Off\" focused=true" 3000
+tv-remote select
+wait "text=\"Cookie notice blocker: On\" focused=true" 3000
+tv-remote back
+wait "text=\"Content filters\" focused=true" 3000
