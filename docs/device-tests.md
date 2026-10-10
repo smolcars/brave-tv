@@ -283,3 +283,44 @@ rebuild/runtime acceptance remains pending. Privacy/home-bookmark source
 was created for isolated destructive checks; owner user 0 remains intact and
 active. The loopback privacy fixture passes HTTP header/counter smoke checks;
 browser clearing acceptance is still pending.
+
+### Native privacy and home bookmarks (10 October 2026 UTC)
+
+Source `85e02d812` builds with blocking analysis in 7m29.59s (963 steps),
+observed peak 15,020,863,488 bytes (13.99 GiB). Artifact:
+`~/.cache/brave-tv/artifacts/tv-privacy-home-85e02d812-x64-debug-20261010/BraveMonox64.apk`,
+852,990,668 bytes, SHA-256
+`3bbad5c61d64c2727021f72d4e48f26085e357170540954ee3ee761e965b2f45`.
+Signature/update pass. Home (20 steps) and direct bookmarks (10 steps) pass.
+Screenshot `home-bookmarks-85e02d812.png` reveals a baseline offset in the
+wrapped controls card; `872f16da5` fixes the row alignment, pending screenshot.
+
+The default-focus correction `7759740ca` builds in 3m30.07s (16 steps), with
+blocking analysis. Its artifact is
+`~/.cache/brave-tv/artifacts/tv-panel-focus-7759740ca-x64-debug-20261010/BraveMonox64.apk`,
+852,990,660 bytes, SHA-256
+`e538c96a4950d05365233fb84a7e64ed371c6690f700c84bca7a6e652a622d25`.
+Signature/update pass. Cgroup memory peak was not captured for this run.
+
+Privacy checks run on this APK exclusively in newly created Android user 10,
+with disposable local history/storage/cache and a bookmark. Normal owner user 0
+was not cleared. Setup uses fixture/CDP diagnostics; all native confirmation and
+settings actions use D-pad. Each destructive confirmation starts on Cancel.
+Cancel leaves its target data present. Confirmed history deletion yields the
+native empty-history state, while the cookie, localStorage, cached response and
+bookmark remain. Confirmed site-data deletion removes cookie/localStorage while
+the cached response remains `Network fetch 3`. Confirmed cache deletion changes
+the next response to `Network fetch 4`; Cancel previously kept it at 3. Reload
+still sees empty site storage and cached response 4. The bookmark remains after
+all three operations. Completion messages appear only after the native callbacks.
+Private controls show History disabled, and private Settings excludes clearing.
+The private test tab was closed. The sampled 2,000-line log contains no matched
+fatal exception, fatal signal, failed CHECK or ANR marker; this is not a sustained
+run. Delayed completion with exit/reopen and policy-managed clearing remain open.
+
+Tab paging reached the second page of a 15-tab fixture set. Selecting the current
+home there restored search focus. After Home and process relaunch, all nine loaded
+fixture tabs were retained alongside an active home; five unused blank homes were
+removed. Chromium's `TabPersistenceUtils.shouldSkipTab` intentionally excludes
+ungrouped, unpinned native new-tab pages. Only tabs created for these checks were
+closed afterward, restoring the two original web fixtures plus a fresh home.
