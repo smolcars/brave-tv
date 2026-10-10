@@ -6,7 +6,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 - [x] Fix the restored-home startup panel issue. `44ccdafef` passes the previously failing 20-step home replay; real webpages retain automatic browser controls.
 - [ ] Resolve the intermittent Android 14 first-launch handoff with a repeatable, awake-device reproduction and verified correction. Ten fresh Chromecast initializations pass, including actual agent launch/inspection; the original rejection is unreproduced and is not claimed fixed.
-- [ ] Scope the user's next important feature when specified; the user will discuss it later.
+- [x] Scope the phone companion from the supplied research; see [phone remote plan](phone-remote-plan.md) for proposed scope, ordered stages and acceptance checks.
+- [ ] Implement the phone remote after the planning stage: validate pairing/native text input, then deliver the controller on emulator and the existing Chromecast. Live view remains a separate future experiment.
 
 The user defers broader device acceptance (including a second device), release
 identity/signing/packaging, unattended upstream filter refresh publication and

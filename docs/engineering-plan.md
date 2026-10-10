@@ -6,6 +6,21 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
+## Next feature: phone remote (10 October)
+
+The user supplied [phone remote research](phone-remote-research.md) and requested
+a plan. The [phone remote implementation plan](phone-remote-plan.md) records
+the proposed controller-first scope, source boundaries, pairing/privacy contract,
+ordered checklist and emulator/Chromecast acceptance. Start with authenticated
+transport and native text-input experiments, then a paired address/search flow,
+then gestures, tabs and keyboard. Validate reliability before real-phone and
+Chromecast acceptance. Live view is a separate future experiment. Hosting and
+library choices remain explicit implementation decisions.
+
+This change is planning only: no source, builds, devices or deployment changes.
+It supersedes the earlier note that the next feature was unspecified, without
+reopening the paused broad MVP goal or the user-deferred release backlog.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
