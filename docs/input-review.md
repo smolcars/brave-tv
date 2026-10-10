@@ -295,3 +295,17 @@ Source `11353a858` against `82b9b507c`: Standards 0, Spec 0. Reviews cover nativ
 
 
 Root regression update `2033873` against `43a7e95`: Standards 0, Spec 0. Private-home notice/focus and toolbar menu activation remain explicit assertions. Source focus correction `942dca26f` against `11353a858`: Standards 0, Spec 0; only redundant foregrounds are removed. No earlier implementation is included in either review.
+
+
+## Native filters and neutral launcher
+
+Source `b289ae6db` against its parent: Standards 0, Spec 0. Native optional
+list service ownership, original-profile scope, lifecycle guards and remembered
+settings focus were reviewed. Root replay `3915fd1` against its parent also
+received Standards 0, Spec 0; its runtime synchronization correction `e8d9705`
+against its parent receives Standards 0, Spec 0. Device results are recorded
+separately in device-tests.md.
+
+Source `33e4873c7` against `b289ae6db`: Standards 0, Spec 0. Only the existing
+launcher vector changes; original development artwork is explicitly authorized
+by the rebranding request. No broader historical diff was reviewed.

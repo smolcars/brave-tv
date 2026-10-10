@@ -367,3 +367,21 @@ catalog; larger-catalog paging and connection failures are not runtime-tested.
 
 Signed component delivery remains unresolved; this panel is not an update
 service. Bundled list data still refreshes with browser builds.
+
+
+## Neutral launcher artwork (10 October 2026 UTC)
+
+Source `33e4873c7` passes the cached blocking x64 build in 1m44.33s (50 Siso
+steps). Observed peak: 13,722,005,504 bytes. Preserved APK:
+`~/.cache/brave-tv/artifacts/tv-launcher-33e4873c7-x64-debug-20261010/BraveMonox64.apk`,
+853,005,216 bytes, SHA-256
+`55b57bf933130ae680ec7ba1dacabcf5abaa730917cf0c6f3f93d70a4c23c23a`.
+Signature and profile-preserving installation pass. The restored cookie-list
+on state still blocks its exact request after update/restart.
+
+`launcher-33e4873c7.png` and `launcher-favorite-33e4873c7.png` in the external
+logs directory were visually inspected at 1920×1080. The new navy/mint screen
+and cursor render in Android TV's app picker and favorites row without the
+BT monogram. D-pad selection launches the browser and restores its fixture tab.
+The existing temporary label and application identity remain; this is not a
+production branding/signing decision.
