@@ -186,6 +186,20 @@ produces `Clicks: 1` instead of0. This confirms the missing document-identity
 protection and gives a real red regression; the corrected APK must pass unchanged.
 No data wipe/downgrade, DOM input injection or physical operation was used.
 
+Shared session runtime: corrected source `65ce991ce` passes blocking analysis
+(r14 3m41s, observed peak13.72 GiB), signature and update install. The unchanged
+same-URL native race probe now passes including its fresh-click postcondition;
+predecessor `7ef938f03` fails the same assertion. Artifact852,603,986 bytes,
+SHA256 `2a5d97d9498e28fb4b85512a6397f0fb30c8a761c5b749fd164a88595fb036b2`.
+Home→controls initial Address now passes. The full overflow replay catches a
+real Back routing problem on API36: native dialog Back bypasses its key listener,
+cancels the whole panel and navigates page history instead of collapsing More.
+Register a callback on the dialog's own AndroidX Back dispatcher, collapse More
+there and preserve the existing root cancel/native Back policy. Keep the scoped
+key listener for older key delivery. Clear held context references on cancellation
+and release as well, so closed private content is not retained by a stale lease.
+Acceptance: unchanged overflow replay, native dialogs and continued phone gates.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
