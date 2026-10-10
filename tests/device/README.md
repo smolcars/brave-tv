@@ -1,5 +1,14 @@
 # TV device regressions
 
+`shields-probe.mjs startup-cookie-on` observes the already-restored local
+`http://127.0.0.1:18081/shields.html` document without navigating or reloading it.
+Use after a cold agent-device relaunch with protection and the cookie list on,
+and the usual ADB DevTools forward to port 9222. It requires the control script
+to load and both blocked fixture execution flags to remain false. Unlike the
+reload modes, this checks document effects only; it cannot reconstruct request
+events from before DevTools attached. A subsequent `cookie-on` reload passing
+does not make a failed startup observation pass.
+
 Use the Nix shell and the API 36, 1920×1080, 320 dpi emulator from
 [the emulator instructions](../../docs/emulator.md). Keep T3 attached and retain
 its exact launcher, config, serial and session arguments on every agent-device

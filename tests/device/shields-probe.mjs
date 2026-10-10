@@ -2,8 +2,9 @@
 import assert from 'node:assert/strict';
 
 const expected = process.argv[2];
-assert.ok(['up', 'down', 'cookie-on', 'cookie-off'].includes(expected),
-  'Usage: node tests/device/shields-probe.mjs up|down|cookie-on|cookie-off');
+assert.ok(['up', 'down', 'cookie-on', 'cookie-off', 'startup-cookie-on'].includes(expected),
+  'Usage: node tests/device/shields-probe.mjs up|down|cookie-on|cookie-off|startup-cookie-on');
+const observeRestoredDocument = expected === 'startup-cookie-on';
 const timeout = setTimeout(() => {
   console.error('Shields probe timed out');
   process.exit(1);
@@ -65,14 +66,16 @@ try {
     for (const callback of pending.values()) callback.reject(new Error('DevTools disconnected'));
     pending.clear();
   };
-  await send('Network.enable');
-  await send('Page.enable');
-  await send('Page.setLifecycleEventsEnabled', { enabled: true });
-  const { frameTree } = await send('Page.getFrameTree');
-  frameId = frameTree.frame.id;
-  previousLoader = frameTree.frame.loaderId;
-  await send('Page.reload', { ignoreCache: true });
-  await loaded;
+  if (!observeRestoredDocument) {
+    await send('Network.enable');
+    await send('Page.enable');
+    await send('Page.setLifecycleEventsEnabled', { enabled: true });
+    const { frameTree } = await send('Page.getFrameTree');
+    frameId = frameTree.frame.id;
+    previousLoader = frameTree.frame.loaderId;
+    await send('Page.reload', { ignoreCache: true });
+    await loaded;
+  }
   let result;
   for (let attempt = 0; attempt < 30; attempt++) {
     const response = await send('Runtime.evaluate', {
@@ -99,16 +102,20 @@ try {
     assert.equal(matching[0].error, blocked ? 'net::ERR_BLOCKED_BY_CLIENT' : undefined, url);
     assert.equal(matching[0].finished, !blocked, url);
   };
-  assertRequest('http://127.0.0.1:18081/shields-control.js', false);
-  assertRequest('http://localhost:18081/showbanner.js', expected !== 'down');
+  if (!observeRestoredDocument) {
+    assertRequest('http://127.0.0.1:18081/shields-control.js', false);
+    assertRequest('http://localhost:18081/showbanner.js', expected !== 'down');
+  }
   assert.equal(result.ready, 'complete');
   assert.ok(!result.body.includes('pending'));
   assert.ok(result.body.includes('Control script: loaded'));
-  if (expected.startsWith('cookie-')) {
+  if (expected.startsWith('cookie-') || observeRestoredDocument) {
     assert.equal(result.adLoaded, false);
     assert.ok(result.body.includes('Cookie-list request:'));
     assert.equal(result.cookieLoaded, expected === 'cookie-off');
-    assertRequest('http://localhost:18081/1_cookie.js', expected === 'cookie-on');
+    if (!observeRestoredDocument) {
+      assertRequest('http://localhost:18081/1_cookie.js', expected === 'cookie-on');
+    }
   } else {
     assert.equal(result.adLoaded, expected === 'down');
     assert.equal(result.scriptlet, expected === 'up');
