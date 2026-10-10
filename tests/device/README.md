@@ -24,9 +24,20 @@ node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 ```
 
 This sends pointer/edit commands through the actual companion and reads native
-renderer results. DevTools is automation only; it never assigns the TV field's
+renderer results, including composition, selection, deletion, textarea,
+contenteditable and password/focus rejection. It resamples coordinates when the
+native keyboard pans or resizes the visual viewport. DevTools is automation only; it never assigns the TV field's
 value. `phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
 server and does not count as device evidence.
+
+`phone-controls-probe.mjs` uses real phone touch events and current tab rows to
+check gestures/navigation/tabs and stale/duplicate rejection. It takes the same
+Playwright directory argument. `phone-soak.mjs PLAYWRIGHT_CORE emulator-5554 9223
+OUTPUT_JSON` samples an approved foreground session for 30 minutes; start a new
+pairing immediately before it because sessions expire after 35 minutes. CPU is
+one-core percentage from live process counters; process churn makes that sample
+unavailable. PSS includes every browser package process reported by Android.
+Neither emulator latency nor CPU is a physical-TV performance claim.
 
 For HTTP rejection/timeout probes, use the phone emulator's netcat against the
 TV's exact numeric Host. The listener binds only its private address, so an ADB

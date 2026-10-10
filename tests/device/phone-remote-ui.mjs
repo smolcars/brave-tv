@@ -142,6 +142,26 @@ try {
     1,
     "one button press during polling must deliver once",
   );
+  await page.locator("#pad").scrollIntoViewIfNeeded();
+  const pad = await page.locator("#pad").boundingBox();
+  delayedPoll = true;
+  await new Promise((r) => {
+    pollStarted = r;
+  });
+  await page.mouse.move(pad.x + 40, pad.y + 40);
+  await page.mouse.down();
+  await page.mouse.move(pad.x + 80, pad.y + 40);
+  await page.mouse.up();
+  const movement = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      response.request().postDataJSON().op === "move",
+    { timeout: 1000 },
+  );
+  releasePoll();
+  await movement;
+  await page.waitForFunction(() => !busy);
+  assert.equal(commands.filter((c) => c.op === "move").length, 1);
   await page.getByText("Pointer & scroll buttons", { exact: true }).click();
   const clickResponse = page.waitForResponse(
     (response) =>

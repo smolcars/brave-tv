@@ -183,3 +183,35 @@ netcat to TV 10.0.2.17:36345: bundled assets/security headers, unauthorized stat
 Host/Origin/Fetch-Site/cookie/method/path rejection, malformed/deep/oversize JSON,
 and five idle sockets bounded by the five-second deadline. These requests
 travel through shared virtual Wi-Fi, not an ADB remote-traffic forward.
+
+## Native input and controls acceptance
+
+Source `a026dafd3` passes r10 blocking checks in 1m26.99s (50 steps);
+observed peak 11,464,462,336 bytes. The preceding r9 also passed in 3m31.85s
+(63 steps), observed peak 17,134,084,096 bytes. Retained r10 APK:
+`phone-remote-a026dafd3-x64-debug-20261010/BraveMonox64.apk`, 851,003,855 bytes,
+SHA-256 `a3920a4a08cf51badd699ce3268eb39557b6e3670ed66397d54b3240a2ebe9de`.
+
+The actual Chrome 133 phone/TV pair passes native Unicode replacement,
+composition start/end (phone CDP IME instrumentation), selection, whole-code-point
+emoji deletion, textarea/contenteditable replacement, stale-focus rejection and
+password exclusion. No TV DOM values are assigned. The probe resamples the
+visual viewport after native keyboard pan/resize; its earlier fixed-coordinate
+attempts were invalid and are not acceptance evidence. This proves the native
+IME path, not every physical phone keyboard/autocorrect implementation.
+
+Real phone touch events pass tap exactly once, drag and two-finger scroll.
+Back/Forward/Reload, stale-document and duplicate-sequence rejection, and normal
+tab create/select/close pass. Tab checks wait for native home context to settle
+and use freshly rendered row identities; old IDs after tab replacement are
+intentionally rejected. The stronger background probe now proves all three:
+foreground departure, explicit connection refusal and surviving browser PID.
+
+A held-poll/fast-drag host regression fails because release discards a remaining
+movement while busy; retaining the bounded coalesced motion makes it pass.
+Context/disconnect cancellation still clears it. The preliminary session run was
+stopped before 30 minutes to package this correction; no completed soak is claimed.
+Android cpuinfo was stale since boot, so subsequent CPU measurements use live
+per-process utime/stime and the guest's reported CLK_TCK, with process changes
+marked unavailable. Both latest-review axes have no remaining findings after
+caret validation and the connection-refusal correction.

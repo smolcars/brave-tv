@@ -1450,3 +1450,22 @@ background probe to check Home delivery, observe foreground departure and
 confirm listener closure, in addition to preserving the process. These changes
 remain in the editable source until the running r9 build completes; never
 advance its checkout while compiling.
+
+### Phone remote slice 4 — runtime acceptance and bounded soak
+
+After the corrected APK, extend the read-only renderer probe across native
+composition, selection, textarea/contenteditable and password/focus rejection.
+Exercise navigation/tabs, modal/private arbitration, duplicate/stale commands,
+short connectivity loss and background/network teardown through the real
+paired client. Start a bounded 30-minute approved session while other foreground
+checks run; sample whole-browser process memory/CPU and command round trips
+without logging tokens, URLs or field content. Reuse the existing harmless
+fixtures and physical D-pad uinput regression. Record unavailable/current-browser
+coverage honestly; do not infer Safari or hardware acceptance from emulators.
+
+Runtime native editing passes on a026dafd3. Before final reliability acceptance,
+add a deterministic fast-drag-during-poll check: the release path must not discard
+the final coalesced movement just because a state poll is in flight. Retain only
+that bounded movement until delivery; existing context/disconnect cancellation
+still clears it. CPU sampling must use live process counters because Android's
+cpuinfo service reports a stale boot-time interval on this image.
