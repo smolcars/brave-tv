@@ -685,3 +685,16 @@ conversion so DEFAULT and BLOCK_THIRDPARTY map to BLOCK for network filtering;
 retain BLOCK_THIRDPARTY for Standard cosmetic filtering and preserve ALLOW/BLOCK.
 This matches `BraveShieldsSettingsService::SetAdBlockMode` semantics. Fix the
 conversion once rather than bypassing the shared API in TV UI.
+
+#### Popup tab UI on TV
+
+The real uinput remote opens the local Popup fixture and Back reaches browser
+controls, but the new grouped tab exposes the phone's bottom tab-group strip
+(including its phone grid action). Hide that strip in TV mode at the existing
+`BraveBottomControlsMediator.isTabGroupUiEffectivelyVisible` boundary. Keep
+requested visibility, phone preferences, group membership and normal/private
+tab storage unchanged; the native TV tab list already exposes these tabs.
+Use the current Android configuration rather than mutating preferences or
+ungrouping tabs. Check the existing grouped fixture before/after, native tab
+switching, Back and restart; retain non-TV behavior. Review only this latest
+implementation and reuse the bounded cached Java build.
