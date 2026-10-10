@@ -472,3 +472,16 @@ Add Content filters to TV Settings using the existing `FilterListAndroidHandler`
 Show loading/empty/error states and keep Settings/Back reachable. Close the connection/dialog on activity pause or controls teardown, ignore stale callbacks, and handle connection failure without a crash or a false update-success message. Do not add a fake component-update button or claim that this fixes delivery. Preserve existing list data/attribution and use the current catalog titles. Test cookie-list off/on with the request-specific fixture, restart persistence, private entry, focus/Back and main settings order. This replaces the unreachable phone-oriented entry for ordinary optional toggles; custom text/subscriptions and independent update delivery remain separate work.
 
 Settings navigation detail: remember the last settings entry when returning from search, filters or privacy, rather than always jumping to Search engine. Keep the initial selection on Search engine and let the panel fall back safely when the remembered entry is unavailable in private mode. This mirrors the existing browser-controls selection behavior.
+
+#### Background traffic acceptance
+
+After verifying native filter toggles, capture a bounded emulator NetLog using
+the existing debug command-line mechanism. Preserve any existing flags, use
+default redaction, keep the raw log outside Git, and restore the original flags
+afterward. Observe a cold launch, idle home, navigation and a disposable search;
+record requested hosts and request outcomes separately from page subresources.
+Inspect remaining Android service factories against observed traffic before
+removing any service. Component and Safe Browsing requests are protection
+traffic, not proof of analytics. An empty reporting-host sample establishes
+only the observed window, not all future/background behavior. Do not copy
+credentials, disable TLS checks or substitute private Brave service keys.
