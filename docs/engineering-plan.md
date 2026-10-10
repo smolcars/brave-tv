@@ -886,3 +886,21 @@ GN now reaches the focused test target and detects host/Android runner scripts
 with the same output name. Generate the standalone test executable only in the
 host toolchain; Android still includes these cases through the existing Shields
 unit-test source set. Keep the explicit host-test group for reproducible builds.
+
+The storage increment owns a single immutable active bundle for the process.
+Construct a refcounted store with the cache path, verification key and expected
+catalog hash; all loading, verification, staging and metadata reads run on
+workers. Serialize initialization/staging with a lock, never mutate active data
+once exposed, and keep the store alive while providers use it. A successful
+stage atomically replaces only the cached signed envelope, advances its highest
+sequence/digest, and becomes active only in a newly constructed store after
+restart. Equal sequence plus equal digest is unchanged; equal sequence with
+different contents or any lower sequence is rejected. Failed writes or invalid
+updates retain the previous envelope and process snapshot. Invalid/missing
+cache exposes no signed snapshot so existing packaged-data fallback can run.
+
+Exercise actual temporary-file storage through public APIs: empty startup,
+valid stage/restart, same-sequence conflict, rollback before/after restart,
+tamper rejection preserving bytes, write failure, stale cached/offline use,
+invalid cache fallback and immutable active data across multiple stages.
+Provider wiring, production key and transport are the next increment.

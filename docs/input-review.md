@@ -405,3 +405,9 @@ Source signed snapshot packager `eb5310d58` against `6554e1f40`:
 Standards 0, Spec 0. Eleven tools/tv tests pass, including wrong-key/tamper
 rejection and refusal to overwrite an artifact. Native activation and feed
 publication remain separate work.
+
+Source native parser `5f7bdc317` against `eb5310d58`: Standards 2
+(optional return API and internal GN visibility), Spec 0. Correction
+`adc9b2ea0` against `5f7bdc317`: Standards 0, Spec 0.
+Host-runner guard `65ef6c4ea` against `adc9b2ea0`: Standards 0, Spec 0.
+These are read-only reviews; focused native execution is tracked separately.
