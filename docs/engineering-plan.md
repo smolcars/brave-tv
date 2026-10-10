@@ -23,6 +23,60 @@ real-phone and Chromecast acceptance remains pending. Preserve caches and use
 Nix, plan each slice and commit incrementally to master. This does not reopen
 the paused broad MVP goal or the user-deferred release backlog.
 
+### Phone remote slice 1 — bounded local experiment (10 October)
+
+Implement the server/session boundary and native editing bridge before acceptance.
+Reuse pinned Chromium `net::HttpServer` (BSD, maintained with this Chromium pin),
+not a new Java server/parser. Use same-origin JSON POSTs and bounded state polling
+for the first command channel: no WebSocket fragmentation/compression buffers or
+reconnect action queue are needed. This is a deliberate transport simplification
+of the HTTP/WebSocket proposal; it keeps all control on the selected LAN.
+
+Surfaces: a native IO-thread listener and JNI bridge; Java TV pairing/session and
+browser command adapter; bundled raw HTML/CSS/JS resources; home/control entry
+points and BraveActivity lifecycle; a fail-closed bytecode hook into the existing
+Chromium IME adapter for current text/focus identity and synchronous native edits.
+The hook uses the same composition/selection/deletion methods as InputConnection,
+without its deferred UI tasks (which could retarget text after focus changes).
+Physical D-pad policy remains unchanged.
+
+Protocol v1: POST /pair with a 256-bit fragment invitation (two-minute single use)
+or a rate-limited eight-digit manual code; pending TV approval returns a random
+controller credential. POST /api authenticates that credential; state polling
+returns a session epoch, context revision, editable revision and opaque tab IDs.
+Commands carry strictly increasing sequence plus those revisions. One request
+per client at a time, no replay after timeout, polling refreshes before new input.
+TV approval is required before metadata/control. Disconnect/background/network
+change revoke everything. Absolute session lifetime 35 minutes; lost-client
+lifetime two minutes. At most four sockets, 16 KiB receive buffers, 64 KiB send
+buffers, five-second request timeout, bounded global rate and no payload logs.
+Exact numeric Host and same-origin POST Origin required; no CORS; reject upgrades.
+Serve only three bundled assets, with CSP/no-store/nosniff/no-referrer headers.
+
+HTTP remains **development-only**, gated by a debug APK plus an explicit process
+switch and visible synthetic-data warning. No remembered controller or public
+release enablement. Investigate authenticated HTTPS independently; no shared key,
+certificate-warning bypass, CA installation, public service or relay scaffolding.
+
+Acceptance: protocol/identity tests; blocking x64 build with retained cache and
+four-worker 18/22 GiB limits; emulator pairing/navigation/input; private-address
+client route documented separately from ADB loopback forwarding. Race navigation,
+focus/password/private/native UI and reconnect; preserve held-OK regression.
+Then complete gestures/tabs/UI and bounded reliability work in subsequent slices.
+Unavailable Safari and physical-device acceptance remain unchecked.
+
+### Phone remote slice 2 — bundled controls and emulator integration
+
+Before the first build, complete the three bundled companion assets and wire the
+already bounded adapter: address/navigation, normal tabs, relative touchpad,
+two-finger scroll and explicit accessible pointer/click/scroll controls. Display
+connection/paused state and the HTTP warning. Keep all companion resources local.
+Native field editing uses renderer-confirmed text and editable revisions; phone
+edits must not outlive their field/context. Reconnect clears gestures and pending
+edits and polls authoritative state before enabling controls. Test Unicode and
+composition separately from phone keyboard emulation. Native text bridge and
+pairing are not considered proven until the APK runs.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
