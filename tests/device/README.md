@@ -106,6 +106,13 @@ command. No test clears browser data.
 
 ## Cursor and click
 
+`tv-context-probe.mjs PLAYWRIGHT_CORE EMULATOR_SERIAL` requires a normal
+`remote-input.html` document with the native pointer positioned over its counter
+button, and the emulator's diagnostic DevTools forward on9222. It verifies a real
+uinput click first, then holds OK across a same-URL reload and checks that the new
+document receives zero clicks. It uses CDP only for navigation/readback and never
+assigns an input value. Serial validation restricts this probe to emulators.
+
 Serve `tests/pages` on localhost port 8000 and reverse that port through ADB.
 Open `http://127.0.0.1:8000/remote-input.html` through agent-device. Relaunch the
 browser so the pointer starts centered, ensure the page is at its initial scroll

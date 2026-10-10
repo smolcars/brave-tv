@@ -167,6 +167,16 @@ through panel callbacks, deriving its tab after validation so mismatched pairs
 cannot occur. Review corrections before broadening the UI. Root session/input
 tests pass15/15; the real shared-state APK/phone gates are still pending.
 
+Shared-state build r13 compiles/packages but fails mandatory Error Prone:
+the retired private currentUrl helper has no callers after identity extraction.
+Remove that obsolete helper; preserve warnings-as-errors. Do not install or
+accept the APK packaged before analysis failed. Observed cgroup peak was
+13,890,441,216 bytes (12.94 GiB), and the host remained responsive with both
+emulators. Add a native uinput/CDP regression that proves a click reaches the
+fixture first, then holds OK across a real same-URL document reload and requires
+zero clicks on the replacement. CDP performs navigation/readback, never injected
+text values. Device runtime acceptance remains pending on the corrected APK.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
