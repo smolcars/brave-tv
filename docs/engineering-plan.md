@@ -1088,3 +1088,30 @@ analytics producers, first establishing a focused histogram regression. Keep
 full traffic audit, YouTube video-ad reproduction, focus/state edge cases and
 broader video/lifecycle tests open. No hardware installation is part of this
 closeout. Naming and independent release-signing/backup decisions remain open.
+
+### Finish emulator privacy, video and reliability; then stop task processes
+
+The user resumes software checks while explicitly deferring Chromecast work.
+The installed build's native histograms still contain Shields filter-list/cookie
+usage, Brave News usage, Sync status and bandwidth-savings reporting. First
+exclude Android Shields reporting at its shared entry points, including list
+observer/timer startup and cookie-list recording. Keep settings, filter loading,
+security services and desktop behavior intact. Preserve registered legacy prefs
+for compatibility, but do not update analytics counters. Adapt Android unit
+expectations and verify real before/after native histograms plus list toggles
+and request-level blocking on the cached APK. Then close the observed News,
+Sync and savings reporting entry points after checking their consumers; audit
+startup/navigation/search traffic with default-redacted NetLog, separating
+website requests from browser reporting and local performance diagnostics.
+
+For YouTube, sample signed-out ordinary videos through startup and later
+playback positions, record visible ad/player state and network/media errors,
+and repeat actual native playback/fullscreen controls. Report the reproduction
+limit if video ads do not appear; never claim universal prevention from a sample.
+Run a sustained mixed emulator session with memory/crash/ANR evidence, adaptive
+playback where available, app switching, Back recovery and process recreation.
+Fix demonstrated regressions, retain hardware-specific acceptance as pending.
+Review only each latest implementation commit and push source before root.
+Finally restore diagnostic flags/network/IME settings and stop all identifiable
+task-owned builds, emulator, fixture servers, captures and helper sessions.
+Preserve caches, profiles and artifacts; do not stop T3 or unrelated user services.
