@@ -1345,3 +1345,14 @@ timeout, then stops test user 12. Users 11/12 remain stored but stopped;
 original profiles are intact. The emulator, fixture servers, build and host
 device helper are stopped, and emulator forwards/reverses are removed.
 Artifacts, browser profiles and compile caches remain preserved.
+
+### User-requested emulator reset (10 October)
+
+After closeout, the user explicitly requests clearing simulator data. With all
+emulators stopped, clear runtime data, installed apps, test users and snapshots
+from `brave_tv_clean_api36`, `brave_tv_launch_followup_api36` and
+`brave_tv_onboarding_api36`. Preserve each AVD configuration/definition and the
+shared SDK images. This frees about 20.53 GiB. The earlier preserved emulator
+profiles no longer exist; future acceptance requires installing an APK again.
+Saved evidence, APK artifacts, source/build caches and the physical Chromecast
+are unchanged. The stale emulator panel entry is closed.
