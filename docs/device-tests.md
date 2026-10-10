@@ -634,3 +634,21 @@ both `/showbanner.js` and `/1_cookie.js` fail specifically with
 `ERR_BLOCKED_BY_CLIENT`. Temporary cosmetic/scriptlet rules remain removed.
 Home followed by normal relaunch and the 12-step persistence check retains
 Standard (disabled current action, Aggressive focused as the alternative).
+
+## TV popup tab strip (10 October UTC)
+
+Source `266425387` passes blocking x64 build in 1m31.37s (wrapper 1m34.84s),
+observed peak 11,915,833,344 bytes. Artifact
+`tv-tab-strip-266425387-x64-debug-20261010/BraveMonox64.apk` is
+852,996,118 bytes, SHA-256
+`ce4c6372c38a4a787aaf895eb30073eb89dc8b9e39abbef0bc5943d65fb79f0e`.
+Signature verification and preserving update pass. The native tab list retains
+all 11 tabs, including the popup child on its second page. Selecting that tab
+and returning from the diagnostic history to its original bookmark page shows
+no phone group strip. Before/after images are
+`phone-group-strip-before-61d.png` (installed source 360b81ac7) and
+`phone-group-strip-after-266425387.png` under the external logs directory.
+Both were visually inspected. The 16-step native-panel replay passes after
+relaunch (3.8s), including normal/private tab entry and Back focus restoration.
+Group persistence itself is preserved by source review; no grouping prefs or
+profile files were modified by the test.
