@@ -127,6 +127,23 @@ physical-input source; retain strict compiler warnings. Replace timing guesses
 in the companion polling regression with an explicit held-response barrier,
 then rerun the sandboxed checks and latest-commit review.
 
+### Phone remote runtime correction
+
+The actual private-network phone page pairs and navigates the TV. Backgrounding
+the active listener reproducibly kills the browser: Thread::Stop joins on the
+UI thread, violating Chromium's blocking restriction. Host the server on the
+existing Chromium IO task runner and delete it there; invalidate Java admission
+before queuing deletion. Re-run the PID-preserving background regression and
+network-change revocation. Do not silence the blocking assertion.
+
+The actual input field focuses, but no editable state is exported. Inspection
+of the built ImeAdapterImpl finds zero hook calls: content_full_java was absent
+from the bytecode rewrite input list. Add that exact JAR, verify all four hook
+sites in the transformed artifact, then prove native Unicode/editing through
+the paired phone. Put the home phone action on a separate compact row so the
+existing Bookmarks label does not break mid-word. Stop task-owned emulators
+before the cached build, preserving data and shared services.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
