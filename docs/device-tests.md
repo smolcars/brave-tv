@@ -840,3 +840,57 @@ wrong-port URL returns 404; after restart, Back leaves the expected fixture, so
 that first probe fails its page precondition. Opening the correct foreground
 fixture restores the passing probe. Neither failed diagnostic is counted as an
 acceptance pass. Current normal-tab count is 13 with the owned fixture foreground.
+
+## Shared panel visual acceptance (10 October UTC)
+
+The user rejected the oversized outlined Settings dialog. Source `0597ee53c`
+introduces compact trailing panels, quiet themed surfaces, Nala icons and a
+single filled focus state. Its main-panel replay passes 16 steps in 4.3s and
+Settings replay passes 28 steps in 2.4s. Screenshots reveal Playback below the
+main grid's initial viewport and excess height in short confirmations.
+
+`c509c9254` reduces wide-grid spacing; `03aa6d30d` bounds window height to
+measured content. The final cached Nix build passes blocking Android analysis
+in **3m31.08s**, with four workers and 18/22 GiB limits. Last observed cgroup peak
+is **14,443,749,376 bytes**; final peak was not captured. The earlier builds take
+6m55.24s (`r41`) and 3m31.24s (`r42`). Log prefixes are
+`~/.cache/brave-tv/logs/build-simple-browser-x64-20261010-r4{1,2,3}`.
+
+Final APK: `~/.cache/brave-tv/artifacts/tv-panels-03aa6d30d-x64-debug-20261010/BraveMonox64.apk`,
+**852,834,356 bytes**, SHA-256
+`c3b94b7d2a743ce9497c3bed6b2f99c19cac93ebf9e3f74e42e6d56e7ffdab05`.
+The v2 signature verifies; profile-preserving installation succeeds. The artifact
+contains args, signature and provenance. This is an x64 Debug emulator build.
+
+On the final APK, main panel **16 steps / 4.1s**, Settings **28 / 2.5s**, and
+home **20 / 5.3s** pass. Settings covers every row and Back/focus restoration
+from filters, privacy and search; it does not delete data or change preferences.
+Manual D-pad traversal reaches More tabs after scrolling, opens the next tab
+page, and retains the fixed heading. The history-clear confirmation starts on
+Cancel; right/left and Cancel return safely. All main controls, including
+Playback, fit the standard viewport. Filters and confirmation descriptions are
+readable in the captured English layouts. Home's three cards remain aligned.
+
+Screenshots are outside Git at
+`~/.cache/brave-tv/logs/tv-panels-03aa6d30d-{controls,settings,settings-home,filters,confirmation,tabs-scrolled,home}.png`.
+One owned blank home tab was added for the home checks (14 normal tabs afterward).
+No existing tabs, profile data, filter choices or cached build outputs were removed.
+Larger fonts, translations, hardware and the earlier intermittent startup/home
+focus issue remain separate acceptance work.
+
+### Newly demonstrated cold-start blocking failure
+
+On `0597ee53c` and `c509c9254`, the restored local fixture initially shows its
+ad/cookie scripts loaded. The added `startup-cookie-on` diagnostic fails twice
+on `c509c9254`, including a normal relaunch without another install:
+`ready=complete`, `adLoaded=true`, `cookieLoaded=true`, control loaded. The
+existing request-level `cookie-on` reload then passes, and the no-reload observer
+also passes afterward. Only one matching fixture DevTools target is present.
+Logs: `shields-startup-c509c9254-red{,2}.log`,
+`shields-reload-c509c9254-green.log`, and
+`shields-after-reload-c509c9254-green.log` in the same external log directory.
+
+The no-reload diagnostic proves document effects, not historical request events.
+This is a confirmed open startup protection bug; the reload result cannot close
+it, and it is not yet established as the cause of YouTube video ads. Prioritize
+its diagnosis after this visual acceptance, before independent feed transport.

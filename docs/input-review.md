@@ -424,3 +424,9 @@ Standards 0, Spec 0. Separate read-only reviews cover compact trailing panels,
 fixed headings, list/grid sizing, Material theme colors, Nala icons and retained
 action/lifecycle/focus behavior. Actual clipping, contrast and remote navigation
 remain subject to the emulator checks; review alone does not establish them.
+
+Source wide-grid correction `c509c9254` against `0597ee53c`: Standards 0,
+Spec 0. Source bounded content sizing `03aa6d30d` against `c509c9254`:
+Standards 0, Spec 0. Each review is limited to its latest implementation commit.
+Root no-reload diagnostic `022ad2c` against `72ab780`: Standards 0, Spec 0.
+The diagnostic accurately distinguishes document effects from request traces.
