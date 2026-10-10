@@ -30,6 +30,7 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [x] Add remote-accessible public GitHub/source and license links. Both navigate successfully; generated credits contain 1,058 notices.
 - [x] Implement Google default for new Android profiles and TV provider selection including Brave Search. Existing choice is preserved; normal choice survives restart and private choice is independent. Fresh normal/private defaults are Google; private restart coverage remains open.
 - [x] Verify direct first-run launch, initial focus, Back, keyboard and restart on the emulator without clearing existing profiles. Upgrade and fresh profiles pass; private screenshot protection remains enabled.
+- [x] Remove the TV Shields education promotion and use a neutral launcher icon and media-session label. Fresh eligible emulator profile retains request blocking on `e41398dd1`; original first-launch issue on Android 14 remains unresolved.
 - [ ] Refine remaining controls/settings for clear focus, few navigation steps, remembered selection and clear cursor/scroll state.
 - [ ] Measure startup, panel responsiveness and memory; record emulator limitations and recheck on Chromecast later. Three native-home emulator launch/process-memory samples recorded; whole-browser and hardware measurements remain open.
 
@@ -71,10 +72,12 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 
 ## Physical TV follow-up
 
-- [ ] Build the tested revision for ARM using the preserved cache and non-debuggable configuration.
+- [x] Build the accepted baseline `5c9a36c74` for ARM using the preserved cache and non-debuggable configuration. The later `e41398dd1` identity update is emulator-only so far.
 - [ ] Install without clearing the existing profile; verify update preservation.
 - [ ] Repeat the core flows with the Chromecast's physical remote.
+- [x] Confirm address entry, responsive example.com, visible cursor/one held-OK click, moving YouTube video/audio and physical fullscreen/Back on `5c9a36c74`. No pre-roll observed by the user on the first sample; broader workflows and mid-roll coverage remain open.
 - [ ] Measure startup, whole-browser memory and sustained video on hardware.
+- [x] Record a bounded 605-second mixed hardware run: 21 whole-browser PSS samples, 374.84–655.36 MiB, no new crash/ANR. Continuous endurance and the intermittent first-launch handoff remain open.
 - [ ] Test the second physical TV before declaring the MVP complete.
 
 Production identity, signing, distribution and upstream-update rehearsal remain in the [MVP checklist](mvp-todo.md).

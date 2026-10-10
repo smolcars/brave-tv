@@ -1242,3 +1242,28 @@ The generated merged manifest explicitly references it on TvLauncher; the
 existing banner already has a resource-specific exception for the same alias
 analysis limitation. Add the adjacent icon-only exception, retain blocking
 analysis, then rerun from cache and verify the packaged manifest/icon.
+
+The user authorizes isolated Chromecast profile testing. User 11 reaches the
+browser on its first completed first-run handoff after Google TV setup stops
+intercepting launch. User 12's attempt occurs while the device is asleep;
+Android reports TOP_SLEEPING and blocks opening the first-run activity. This is
+not the original blocked completion PendingIntent. The user reports the TV
+turning off; power diagnostics report idle timeout. Restore user 0, wake the
+device and stop test users 11/12 without deleting either. Pause hardware tests
+and retain the original first-launch issue as intermittent/unresolved; do not
+make an unverified handoff change. Continue branding and YouTube checks on the
+emulator. Build r51 passes with blocking analysis in 3m58s.
+
+### Restored home startup regression
+
+The final home replay fails after loading Home into a tab with earlier page
+history: cold startup opens Browser controls over `chrome-native://newtab/`
+instead of exposing the address-focused native home. Reproduce with a direct
+launcher intent as well as the existing `tests/device/tv-home.ad` replay to
+exclude helper behavior. Check startup classification before view creation,
+restored dialog state, then automation as separate hypotheses. If the view
+type is transient during tab restore, classify the initial home by its new-tab
+URL using the existing URL utility; retain auto-controls for real webpages.
+Keep the correction TV-only and small, run the formerly failing home replay
+and a webpage-restart control, then cached Nix build and latest-only review.
+The Android 14 first-run completion issue is separate and remains open.

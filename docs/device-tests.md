@@ -1225,3 +1225,60 @@ sampler, host device daemon and Android snapshot helper. Both emulators remain
 stopped; browser profile, APK and compile caches are preserved. No source change
 or build occurs in this acceptance slice. First-launch handoff, promotional
 branding, longer video/ad scenarios and second-device acceptance remain open.
+
+### Neutral TV identity and launch follow-up (10 October)
+
+The isolated `brave_tv_launch_followup_api36` AVD preserves the two earlier
+AVDs and their users. On baseline `5c9a36c74`, fresh users 0 and 10 both reach
+ChromeTabbedActivity directly on Android 16. User 0 reproduces the branded
+Shields education bubble on `shields.html`; user 10 has never shown it and has
+no tooltip preference before the update.
+
+Source `4772fcb93` skips that promotion in television mode, provides a neutral
+launcher-alias icon and qualifies `app_name` for television. Build r50 catches
+an unused-icon lint warning despite the generated manifest reference. The
+single-resource correction `e41398dd1` follows the existing banner exception.
+Build r51 passes with blocking static analysis, four workers, 18/22 GiB memory
+thresholds and no swap in 3m57.75s. The observed cgroup peak is 15.66 GiB;
+per-process maximum RSS is 4.84 GiB, which is not total build memory.
+
+The resulting x64 Debug APK is 850,986,432 bytes, SHA-256
+`16f8a80cf1b63a4a4b706d52a4e8b1ae1d373d33a239705a1eb340a419294111`.
+Its APK Signature Scheme v2 verification passes. AAPT confirms TvLauncher's
+icon references the packaged neutral vector and `app_name` has a television
+alias to the existing working label. Artifact, GN args, signature and source
+record are outside Git under
+`~/.cache/brave-tv/artifacts/tv-identity-e41398dd1-x64-debug-20261010/`.
+An in-place emulator update preserves both browser profiles. On user 10 the
+fresh tooltip-eligible fixture loads without the promotion, retains its absent
+tooltip preference, loads the control script and blocks both fixture requests
+with `net::ERR_BLOCKED_BY_CLIENT`. This verifies request blocking, not which
+individual list owns the cookie-pattern rule. A repeat probe on a background
+tab times out; only foreground results count. Ordinary fixture playback
+advances without a media error; Android reports its active session as
+`TV Browser (prototype)` instead of Brave.
+
+With user approval, Chromecast test users 11 and 12 are created without
+resetting existing users. Initial system-profile setup intercepts one attempt;
+after disabling setup only in the test profile, user 11 reaches
+ChromeTabbedActivity from WelcomeOnboardingActivity on the first completed
+browser first run (7.8s launch wait), with no blocked background launch. The
+second profile attempt is invalidated by system sleep: power state says
+`mWakefulness=Asleep`, `mLastSleepReason=timeout`, and Android blocks opening
+WelcomeOnboardingActivity from TOP_SLEEPING. This differs from the earlier
+completion-PendingIntent rejection and is not a reproduction of that defect.
+After the user's TV-off report, restore original user 0, wake the Chromecast
+(Awake confirmed), stop both test users and pause hardware testing. Their data
+is preserved. No first-launch source fix is claimed; the intermittent Android
+14 handoff remains open. The Chromecast retains the accepted `5c9a36c74` APK.
+
+The updated fresh emulator profile samples signed-out YouTube videos
+`plN7JMbadRg` and `pAnGwRiQ4-4` at initial playback, then at 20 and 15 minutes
+respectively. A cold browser restart restores the second video; explicit
+resume/seek to 15 minutes also passes. All five six-sample observations advance
+about 25 seconds with readyState 4, 640x360 content, no media error and no
+observed `.ad-showing` state, mutation-observer ad event or matched ad text.
+This is bounded DOM/playback evidence: observation begins after page load,
+later positions use a programmatic seek, and no claim is made about the entire
+pre-roll, uninterrupted mid-roll schedule, signed-in sessions or every video.
+No YouTube blocking source change is justified by these passing samples.

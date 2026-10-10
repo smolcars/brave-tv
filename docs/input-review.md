@@ -474,3 +474,11 @@ Standards 0, Spec 0. Each review is limited to that latest implementation.
 The final APK and all five changed Android native test translation units compile;
 runtime native-histogram and blocking checks pass. The unit/browser-test binaries
 were not executed. See the final emulator evidence in device-tests.md.
+
+TV neutral identity `4772fcb93` against `5c9a36c74`: Standards 0, Spec 0.
+Launcher lint correction `e41398dd1` against `4772fcb93`: Standards 0, Spec 0.
+Each pair reviews only the latest implementation commit. The icon exception
+matches the existing launcher-banner exception; blocking analysis remains on.
+Cached x64 build r51 passes, including static analysis. Packaged manifest and
+resources resolve the neutral launcher icon and television app-name alias;
+runtime media-session labeling and fresh-profile request blocking pass.
