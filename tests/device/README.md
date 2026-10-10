@@ -274,3 +274,10 @@ buttons with that cursor; verify captions are rendered, the idle cursor hides,
 and Back exits fullscreen. Exercise Home/relaunch and tab/document replacement
 with the native Playback panel open. The 24-second looping clip does not establish
 long-form seeking, adaptive streaming, hardware decoding or sustained playback.
+
+`tv-shields-standard.ad` requires a normal `shields.html` tab with no page
+history, protection on, and Aggressive blocking selected. It switches back to
+Standard and requires the panel to survive with Aggressive as the enabled
+alternative. It fails with the native invalid-mode assertion on `360b81ac7`.
+Check reverse selection and restart persistence separately; restore the original
+mode afterward. This replay changes only the dedicated fixture origin's mode.
