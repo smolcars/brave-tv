@@ -347,3 +347,8 @@ Root initial idle replay `69949f4` against its parent: Standards 0, Spec 1
 wake-only and visible-held-click checks. Latest correction `1470e9f` against
 `68268a7` adds an explicit directional wake to avoid a timer race: Standards 0,
 Spec 0. All reviews cover only the named latest implementation versus its parent.
+
+Source native-dialog outline `360b81ac7` against `c1f0762ed`: Standards 0,
+Spec 0. Root ordinary-media fixture `c6cee1c` against `e710733`: Standards 0,
+Spec 0. Runtime suitability of the short clip is recorded separately; source
+review does not establish an active MediaSession.

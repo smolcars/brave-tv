@@ -547,3 +547,36 @@ non-alphabetic uinput remote, `dpad-idle-wake.jsonl` leaves `Clicks: 0` and the
 separate `dpad-held-click.jsonl` produces `Clicks: 1`. The idle screenshot
 `cursor-idle-pass-c1f0762ed.png` passes absence at 960,700. Further fullscreen
 and lifecycle checks remain separate from these local input results.
+
+The visible cursor pixel check also passes during a five-second held OK on
+`c1f0762ed`; release increments the existing count from one to two exactly once.
+The 16-step native browser-panel replay passes. A loopback connection failure
+and a self-signed TLS fixture display their upstream error/warning pages, and
+Back opens browser controls from each. On the certificate warning, the real
+uinput pointer activates Back to safety and returns to the native home. The
+certificate was never accepted or added to trust storage. Diagnostic TLS keys
+and screenshots stay outside Git.
+
+The local Chromium bear clip plays at 1280×720 with audio, readyState 4 and no
+media error. Real uinput movement/clicks activate Play, captions and Fullscreen.
+`media-fullscreen-idle-c1f0762ed.png` visibly shows captions with no cursor/hint;
+the absent-cursor pixel check passes. Back exits fullscreen while playback
+continues, confirmed by the read-only media probe. Native Playback correctly
+leaves controls disabled for this 2.747-second transient clip. Chromium's
+five-second persistent-content threshold explains the result; the fixture now
+uses an existing 24-second clip for the independent native-panel checks.
+
+## Strong native dialog focus (10 October UTC)
+
+Source `360b81ac7` passes blocking analysis in 3m44.71s (Siso 3m41.28s,
+16 steps), observed cgroup peak 14,669,373,440 bytes. Preserved artifact:
+`~/.cache/brave-tv/artifacts/tv-dialog-outline-360b81ac7-x64-debug-20261010/BraveMonox64.apk`,
+852,996,186 bytes, SHA-256
+`1e4266358dfe4018efc788da57747aeeb90319c73e2896f04fe6d11861f202a8`.
+Signature verification and profile-preserving install pass. Confirmation starts
+on Cancel; Right moves the bright outline to OK and removes it from Cancel,
+and Select returns true. Prompt starts in the editor, Down reaches Cancel and
+Select returns `Prompt canceled`. The five-step alert replay passes again.
+Screenshots `dialog-cancel-outline-360b81ac7.png` and
+`dialog-ok-outline-360b81ac7.png` were visually compared with the earlier subdued
+fill. Location refusal and remaining media/lifecycle checks follow separately.
