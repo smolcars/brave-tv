@@ -1,0 +1,29 @@
+# Start in normal-tab Settings with Search engine focused. No data is changed.
+wait "text=\"Search engine\" focused=true" 3000
+tv-remote down
+wait "text=\"Content Filters\" focused=true" 3000
+tv-remote select
+wait "text=\"Cookie notice blocker: On\" focused=true" 3000
+tv-remote back
+wait "text=\"Content Filters\" focused=true" 3000
+tv-remote down
+wait "text=\"Clear browsing data\" focused=true" 3000
+tv-remote select
+wait "text=\"Clear browsing data\"" 3000
+tv-remote back
+wait "text=\"Clear browsing data\" focused=true" 3000
+tv-remote down
+wait "text=\"Open-source licenses\" focused=true" 3000
+tv-remote down
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote up
+tv-remote up
+tv-remote up
+tv-remote up
+wait "text=\"Search engine\" focused=true" 3000
+tv-remote select
+wait "text=\"Google · Selected\" focused=true" 3000
+tv-remote back
+wait "text=\"Search engine\" focused=true" 3000
+tv-remote back
+wait "text=\"Settings\" focused=true" 3000

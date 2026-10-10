@@ -418,3 +418,9 @@ Standards 1 (update precedence documentation), Spec 1 (independent packaged
 fallback reused the legacy DAT prefix). Correction `8d52513b1` against
 `f3938b1c0`: Standards 0, Spec 0. The corrected prefix distinguishes the
 independent packaged snapshot before its first signed update.
+
+Source shared TV panel redesign `0597ee53c` against `8d52513b1`:
+Standards 0, Spec 0. Separate read-only reviews cover compact trailing panels,
+fixed headings, list/grid sizing, Material theme colors, Nala icons and retained
+action/lifecycle/focus behavior. Actual clipping, contrast and remote navigation
+remain subject to the emulator checks; review alone does not establish them.
