@@ -22,13 +22,6 @@ try {
       { op: "new" },
       { op: "back" },
       { op: "move", dx: 1, dy: 1 },
-      {
-        op: "edit",
-        edit: "replace",
-        text: "must not arrive",
-        start: 0,
-        end: 0,
-      },
     ]) {
       const response = await post("/api", {
         token,

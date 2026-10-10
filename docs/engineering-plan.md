@@ -236,6 +236,17 @@ restoration, media-state updates, QR pairing, and unchanged security/model tests
 Address/home data/tab actions/download improvements follow as separate slices;
 a renderer migration alone is not complete feature acceptance.
 
+Latest root review: Standards has no findings; Spec catches an incomplete edit
+request in the paused probe (missing editable/version). Remove that request:
+its rejection does not prove input ownership. The probe now claims only valid
+navigation/new/back/pointer rejection and metadata redaction. Native Unicode,
+editable-version/stale-focus and password checks remain the separate real native
+input probe. Re-run paused checks for actual modal/private owners after review.
+The next panel slice also covers disabled overflow initial focus (currently
+falls back to the toggle) and disables the phone entry in private controls.
+Final private closure on da718 returns to the retained normal dialogs fixture;
+no private URL/title is copied into normal browsing.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
