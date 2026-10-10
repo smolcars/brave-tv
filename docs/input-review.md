@@ -327,3 +327,8 @@ Root dialog fixture `27a85ac` against `e56632b`: Standards 0, Spec 0.
 Source modal focus correction `9d78aa3e4` against `9ece2a633`: Standards 0,
 Spec 0. Reviews cover only those latest implementation commits; emulator
 confirmation of the focus correction is pending.
+
+Source `57002766b` against `9d78aa3e4`, and root no-media replay `4350f6d`
+against `b48e7a6`: Standards 0, Spec 0. The native nullable return and disabled
+panel path were reviewed. Source API declaration fix `77e234039` against
+`57002766b`: Standards 0, Spec 0. Runtime results are separate from these reviews.

@@ -461,3 +461,36 @@ it also dismisses location permission without granting it. The permission
 screenshot `dialog-focus-fail-8164e10cd.png` is preserved in external logs.
 The fixture is touch/agent-ref initiated; remote interaction under test is the
 native dialog. Source `9d78aa3e4` is the planned focus correction, awaiting build.
+
+## Native playback diagnostic (10 October UTC)
+
+Source `9ece2a633` builds with blocking analysis in 7m50.95s (Siso 7m46.39s,
+708 steps), with an observed cgroup peak of 13,674,426,368 bytes. Artifact:
+`~/.cache/brave-tv/artifacts/tv-playback-9ece2a633-x64-debug-20261010/BraveMonox64.apk`,
+852,999,534 bytes, SHA-256
+`0ea4d92df80fc784b9565c954400fbd469f9d30b7bd402edc0be251870b36b28`.
+Signature verification and profile-preserving install pass. This is a diagnostic
+artifact with a known no-media crash, not an accepted candidate.
+
+Opening Playback on the session-less local dialog page crashes twice with
+`MediaSession.isControllable()` on null. `tv-playback-empty.ad` fails at step 9
+waiting for the panel's Browser controls footer. Native JNI returns
+`MediaSessionImpl::GetIfExists`, despite the Java non-null annotation. The
+nullable-session correction is `57002766b`, pending the next runtime run.
+
+With the existing YouTube tab selected, muted autoplay has a noncontrollable
+session and all playback actions are disabled. Unmuting on the page makes the
+native controls usable. D-pad Select pauses at 52.532832s, changes the focused
+button to Play, and leaves the panel open. Seek forward advances to 57.532832s;
+Seek backward restores 52.532832s, verified by read-only page assertions.
+The initial +10s expectation fails: this site's handler uses five seconds,
+confirming why the button wording must not promise ten. Resume changes the
+focused button to Pause and media time progresses to 60.338453s. Screenshot
+`playback-9ece2a633.png` was visually checked. Back restores Playback focus.
+A diagnostic navigation in the same tab/WebContents to the local dialog page
+closes the old playback panel and exposes the new page.
+
+The dialog-focus build at `9d78aa3e4` fails Java compilation because
+`View.addFocusables` requires `ArrayList<View>`, not its `List<View>` interface.
+Source `77e234039` fixes that declaration and includes the no-media correction.
+The cached retry is in progress; neither failure is counted as accepted.
