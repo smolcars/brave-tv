@@ -61,7 +61,8 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 - [ ] Exercise Shields toggles and resource updates without relying solely on counters.
 - [ ] Play ordinary and adaptive video; use play/pause, seeking and fullscreen/Back.
 - [ ] Recover from Home, app switching, network interruption and process recreation.
-- [ ] Complete a sustained 30-minute browsing/video run with logs and resource samples.
+- [x] Complete 30 minutes of ordinary video playback with whole-process memory samples, crash/ANR checks and frame counters.
+- [ ] Complete sustained mixed browsing/lifecycle and adaptive-video validation.
 - [ ] Save visual evidence at TV density, including focus, text legibility and panel edges.
 
 ## Physical TV follow-up

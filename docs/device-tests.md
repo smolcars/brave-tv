@@ -776,3 +776,32 @@ Logs are `filter-verifier-host-r4*`, `filter-store-host-r1*`, and
 `filter-provider-host-r1*`/`r2*` under the external logs directory. These checks
 exercise real Chromium crypto, parsers and atomic file writes; they do not
 establish Android runtime, network delivery or public-feed acceptance.
+
+## Thirty-minute ordinary playback and promotion acceptance (10 October UTC)
+
+Installed source `c8957a6c3`, 02:43:42–03:13:42 UTC: the local 24.109-second,
+427×240 MP4 loops for 30 minutes. All 61 half-minute samples report complete
+browser/renderer/GPU/zygote PSS and successful playing/ready/no-media-error state.
+Whole-process PSS starts at 746.72 MiB, ranges 684.73–747.54 MiB, and ends at
+693.57 MiB. Video frame count rises from 580 to 53,637; cumulative dropped
+frames rise from 1 to 3. No new crash-buffer record appears during the window,
+and activity manager reports no ANR since boot. Logs and per-PID memory samples:
+`~/.cache/brave-tv/logs/sustained-c8957a6c3/`.
+
+This establishes uninterrupted ordinary playback without sustained PSS growth
+in this x64 Debug emulator. It is not adaptive streaming, audio-sync, DRM,
+mixed browsing/lifecycle stress, or Chromecast memory acceptance. Native host
+builds ran on the computer during part of the sample.
+
+Afterward the 17-step private-new-tab replay passes in 5.1s. Closing its owned
+private blank tab returns to normal native home with Address or search focused,
+12 normal tabs retained and no inactive-tab promotion. The exact archived count
+remains 6, and both archive-auto-delete enabled/decision preference keys remain
+absent before and after. No retention preference was fabricated. An earlier
+attempt restarted before Home navigation had completed and failed its home
+precondition on the old media URL; it is not a successful replay or the earlier
+step-6 intermittent focus issue.
+
+Before installing the independent-provider APK, both actual `engine0.dat` and
+`engine1.dat` files have the legacy `Brave-TV adblock 22dd05…b014b70e` prefix.
+This supplies the real migration case for the subsequent installation.
