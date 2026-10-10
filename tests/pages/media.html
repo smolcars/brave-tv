@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TV ordinary media checks</title>
+<style>
+  body { margin: 24px; background: #111820; color: white; font: 24px sans-serif; }
+  video { display: block; width: 65vw; max-height: 55vh; margin: auto; }
+  nav { display: flex; justify-content: center; gap: 12px; margin: 20px; }
+  button { font: inherit; padding: 16px; }
+  output { display: block; text-align: center; }
+</style>
+<video controls loop preload="metadata" src="http://127.0.0.1:18083/bear-1280x720.webm">
+  <track kind="captions" src="media.vtt" srclang="en" label="Test captions">
+</video>
+<nav aria-label="Video checks">
+  <button id="play">Play</button>
+  <button id="pause">Pause</button>
+  <button id="fullscreen">Fullscreen</button>
+  <button id="captions">Show captions</button>
+</nav>
+<output aria-live="polite">Loading media</output>
+<script>
+  const video = document.querySelector('video');
+  const output = document.querySelector('output');
+  const captions = document.querySelector('#captions');
+  const failure = error => { output.textContent = error.message; };
+  document.querySelector('#play').onclick = () => video.play().catch(failure);
+  document.querySelector('#pause').onclick = () => video.pause();
+  document.querySelector('#fullscreen').onclick = () => video.requestFullscreen().catch(failure);
+  captions.onclick = () => {
+    const track = video.textTracks[0];
+    track.mode = track.mode === 'showing' ? 'disabled' : 'showing';
+    captions.textContent = track.mode === 'showing' ? 'Hide captions' : 'Show captions';
+  };
+  for (const event of ['loadedmetadata', 'playing', 'pause', 'error']) {
+    video.addEventListener(event, () => {
+      output.textContent = video.error ? `Media error: ${video.error.code}`
+        : `${video.paused ? 'Paused' : 'Playing'} — ${video.videoWidth}×${video.videoHeight}`;
+    });
+  }
+</script>
+</html>
