@@ -6,13 +6,13 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
-## Current direction: TV UI rebuild planning (10 October)
+## Current direction: autonomous TV UI implementation (10 October)
 
 The user requested an in-depth plan for a beautiful, convenient TV-first UI
 using Kotlin/Compose while retaining Chromium. Follow the
 [TV UI rebuild plan and ordered todo](tv-ui-rebuild-plan.md) for scope,
 presentation/model ownership, design work, integration proof, migration and
-acceptance gates. Implementation has not started. The next implementation
+acceptance gates. Implementation is starting. The next implementation
 slice begins with the surface inventory and pinned Compose dependency audit;
 do not rewrite browser storage or replace Chromium with a WebView.
 
@@ -20,6 +20,30 @@ The sections below record earlier implementation decisions and evidence.
 Time-specific device restrictions/permissions describe those earlier tasks;
 follow the user's current authorization for future device work. This planning
 task does not operate the Chromecast or reopen the deferred release backlog.
+
+### Current scoped overrides and first slice
+
+The user authorizes the complete canonical UI checklist, emulator tests and
+incremental reviewed commits/pushes to both master branches. The physical spike
+and performance gate is deferred because the TV is busy. Produce concrete visual
+alternatives, then choose calm charcoal/warm text with a restrained accent and
+continue unless the user steers. These overrides do not waive actual-engine,
+security or data-integrity gates. Do not operate the physical Chromecast in any
+way; explicitly target verified nonphysical emulators. Preserve caches/profiles;
+handoff cleanup is complete, not authorization for repeated data resets.
+
+First slice: inventory routes and pinned dependencies, capture a baseline on
+source5829, seed synthetic upgrade fixtures, show two designs and prove Compose
+for TV home and a compact panel in the actual GN APK. Retain native content,
+models, input and security ownership. Acceptance requires blocking analysis,
+native focus/IME/page/fullscreen and lifecycle checks; prototypes are not APK
+acceptance. Source commits precede checkout advancement; one cached x64 build
+at a time, SISO local=4, MemoryHigh18G/MemoryMax22G/swap0, blocking analysis.
+
+Initial host observation: 29 GiB RAM, 6.2 GiB used, 23 GiB available, no swap;
+395 GiB disk free. No Chromium build or emulator running. Root `6f06d77`, source
+`5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`, both clean. Physical, real-phone
+and second-device acceptance stays pending.
 
 ## Previous feature: phone remote (10 October)
 

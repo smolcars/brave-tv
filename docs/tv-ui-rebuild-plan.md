@@ -1,6 +1,6 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **planned, not implemented**, 10 October 2026. Requested by the user
+Status: **implementation in progress**, 10 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
@@ -16,6 +16,23 @@ Related: [engineering log](engineering-plan.md), [existing TV acceptance](tv-nat
 [phone remote plan](phone-remote-plan.md), [phone evidence](phone-remote-evidence.md),
 [release backlog](mvp-todo.md), [build procedure](build.md),
 [source workflow](source-workflow.md), [device regressions](../tests/device/README.md).
+
+## Current execution authorization (supersedes historical gates)
+
+The user authorizes autonomous implementation, emulator tests and incremental
+commits/pushes to both master branches. Produce both visual alternatives, then
+continue with the strongest calm charcoal direction unless the user steers.
+Selection approval is no longer a blocking Stage 1 gate. Physical spike and
+performance acceptance are deferred; actual-engine emulator integration,
+security and data integrity remain mandatory. Complete independent emulator
+scope while physical gates remain explicitly pending.
+
+The Chromecast is busy and must not be operated, opened, connected, installed,
+queried or tested. Discovery is allowed; all device actions must explicitly
+target a verified nonphysical emulator. Historical hardware permissions in
+other documents are superseded. No ARM build for idle hardware. Preserve caches,
+profiles and artifacts; handoff cleanup is complete and does not authorize
+repeated application-data resets.
 
 ## 1. Outcome and boundaries
 
