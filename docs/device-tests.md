@@ -417,3 +417,36 @@ block and the retention receiver already rejects TV. A separate Rewards
 onboarding notification entry remains reachable in source; the planned
 `8164e10cd` correction is awaiting build/runtime verification. Component service
 authorization and independent update delivery remain unresolved.
+
+## Notification suppression and video observations (10 October UTC)
+
+Source `8164e10cd` builds with blocking analysis in 4m43.51s (Siso 4m40.02s),
+using four workers and the existing 18/22 GiB limits. Observed cgroup peak:
+14,294,921,216 bytes. Preserved artifact:
+`~/.cache/brave-tv/artifacts/tv-notifications-8164e10cd-x64-debug-20261010/BraveMonox64.apk`,
+853,005,148 bytes, SHA-256
+`0c0584fd5d4fbd5f1f5eeaef3f43959d8356a2fbb6b5048b7fc68e6b735ff9c3`.
+Signature verification and profile-preserving install pass. Startup reaches
+browser controls and resumes the YouTube tab; the crash buffer is empty and
+the notification dump contains no active browser/Rewards onboarding notification.
+This is not an injected legacy-notification cancellation test.
+
+On source `33e4873c7`, the official Blender Big Buck Bunny YouTube page
+(`https://m.youtube.com/watch?v=aqz-KE-bpKQ`) plays 640×360 video, duration
+634.601 seconds, readyState 4, without a media error. The non-alphabetic uinput
+remote enters fullscreen through the site's visible control; Back exits it
+and playback continues. Screenshot `youtube-fullscreen-pass-33e4873c7.png` in
+the external logs directory confirms fullscreen. The browser cursor and hint
+remain visible over video, a polish issue to address. Tapping the mobile
+timeline does not seek, motivating the native playback panel.
+
+Sampled DOM states through approximately 233 seconds of content show no
+`.ad-showing`; this neither reproduces the user's pre/midroll symptom nor proves
+universal YouTube ad blocking. The page was not signed in. On the succeeding
+notification build, the read-only media probe reports actual playback at
+182.815 seconds, readyState 4, no error, 5,489 total frames and 112 dropped.
+This emulator sample is not hardware decoding or sustained-performance acceptance.
+
+First playback implementation `07c33b653` fails Java header compilation because
+the pinned Chromium uses the `TabObserver` interface rather than
+`EmptyTabObserver`. The corrected build `9ece2a633` is pending verification.

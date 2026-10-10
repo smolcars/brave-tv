@@ -309,3 +309,16 @@ separately in device-tests.md.
 Source `33e4873c7` against `b289ae6db`: Standards 0, Spec 0. Only the existing
 launcher vector changes; original development artwork is explicitly authorized
 by the rebranding request. No broader historical diff was reviewed.
+
+## Playback and notification changes
+
+Source `8164e10cd` against its parent: Standards 0, Spec 0. This only suppresses
+the legacy Rewards onboarding notification on TV and cancels its own tag/ID.
+
+Source `07c33b653` against `8164e10cd`: Standards 0, Spec 2. The document-change
+callback was not broadcast to this observer, and site seek handlers can ignore
+the requested duration. Source `9ece2a633` against `07c33b653` corrects the
+navigation observer and uses site-defined seek wording: Standards 0, Spec 0.
+Root `6126a05` against `c146d56` adds the actual-media-state probe and instructions:
+Standards 0, Spec 0. Each review was limited to the named latest implementation
+against its parent; runtime acceptance remains separate.
