@@ -1318,3 +1318,30 @@ controls entry. A separate real-webpage restart still opens Browser controls
 with Address or search focused. Foreground request-blocking assertions also
 pass on this final APK. No first-run handoff or hardware fix is claimed by
 this change. No new crash/ANR appears in the bounded identity-test inspection.
+
+### Awake Chromecast first-run repetitions
+
+After the user prioritizes intermittent issues, resume only the isolated
+Chromecast profile checks. User 12 is awake and RUNNING_UNLOCKED; its interrupted
+first run now reaches ChromeTabbedActivity normally (9.1s launch wait).
+Temporarily extend only test user 12's screen-off timeout from 600,000 to
+1,800,000 ms. Repeat initialization by resetting browser data only in this
+disposable test user, never original users 0 or 10. Five direct LEANBACK
+launches pass (launch waits about 0.55–2.17s), followed by three actual pinned
+agent-device open/immediate-snapshot sequences. Every final foreground check
+finds ChromeTabbedActivity, with no browser BAL_BLOCK or background-launch
+rejection. Including user 11's valid first run, this is ten successful fresh
+Android 14 initializations. Sleep/setup-intercepted attempts are excluded.
+
+The original completion-PendingIntent rejection remains unreproduced; these
+passes do not demonstrate a handoff fix. Source and installed ARM APK remain
+`5c9a36c74` throughout this hardware investigation. Preserve the failing-event
+description and bounded repeat harness/logs outside Git under
+`chromecast-first-run-{repeat,agent}-*`. A recurrence needs contemporaneous
+activity/window/power logs; no speculative first-run code change is made.
+
+Closeout restores original Chromecast user 0 and the test user's 600,000 ms
+timeout, then stops test user 12. Users 11/12 remain stored but stopped;
+original profiles are intact. The emulator, fixture servers, build and host
+device helper are stopped, and emulator forwards/reverses are removed.
+Artifacts, browser profiles and compile caches remain preserved.

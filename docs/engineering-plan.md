@@ -1277,3 +1277,12 @@ state before invoking first run so idle sleep cannot masquerade as a handoff
 failure. Preserve original users and restore user 0 after testing. Do not
 change the completion handoff without an actual failing loop. The next feature
 is not specified yet; ask for its scope while completing independent work.
+
+Outcome: the user will discuss the next feature later. Ten valid fresh
+Chromecast initializations pass, including five repeated resets confined to
+the disposable test user's browser data and three actual agent launch/inspect
+sequences. The earlier completion rejection remains unreproduced, so retain
+it as an open observation requiring contemporaneous logs if it recurs. The
+restored-home startup issue is verified fixed; broad release/acceptance tasks
+remain user-deferred. Restore the original hardware profile/timeouts and stop
+all task-owned test processes before closeout.
