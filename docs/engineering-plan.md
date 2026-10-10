@@ -722,3 +722,15 @@ time out and must be brought forward before this check. Source inspection also
 finds a profile-level initial P3A recorder (sponsored-image and Shields settings
 metrics); exclude this Android invocation/helper in the same startup slice.
 Keep actual Shields settings/migrations unchanged.
+
+#### Android promotional ads service
+
+The profile manager still eagerly creates AdsService, and page/Java helpers
+can request it later, despite the removed TV promotions. Stop Android
+construction at the shared `AdsServiceFactory::GetForProfile` entry point.
+Inspect all direct callers and downstream nullable handlers first; retain
+desktop behavior, registered preferences, existing profile files and Shields.
+Do not conflate Brave's promotional AdsService with the blocking engine.
+Update any Android test expectations reachable in the actual GN graph, then
+compile and verify native settings, normal/private page navigation and the
+request-level blocking probe. Continue Rewards/Leo/VPN audit separately.

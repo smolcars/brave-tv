@@ -366,3 +366,8 @@ Standards 0, Spec 0. Each review covers only the named latest implementation.
 
 Root optional histogram diagnostic `9dd9ee7` against `a883a4f`: Standards 0,
 Spec 0. Production analytics removal is a separate implementation.
+
+Source startup analytics `2b20fbc7a` against `266425387`: Standards 0, Spec 0.
+An initial Spec concern about the helper's Android browser tests was withdrawn
+after tracing `android_test_exception_deps`: `brave/test/BUILD.gn` subtracts
+the ads browser-test target on Android. Desktop tests remain unchanged.

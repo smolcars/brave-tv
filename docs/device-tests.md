@@ -652,3 +652,25 @@ Both were visually inspected. The 16-step native-panel replay passes after
 relaunch (3.8s), including normal/private tab entry and Back focus restoration.
 Group persistence itself is preserved by source review; no grouping prefs or
 profile files were modified by the test.
+
+## Android startup analytics shutdown (10 October UTC)
+
+Source `2b20fbc7a` passes the cached blocking x64 build in 1m31.55s
+(wrapper 1m35.07s), observed peak 18,369,216,512 bytes. Artifact
+`tv-startup-metrics-2b20fbc7a-x64-debug-20261010/BraveMonox64.apk` is
+852,996,118 bytes, SHA-256
+`fe6ef7f41022f4cb24104bebcb8af4804b6beceef7988e1c14d079376ac5e6eb`.
+Signature verification and profile-preserving update pass.
+
+On source `d88cef8a9`, the foreground exact native
+`Brave.Core.CrashReportsEnabled` probe passes `enabled` and fails `disabled`
+with present=true. After the new build/restart it passes `disabled`,
+present=false; its native histogram page is empty. The cookie-on request
+probe still passes (control loaded, both ad/cookie requests specifically
+blocked by client). Initial probes against discarded background pages timed
+out; after installation the DevTools socket also appeared only after leaving
+the initial panel and loading a page. Neither diagnostic failure was counted
+as a product pass. No new browser crash appears in the crash buffer.
+
+This establishes the bounded startup collector removal, not all analytics
+call sites or reporting traffic. Promotional service audit remains open.
