@@ -80,6 +80,14 @@ Private/native contexts pause commands and export no tab/editor metadata.
 - `9acc146ce`: fixed those mismatches; r5 compiled Java/bytecode but blocking
   lint caught an API-33 stream method against minimum API 29 after 2m22.75s,
   peak 16,287,571,968 bytes. Replaced with Chromium FileUtils in follow-up.
+- `e0a6bba45`: r6 passes all blocking checks, 294 steps in 4m02.82s;
+  observed peak 16,074,948,608 bytes. Preserved APK:
+  `~/.cache/brave-tv/artifacts/phone-remote-e0a6bba45-x64-debug-20261010/BraveMonox64.apk`,
+  851,004,143 bytes, SHA-256
+  `76cb61c4c1aa8870ca0d2e09075fff35a37b53e8fa90d5b3a0f11e233e57acf1`.
+  First device run exposes the teardown and missing IME-hook problems below.
+- `2a7aa8982`: r7 stops on missing browser_thread.h declaration in 28 seconds,
+  peak 11,282,554,880 bytes. Add the declaring header and repeat.
 - Host companion regression passes fragment removal, a button action arriving
   during polling, exactly one click, portrait/landscape overflow and script-error
   checks. These use a synthetic server, not Android runtime evidence.
@@ -112,5 +120,43 @@ device host reports iOS unavailable: simulators require macOS/Xcode.
 Installed Android emulator version is 36.5.11.0. Version 36.5+ supports a shared
 virtual Wi-Fi network between AVDs. A direct phone-to-TV private address test can
 therefore be distinct from localhost ADB forwards. Record actual addresses and
-routes after launch; no successful reachability is claimed yet.
+routes after launch; the first direct test is recorded below.
 [Android shared emulator networking](https://developer.android.com/studio/run/emulator-networking-interconnect).
+
+## First actual LAN run
+
+TV `brave_tv_clean_api36` is explicitly `emulator-5554`; the new phone is
+`emulator-5556`. T3 Device panels attach to both. Its returned agent-device CLI
+fails with `Error (COMMAND_FAILED): Remote daemon is unavailable`; the configured
+localhost daemon has no listener. Do not restart shared services. Explicitly
+targeted Android commands and UI hierarchy reads are the native-input fallback;
+T3 screenshots/streaming still work. The phone's bundled Chrome is
+133.0.6943.137, so this proves that version, not current Android Chrome or Safari.
+
+The TV initially defaults to emulated Ethernet (10.0.2.15). Its Wi-Fi was off.
+Temporarily enable TV Wi-Fi, connect the emulator's AndroidWifi and disable only
+that emulator's Ethernet via Android 16 IEthernetManager.setEthernetEnabled.
+The resulting shared Wi-Fi addresses are TV 10.0.2.17 and phone 10.0.2.16.
+Chrome on the phone loads the TV's exact private origin (HTTP 200), enters the
+manual code, waits for TV approval, and then opens the harmless fixture through
+the address UI. TV and companion both report the actual fixture title/URL.
+No remote-traffic ADB forwarding or host proxy is involved. Loopback ports
+9222/9223 forward DevTools solely for automation/inspection; they are not product
+endpoints. The fixture server is host loopback 18088, reached from the TV at
+10.0.2.2. This is a simulated LAN, not household-router/physical-phone acceptance.
+
+Native pointer commands focus the fixture's plain input, but editable state
+does not appear. javap on the built content_full_java JAR confirms zero
+TvTextInput calls: the JAR was absent from bytecode_rewriter.gni. This is fixed
+in the next source slice; native text acceptance is still pending.
+
+Backgrounding an active listener reproduces a browser process death within two
+seconds. The same failure occurred during the network switch. Logcat identifies
+`base/threading/thread_restrictions.cc:166`, disallowed synchronous waiting on
+the UI thread, from TvRemoteServer.stop. The correction uses Chromium's existing
+IO task runner for socket operations and deletion, eliminating the private
+thread/join. The PID-preserving background check must pass after installation.
+
+Temporary emulator settings to restore: TV debug_app was null, command-line
+file absent, Wi-Fi disabled, Ethernet enabled. Both emulator userdatas and
+compiled caches remain preserved. The Chromecast has not been operated.
