@@ -952,3 +952,10 @@ navigation including scroll-to-bottom, Back and restored focus. Check search,
 tabs and confirmation layouts for clipped labels. Record actual evidence and
 limitations. Commit incrementally on master and review only the latest source
 implementation against its parent before pushing source and the parent pin.
+
+The first rendered build (`0597ee53c`) passes the main panel and Settings
+navigation replays, but Playback falls below the main grid's initial viewport.
+Keep compact lists unchanged. Reduce the wide panel's heading/outer spacing
+and use 48dp minimum grid actions so all English primary controls fit at the
+standard 960×540dp TV viewport. Retain scrolling for larger fonts, long URLs
+and translations, and preserve the existing three-column focus order.
