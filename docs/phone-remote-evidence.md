@@ -242,3 +242,54 @@ Using actual event listeners makes live composition and composing/final protocol
 edits pass. Native acceptance and the full soak must be repeated after packaging;
 earlier TV composition events alone were insufficient. Both preliminary soaks
 were intentionally stopped short of 30 minutes and are not completion evidence.
+
+## r13 native and integration acceptance
+
+Source `d23276267` passes blocking build r13 in 1m29.99s (50 steps), observed
+peak 13,865,795,584 bytes. Retained APK:
+`phone-remote-d23276267-x64-debug-20261010/BraveMonox64.apk`, 851,003,687 bytes,
+SHA-256 `dcbd92ddeaf2b3516d8c16bc240172fdea05c20b642cd39b18f3494a65882443`.
+
+With the actual Android InputMethodService fixture, native composition remains
+active after acknowledgement and commits Japanese exactly once. The complete
+probe passes Unicode, selection, code-point deletion, textarea/contenteditable,
+stale-focus rejection and password exclusion. Phone CDP composition was cancelled
+under the stock Android IME (also with a separate diagnostic textarea); it is not
+used as device acceptance. The test keyboard has visible fixed-text buttons and
+no command endpoint. It was uninstalled and Gboard restored after the probe.
+The probe also waits for the new field's authoritative text before editing;
+writing immediately after DOM focus, before the phone receives that identity,
+correctly resulted in a discarded edit. No TV field value is assigned by tests.
+
+The normal phone Brave build identifies its engine as Chromium 155.0.8059.40.
+Actual touch tap/drag/two-finger scroll, Back/Forward/Reload and tab operations
+pass. A short simulated phone outage restores the same session in 452 ms; an
+offline click is rejected and subsequent polls show no replay. The TV and phone
+use the shared virtual Wi-Fi route directly. The browser shows its ordinary
+insecure-connection address-bar indicator, but no blocking HTTP or local-network
+permission dialog in the tested flow. This is not Safari/physical-phone coverage.
+
+Native/private panels expose only revision/paused and reject commands. A real
+confirmation dialog pauses the remote and TV Back resumes it. The location
+prompt also rejects remote clicks; the TV's Block action leaves the browser
+permission `denied` (the fixture's five-second request had already timed out).
+The private test tab is closed afterward. Physical uinput held-OK clicks once;
+a second held press increments once and CursorScreenshot passes at 960,700.
+The first attempt used the phone pointer position, which is independent of the
+physical cursor; the corrected run uses five physical Down steps from center.
+
+Shields fixture blocking passes, protection-off permits both requests, and
+restored protection blocks them again. Native media pause/resume, phone-driven
+fullscreen and captions pass. These are fixture regressions, not YouTube or
+hardware audio acceptance. Switching the native search provider to Brave sends
+the phone search to search.brave.com; Google is restored. Stop cancels a slow
+local load, unreachable navigation reports an error, and javascript/file/intent/
+chrome destinations are rejected without changing the page. Early lifecycle
+samples in the running soak include these media/native-panel workloads; the
+steady fixture segment starts afterward. The 30-minute result remains pending.
+
+A new live negative test finds that JSONObject.getInt accepts v=1.5 as version 1.
+`phone-protocol-probe.mjs` is red against r13. Exact numeric identifier validation
+is added to source and the pure session self-check passes; it still needs the
+next APK and live rejection test. This boundary correction does not change the
+r13 performance/lifecycle implementation being soaked.

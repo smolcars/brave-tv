@@ -23,6 +23,23 @@ visible and the companion keyboard panel closed, run:
 node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 ```
 
+For the composition step, build and select the emulator-only test keyboard:
+
+```sh
+ANDROID_SDK_ROOT=/home/nitesh/Android/Sdk bash tests/device/remote-ime/build.sh /absolute/cache/remote-ime
+adb -s emulator-5556 install -r /absolute/cache/remote-ime/remote-ime.apk
+adb -s emulator-5556 shell ime enable org.bravetv.remoteime.test/.RemoteIme
+adb -s emulator-5556 shell ime set org.bravetv.remoteime.test/.RemoteIme
+```
+
+Its visible buttons call Android InputConnection with fixed synthetic Japanese
+text. It has no command endpoint. The native probe taps above the navigation bar
+in its 180-pixel row; this setup is specific to the documented portrait emulator.
+After testing, restore `com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME`
+with `ime set`, then uninstall only `org.bravetv.remoteime.test`. CDP composition
+is retained for the host regression; it is cancelled by the stock Android IME
+and is not a valid substitute for this native stimulus.
+
 This sends pointer/edit commands through the actual companion and reads native
 renderer results, including live composing state before and after acknowledgement,
 composition commit without duplication, selection, deletion, textarea,
@@ -35,6 +52,15 @@ server and does not count as device evidence.
 QR with `PhoneQr.java`, opens its invitation in the phone browser and approves
 on the TV. It never logs the invitation. Keep the screenshot private until the
 single-use invitation is consumed; this checks encoding, not a physical camera.
+
+`phone-protocol-probe.mjs PLAYWRIGHT_CORE` checks that fractional/string protocol
+versions, sequence numbers and document identities are rejected while valid
+commands still work.
+
+`phone-reconnect-probe.mjs PLAYWRIGHT_CORE` briefly takes the phone page offline,
+checks that an attempted click is discarded, then measures restoration of the
+same session and observes subsequent polls for replay. It restores connectivity
+in a finally block.
 
 `phone-controls-probe.mjs` uses real phone touch events and current tab rows to
 check gestures/navigation/tabs and stale/duplicate rejection. It takes the same

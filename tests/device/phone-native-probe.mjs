@@ -111,9 +111,18 @@ try {
   );
   // Android resizes the visual viewport for its keyboard. Dismiss it before
   // targeting toolbar buttons; desktop coordinates can hit the wrong element.
-  if (await phone.evaluate(() => visualViewport.height < innerHeight - 100)) {
-    execFileSync("adb", ["-s", "emulator-5556", "shell", "input", "keyevent", "4"]);
-    await phone.waitForFunction(() => visualViewport.height >= innerHeight - 100);
+  if (await phone.evaluate(() => visualViewport.height < innerHeight - 30)) {
+    execFileSync("adb", [
+      "-s",
+      "emulator-5556",
+      "shell",
+      "input",
+      "keyevent",
+      "4",
+    ]);
+    await phone.waitForFunction(
+      () => visualViewport.height >= innerHeight - 30,
+    );
   }
   await phone.locator("#delete").click();
   await tv.waitForFunction(
@@ -125,12 +134,37 @@ try {
   await phone.locator("#editor").fill("");
   await settled("");
   await phone.locator("#editor").focus();
-  const ime = await phone.context().newCDPSession(phone);
-  await ime.send("Input.imeSetComposition", {
-    text: "日本",
-    selectionStart: 2,
-    selectionEnd: 2,
-  });
+  function tapIme(label) {
+    const adb = (...args) =>
+      execFileSync("adb", ["-s", "emulator-5556", ...args], {
+        encoding: "utf8",
+        timeout: 15000,
+      });
+    const imeState = adb("shell", "dumpsys", "input_method");
+    assert.ok(
+      imeState.includes(
+        "Input method service state for org.bravetv.remoteime.test.RemoteIme",
+      ) && imeState.includes("mIsInputViewShown=true"),
+      "Select and show the Remote IME test keyboard",
+    );
+    const size = adb("shell", "wm", "size").match(/Physical size: (\d+)x(\d+)/);
+    assert.ok(size, "Cannot read phone emulator display size");
+    // The fixture's row occupies the bottom 180 physical pixels. Tap above the
+    // navigation-bar overlay; uiautomator omits the IME window on this image.
+    const x = Number(size[1]) * (label === "Compose Japanese" ? 0.25 : 0.75);
+    adb(
+      "shell",
+      "input",
+      "tap",
+      String(Math.round(x)),
+      String(Number(size[2]) - 150),
+    );
+  }
+  // Use the actual Android InputConnection. The stock IME cancels CDP-injected
+  // composition even in a bare textarea, so CDP is only valid for the host test.
+  await phone.locator("#editor").click();
+  tapIme("Compose Japanese");
+  await phone.waitForFunction(() => composing, undefined, { timeout: 3000 });
   assert.equal(
     await phone.evaluate(() => composing),
     true,
@@ -143,14 +177,15 @@ try {
       (e) => e.type === "compositionstart" && e.id === "plain",
     ),
   );
-  await ime.send("Input.insertText", { text: "日本" });
+  tapIme("Commit Japanese");
+  await phone.waitForFunction(() => !composing, undefined, { timeout: 3000 });
   await settled("日本");
   assert.equal(await phone.evaluate(() => composing), false);
   assert.equal(await phone.locator("#editor").inputValue(), "日本");
   await tv.waitForFunction(() =>
     window.events.some((e) => e.type === "compositionend" && e.id === "plain"),
   );
-  await ime.detach();
+
   await phone.locator("#editor").evaluate((e) => e.setSelectionRange(0, 1));
   await phone.waitForFunction(
     () =>
@@ -193,7 +228,10 @@ try {
     ["#editable", "Native café 🌍"],
   ]) {
     await focus(selector);
-    await phone.waitForFunction(() => state?.editable?.ready && !busy);
+    const original = await tv
+      .locator(selector)
+      .evaluate((e) => (e.isContentEditable ? e.textContent : e.value));
+    await settled(original);
     await phone.locator("#editor").fill(replacement);
     await settled(replacement);
     assert.equal(

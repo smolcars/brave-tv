@@ -1498,3 +1498,24 @@ compositionstart/end listeners and require live client composition plus a
 composing protocol edit in the host regression. Re-run native composition on
 the phone. Earlier TV composition-event observations alone are insufficient
 acceptance; stop the preliminary soak and restart it after this correction.
+
+### Native phone composition fixture
+
+The shipped companion now receives real composition events, but Android's stock
+IME immediately cancels CDP-injected composition even in a bare textarea outside
+the remote. Replace that invalid device stimulus with a minimal test-only Android
+InputMethodService on the phone emulator. Its visible buttons send fixed Japanese
+composition/commit through the phone's actual InputConnection. No broadcast,
+network or product endpoint is added. Restore Gboard and uninstall the fixture
+after acceptance. Keep the host CDP regression, where that stimulus is valid.
+
+### Exact protocol identifiers
+
+A real authenticated request with v=1.5 is accepted because JSONObject.getInt
+truncates it. Require numeric, nonnegative, JavaScript-safe integers for protocol
+version, sequence, document and editable identities before comparing them. Reject
+strings, fractions, nonfinite and out-of-range values through one small helper
+in the existing session policy, covered by its host self-check. Keep the running
+soak on d23276267; this boundary-only correction requires a subsequent bounded
+build and targeted live rejection/native-input checks, not a repeated performance
+run or mutation of the checkout while it is running.

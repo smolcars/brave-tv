@@ -184,23 +184,23 @@ UI takeover must say control is paused rather than falsely acknowledge success.
   NAT/forwarding. A loopback ADB forward is only adapter evidence, not LAN proof.
 - [x] Record HTTP/HTTPS bootstrap findings and supported browser/API behavior;
   select a release-capable route or keep HTTP restricted to development.
-- [ ] Prove native pointer and Unicode/composition/selection/deletion on harmless
+- [x] Prove native pointer and Unicode/composition/selection/deletion on harmless
   inputs, textarea and contenteditable; test password/focus-change rejection.
 
 ### 2. Complete one local pairing-to-navigation flow
 
 - [ ] Add Use your phone, bundled serving, QR/manual fallback, TV approval,
   connected indicator, disconnect, expiry and network-change teardown.
-- [ ] Pair a simulated/browser client and open address/search; return actual
+- [x] Pair a simulated/browser client and open address/search; return actual
   page identity/loading/error state and preserve selected search provider.
 - [ ] Confirm companion assets and control require no external host or internet.
   Use local fixture pages to distinguish remote operation from internet browsing.
 
 ### 3. Finish remote controls and visual design
 
-- [ ] Touchpad, tap exactly once, scroll, accessible alternatives and cursor state.
-- [ ] Back/Forward, Reload/Stop and normal-tab create/select/close with live state.
-- [ ] Native eligible-field keyboard bridge and clear unsupported-field feedback.
+- [x] Touchpad, tap exactly once, scroll, accessible alternatives and cursor state.
+- [x] Back/Forward, Reload/Stop and normal-tab create/select/close with live state.
+- [x] Native eligible-field keyboard bridge and clear unsupported-field feedback.
 - [ ] Polish phone layout, TV pairing and connection UI; check keyboard resize,
   portrait/landscape, zoom, contrast, focus and screen-reader labels.
 
@@ -212,7 +212,7 @@ UI takeover must say control is paused rather than falsely acknowledge success.
 - [ ] Race tab/navigation/focus/private/modal transitions against clicks and text.
 - [ ] Verify no unpaired state leaks, cross-site control, payload logging or
   indefinitely retained sockets/timers; listener is absent when remote is off.
-- [ ] Rerun affected home, D-pad, tabs, native dialogs, Shields and playback checks.
+- [x] Rerun affected home, D-pad, tabs, native dialogs, Shields and playback checks.
 - [ ] Run a bounded 30-minute session and repeated pair/disconnect cycles;
   compare whole-browser memory/CPU and measure input/reconnect latency.
 - [ ] Test available Chromium/mobile-browser emulation and Android phone emulator.
