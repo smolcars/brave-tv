@@ -352,3 +352,7 @@ Source native-dialog outline `360b81ac7` against `c1f0762ed`: Standards 0,
 Spec 0. Root ordinary-media fixture `c6cee1c` against `e710733`: Standards 0,
 Spec 0. Runtime suitability of the short clip is recorded separately; source
 review does not establish an active MediaSession.
+
+Root persistent-media sample `a4bff09` against `4a5f3b0`: Standards 0, Spec 0.
+Root byte-range media server/check `96262a9` against `c66ba1f`: Standards 0,
+Spec 0. Only each named latest implementation was reviewed against its parent.

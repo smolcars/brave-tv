@@ -580,3 +580,19 @@ Select returns `Prompt canceled`. The five-step alert replay passes again.
 Screenshots `dialog-cancel-outline-360b81ac7.png` and
 `dialog-ok-outline-360b81ac7.png` were visually compared with the earlier subdued
 fill. Location refusal and remaining media/lifecycle checks follow separately.
+
+On `360b81ac7`, a separate localhost permission origin initially focuses Block
+with the new bright outline. D-pad Select refuses location; the Permissions API
+returns `denied`. Screenshot `permission-block-outline-360b81ac7.png` was visually
+checked. Existing origin permissions were not reset.
+
+The longer MP4 initially reports a growing duration and seekable [0,0] through
+Python's plain HTTP server. Native Play/Pause works but seeks are disabled;
+an early directional/seek attempt therefore toggles Play instead and fails the
+page-state assertion. The byte-range server's real HTTP checks pass, and after
+relaunch the same browser reports duration 24.109333 and seekable [0,24.109333].
+Both native seek buttons become enabled. With focus asserted before each action,
+Pause → repeated Seek backward reaches 0, Seek forward reaches exactly 10,
+Seek backward returns to 0, and Play resumes at 0.128108. The read-only probe
+confirms each state with readyState 4 and no media error. No product seek policy
+was changed for this fixture correction.
