@@ -363,3 +363,6 @@ The emulator reproduces the crash independently of these read-only reviews.
 Source Standard-mode conversion `d88cef8a9` against `360b81ac7`: Standards 0,
 Spec 0. Source TV tab-group visibility `266425387` against `d88cef8a9`:
 Standards 0, Spec 0. Each review covers only the named latest implementation.
+
+Root optional histogram diagnostic `9dd9ee7` against `a883a4f`: Standards 0,
+Spec 0. Production analytics removal is a separate implementation.

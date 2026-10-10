@@ -614,3 +614,23 @@ The 14 project tests and strict mypy pass. Plain `nix flake check` fails because
 Nix 2.25.3 omits the source submodule. The documented explicit Git flake URL with
 `?submodules=1` passes both flake checks without upgrading Nix or duplicating
 source. This validates project tooling, not the pending Android mode correction.
+
+## Standard protection crash regression (10 October UTC)
+
+Source `d88cef8a9` passes the cached blocking x64 build in 3m33.51s
+(wrapper 3m36.93s), observed cgroup peak 14,695,120,896 bytes. Preserved
+artifact `tv-standard-shields-d88cef8a9-x64-debug-20261010/BraveMonox64.apk`
+is 852,996,166 bytes, SHA-256
+`c0a01cad00f63eb52bb2d7572da1ebd313a8331a01e62c0e3a9484707880c763`;
+signature verification and profile-preserving install pass.
+
+The 16-step `tv-shields-standard.ad` replay passes (5.3s), where the old
+`360b81ac7` aborts at step 14. Native D-pad selection then changes Standard
+to Aggressive and back to Standard without exiting the protection panel.
+Restart persistence and actual request blocking are checked separately below.
+
+The Standard-mode cookie-on request probe passes: the control script loads and
+both `/showbanner.js` and `/1_cookie.js` fail specifically with
+`ERR_BLOCKED_BY_CLIENT`. Temporary cosmetic/scriptlet rules remain removed.
+Home followed by normal relaunch and the 12-step persistence check retains
+Standard (disabled current action, Aggressive focused as the alternative).
