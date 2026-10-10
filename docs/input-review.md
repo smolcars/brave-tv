@@ -375,3 +375,8 @@ the ads browser-test target on Android. Desktop tests remain unchanged.
 Source promotional AdsService guard `57ebe9bbc` against `2b20fbc7a`:
 Standards 0, Spec 0. JNI, tab/search and WebUI consumers tolerate the null
 service; runtime acceptance is separate.
+
+Source `9bec810f8` against `57ebe9bbc`: Standards 1 (enabled-Leo WebUI tests
+still included on Android), Spec 1 (Java availability and native preference
+registration diverge). The compile also detects unreachable feature queries;
+`009b544f8` addresses those compiler errors. Caller/test corrections follow.

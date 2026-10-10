@@ -766,3 +766,11 @@ The first service-support compile rejects the constant-false Android boolean
 expression as unreachable code under Chromium's warnings-as-errors. Use
 platform preprocessor guards for the Leo/VPN helper bodies, preserving the
 desktop feature query. Do not suppress the compiler check.
+
+Latest-only review identifies enabled-Leo tests still included in Android and
+a Java/native availability mismatch: Java sees the raw enabled feature, while
+the native gate stops registering preferences. Align the four Java availability
+checks with one Android support constant, retain Android preference/migration
+registration, exclude enabled-only WebUI tests on Android, and add a disabled
+service/preserved-pref assertion to existing profile browser tests. Preserve
+desktop checks; do not hide a failing enabled-service test by weakening it.
