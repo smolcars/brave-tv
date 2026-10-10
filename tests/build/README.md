@@ -22,3 +22,12 @@ download or compile Chromium.
 ## Native TV home factory
 
 Run `nix develop --command python3 tests/build/check_tv_home_adapter.py "$HOME/.cache/brave-tv/workspace/src"`. It compiles the actual adapter with the pinned ASM jars, rewrites a representative factory, and uses JVM verification and assertions to check normal/private TV and non-TV return paths. This catches stack/frame errors; Android compilation and rendered native-page behavior still require the APK/device checks.
+
+## Inactive-tab promotion
+
+Run `nix develop --command python3 tests/build/check_tv_tab_promo_adapter.py "$HOME/.cache/brave-tv/workspace/src"`.
+It rewrites a representative activity using the real adapter, checks that TV
+initialization has no side effects while phone initialization retains them,
+and rejects an upstream method rename. JVM verification covers the injected
+branch and existing frames. This fails before the TV guard. A complete Android
+build and private-close-to-home device check remain required.
