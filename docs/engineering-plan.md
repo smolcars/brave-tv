@@ -752,3 +752,12 @@ paths. Then repeat a bounded default-redaction network capture while browsing
 and searching Google and Brave Search; distinguish website requests from
 browser reporting. Record remaining background services instead of claiming
 full removal from this one check.
+
+The installed AdsService-only build exposes a remaining Rewards signup modal
+(“Enable Brave Rewards”) above TV controls. Its toolbar checks call the shared
+Rewards support query, so Android support denial addresses that demonstrated
+path. Dismiss with Back, without opting in. Inspection also finds two Leo JNI
+entry points that assert a service instead of handling disabled support; guard
+them before querying the service. The Rewards worker must not create its
+adaptive-captcha service when Rewards is unavailable. Include these callers
+in the same service-removal slice.
