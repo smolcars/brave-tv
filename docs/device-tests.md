@@ -805,3 +805,38 @@ step-6 intermittent focus issue.
 Before installing the independent-provider APK, both actual `engine0.dat` and
 `engine1.dat` files have the legacy `Brave-TV adblock 22dd05…b014b70e` prefix.
 This supplies the real migration case for the subsequent installation.
+
+## Independent snapshot provider emulator acceptance (10 October UTC)
+
+Source `8d52513b1` passes the blocking x64 build in 1m21.54s (wrapper
+1m25.64s). Last observed cgroup peak is 10,932,215,808 bytes, not the final peak.
+Artifact `tv-independent-filters-8d52513b1-x64-debug-20261010/BraveMonox64.apk`
+is 852,799,698 bytes, SHA-256
+`f64b244cee8117258b6f134d61775b9654ce7d975fa704ac7471065730796220`.
+V2 signature verification and profile-preserving installation pass.
+
+After a real page loads, both previously legacy DAT files are replaced with
+`TV independent packaged` followed by the APK snapshot identity. The actual
+cookie-on probe passes: the control loads and the ad/cookie requests are blocked
+by client. A signed sequence-1 bundle is then copied into the previously absent
+application cache as a controlled fixture. Both active DAT files retain the
+packaged prefix during that process. After restart, both carry
+`TV signed adblock 2e9e8c9d4753a5a8c7264d3512931df6ceab2cb150fc7153ec691f5d5ffdf3a1`,
+matching the authenticated payload digest. The control/ad/cookie-on probe passes.
+Native Content Filters off/on changes produce the expected cookie request
+loaded/blocked results while the ordinary ad request remains blocked.
+
+Bundle artifact: `filter-feed-sequence-1/filters.bundle`, 10,192,014 bytes,
+SHA-256 `fb89c11db270045ae046681b2918144e59f56c6c5fdc99cb08fc13ef9c2d3b47`,
+publication `2026-10-10T03:16:45.427Z`. It uses the pinned public key and current
+snapshot; private key material remains outside Git with owner-only access.
+This manual signed-cache fixture validates native load/restart/cache behavior,
+not transport or the native staging call; real staging is covered by the host
+storage tests. Network delivery and freshness UI remain pending.
+
+The initial post-install home replay fails at its tagline assertion with browser
+controls over the new-tab URL. Keep the startup focus/panel race open. A diagnostic
+wrong-port URL returns 404; after restart, Back leaves the expected fixture, so
+that first probe fails its page precondition. Opening the correct foreground
+fixture restores the passing probe. Neither failed diagnostic is counted as an
+acceptance pass. Current normal-tab count is 13 with the owned fixture foreground.
