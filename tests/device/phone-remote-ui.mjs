@@ -8,6 +8,8 @@ const require = createRequire(resolve(process.argv[2], "package.json"));
 const { chromium } = require("playwright-core");
 const assets = resolve("brave/android/java/brave-res/raw");
 const commands = [];
+let approved = false;
+let approvalError = "approval";
 let pollStarted;
 let releasePoll;
 let delayedPoll = false;
@@ -67,6 +69,10 @@ const server = createServer(async (req, res) => {
     res.end(JSON.stringify({ token: "synthetic-test-token" }));
     return;
   }
+  if (!approved) {
+    res.end(JSON.stringify({ error: approvalError }));
+    return;
+  }
   if (data.op === "state" && delayedPoll) {
     delayedPoll = false;
     const barrier = new Promise((r) => {
@@ -119,7 +125,16 @@ try {
   await page.goto(
     `http://127.0.0.1:${server.address().port}/#synthetic-invite`,
   );
+  await page.getByText("Waiting for approval on the TV…", { exact: true }).waitFor();
+  assert.equal(
+    await page.locator("#pairForm").isVisible(),
+    false,
+    "A scanned invitation waiting for TV approval must not ask for a pairing code",
+  );
+  assert.equal(await page.locator("#approval").isVisible(), true);
+  approved = true;
   await page.getByText("Connected to your TV", { exact: true }).waitFor();
+  assert.equal(await page.locator("#approval").isVisible(), false);
   assert.equal(new URL(page.url()).hash, "");
   delayedPoll = true;
   await new Promise((r) => {
@@ -289,9 +304,14 @@ try {
     ),
     false,
   );
+  approvalError = "revoked";
+  approved = false;
+  await page.getByText("Session unavailable. Start a new invitation on the TV.", {exact:true}).waitFor();
+  assert.equal(await page.locator("#pairForm").isVisible(), true);
+  assert.equal(await page.locator("#approval").isVisible(), false);
   assert.deepEqual(errors, []);
   console.log(
-    "Companion regression passed: fragment removal, polling-time action, one click, acknowledged selection/typing, conflicting edit rejection, portrait/landscape overflow, no script errors.",
+    "Companion regression passed: QR approval/retry UI, fragment removal, polling-time action, one click, acknowledged selection/typing, conflicting edit rejection, portrait/landscape overflow, no script errors.",
   );
 } finally {
   releasePoll?.();

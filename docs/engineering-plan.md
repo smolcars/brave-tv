@@ -1578,3 +1578,24 @@ install for the active user, and run the bounded pairing/control smoke test.
 Record real LAN remote traffic separately from diagnostic fixture forwarding.
 Leave the experiment available for the user's phone test with our controller
 revoked and task-owned test services stopped.
+
+### Phone remote regression fixes — emulator first
+
+The user reports misleading QR approval UI, remote pause during YouTube
+fullscreen, a missing cursor after fullscreen exit, a trapped empty tab switcher,
+and slow YouTube loading. Do not operate the Chromecast during this work.
+Reproduce each interaction with a paired emulator and deterministic fullscreen
+fixture, add failing probes at the actual UI/native integration seams, then
+implement focused corrections without relaxing private/modal/security guards.
+Measure fixture and bounded YouTube loading with remote polling on/off before
+attributing performance to the feature. The installed ARM APK is optimized and
+non-debuggable; emulator timings cannot establish physical TV performance.
+Plan follow-up slices here before source changes, build with retained x64 cache
+and existing resource limits, review only latest commits, and leave hardware
+verification deferred until emulator results are complete.
+
+Pairing slice: the host regression fails because the QR token is accepted but
+`pairForm` remains visible during approval. Hide the manual pairing section while
+its token is pending, show an explicit TV-approval section, restore manual entry
+on terminal failure, and hide approval on connection. Exercise pending, approved
+and rejected/expired states with the real bundled JavaScript before packaging.
