@@ -485,3 +485,13 @@ removing any service. Component and Safe Browsing requests are protection
 traffic, not proof of analytics. An empty reporting-host sample establishes
 only the observed window, not all future/background behavior. Do not copy
 credentials, disable TLS checks or substitute private Brave service keys.
+
+#### Neutral development launcher banner
+
+Replace the prototype BT monogram in the existing TV launcher vector with a
+simple screen-and-cursor graphic, using the native home's dark navy and mint
+palette. This is temporary independent artwork, not the final product identity.
+Keep the existing development label, alias, application ID, signing and all
+attribution unchanged. Preserve the lint-approved 160×90dp size and 320×180
+viewport. Compile with blocking resource/lint checks and inspect the rendered
+banner before accepting it; final naming and distribution identity remain open.
