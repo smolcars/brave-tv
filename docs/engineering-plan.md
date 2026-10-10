@@ -559,3 +559,17 @@ buttons and visible results. Use native D-pad to accept/dismiss and recover to
 browser controls. Exercise certificate/network errors and site permission prompts
 separately, preserving security choices. A fixture is diagnostic content, not
 product UI or a replacement for physical-remote acceptance.
+
+Dialog diagnosis on `8164e10cd`: alert, confirmation and prompt appear, but
+Up/Down/Left/Right leave keyboard focus on `compositor_view_holder`; the
+non-alphabetic uinput device reproduces this. Back dismisses/cancels safely.
+The modal presenter clears webpage selection/focus and supplies accessibility
+focus, but does not assign keyboard focus to an interactive dialog descendant.
+Register a TV-only ModalDialogManager observer in the existing controller.
+On shown, post a guarded focus request into the actual dialog: preserve an
+already focused control, otherwise prefer an editable field, Cancel if present,
+then the first enabled interactive descendant. Never invoke its click handler
+or weaken button-tap protection. Remove the observer on controller destruction;
+stale posted work must reject a detached dialog or destroyed activity. Verify
+alert OK, confirm Cancel/OK, prompt editing/Cancel and permission refusal with
+D-pad, plus Back and focus visibility. Keep upstream dialog text and decisions.
