@@ -920,3 +920,11 @@ snapshots mid-session. Other component types and their CRX verification remain
 unchanged. Include snapshot digest in the compiled DAT prefix. Check packaged
 startup first, then signed stage/restart and cache transitions after transport is
 wired. Continue to preserve existing list choices and custom subscriptions.
+
+Integration review confirms a migration hazard: before the first signed update,
+independent packaged fallback still used the old upstream DAT prefix. Give that
+fallback a distinct prefix so cached filters built from upstream components
+cannot be paired with the new packaged resources. Add a regression that rejects
+the legacy prefix and verify actual DAT replacement on first emulator launch.
+Update the bundled-data README's precedence explanation; downloader delivery is
+still pending and must not be described as available yet.
