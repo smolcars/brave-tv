@@ -591,3 +591,9 @@ focus to the captured page when the last modal closes, only if that exact page
 is still current/attached and the activity remains foreground/alive. Clear the
 captured return target on pause/destroy. Keep the final Back assertion unchanged;
 do not weaken the existing native-input priority rules.
+
+Review refinement: Chromium's “last dialog dismissed” callback also fires when
+its pending queue empties while another modal is still shown. Require the manager
+to report no active modal before restoring focus. A separate-window modal may
+close before the activity regains window focus; retain its return target and retry
+from the existing window-focus callback, with the same page/lifecycle checks.
