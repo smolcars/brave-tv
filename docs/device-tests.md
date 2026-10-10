@@ -1172,3 +1172,16 @@ with Address or search focused and one tab. This first-launch return needs
 follow-up; successful installation does not close it. The real Google TV
 keyboard remains selected, and physical-remote address-entry confirmation
 is requested before further TV input. Source remains `5c9a36c74` unchanged.
+
+The user confirms physical-remote address entry to example.com loads and
+remains responsive on this APK. The localhost Shields fixture loads its control
+script while both test requests fail, and the protection bubble reports two
+blocked requests. Turning site protection off through the native TV panel
+causes `/showbanner.js` and `/1_cookie.js` to reach the fixture server with
+HTTP 200; restoring protection reloads the document without those requests.
+This demonstrates functioning request blocking on hardware, not YouTube video
+ad acceptance or isolated cookie-list attribution. The fresh install also
+exposes a leftover Brave-branded Shields education bubble; remove it in a
+follow-up UI fix. On `remote-input.html`, the user confirms a visible cursor
+and exactly one click after holding/releasing OK using the physical remote.
+Playback and sustained-session checks remain in progress.
