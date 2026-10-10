@@ -77,6 +77,14 @@ edits and polls authoritative state before enabling controls. Test Unicode and
 composition separately from phone keyboard emulation. Native text bridge and
 pairing are not considered proven until the APK runs.
 
+### Phone remote build integration correction
+
+The first build stopped at JNI final registration (9 seconds, peak 7.69 GiB).
+Move the Java bridge into Brave's existing `brave_jni_headers_sources` list,
+which participates in the final DEX registration, and use its generated Chrome
+JNI header. Correct the pinned IME teardown hook to `destroyFromNative`.
+No cache reset or checkout mutation during a build. Rebuild the same output.
+
 ## Active work: source fork and TV-native emulator development (9 October)
 
 The user now explicitly requests a real source fork, direct code changes instead of exported TV patches, and emulator-first UI development before more physical-TV testing. This supersedes the prototype patch workflow below. The maintained execution checklist is [TV-native development](tv-native-checklist.md). Before every implementation slice, record the intended behavior, source surfaces, failure/acceptance checks and build scope here; then implement, verify and commit. Keep incomplete work unchecked.
