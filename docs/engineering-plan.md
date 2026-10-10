@@ -620,3 +620,17 @@ no new assets, dependencies or focus listeners. Verify confirmation Cancel → O
 prompt editor → buttons, permission Block and alert regression on the emulator,
 including visible focus moving away from the old control. Build with the same
 cached x64 blocking checks and review only the latest implementation commit.
+
+#### Ordinary media and lifecycle acceptance fixture
+
+Add a small local HTML5 video page using Chromium's existing unencrypted
+`bear-1280x720.webm` test clip from the preserved checkout, served separately on
+loopback. Do not duplicate the media binary in Git or fetch new dependencies.
+Expose Play, Pause, Fullscreen and captions through ordinary webpage buttons,
+with visible playback/error state and a local WebVTT cue. This fixture tests
+actual page input and the native Playback panel; it is not product media UI.
+
+Check play/pause through browser controls, captions/fullscreen through the real
+remote cursor, idle cursor disappearance over video, Home/relaunch cleanup and
+tab/document replacement. The short looping clip is not long-form/adaptive
+stream acceptance; retain the independent YouTube and sustained checks.
