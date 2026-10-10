@@ -174,3 +174,24 @@ SISO_LIMITS=local=4 pnpm run build Static \
 ```
 
 `brave-tv-chromecast-arm-nodebug-j4.service` passed in 1m35.03s, reusing native compilation. The [current artifact](tv-prototype.md#non-debuggable-chromecast-artifact) differs only in its manifest; all DEX/native payload hashes match. It is development-signed and uses the existing test package. Disabling debugging removes app `run-as`/Java-debugger access, but Android logs and exit records remain available. The installed APK passes initial startup and physical-remote input checks. Because the user also uninstalled the earlier APK and the device was restarted to recover storage, this is not a fully isolated measurement of the debugging flag's performance effect. Keep the previous artifact for diagnosis; longer sessions, video and release-performance validation remain required.
+
+
+### Current source ARM candidate (10 October)
+
+Source `5c9a36c74` rebuilds successfully in the preserved `android_Static_arm`
+cache: 3,707 executed steps, 14m37.61s (wrapper 14m41.47s), blocking Android
+analysis. Four workers and the 18/22 GiB cgroup limits remain in force.
+Observed peak is 19,329,191,936 bytes (18.00 GiB); the sampled memory events
+show soft-limit pressure but no OOM/max-limit event. This is an observed peak,
+not a post-exit cgroup measurement.
+
+Artifact: `~/.cache/brave-tv/artifacts/tv-current-5c9a36c74-arm-nodebug-20261010/BraveMonoarm.apk`,
+367,361,995 bytes, SHA-256
+`33a892c57fa97df8d856e22f11df869212efe8a094194b826aec19e16de9467b`.
+APK v2 verification passes, its certificate matches the previous physical-TV
+APK, ABI is `armeabi-v7a`, and no debuggable flag is present. Package/version
+remain `com.brave.browser_default` / `1.97.0` / `429700000`. This remains a
+development-signed optimized candidate, not the independently signed public
+release. GN arguments, provenance, badging and signature output are preserved
+with the artifact. Logs use `build-chromecast-5c9a36c74-arm-current-r1`.
+Physical installation and acceptance are recorded separately in device-tests.md.
