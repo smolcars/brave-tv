@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TV native dialog checks</title>
+<style>
+  body { background: #111820; color: white; font: 24px sans-serif; padding: 32px; }
+  button { font: inherit; padding: 18px; margin: 12px; }
+  output { display: block; margin: 24px 12px; }
+</style>
+<h1>TV native dialog checks</h1>
+<button id="alert">Alert</button>
+<button id="confirm">Confirm</button>
+<button id="prompt">Prompt</button>
+<button id="popup">Popup</button>
+<button id="location">Location permission</button>
+<output id="result" aria-live="polite">No action yet</output>
+<script>
+  const result = document.querySelector('#result');
+  document.querySelector('#alert').onclick = () => {
+    alert('TV alert: close this dialog with the remote.');
+    result.textContent = 'Alert closed';
+  };
+  document.querySelector('#confirm').onclick = () => {
+    result.textContent = `Confirm: ${confirm('TV confirmation: accept or cancel.')}`;
+  };
+  document.querySelector('#prompt').onclick = () => {
+    const text = prompt('TV prompt: edit or cancel.', 'Sample');
+    result.textContent = text === null ? 'Prompt canceled' : `Prompt: ${text}`;
+  };
+  document.querySelector('#popup').onclick = () => {
+    result.textContent = window.open('bookmark.html?popup', '_blank')
+      ? 'Popup opened' : 'Popup blocked';
+  };
+  document.querySelector('#location').onclick = () => {
+    navigator.geolocation.getCurrentPosition(
+      () => { result.textContent = 'Location allowed'; },
+      error => { result.textContent = `Location error: ${error.code}`; },
+      { timeout: 5000 }
+    );
+  };
+</script>
+</html>
