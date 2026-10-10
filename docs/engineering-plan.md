@@ -652,3 +652,12 @@ reject malformed/unsatisfiable ranges and keep the binary outside Git. Check
 real HTTP status/length/body for full, prefix, suffix and invalid requests before
 repeating browser seekability and native actions. Do not alter product seeking
 based on this server limitation.
+
+#### Source-check command after submodule migration
+
+The ordinary `nix flake check` fails because Nix 2.25.3 excludes the Brave Git
+submodule from its source snapshot. Verify and document the explicit local Git
+flake URL with `?submodules=1`; keep the checks compiling the real pinned source.
+Do not copy Java source into this repository or upgrade the user's Nix install.
+Nix's automatic `inputs.self.submodules` option was introduced in 2.27, beyond
+this host (official release notes: https://releases.nixos.org/nix/nix-2.27.0/manual/release-notes/rl-2.27.html).
