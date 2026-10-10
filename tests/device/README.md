@@ -263,12 +263,13 @@ Alongside the existing page server on 18081, serve the pinned Chromium checkout'
 `src/media/test/data` on loopback port 18083 and reverse that port through ADB.
 For example, in Nix use `python3 -m http.server 18083 --bind 127.0.0.1 --directory
 /home/nitesh/.cache/brave-tv/workspace/src/media/test/data`. Open
-`http://127.0.0.1:18081/media.html`. The media binary stays in the upstream
+`http://127.0.0.1:18081/media.html`. The `bbb-320x240-2video-2audio.mp4` sample exceeds Chromium’s five-second
+persistent-session threshold. The media binary stays in the upstream
 checkout with its existing notices; the test page does not bundle it.
 
 Use the non-alphabetic remote cursor on Play, then verify native Playback
 pause/resume using `media-probe.mjs`. Use the page's Show captions and Fullscreen
 buttons with that cursor; verify captions are rendered, the idle cursor hides,
 and Back exits fullscreen. Exercise Home/relaunch and tab/document replacement
-with the native Playback panel open. The short looping clip does not establish
+with the native Playback panel open. The 24-second looping clip does not establish
 long-form seeking, adaptive streaming, hardware decoding or sustained playback.
