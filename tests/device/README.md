@@ -14,6 +14,14 @@ fixed Hindi/emoji/Japanese selection/composition/deletion and oversized input
 through the real Android InputConnection; it never submits or alters browser
 data. Restore stock LatinIME for separate D-pad keyboard/Back checks.
 
+`tv-compose-address-search-submit.ad` requires nonempty synthetic text, IME hidden
+and Go focused; it verifies native classification closes the editor even offline.
+For `tv-compose-address-submit.ad`, use the test IME's Fixture URL button first,
+hide the IME and focus Go. It additionally requires the actual local page heading,
+so a dismissed editor without navigation cannot pass. Site data URL opens the
+existing synthetic privacy fixture for explicit seeding; it never seeds or clears
+data by itself. These fixed test stimuli use native InputConnection, not deep links.
+
 The IME fixture also contains `EditorAccessibilityProbe`, which reads only
 native hint/action metadata, never editor contents. With the TV editor open and
 the keyboard dismissed, close **only the current agent-device session**, without

@@ -1,0 +1,6 @@
+# Start at the native TV editor containing the synthetic fixture URL with Go focused.
+# This must navigate through the real editor's native classifier, not a deep link.
+wait "text=\"Go\" focused=true" 3000
+tv-remote select
+wait absent "text=\"Clear\"" 3000
+wait "text=\"TV remote input checks\"" 5000

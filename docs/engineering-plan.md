@@ -482,6 +482,36 @@ without duplication. The phone's original Japanese composition fixture remains
 unchanged. Recompile/reinstall the fixture and pass the strengthened native
 replay before claiming composition/commit acceptance.
 
+The strengthened14-step native replay passes on installedfc429: Japanese → kana
+composition → Japanese commit is observable without duplication (8.9s).
+r24 source897 passes blocking analysis in2m34.86s (Siso2m31.24s), observed peak
+12,901,433,344 bytes (12.02GiB). Preserved APK
+`compose-address-hint-897252e10-x64-debug-20261010/BraveMonox64.apk`,852,651,748
+bytes, SHA256 `851588a48ff33e1d1a5cc7103047667e1e36adc67c2ff12ddf713ce2a6684f3a`.
+Its hint runtime acceptance remains pending.
+
+Address submission correction slice: actual native Go on fc429 rejects valid
+synthetic Japanese text with the page-changed error while its Home owner appears
+unchanged. The three-step `tv-compose-address-search-submit.ad` goes RED waiting
+for Clear to disappear; it does not depend on external network success. Diagnose
+keyboard/layout lease invalidation, delayed content identity and native access
+guards with bounded metadata/debugger inspection, never logging editor text or
+URLs. Preserve strict viewport leases for pointer/phone actions and document/tab
+identity for editor submission. Acceptance requires native URL/search submission
+after IME show/hide, unchanged owner-change and same-URL document rejection,
+private/modal phone rejection and genuine input/privacy regression checks.
+
+Debugger evidence confirms a layout invalidation: the selected tab/WebContents
+remain identical, but the native viewport becomes842px high when the keyboard
+appears; after returning to1080px the original generation remains stale. Separate
+document generation from coordinate generation at the existing session seam.
+Only layout invalidation changes the latter; tab/content/navigation/fullscreen/
+pause still invalidate both. The editor uses document validation; pointer, phone
+and other existing actions retain strict coordinate validation. Add native
+instrumentation tests for resize/restore and same-URL navigation, plus fixed URL
+InputConnection stimuli and actual page assertions. No payload logging or new
+production endpoint. Tests must run before claiming their native acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

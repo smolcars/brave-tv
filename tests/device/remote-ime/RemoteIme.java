@@ -103,6 +103,22 @@ public final class RemoteIme extends InputMethodService {
                     for (int i = 0; i < 8193; i++) oversized.append('a');
                     input.commitText(oversized, 1);
                 });
+        LinearLayout third = new LinearLayout(this);
+        column.addView(third);
+        addStimulus(
+                third,
+                "Fixture URL",
+                input -> {
+                    input.performContextMenuAction(android.R.id.selectAll);
+                    input.commitText("http://10.0.2.2:18088/remote-input.html", 1);
+                });
+        addStimulus(
+                third,
+                "Site data URL",
+                input -> {
+                    input.performContextMenuAction(android.R.id.selectAll);
+                    input.commitText("http://10.0.2.2:18088/privacy.html", 1);
+                });
         return column;
     }
 
