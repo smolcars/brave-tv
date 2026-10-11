@@ -2710,6 +2710,13 @@ fixture case, not repeated broad setup or timing delays. Compile only the change
 native test target while the same production APK proceeds through independent
 fresh startup/scoped clearing. Carry forward the five accepted r26 cases.
 
+The failure-only bookmark diagnostic's pre-build check found a missing native
+BookmarkItem import. Source6817 corrects that import before compilation; no new
+build or runtime acceptance is claimed. Latest b4f4/168 review: Standards0,
+Spec1 (the acknowledged import), with no additional findings. Build only the
+affected test APK next, retaining productione0e3 for independent fresh-profile
+startup and scoped clearing. Canonical acceptance remains26/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
