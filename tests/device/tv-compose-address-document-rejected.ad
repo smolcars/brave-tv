@@ -1,0 +1,10 @@
+# Normal privacy.html document genuinely reloaded while this editor stayed open.
+# Different fixed native InputConnection text; IME hidden. Never seeds/clears data.
+wait "value=\"http://10.0.2.2:18088/remote-input.html\" editable=true" 3000
+wait "text=\"The page changed while you were editing. Return to the page and open Address again.\"" 3000
+tv-remote down
+wait "text=\"Go\" focused=true" 3000
+tv-remote select
+wait "text=\"The page changed while you were editing. Return to the page and open Address again.\"" 3000
+wait "value=\"http://10.0.2.2:18088/remote-input.html\" editable=true" 3000
+wait "text=\"Clear\"" 3000

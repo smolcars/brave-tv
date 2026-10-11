@@ -55,6 +55,17 @@ so a dismissed editor without navigation cannot pass. Site data URL opens the
 existing synthetic privacy fixture for explicit seeding; it never seeds or clears
 data by itself. These fixed test stimuli use native InputConnection, not deep links.
 
+`tv-compose-address-document-rejected.ad` requires the normal `privacy.html`
+fixture. Open Address from its controls, use the IME Fixture URL button, press
+Back once and positively wait for the IME buttons to disappear. Genuinely reload
+the underlying privacy document at its identical URL using the documented
+emulator CDP navigation workflow. The replay requires the changed-document error
+and verifies Go keeps that error, editor and different pending text. Separately
+verify the actual underlying privacy URL and seeded storage remain unchanged;
+the text field alone is not a navigation postcondition. Do not repeat Back after
+an immediate stale accessibility snapshot: first wait for IME absence, or the
+second Back can cancel the editor and invalidate the test precondition.
+
 The IME fixture also contains `EditorAccessibilityProbe`, which reads only
 native hint/action metadata, never editor contents. With the TV editor open and
 the keyboard dismissed, close **only the current agent-device session**, without

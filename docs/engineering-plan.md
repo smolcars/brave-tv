@@ -699,6 +699,21 @@ Run the six native Home tests, address-entry/Back and populated/empty/private
 Home plus real Android text/display checks. Preserve the reseeded normal data
 across the in-place update; compilation alone does not complete4.1.
 
+Address rejection acceptance: with the installedd6bda normal privacy fixture,
+enter a different fixed fixture URL through the real IME, hide the IME with a
+positive absence wait, then reload the underlying document at the same URL.
+Require the native changed-document error, retained editor/text after Go and
+unchanged selected fixture URL/storage. Add a narrow replay for those native UI
+postconditions; document its genuine document-replacement precondition.
+
+The eight-step rejection replay passes on installedd6bda in0.5s: real same-URL
+reload reports the native changed-document error; Go retains that error, editor
+and different pending URL. Separate actual document readback confirms the
+underlying privacy URL and seeded cookie/localStorage remain unchanged. An
+earlier attempt cancelled the editor by repeating Back after an immediate stale
+IME snapshot; it is not acceptance. Positive IME-absence waiting fixes the
+precondition. Native owner replacement/private editor/phone checks remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
