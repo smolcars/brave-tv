@@ -362,6 +362,32 @@ Cancel initially focused, Right reaches Clear now, Left returns Cancel, OK
 returns to the scoped chooser. This proves traversal/cancellation, not site-data
 continuity; that requires a freshly seeded fixture checked before/after.
 
+Address acceptance fixture slice: extend only the emulator test IME's TV-mode
+view with fixed synthetic Unicode, selection, code-point deletion, composition
+commit and over-limit stimuli. Keep its existing phone view unchanged. Show
+only whether the native EditorInfo privacy flags are present, never extracted
+field payloads/logs. No command endpoint or production dependency. Use the
+retained SDK/build script and a separate artifact directory; select/install
+only on the verified TV emulator, restore its keyboard afterward. Acceptance:
+actual corrected APK text results, no duplicate composition, enforced bound
+and native privacy flags; passing fixture compilation alone is insufficient.
+
+r22 sourcebeda passes blocking analysis in7m13.81s (Siso7m10.86s), four local
+jobs with18/22GiB limits and swap0. Observed peak13,532,639,232 bytes (12.60GiB);
+the completed transient cgroup no longer exposes a final peak. Preserved artifact
+`compose-address-beda33f23-x64-debug-20261010/BraveMonox64.apk`,852,651,564 bytes,
+SHA256 `8021fbd9835ca36ede26810f64e9c75f8b7bdddaea2e844bca4d9b2a0340a5ec`.
+APK signature verification passes; corrected editor runtime acceptance remains
+pending. Cache source is cleanbeda, built from rootpinbcef; no reset/sync.
+
+Additional installedc830 shared-panel runtime: fresh screenshot-decoded QR
+pairs with the phone emulator at actual TV private address42507, bundled assets
+and waiting/approval/fragment checks pass. Corrected authenticated paused probe
+rejects all four valid commands while private home remains unchanged; closing
+the final private test tab restores the original normal home/3tabs with Address
+focused. These are native emulator proofs, not physical LAN/phone acceptance.
+TV-mode test IME builds/signs using the existing SDK; runtime stimuli pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
