@@ -630,6 +630,20 @@ diff checks pass. Compilation, native tests and actual Home runtime remain
 pending; the current test APK build still uses immutablef10d55. No acceptance
 checkbox is advanced for this source commit.
 
+Latest Home review: Standards2 requests shared preview limits and explicit
+UI-thread/state/focus API contracts. Spec1 identifies native closure/undo events
+missing from the recent-tab observer: closing an unselected recent tab need not
+select another tab. Handle didRemoveTabForClosure and tabClosureUndone, then add
+a real native closure/undo test while Home stays selected. Share limits with
+presentation/native tests and document the state mutation restrictions. Review
+the correction before advancing the immutable build checkout.
+
+Source3cc9ca43b handles both closure/undo callbacks, shares all Home preview
+limits with presentation and tests, and documents the state-update contract.
+The new sixth native test checks the same selected Home through closure and
+undo, with positive empty-state/rematerialized-card assertions. It is written,
+not yet compiled or run; cachedf10d55 remains untouched while the test APK builds.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
