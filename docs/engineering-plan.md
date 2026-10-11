@@ -411,6 +411,14 @@ signature tests alone are not behavioral proof. Core-controls→Address already
 opens the genuine r22 Compose editor (8-step diagnostic passes), isolating the
 remaining Home routing failure from editor construction.
 
+Editor accessibility runtime RED on r22: the Android editable node is unnamed;
+Address labels a child View instead. The native labelled-editable assertion
+fails despite editor construction passing. Set its label through the pinned
+InputTransformation.applySemantics hook on the actual text-input semantics,
+retaining all editable/selection/composition behavior; remove the stray child
+description. Acceptance: labelled focused editable native node plus genuine
+IME stimuli on the next blocking build, alongside unchanged Home entry replay.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
