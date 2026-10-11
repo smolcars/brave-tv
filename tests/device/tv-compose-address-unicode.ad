@@ -7,7 +7,7 @@ wait "value=\"日本🙂\" editable=true" 3000
 click "text=\"DELETE CODE POINT\""
 wait "value=\"日本\" editable=true" 3000
 click "text=\"COMPOSE JAPANESE\""
-wait "value=\"日本\" editable=true" 3000
+wait "value=\"かな\" editable=true" 3000
 click "text=\"COMMIT JAPANESE\""
 wait "value=\"日本\" editable=true" 3000
 click "text=\"EXCEED ADDRESS LIMIT\""

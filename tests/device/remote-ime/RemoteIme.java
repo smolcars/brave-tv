@@ -91,7 +91,7 @@ public final class RemoteIme extends InputMethodService {
                 "Compose Japanese",
                 input -> {
                     input.performContextMenuAction(android.R.id.selectAll);
-                    input.setComposingText("日本", 1);
+                    input.setComposingText("かな", 1);
                 });
         addStimulus(second, "Commit Japanese", input -> input.commitText("日本", 1));
         addStimulus(

@@ -445,6 +445,9 @@ now passes. Native IME replay passes after selecting RemoteIme after app launch
 InputConnection steps pass Hindi/emoji insertion, Japanese selection replacement,
 code-point deletion, composing/commit without duplication and8193-character
 rejection preserving prior text. All three native IME privacy flags pass.
+The initial composition assertions reuse the preceding Japanese value and
+do not establish a visible composition/commit transition; see the review
+correction below before accepting that portion of the input evidence.
 
 r23 focused editable-label assertion remains RED. Exact pinned Compose delegate
 bytecode deliberately moves contentDescription to a synthetic child when the
@@ -470,6 +473,14 @@ visible; no shared ADB/T3 host service or emulator stops. Installedfc429 then
 reports editorCount1, nativeSetTextActiontrue, nativeHintMatchesfalse: actual RED.
 The host wrapper checks instrumentation result code, so shell exit0 cannot
 masquerade as a passing instrumentation test.
+
+Latestcdc7 review: Standards reports no findings; Spec identifies a false-pass
+composition assertion because before/composing/committed values all equal
+Japanese. Strengthen only the TV stimulus: after prior Japanese, compose kana
+and assert that distinct text, then commit Japanese and assert replacement
+without duplication. The phone's original Japanese composition fixture remains
+unchanged. Recompile/reinstall the fixture and pass the strengthened native
+replay before claiming composition/commit acceptance.
 
 ## Previous feature: phone remote (10 October)
 
