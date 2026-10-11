@@ -6,4 +6,5 @@
       <meta-data android:name="android.view.im" android:resource="@xml/method" />
     </service>
   </application>
+  <instrumentation android:name=".EditorAccessibilityProbe" android:targetPackage="org.bravetv.remoteime.test" android:label="TV editor accessibility probe" />
 </manifest>

@@ -1,0 +1,15 @@
+# Native TV editor with the synthetic RemoteIme visible; never submits or changes browser data.
+wait "text=\"Native IME privacy flags: true\"" 3000
+click "text=\"SEED UNICODE\""
+wait "value=\"नमस्ते🙂\" editable=true" 3000
+click "text=\"REPLACE SELECTION\""
+wait "value=\"日本🙂\" editable=true" 3000
+click "text=\"DELETE CODE POINT\""
+wait "value=\"日本\" editable=true" 3000
+click "text=\"COMPOSE JAPANESE\""
+wait "value=\"日本\" editable=true" 3000
+click "text=\"COMMIT JAPANESE\""
+wait "value=\"日本\" editable=true" 3000
+click "text=\"EXCEED ADDRESS LIMIT\""
+wait "text=\"This address is too long. Shorten it and try again.\"" 3000
+wait "value=\"日本\" editable=true" 3000

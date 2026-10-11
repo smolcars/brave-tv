@@ -6,6 +6,29 @@ to Clear now → Left to Cancel → OK back to the chooser. A failed replay stop
 never continue a destructive-dialog batch after a failed assertion. This checks
 navigation/cancellation; verify synthetic cookie/storage persistence separately.
 
+`tv-compose-address-entry.ad` requires Home Address focused and verifies entry
+into the TV editor. Select the synthetic RemoteIme **after** agent-device opens
+Brave (launch selects its own hidden keyboard), then run
+`tv-compose-address-ime.ad` and `tv-compose-address-unicode.ad`. The latter sends
+fixed Hindi/emoji/Japanese selection/composition/deletion and oversized input
+through the real Android InputConnection; it never submits or alters browser
+data. Restore stock LatinIME for separate D-pad keyboard/Back checks.
+
+The IME fixture also contains `EditorAccessibilityProbe`, which reads only
+native hint/action metadata, never editor contents. With the TV editor open and
+the keyboard dismissed, close **only the current agent-device session**, without
+`--shutdown`, to release its UiAutomation lease; the editor stays visible. Android
+allows one such lease. Run in the Nix shell:
+
+```sh
+python3 tests/device/tv-address-accessibility-probe.py emulator-5554
+```
+
+The wrapper requires a nonphysical emulator serial and asserts instrumentation
+success as well as exact native hint/text-action results. Reopen the agent-device
+session afterwards and reselect the intended IME. This probe is native semantics
+evidence, not screen-reader spoken/navigation acceptance.
+
 ## Local phone remote experiment
 
 These automated probes require emulator serials. Enable the development-only `tv-local-remote-experiment`

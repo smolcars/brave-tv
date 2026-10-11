@@ -435,6 +435,42 @@ BraveActivity rule. Acceptance: latest-only review, matching reflection signatur
 and later targeted BytecodeTest instrumentation; the current Debug r23 build
 does not prove optimized test-APK reflection acceptance.
 
+r23 sourcefc429 builds with blocking analysis in4m03.17s; observed cgroup peak
+14,256,881,664 bytes (13.28GiB). Preserved signed APK
+`compose-address-ime-fc4292fa9-x64-debug-20261010/BraveMonox64.apk` is852,651,756
+bytes, SHA256 `e82a28e45ac0f381d2068e69bc4a285f28e68c69eb400bc6124e85f61e3559b8`.
+In-place explicit TV-emulator installation passes; unchanged Home-entry replay
+now passes. Native IME replay passes after selecting RemoteIme after app launch
+(the driver reselects its own hidden keyboard on launch). Fourteen native
+InputConnection steps pass Hindi/emoji insertion, Japanese selection replacement,
+code-point deletion, composing/commit without duplication and8193-character
+rejection preserving prior text. All three native IME privacy flags pass.
+
+r23 focused editable-label assertion remains RED. Exact pinned Compose delegate
+bytecode deliberately moves contentDescription to a synthetic child when the
+text-field semantics merge descendants. Its native HintText mapping instead
+sets AccessibilityNodeInfo hintText directly. Use that supported text-field
+hint semantics, preserving actual editable text/actions and native input.
+Acceptance: native editable-node hint with no duplicate label child, retained
+Unicode/bound tests and stock D-pad keyboard/Back. Screen-reader acceptance
+remains pending; accessibility snapshots alone do not prove spoken operation.
+
+Stock LatinIME actual D-pad OK appends q to the synthetic Japanese text;
+first Back keeps the editor, second Back restores Home Address focus. Add a
+bounded emulator-only instrumentation probe to the existing IME fixture to
+inspect AccessibilityNodeInfo hint/actions directly. It returns booleans/counts
+only, never field text, and preserves other accessibility services. The current
+driver does not expose hintText, so this avoids mistaking its missing field for
+native acceptance. Confirm RED on installedfc429 and GREEN after the hint build.
+
+The native hint probe initially encounters Android's single UiAutomation lease
+(`UiAutomationService ... already registered!`) while agent-device owns it.
+Closing only our agent session releases that lease and leaves the editor
+visible; no shared ADB/T3 host service or emulator stops. Installedfc429 then
+reports editorCount1, nativeSetTextActiontrue, nativeHintMatchesfalse: actual RED.
+The host wrapper checks instrumentation result code, so shell exit0 cannot
+masquerade as a passing instrumentation test.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
