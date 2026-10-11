@@ -2849,6 +2849,14 @@ steps in the next cached test build. Actual production provider D-pad selection
 Google→DuckDuckGo and authoritative native Address description pass on retained
 e0e3/fresh AVD; no external search submitted. Count remains28/54.
 
+Annotation correction886a/28532 review Standards0/Spec0 both. Cached testr22
+passes Java/ErrorProne but stops at mandatory direct-dependency validation:
+PendingClear references BrowsingDataType/TimePeriod from existing
+//components/browsing_data/core:java. Add that exact direct target only; no new
+package, dependency upgrade or bypass. Siso20.89s failure, cgroup live peak
+13,266,628,608B (~12.36GiB), no install. Completed steps remain cached. Provider
+Google restoration and native Home return pass; preserve this fresh profile.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
