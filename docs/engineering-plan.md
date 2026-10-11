@@ -878,6 +878,20 @@ TV theme while retaining RTL layout. Acceptance: red→green native return test,
 RTL punctuation/arrow checks, existing controls/address/Unicode and private
 ownership checks. Spoken operation remains pending.
 
+Source17ffe applies content-based text direction once inside the shared TV
+theme, preserving native RTL layout and locale preferences. Latest-only review:
+Standards0, Spec0; actual GN build and Arabic punctuation checks remain pending.
+The seven-case native Home/Settings suite is running on the signed e750 test
+APK after a22.64s blocking test build (Siso19.20s, systemd7.8G peak).
+
+Spoken-check prerequisite: the task TV emulator was launched with no audio.
+Restart only its verified AVD, preserving userdata, with playback routed to the
+task-owned PipeWire null sink `brave-tv-a11y`. Do not change the host default sink
+or capture unrelated host audio. Retain the route identity/original accessibility
+settings, verify the emulator stream targets that sink, then enable only the
+installed TalkBack service for normal synthetic UI checks. Restore settings
+after testing; no screenshot or audio capture of private/editor contents.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
