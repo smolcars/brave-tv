@@ -3166,6 +3166,32 @@ their keyed target. Build both APKs once with cache/blocking analysis. Carry
 forward pointer, permission, certificate, privacy and signed-filter checks.
 Do not mark4.3 or3.3 passed from compilation, host HTTP or presentation-only tests.
 
+Latest64b163/5ec2ee reviews Standards0/Spec0 each. Full cached r63 passes blocking
+analysis inGNU8m00.06s/Siso7m57.00s/1087 executed steps. The translated status
+resource invalidated resource-dependent Java work; no output/cache reset.
+Sampled cgroup peak14,819,012,608bytes (241 samples), no OOM. Preserved signed
+compose-controls-64b163b6b-x64-debug-20261011:
+PROD852,747,121bytes/SHA256fe1249134c586d17e42aaba3d2a88d5ba11e1e6ca73f29a1a1479597fddfc8bf;
+TEST876,367,866bytes/SHA256fbbd90d864581a1277c26237461e35014c8b66b0627a7cd2487fb9b1c6ff18ac.
+Verified profile-preserving installs58.579/10.910s. Native r41 navigation/site
+state PASS15.688s and narrow updated-controls focus/Back PASS7.288s. The former
+proves disabled Forward, same native tab through Back/Forward, actual reload
+callback, native protection changes/restoration with retained Address focus,
+and actual Stop releasing the controlled loading page. Host route/slow-slot/
+abort cleanup checks pass after fixture readiness; immediate startup raced Nix
+and returned connection refused, not native acceptance or a server defect.
+
+Production r63 displays the exact normal loopback origin plus Chromium's
+insecure-connection label and Site protection on. D-pad Right/OK once enters
+the settled native permission fixture with webpage focus and no controls left.
+Initial body wait was covered by startup controls; Back exposed the page.
+This is distinct from claiming the earlier loading/first-selection retry fixed.
+A bounded normal-only JDWP probe disconnected without reliable lease evidence;
+the temporary9224 forward is removed, no profile/trust/shared ADB changes.
+Canonical4.3 accepted; count32/54, Stage4:5/8. Keep3.3 pending for the unresolved
+entry observation, despite its native held/idle/keyboard/coordinate positives.
+Certificate/permission/auth and unaffected phone/filter/privacy checks carry.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

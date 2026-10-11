@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **31/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:4/8, Stage 5:5/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **32/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:5/8, Stage 5:5/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
 exceptional security flows remain pending. Stock phone composition coverage remains pending. Carry
@@ -375,8 +375,16 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
 - [x] **4.2** Replace address/search UI using current URL classification and
   selected search provider. Support edit/select/delete/submit/cancel, IME and
   optional available system dictation without requiring microphone access.
-- [ ] **4.3** Add compact browsing controls with authoritative loading/history,
+- [x] **4.3** Add compact browsing controls with authoritative loading/history,
   protection and security state. Preserve page area and a clear return to input.
+  Native source64b163 passes same-tab D-pad Back/Forward, a real reload callback,
+  Stop on the controlled loading document, HTTP connection/protection status and
+  native Shields updates retaining Address focus. The narrow updated panel's
+  focus/Back case passes. Production r63 shows the same native status and returns
+  to the settled fixture with one Page cursor selection. Native idle/held-click
+  coverage passes on source3915; the earlier startup/loading retry remains
+  unresolved in the input/route integration work, not claimed fixed here.
+  See [engineering evidence](engineering-plan.md); hardware remains pending.
 - [x] **4.4** Replace tab presentation: create/select/close, large lists, discarded
   tab restoration, selection after removal and last-normal/private-tab behavior.
   Present existing groups safely; do not ungroup/delete stored tabs implicitly.
