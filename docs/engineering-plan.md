@@ -41,6 +41,13 @@ UI-thread, borrowed-contents and lifecycle contracts (DOC-004). Document the
 existing TV-only stale/private/security rejection and navigation/owner disposal;
 no behavior change. Review the correction before accepting runtime results.
 
+Source `a8bed0b70` Spec review also identifies a missing focused-editable guard:
+hidden IME alone does not release Chromium's editor ownership. The r66 build
+was deliberately interrupted before acceptance (35 steps; no compile failure).
+Check the existing native ImeAdapter focused-node state and add a real focused
+input/hidden-keyboard rejection case. Rebuild only the corrected source, keeping
+all existing output and dependency caches. Review that correction separately.
+
 Latest correction `04211e0` reviews: Standards0/Spec0. Next consolidated native
 slice covers fullscreen tab-switch/background recovery and remaining exceptional
 flows on installed source6d: genuine media/fullscreen, normal tab identity,
