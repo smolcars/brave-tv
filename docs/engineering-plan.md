@@ -2991,6 +2991,41 @@ Change both setting paths to the existing returnToControls after native reload,
 with all original strict context/private/lifecycle guards retained. No changes
 to filtering rules, storage, session identity, engine navigation or phone guards.
 
+Shields recovery outcome: source3914063 and root8af3db3 pass Standards0 / Spec0.
+Full cached r61 passes GNU3m39.75s/Siso3m36.29s/26steps, blocking analysis0,
+live cgroup peak15,069,515,776B (~14.04GiB),111samples. Signed preserved artifact
+compose-shields-recovery-3914063cd-x64-debug-20261011: production852,748,802B /
+SHA1ef6959472356c004f62015ec28e914fccc91cb3038913519962b6db9932d172;
+TEST876,323,839B / SHA18cefa5f472212d97f2c80eb7e4c5372b035ba569f98804f9208c0ea0a063946.
+Profile-preserving installed hashes pass11.790s /12.110s. Revised D-pad standard
+regression passes34steps2.6s on production: Standard→Controls→reentry→Aggressive→
+Controls. Native site-off/on returns compact More focus and actual ad/cookie
+resources respectively complete/block with one fresh request each; control loads.
+
+Optional cookie list Off loads only its own fixture while ads remain blocked;
+restored On blocks both. Native filter-toggle replay11steps1.3s and update check/
+Back replay18steps2.6s pass on unchanged native filter code. Actual manual status
+is latest signed snapshot, published Oct10, last attempt Oct11. After background
+and a profile-preserving production force-stop/relaunch, distinct nonempty PIDs
+are verified, fixture enforcement passes without diagnostic reload, native
+Shields On/Aggressive disabled-selection/Cookie On persist, active signed snapshot
+and exact last-attempt time survive. The transient CURRENT result resets to the
+truthful automatic-check description after process restart; an initial assertion
+expecting CURRENT persistence was wrong, not a product failure. Corrected bounded
+native assertions pass in shields-persistence-r2.json. No profile reset, filter
+rule change or physical test. Seventeen prior native signed-validation tests
+carry forward unchanged. Canonical5.4 accepted; count31/54, Stage5 subtotal5/7.
+
+Next5.5 slice: controlled loopback permission and HTTP-auth fixtures on the same
+verified TV AVD, native D-pad/OK request and denial/Cancel, accurate native origin,
+IME dismissal/Back and return to usable content/controls. Use existing trusted
+Chrome/OS prompt ownership; do not imitate approval or bypass certificate checks.
+Keep fixture credentials synthetic and unlogged. Add an actual invalid-certificate
+Back-to-safety check using existing native test-server support; preserve engine
+security decisions. Implement production changes only if these paths expose a
+real native focus/recovery bug. Carry forward accepted Page info/native modal and
+phone security guards; hardware/real-phone checks remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

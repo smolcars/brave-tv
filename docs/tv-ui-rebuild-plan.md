@@ -6,12 +6,11 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **30/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:4/8, Stage 5:4/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **31/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:4/8, Stage 5:5/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
-exceptional security flows remain pending. The latest input correction still requires
-native runtime validation. Carry
+exceptional security flows remain pending. Stock phone composition coverage remains pending. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
@@ -430,9 +429,15 @@ the complete feature set or a public release.
 - [x] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
   native operations, explicit effects and cancellation. Do not clear other data
   merely to simplify migration or testing.
-- [ ] **5.4** Rebuild per-site Shields and filter/update controls; retain native
+- [x] **5.4** Rebuild per-site Shields and filter/update controls; retain native
   enforcement, exceptions, signed-resource validation and existing traffic policy.
   Verify actual blocked/unblocked resources, not just UI counters.
+  Production3914063/r61 passes D-pad mode-change recovery and actual Shields
+  off/on requests. Optional cookie-list isolation, native signed-update status
+  and manual check pass. Process restart preserves Shields/mode/list, active
+  signed snapshot and last-attempt time; restored fixture enforcement passes.
+  Earlier17 native signed-validation cases carry forward unchanged. Hardware
+  remains pending. See [engineering evidence](engineering-plan.md).
 - [ ] **5.5** Handle site information, permissions and supported authentication
   prompts with accurate origin and safe focus. Keep certificate/interstitial
   decisions and platform permissions with their existing trusted owners.
@@ -467,7 +472,7 @@ nonselected data and bookmarks preserved. Native provider selection and Address
 provider text pass, with the original provider restored. Controlled pending-clear
 Back, owned completion and replaced-document recovery pass. Corrected native pause/resume r32 passes12.349s with same Home, activity-window
 focus, Settings invoker and absent pending chooser. Item5.3 is accepted on the
-emulator; callback tests are separate from actual native deletion. Current accepted count is30/54.
+emulator; callback tests are separate from actual native deletion. Current accepted count is31/54.
 
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
