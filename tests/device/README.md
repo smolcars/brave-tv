@@ -258,6 +258,17 @@ visible and the companion keyboard panel closed, run:
 node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 ```
 
+`phone-stock-ime-probe.mjs` is a focused stock-TV-IME smoke check. First focus
+the normal fixture's plain field through native input, with the verified stock
+TV keyboard selected. Pass the existing Playwright directory followed by the
+explicit TV emulator serial and verified AVD name; it checks identity, the owned
+diagnostic forward and stock LatinIME before contacting the browser. It checks
+twenty Unicode replacements, genuine native
+input/composition events and stable field identity. A new composition-end event
+is required only if composition was still active; the stock keyboard can finish
+it earlier. This supplements the complete strict native-input probe and does
+not establish phone IME, stale-lease, password or private/security acceptance.
+
 For the composition step, build and select the emulator-only test keyboard:
 
 ```sh

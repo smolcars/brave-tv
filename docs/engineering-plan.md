@@ -3299,6 +3299,26 @@ share the existing critical native guard and require the controls dialog itself
 to own window focus before reporting controls. Runtime negative probes can
 require the expected finite reason as well as exact metadata redaction.
 
+Native r64: combined build passes blocking analysis in4m19.71s/193 executed
+steps, cgroup peak16160714752bytes (15.05GiB),133 samples, no OOM. Production
+and TEST artifacts are preserved with verified x64/package/cert hashes at
+`~/.cache/brave-tv/artifacts/compose-phone-335d77f8f-x64-debug-20261011`;
+in-place installs retain profiles and match hashes. Isolated certificate Back
+passes7.305s. Badge test fails before creation because its current-tab read is
+off the UI thread; move that read to ThreadUtils and rebuild only TEST. Actual
+badge acceptance stays pending; preserve the failing log and production APK.
+
+### Stock-TV-IME probe correction (test scope only)
+
+Keep the existing complete strict native-input probe unchanged. Add a focused
+stock-TV-IME smoke probe for the observed r68 case: require native input
+acknowledgement for equal whole-field replacements, and composition end only
+when composition was still active before finishing. Require the final native
+composition to be ended; retain stable field identity and twenty repeated
+Unicode replacements. This mode does not substitute for the full strict lease,
+phone InputConnection, selection/deletion or password/security suite. Acceptance
+requires actual stock TV IME runtime; no production workaround or fake event.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
