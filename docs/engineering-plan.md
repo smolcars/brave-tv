@@ -2934,6 +2934,17 @@ with saved bookmark/cookie/storage/cache survival already pass. Full production
 0bd137 includes the exact accepted focus correction and passes build/install.
 Canonical5.1 accepted; count advances29/54, with hardware pending.
 
+Latest-only review correction before TEST r24: source66 has one Spec P2:
+Settings also exists inside Clear data, so focused Settings and same underlying
+Home alone cannot prove the pending dialog stayed dismissed. Require native
+activity-window focus after resume and absence of the Clear cache chooser,
+retaining same Home and Settings invoker assertions. No production change.
+Acceptance: cached TEST-only build with blocking analysis, then only the pending
+pause/resume native case; carry forward all unchanged passed cases. Roota4 has
+one Standards P3: its current canonical summary repeats historical red library
+results despite accepted5.1. Replace that chronology with current evidence;
+historical failures remain in this engineering log. Root Spec has no findings.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

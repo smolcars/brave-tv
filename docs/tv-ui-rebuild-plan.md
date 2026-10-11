@@ -452,26 +452,23 @@ audit confirms retained TV init/resume returns skip optional UI/service setup;
 Wallet's factory itself is not globally disabled. Home source/generated credits
 and the full Settings route supplement the unchanged About acceptance. Earlier
 bounded traffic evidence carries forward; this is not a universal no-network
-claim. Item5.7 is accepted on emulator, with physical startup still pending. Library
-r24 passes paging/Open, Cancel/confirmed removal and focused Save policy changes;
-History traversal and external-update page visibility remain red. Minimized
-production r25 proves History's Previous→Right More→OK next-page path. Sourceef292
-corrects native focus observation and offscreen-row assertions alongside the tab
-observer API. Consolidated r57 builds/installs successfully. Native r25 private
-list screenshot-window protection passes; frozen-tab paging/restoration reaches
-the actual document but fails Close completion. History first-page focus and
-bookmark nearest-survivor recovery remain red. The next slice preserves selection
-before restored focus, scopes non-coordinate controls to strict document identity,
-and adds a nine-visit native History prerequisite before the160-visit case.
-R58 fails blocking analysis on required operator-precedence parentheses; r59
-sourcee0e3 passes the corrected cached build. Native r26 passes the short History
-prerequisite20.329s and160-visit continuation/policy/Cancel/removal/Open179.019s;
-frozen tabs including Close20.754s and both native document/viewport guards also
-pass. Bookmark nearest-survivor recovery remains red24.811s; index/ID fallback
-alone did not resolve it. Scoped clearing and the remaining bookmark case keep
-5.1 pending. Fresh-profile native history-only/site-data/cache clearing now passes
-with nonselected data and bookmarks preserved. Search-provider and pending-clear
-callback recovery remain for5.3. Current accepted count is29/54.
+claim. Item5.7 is accepted on emulator, with physical startup still pending.
+
+Item5.1 is accepted: native library r24 passes paging/Open, conservative Cancel,
+confirmed removal and focused Save policy changes. Native r26 passes short and
+160-visit History traversal, policy changes, removal and Open. Native r30 passes
+bookmark external-update selection, nearest-surviving ID/index recovery, rename
+and disposed-observer checks; frozen-tab restoration and Close also pass. Full
+production r60 includes the accepted focus fix and passes build/install. Earlier
+failed assertions and their corrections remain documented in engineering-plan.md.
+
+For5.3, fresh-profile native history-only/site-data/cache deletion passes with
+nonselected data and bookmarks preserved. Native provider selection and Address
+provider text pass, with the original provider restored. Controlled pending-clear
+Back, owned completion and replaced-document recovery pass. Only the corrected
+pause/resume test remains to establish this slice's acceptance; callback tests
+are separate from actual native deletion. Current accepted count is29/54.
+
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.
