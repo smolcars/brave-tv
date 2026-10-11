@@ -1128,6 +1128,27 @@ strict Cancel-first checks and dangerous-action nonexecution. Test-only r8 is
 compiled proof, not a passing native test suite. Actual open/removal/deletion,
 pause/resume/cancel and file-byte checks remain pending.
 
+Source055/root1b0 latest reviews pass Standards0/Spec0. Test-only r9 passes
+blocking analysis in GNU20.98s/Siso17.48s, 14 steps; journal peak9.1G. Signed
+test artifact is preserved at `compose-downloads-tests-055e2b02c-x64-debug-20261011`
+and installed/hash-verified in place. Native r20 paging passes with all eight
+D-pad rows, disabled Previous, More and second-page focus assertions. The
+removal/deletion test now reaches and confirms Remove, then fails waiting for
+empty-list Refresh: it adds its next item before the first asynchronous list
+query finishes. Move fixture insertion after the positive empty-list focus
+signal; do not insert a sleep or weaken either owner assertion. Continue the
+remaining native cases separately, preserving r20 failure evidence.
+
+Production source573 real image Open reaches Chromium's native media viewer;
+the downloaded840-byte PNG hash matches the pinned fixture. Real history-only
+Remove eventually disables the stale row; explicit Refresh shows the empty
+native list and `/sdcard/Download/tv-fixture-open.png` still has the exact
+original SHA256. Evidence is `probes/downloads-r1/actual-image-r4.json` (action)
+and `actual-image-r5.json` (refresh/file survival). Earlier recipe failures
+(AX presentation labels/classes, retained More focus and asynchronous removal)
+remain preserved; they are not claimed as passing scripts. Actual file deletion
+and active-transfer checks remain pending, so Stage5.2 remains unchecked.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

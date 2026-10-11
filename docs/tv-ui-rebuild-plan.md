@@ -372,6 +372,10 @@ the complete feature set or a public release.
 - [ ] **5.2** Provide a bounded TV view of existing downloads, supported status,
   open/cancel/removal actions and errors. Distinguish removing a list entry from
   deleting a file; retain existing storage permissions and download ownership.
+  Implemented on source573 with eight-row native-provider pages. Actual emulator
+  image download/Open, conservative Cancel/Right/Left and history-only removal
+  with exact file-byte survival pass. Paging native fixture passes; its complete
+  five-case suite, real file deletion and active-transfer acceptance remain open.
 - [ ] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
   native operations, explicit effects and cancellation. Do not clear other data
   merely to simplify migration or testing.
