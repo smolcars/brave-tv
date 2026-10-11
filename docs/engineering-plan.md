@@ -1748,6 +1748,27 @@ and compile the focused test target for the new final-tab cases. No4.8/recovery
 acceptance from build success alone; source7b's earlier unapplied artifact stays
 separate. Continue the remaining independent emulator scope after these checks.
 
+Applied r43's first native viewport case still fails at initial Home (8.221s).
+Production ordinary dialogs page has no toolbar and its Alert bounds now begin
+at344px; production new normal Home still visibly shows the112px mobile toolbar.
+The preserved six-tab normal profile/favorites remain intact. This is a real
+native-page offset issue, not justification for loosening viewport acceptance.
+
+Native owner inspection: BrowserControlsManager ignores renderer offset callbacks
+for native pages; forced SHOWN→HIDDEN retains absent offset tags, and its app
+visibility callback does not apply native HIDDEN positions on token release.
+In the existing TV visibility subclass, after publishing authoritative HIDDEN,
+ask the active native manager to apply its own non-animated native positions
+only for the observed, current native tab and a live activity. Retain inherited
+observers, first/last app subscription, app-show/native-security/IME exceptions
+and inactive/dead-tab rejection. No global manager patch or fullscreen flag.
+Split native viewport assertions to identify constraint/offset/visible bounds;
+use clipped global bounds because translated native toolbar views may remain
+isShown. Require zero content offset and no visible toolbar pixels, plus usable
+Home focus, then rerun four native cases and two pending recovery cases on one
+combined cached build. Cancel the planned test-only build in favor of this
+complete production correction; it has not started. No4.8 acceptance yet.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
