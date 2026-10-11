@@ -292,6 +292,26 @@ root entry from child return: root home controls keep Address; child return
 preserves the existing action identity. Acceptance is the unchanged panel replay
 and home/overflow/root-Back replay together. Continue panel native gates afterward.
 
+Panel migration runtime on cdea: native Tabs list scrolls to lower model rows;
+Bookmarks opens its genuine Mobile folder and retains the source5829 synthetic
+TV remote input bookmark. Native QR AndroidView decodes and actual phone browser
+pairs at TV private address36331; only bundled assets load, the fragment is removed,
+QR waiting hides manual form, and physical D-pad approval succeeds. No physical
+phone/camera/LAN claim follows. The current normal model contains3 tabs after
+fixture work; this is not proof of unchanged baseline group membership.
+
+Next address slice (Stage4.2): a Compose TV editor in a retained native dialog,
+real Android InputConnection/IME, select-all/edit/clear/Go/Cancel, selected native
+search-provider description, and at most6 matching saved-bookmark suggestions.
+Use the pinned AutocompleteController classification and native LoadUrlParams;
+retain the session's tab/document/viewport lease and fail recoverably if it changes.
+No DOM input injection, new storage or network suggestions. Private text is
+unsaved and private dialog windows are SECURE before show. Intercept only the TV
+focus_url_bar entry, retaining mobile behavior. Acceptance: actual APK editor
+focus/IME Unicode/selection/deletion, URL vs selected-provider search, empty and
+invalid/stale state, Cancel/Back returning to home/page, private/native phone
+rejection. Toolbar retirement and real home content follow independently.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
