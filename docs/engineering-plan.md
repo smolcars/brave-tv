@@ -1207,12 +1207,15 @@ baseline, and keep hardware overscan/physical acceptance explicitly deferred.
 Prototype stress checks and announcement metadata alone are insufficient.
 
 Stage1.5 native speech reproduces a missing-context issue on production573:
-D-pad reaches disabled Pointer/Back/Forward and empty Previous/More downloads,
-with actual TalkBack speech including disabled roles. Opening empty Downloads
+D-pad reaches disabled Pointer/Forward and empty Previous/More downloads,
+with actual TalkBack speech including disabled roles. Back is spoken as a
+button; its disabled speech is unverified. Opening empty Downloads
 speaks Refresh downloads but omits Downloads and No downloads yet. Evidence:
 `probes/a11y-states-r1/downloads-r1-complete.json`, `empty-r1.json` and action
 byte offsets. The automation lease is closed during speech, so it cannot explain
-this omission. Panel title and subtitle/description have no pane/live-region
+this omission. A second opening with a longer settle reproduces it in
+`empty-repeat-r2.json`, excluding a short-wait-only explanation. Panel title
+and subtitle/description have no pane/live-region
 semantics, unlike the existing Home empty state and Address error.
 
 Correction slice: expose native Compose panel/controls pane titles and polite
