@@ -2527,6 +2527,92 @@ Correction sourceef292 uses exact pinned TabObserver default callbacks and the
 bounded native traversal assertions described above. No production History or
 bookmark behavior changed in this correction.
 
+
+### Consolidated direct-startup/service audit and scoped clear-data acceptance
+
+After r57's affected native cases, reuse the same signed APK for the remaining
+startup/About audit and native clear-data scope. Use an explicitly discovered
+nonphysical onboarding AVD with no prior application profile; stop only the
+owned clean-TV emulator first so resource use stays bounded. Retain its existing
+normal upgrade fixtures unchanged. The onboarding AVD is a separate persistent
+synthetic profile, not a wipe of the main test profile. Acceptance: genuine first
+launch reaches Compose Home/Address without mobile onboarding/promotions;
+Settings/About/source/licenses and restart retain usable native focus. Inspect
+retained native Android optional-service gates and registered old analytics
+preferences, then use actual native histogram pages for bounded current-process
+checks. This is not a universal no-traffic or hardware claim.
+
+Use that isolated AVD/profile also for history/cookie/localStorage synthetic
+fixtures and native clear-data Cancel/history-only/site-data-only operations.
+Verify unaffected categories survive, actual native operations finish, Back and
+pending/disabled actions remain usable, and preserved source5829 upgrade fixtures
+on the stopped main AVD remain untouched. Do not clear the main profile, caches,
+other apps or device users; do not create remote execution endpoints or alter
+trusted OS/security approval. Document failures without marking5.1/5.3/5.7 passed
+until each full item meets its real emulator acceptance.
+
+Consolidated r57 sourceef292/rootaca7 passes blocking analysis in4m19.14s
+(Siso4m15.55s,144 executed steps). Sampled cgroup peak15540936704bytes; the
+live systemd peak was15624011776bytes. Signed x64 production852750342bytes,
+SHA2569d69e5a9c3d7cf4c8272717600e8958e9adc27abb719e0b65998b6ca5d326612;
+test876332995bytes,SHA2563bf6793b797f9b00e7af59cdb743f7a75512e65c236dd4b2cf9fb71de3609518.
+Artifacts/provenance: `~/.cache/brave-tv/artifacts/compose-library-tabs-ef2929648-x64-debug-20261011`.
+Both in-place installed hashes match,13.017s/12.739s; profiles remain intact,
+and the Agent UiAutomation lease is closed before native JUnit. Four isolated
+affected cases are running; unchanged three library and About positives carry
+forward. Compiled artifacts alone do not advance acceptance.
+
+
+### Native entry-path minimization and pre-frame selection fallback
+
+R25 compiled corrections still fail the native160-visit History case98.952s at
+first Previous focus. The nine-visit production probe passed, so repeat the
+small scenario under the same native JUnit owner before another large setup.
+Ranked causes: (1) the test's independently constructed History panel bypasses
+the real Controls dismissal/cursor/owner path; use that real D-pad entry, which
+predicts the short case passes. (2) native instrumentation focus observation
+or key injection differs from Agent; a short native trace would still fail on
+the real entry and localize the actual focused action. (3) the160-row native
+query changes the first page; the small native case would pass but aggregate
+would fail. Add a nine-visit native prereq sharing real entry/seed helpers;
+run160 continuation only after that short prerequisite passes.
+
+Bookmark external-update r25 fails26.273s at nearest survivor6 after page
+normalization/Up/Down/policy checks pass. Inspection finds the refreshed dialog's
+no-focus-yet callback restores using pageStart0 even when a prior stable focused
+ID was at index7. Deletion before restored focus is assigned then chooses row0
+rather than nearest6. Preserve the captured selected index as the no-focus-yet
+fallback for both bookmark and tab refresh; actual models remain authoritative,
+with no delays or input retries. The existing native external-update case is the
+regression. Preserve independent tab results and unchanged positive evidence;
+count stays25/54 until actual acceptance.
+
+Native tab r25 reaches real16-frozen-tab paging, preceding/focused removal,
+renderer restoration/document and return to page, then fails23.561s at Close
+model completion. Private-list native secure-window ownership passes8.012s.
+A minimized production probe on an additionally owned normal history fixture
+also returns to compact controls without closing on the first request; a new
+request from freshly opened controls closes it. No existing tab was targeted.
+The source currently validates every control with the coordinate/viewport lease,
+although close/navigation/library/settings actions carry no page coordinates.
+Use the existing strict document lease for coordinate-free controls, retaining
+exact tab/WebContents/document/lifecycle revalidation; pointer/scroll entry keeps
+the full viewport lease. Actual phone positional commands and held OK keep their
+existing stricter guards. Same-URL replacement remains invalid. The existing
+native viewport/document distinction test and failing real frozen-tab Close
+case cover the seam. This is an implementation inference to verify in r58, not
+a passed native Close result. No edit replay, timing delay, certificate bypass,
+private unlock or underlying tab/group model rewrite is introduced.
+
+The native History traversal also sent another Down without acknowledging the
+previous focus transition; waitForIdle is not a positive Compose focus signal.
+Use the known eight owned first-page rows: after each Down require the exact
+next row focused, then require Previous focused before Right/More. This removes
+an observational skip over the footer without inserting a delay. Share the
+same row-acknowledged route for aggregate Previous paging. The short prerequisite
+checks the nine-owned-visit first page→More→next-row1 path; older global history
+is intentionally not rewritten to simplify its second page.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

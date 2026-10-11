@@ -433,9 +433,17 @@ the complete feature set or a public release.
 
 Native About r23 on source8f8bfddd9 passes installed version/attribution,
 Settings/Home focus restoration and same-tab Chromium-generated licenses.
-Item5.7 remains pending its startup/disabled-service/hidden-route audit. History
-r23 fails a mutable-selector test stimulus before paging; corrected history and
-bookmark selection/policy cases remain pending their combined native build/run.
+Item5.7 remains pending its startup/disabled-service/hidden-route audit. Library
+r24 passes paging/Open, Cancel/confirmed removal and focused Save policy changes;
+History traversal and external-update page visibility remain red. Minimized
+production r25 proves History's Previous→Right More→OK next-page path. Sourceef292
+corrects native focus observation and offscreen-row assertions alongside the tab
+observer API. Consolidated r57 builds/installs successfully. Native r25 private
+list screenshot-window protection passes; frozen-tab paging/restoration reaches
+the actual document but fails Close completion. History first-page focus and
+bookmark nearest-survivor recovery remain red. The next slice preserves selection
+before restored focus, scopes non-coordinate controls to strict document identity,
+and adds a nine-visit native History prerequisite before the160-visit case.
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.

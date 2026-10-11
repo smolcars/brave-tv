@@ -591,6 +591,12 @@ verify persisted removal, check older pages/Back, and check History is disabled
 in private controls. Exercise closing the panel during loading and activity
 pause. Record actual results separately; this procedure alone is not a pass.
 
+Run `TvHistoryPanelTest#firstPageUsesRealControlsAndRemoteFocus` first with
+`-e tv_history_fixture_url http://10.0.2.2:18088/history.html`. Its nine owned
+visits enter through the actual controls window and require every Down's exact
+row focus before Previous → Right More → OK next-page row1. If it fails, diagnose
+that short case before spending time seeding the larger continuation case.
+
 The consolidated `TvHistoryPanelTest#nativeBatchPagingFocusRemovalAndPolicy`
 case requires `-e tv_history_fixture_url http://10.0.2.2:18088/history.html`
 with the owned fixture server running. It seeds160 unique normal visits to
