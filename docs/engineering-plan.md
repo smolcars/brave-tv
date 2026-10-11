@@ -2958,6 +2958,10 @@ native scoped deletion, provider restoration, Back and both owned callback cases
 Canonical5.3 accepted; count30/54. Proceed with planned5.4 actual native Shields/
 filter enforcement and signed-update controls; no repeated unaffected suites.
 
+Latest root acceptance review: Spec0; Standards P3 finds the top Stage5 subtotal
+still3/7 after5.3 acceptance. Correct it to4/7 and remove the stale general
+library-pending summary. Total30/54 and the scoped runtime evidence remain valid.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

@@ -7,10 +7,10 @@ linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
 Current acceptance: **30/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:4/8, Stage 5:3/7, Stage 6:0/7, final V checks:0/8.
+Stage 3:3/5, Stage 4:4/8, Stage 5:4/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
-library acceptance remain pending. The latest input correction still requires
+exceptional security flows remain pending. The latest input correction still requires
 native runtime validation. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
