@@ -403,6 +403,14 @@ the privacy flag label must refresh for every input/input-view start. Update
 only that boolean from current EditorInfo; never log/extract field payloads.
 Acceptance includes a second editor connection, avoiding a stale true display.
 
+Latest entry-hook review: Spec has no findings; Standards AND-022 requires
+BytecodeTest coverage for the newly injected BraveActivity handler. Add class
+existence and its exact boolean/int signature beside the existing tabbed command
+checks. Keep the adapter's missing-method failure and actual entry replay;
+signature tests alone are not behavioral proof. Core-controls→Address already
+opens the genuine r22 Compose editor (8-step diagnostic passes), isolating the
+remaining Home routing failure from editor construction.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
