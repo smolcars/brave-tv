@@ -714,6 +714,22 @@ earlier attempt cancelled the editor by repeating Back after an immediate stale
 IME snapshot; it is not acceptance. Positive IME-absence waiting fixes the
 precondition. Native owner replacement/private editor/phone checks remain pending.
 
+Home runtime correction: r26 passes blocking analysis in8m17.30s
+(Siso8m13.68s), observed peak14,372,753,408 bytes(13.39GiB). Both signed APKs
+are preserved in `compose-home-609bb6e33-x64-debug-20261010`; in-place installs
+pass without clearing either profile. All six native Home tests go RED in their
+shared setup, before feature assertions. Native debugger inspection confirms six
+model-backed cards, a correct visible accessibility label and bounds. The active
+accessibility window is instead the startup controls dialog: Brave opens it for
+the test rule's initial about:blank page, then the rule loads Home underneath it.
+Dismiss only those positively identified controls with real Back and require
+activity window focus before seeding/loading Home. One debugger-assisted preview
+test passes after that dismissal; it is diagnosis, not unattended suite acceptance.
+Rebuild the focused test target with blocking checks and rerun all six cases.
+The original production debug-app setting is restored after diagnosis; no private
+capture, production permission/data change or physical-device operation.
+Latest root7af review: Standards0, Spec0.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
