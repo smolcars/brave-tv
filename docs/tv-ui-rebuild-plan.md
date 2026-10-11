@@ -332,10 +332,12 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   immediate address focus and explicit private appearance. Preserve startup,
   native-page integration and upstream attribution routes.
   The six-page default-folder preview and four recent normal tabs retain native
-  observers and private exclusion. Source d558 passes blocking builds and five
-  of six native cases. Source e352 scopes the native Undo fixture timer and
-  awaits a restored-layout callback before remote focus traversal; runtime
-  acceptance remains pending. See [engineering evidence](engineering-plan.md).
+  observers and private exclusion. Signed e750 native tests pass five of seven;
+  footer focus and Settings Back remain RED. Source38e2 adds native Home Settings
+  return identity through child panels and rejects stale owners before private
+  access checks; build/runtime acceptance is pending. The native Undo fixture
+  uses a scoped test timer and restored-layout callback. See
+  [engineering evidence](engineering-plan.md).
 - [ ] **4.2** Replace address/search UI using current URL classification and
   selected search provider. Support edit/select/delete/submit/cancel, IME and
   optional available system dictation without requiring microphone access.

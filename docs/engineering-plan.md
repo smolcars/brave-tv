@@ -892,6 +892,33 @@ settings, verify the emulator stream targets that sink, then enable only the
 installed TalkBack service for normal synthetic UI checks. Restore settings
 after testing; no screenshot or audio capture of private/editor contents.
 
+Home native r11 passes5/7. The new Settings-return test is RED: Back opens
+Controls, so the activity never regains window focus. Footer diagnostics report
+Source present but unfocused before and after accessibility cache invalidation;
+neither Address nor the previous favorite is focused. Client-cache invalidation
+does not resolve the failure. Keep footer diagnosis open; no acceptance advances.
+
+Settings return correction: give the native Home caller an explicit Settings
+entry, retain its root return callback through search/filter/clear-data children,
+and restore the same Home's Settings action only after tab/document/native-page
+identity revalidation. Other Settings callers retain Controls as their parent.
+Callbacks stay owned by disposable dialogs/loading controllers; no new global
+navigation state or browser model. Acceptance: existing seven-case native suite,
+nested Settings Back, stale-owner rejection and controls/address regressions.
+Root92db latest-only review: Standards0, Spec0. Source3698 review finds two
+Standards issues (caller/focus contract and duplicated native test navigation)
+and one Spec issue: stale Home validation follows a private access guard with
+unlock side effects. Validate exact Home before that guard, cover normal→private
+owner replacement without private capture, document deferred focus and share the
+real Home→Settings test steps. Remove unrelated Activity formatter changes.
+Locked-private unlock runtime behavior remains separately pending; the new
+private-owner test does not create a device credential or claim that gate passed.
+
+Source38e2 correction review: Standards0, Spec0. Build production and the ten-case
+native Home suite together in the retained x64 output, with blocking Android
+analysis, four Siso workers and18/22GiB memory limits. Preserve signed artifacts
+and update both APKs in place. Runtime Settings/RTL/footer acceptance is pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
