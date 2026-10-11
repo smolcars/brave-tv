@@ -2804,6 +2804,36 @@ no duplicate clear, late completion after Back/pause does not reopen a panel,
 and new ownership is not retargeted. Batch with a justified bookmark correction
 after r28 identifies its focused action. Keep5.1/5.3 open until those checks pass.
 
+R28 identifies the unexpected native focus as Bookmark this page (26.574s,
+JUnit25.690s), while rows7/survivorIndex6/removedExists=false remain correct.
+The rebuilt panel's automatic first-button focus is observed before its initial
+preferred-row restoration. The next coalesced native change treats that transient
+focus as an intentional choice. Fix the shared native panel/presentation seam:
+acknowledge successful initial focus restoration, and let bookmark/tab observers
+read focused actions only after that acknowledgement. Before it, retain the
+already captured exact ID/index/action. No delays, observer suppression, native
+model changes or relaxation of context/security guards. The existing red-capable
+bookmark external-update case and frozen-tab case exercise affected real callers.
+Remove the now-explained failure-only diagnostic when applying the correction;
+retain its logs and the original nearest-survivor assertion. Batch these two
+affected cases and pending-clear callback tests in one cached build/runtime batch.
+Carry forward History, startup, deletion and unchanged document/private positives.
+
+The selected-focus acknowledgement uses the pinned boolean FocusRequester API
+with explicit FocusDirection.Enter; preflight javap confirms the no-argument
+overload returns void and the directional overload returns boolean. The native
+panel owns the acknowledgement callback, resets it on dismissal and disposes
+the composition. Three new native activity cases hold only the JNI clear
+completion through the existing generated test hook (other JNI methods remain
+real): disabled duplicate activation/Back, real Android Home pause/resume, and
+same-tab real document replacement. Each asserts the exact normal profile,
+single CACHE type, ALL_TIME and empty exclusions, restoring the hook in finally.
+The suspected old tab-only completion guard may fail the document replacement
+case; capture that red result before changing the callback guard. Build the test
+APK only first; productione0e3 remains retained and unchanged. No clearing or
+bookmark acceptance is added by this unrun test/correction. Latest root audit
+commit ceb5574 review has Standards0/Spec0. Count remains28/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
