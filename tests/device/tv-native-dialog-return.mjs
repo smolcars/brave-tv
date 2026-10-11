@@ -23,13 +23,21 @@ const snapshot = () => {
   assert.ok(reply.success && !reply.data.truncated, 'Complete native snapshot required');
   return reply.data.nodes;
 };
-const focus = label => assert.ok(snapshot().some(n => n.focused && n.label === label),
-  `Expected native focus: ${label}`);
-const modal = (message, label) => {
-  assert.ok(snapshot().some(n => n.label === message), 'Exact synthetic native dialog required');
-  focus(label);
+const waitNative = async (matches, message) => {
+  const deadline = Date.now() + 5000;
+  for (;;) {
+    const nodes = snapshot();
+    if (matches(nodes)) return;
+    assert.ok(Date.now() < deadline, message);
+    await new Promise(yes => setTimeout(yes, 25));
+  }
 };
-focus('Page cursor');
+const focus = label => waitNative(nodes => nodes.some(n => n.focused && n.label === label),
+  `Expected native focus: ${label}`);
+const modal = (message, label) => waitNative(nodes =>
+  nodes.some(n => n.label === message) && nodes.some(n => n.focused && n.label === label),
+  'Exact synthetic native dialog and conservative focus required');
+await focus('Page cursor');
 const url = 'http://10.0.2.2:18088/dialogs.html';
 const controls = snapshot();
 assert.ok(controls.some(n => n.label === 'Browser controls'), 'Trusted normal controls required');
@@ -118,8 +126,16 @@ const move = async (code, count) => {
   await sync();
 };
 const result = async expected => {
-  const state = await read();
-  assert.equal(state.documentTime, initial.documentTime, 'Native UI recreated the document');
+  let state;
+  const deadline = Date.now() + 5000;
+  for (;;) {
+    state = await read();
+    assert.equal(state.documentTime, initial.documentTime, 'Native UI recreated the document');
+    if (state.result === expected && state.width * state.scale === 1920
+        && state.height * state.scale === 1080) break;
+    if (Date.now() >= deadline) break;
+    await new Promise(yes => setTimeout(yes, 25));
+  }
   assert.equal(state.result, expected);
   viewport(state);
   console.log(JSON.stringify({ check: expected, pageId: page.id, documentTime: state.documentTime }));
@@ -133,25 +149,30 @@ try {
   send('register', { name: 'Brave TV native dialog fixture', vid: 4660, pid: 1, bus: 'usb',
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
   send('delay', { duration: 1500 });
+  await sync();
+  await focus('Page cursor');
   tap(353); // Activate page input; density320 means a32px directional step.
+  await sync();
+  await waitNative(nodes => !nodes.some(n => n.label === 'Browser controls')
+    && nodes.some(n => n.label === 'TV native dialog checks'),
+  'Native Page cursor activation must release controls before page movement');
   await point('alert');
-  await click(); modal('TV alert: close this dialog with the remote.', 'OK');
+  await click(); await modal('TV alert: close this dialog with the remote.', 'OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Alert closed');
-  await point('confirm'); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
-  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); focus('OK');
-  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_LEFT'); focus('Cancel');
+  await point('confirm'); await click(); await modal('TV confirmation: accept or cancel.', 'Cancel');
+  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); await focus('OK');
+  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_LEFT'); await focus('Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: false');
-  await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
-  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); focus('OK');
+  await click(); await modal('TV confirmation: accept or cancel.', 'Cancel');
+  adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); await focus('OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: true');
   await point('prompt'); await click();
-  assert.ok(snapshot().some(n => n.label === 'TV prompt: edit or cancel.'),
-    'Exact synthetic prompt required');
-  assert.ok(snapshot().some(n => n.focused && n.editable && !n.password),
-    'Native prompt must focus its genuine editor');
+  await waitNative(nodes => nodes.some(n => n.label === 'TV prompt: edit or cancel.')
+    && nodes.some(n => n.focused && n.editable && !n.password),
+  'Exact synthetic prompt must focus its genuine editor');
   adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
   const afterBack = snapshot();
   const promptVisible = afterBack.some(n => n.label === 'TV prompt: edit or cancel.');
@@ -160,7 +181,7 @@ try {
   console.log(JSON.stringify({ check: 'First prompt Back', promptVisible, stockImeVisible }));
   if (promptVisible || stockImeVisible) adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
   await result('Prompt canceled');
-  await point('confirm'); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
+  await point('confirm'); await click(); await modal('TV confirmation: accept or cancel.', 'Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: false');
   const deadline = Date.now() + 3000;

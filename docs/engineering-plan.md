@@ -1788,6 +1788,38 @@ production source83 is unchanged and stays installed. Do not repeat unchanged
 storage/dependency/performance suites or waive mandatory native/security checks.
 Stage4.8 remains pending; count20/54. Latest source83/roota362 reviews0/0.
 
+Focused test r18 source0d5 passes blocking checks in18.51s/14steps; journal
+reports9.7G peak. Signed test APK876246973bytes,
+SHA2561a9a77b5b09106e1d98bcd6ac740ea576fd1bfae3fb2d8e4cb3ad4e3532e7d07,
+is preserved in compose-toolbar-tests-0d5ea367f-x64-debug-20261011 and installed
+in place. Native r5 passes viewport8.352s, app-show override6.133s, editable
+navigation7.425s, observer disposal5.714s and final normal Home6.677s. Private
+final case9.301s restores the exact original normal tab/counts and clears the
+native secure flag, then fails Address focus. No private capture or isolation
+waiver. Source0d5/root38be7 latest reviews0/0.
+
+Next correction: the shared closure observer currently ignores private closures.
+Post a guarded Home recovery for both normal and private removals. Preserve
+normal-only creation when the normal model is empty; after the last private
+closure, focus an existing selected normal Home only, with live/current activity,
+foreground/window focus, zero private tabs and no native/presentation modal.
+Do not focus an ordinary page, unlock private tabs, create duplicate Home or
+steal Settings return focus on routine window-focus callbacks. Reuse existing
+Home focus scheduling and native models. Acceptance: the failing private case,
+normal final recovery and existing nested Settings invoker return on one combined
+build. Retain unchanged toolbar/storage/performance evidence.
+
+Production dialog r6 stops before Alert: the unconfirmed Page cursor activation
+left controls active. Diagnostic r7 confirms Page cursor before activation and
+controls dismissal before movement; held OK opens the exact native Alert and OK
+returns Alert closed in the same document. Its immediate viewport assertion
+then sees968px during a native app-show token, not a permanent inset. Strengthen
+the replay with bounded positive focus/modal/page-activation and full-viewport
+settling before subsequent coordinate input. Retain native SHOWN overrides,
+exact outcomes/document identity and a1080px final viewport; never continue keys
+or capture after failed ownership. Run consolidated dialog/media/IME/security
+on the production APK while the reviewed recovery build compiles. No4.8 checkbox.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
