@@ -1,0 +1,5 @@
+# Select the synthetic TV test IME first; start in the native TV editor.
+wait "text=\"Clear\"" 3000
+wait "text=\"Cancel\"" 3000
+tv-remote select
+wait "text=\"Native IME privacy flags: true\"" 3000

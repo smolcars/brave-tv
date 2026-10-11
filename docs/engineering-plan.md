@@ -419,6 +419,15 @@ retaining all editable/selection/composition behavior; remove the stray child
 description. Acceptance: labelled focused editable native node plus genuine
 IME stimuli on the next blocking build, alongside unchanged Home entry replay.
 
+Native IME-window runtime RED on r22: both OK and a diagnostic field tap fail
+to show the installed test keyboard; its privacy-flags replay fails. Window
+inspection identifies ALT_FOCUSABLE_IM set by native AlertDialog because the
+Compose view has no Android text editor during initial content installation.
+Clear only that flag after dialog.show (retain private SECURE and resize), and
+explicitly let focused editor D-pad OK request the native software keyboard.
+Acceptance: unchanged IME replay and actual Unicode/selection/composition/
+deletion/bound/privacy results. No injected DOM text or keyboard permission grant.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
