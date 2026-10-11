@@ -1684,6 +1684,16 @@ or visibility patch. Update factory FQN, GN source path and test import together
 retain all behavior, focused cases and cached blocking build. This is a Java
 access-boundary correction; no Chromium/toolkit update or broad rebuild.
 
+Consolidated viewport probe slice: update the existing normal-only native dialog
+replay to derive button targets from read-only DOM rectangles and the actual
+device scale. Require the full1920×1080 CSS-scaled viewport before remote input
+and after modal return, then prove cursor pixels at the derived confirmation
+target. Keep exact fixture/native-controls guards, genuine D-pad/uinput clicks,
+conservative native dialog focus and no private/security screenshots. This
+replaces obsolete toolbar-offset coordinates; it does not inject DOM actions.
+Run it once on the new production APK alongside focused media/IME/security
+routes. Preserve earlier unchanged storage/Unicode/performance acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

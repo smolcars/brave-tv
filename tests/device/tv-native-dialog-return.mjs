@@ -62,11 +62,32 @@ const read = () => new Promise((yes, no) => {
   socket.addEventListener('message', message);
   // Read-only observation: all page actions below use native remote events.
   socket.send(JSON.stringify({ id, method: 'Runtime.evaluate', params: {
-    expression: '({documentTime:performance.timeOrigin,result:document.querySelector("#result").textContent})',
+    expression: `({documentTime:performance.timeOrigin,
+      result:document.querySelector('#result').textContent,
+      scale:devicePixelRatio,width:innerWidth,height:innerHeight,
+      buttons:Object.fromEntries(['alert','confirm','prompt'].map(id=>{
+        const {x,y,width,height}=document.getElementById(id).getBoundingClientRect();
+        return [id,{x,y,width,height}];
+      }))})`,
     returnByValue: true,
   } }));
 });
 const initial = await read();
+const viewport = state => {
+  assert.equal(state.width * state.scale, 1920, 'Native TV page width must fill the display');
+  assert.equal(state.height * state.scale, 1080, 'Retired mobile controls must leave the full viewport');
+};
+viewport(initial);
+// density320 uses the native32px directional step. Choose an interior point on
+// that grid from actual normal-fixture geometry, without injecting page actions.
+const target = id => {
+  const bounds = initial.buttons[id];
+  const x = Math.round((bounds.x + bounds.width / 2) * initial.scale / 32) * 32;
+  const y = Math.round((bounds.y + bounds.height / 2) * initial.scale / 32) * 32;
+  assert.ok(x > bounds.x * initial.scale && x < (bounds.x + bounds.width) * initial.scale);
+  assert.ok(y > bounds.y * initial.scale && y < (bounds.y + bounds.height) * initial.scale);
+  return {x,y};
+};
 const remote = spawn('adb', ['-s', serial, 'shell', 'uinput', '-'],
   { stdio: ['pipe', 'pipe', 'pipe'] });
 const watchdog = setTimeout(() => { socket.close(); remote.kill('SIGKILL'); process.exitCode = 1; }, 90000);
@@ -100,19 +121,24 @@ const result = async expected => {
   const state = await read();
   assert.equal(state.documentTime, initial.documentTime, 'Native UI recreated the document');
   assert.equal(state.result, expected);
+  viewport(state);
   console.log(JSON.stringify({ check: expected, pageId: page.id, documentTime: state.documentTime }));
+};
+const point = async id => {
+  const {x,y} = target(id);
+  await move(105, 60); await move(103, 34);
+  await move(106, x / 32); await move(108, y / 32);
 };
 try {
   send('register', { name: 'Brave TV native dialog fixture', vid: 4660, pid: 1, bus: 'usb',
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
   send('delay', { duration: 1500 });
   tap(353); // Activate page input; density320 means a32px directional step.
-  await move(105, 60); await move(103, 34); // Clamp to origin, regardless of prior cursor state.
-  await move(106, 6); await move(108, 17); //192×544 is inside the controlled Alert button.
+  await point('alert');
   await click(); modal('TV alert: close this dialog with the remote.', 'OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Alert closed');
-  await move(106, 9); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
+  await point('confirm'); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); focus('OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_LEFT'); focus('Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
@@ -121,7 +147,7 @@ try {
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_RIGHT'); focus('OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: true');
-  await move(106, 7); await click();
+  await point('prompt'); await click();
   assert.ok(snapshot().some(n => n.label === 'TV prompt: edit or cancel.'),
     'Exact synthetic prompt required');
   assert.ok(snapshot().some(n => n.focused && n.editable && !n.password),
@@ -134,7 +160,7 @@ try {
   console.log(JSON.stringify({ check: 'First prompt Back', promptVisible, stockImeVisible }));
   if (promptVisible || stockImeVisible) adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
   await result('Prompt canceled');
-  await move(105, 7); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
+  await point('confirm'); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: false');
   const deadline = Date.now() + 3000;
@@ -143,7 +169,8 @@ try {
     await new Promise(yes => setTimeout(yes, 25));
   }
   execFileSync('python3', [resolve(driver), 'screenshot', resolve(screenshot)], { timeout: 20000 });
-  execFileSync('java', ['tests/device/CursorScreenshot.java', resolve(screenshot), '480', '544'],
+  const {x,y} = target('confirm');
+  execFileSync('java', ['tests/device/CursorScreenshot.java', resolve(screenshot), String(x), String(y)],
     { encoding: 'utf8', timeout: 20000 });
 } finally {
   clearTimeout(watchdog);
