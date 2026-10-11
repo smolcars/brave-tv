@@ -795,6 +795,14 @@ bounded booleans, with no field contents logged. Acceptance: rebuild the small
 fixture and repeat the expected live-region RED, then review this correction
 before continuing the native acceptance/build slice.
 
+Root1be correction reviews: Standards0, Spec0. The sourcea02 test-only rebuild
+passes blocking checks in23.32s (Siso19.71s), observed peak9,668,460,544 bytes
+(9.00GiB); signature/package/provenance are preserved in
+`compose-home-test-a02b3dc01-x64-debug-20261010`. Its six-case native run is next.
+Source67fb109c4 adds the planned polite error/Home live-region semantics and
+passes latest-only Standards/Spec review with0 findings each. Build/native
+announcement metadata, state events and spoken operation remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
