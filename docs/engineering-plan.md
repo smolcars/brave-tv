@@ -1430,6 +1430,21 @@ method's boolean/failure contract. Document unchanged state on a rejected resume
 and held-press cancellation/current-viewport clamping on success. This is a
 comment-only correction; the running r37 cache remains on source31067860c.
 
+R37 passes blocking production/native-test build in4m01.51s/135 steps, observed
+peak14,752,608,256B. Both signed x64 APKs are preserved under
+`artifacts/compose-dialog-return-31067860c-x64-debug-20261011`; in-place install
+hashes match and profiles are preserved. Consolidated dialog r2 passes native
+alert but stops before confirm: the native snapshot shows focus returned to
+compositor_view_holder, outside ContentView. The general focus guard therefore
+rejects restoration and subsequent pointer input. R37's first probe stopped
+before input on the emulator console's CRLF; normalize its line separator.
+
+Next correction recognizes only Chromium's compositor content host as page
+focus in the shared native-owner guard. Keep all other focus, modal/scrim,
+Find, back-handler, IME and private checks intact. The actual alert/next-confirm
+failure is the regression; build once with native tests and rerun the combined
+dialog/media/lifecycle routes. Do not count the stopped sequence as acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

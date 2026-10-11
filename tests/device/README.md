@@ -1,5 +1,21 @@
 # TV device regressions
 
+`tv-native-dialog-return.mjs EMULATOR_SERIAL AGENT_DRIVER.py NORMAL_SCREENSHOT.png`
+runs one actual-engine alert/confirm/prompt return sequence on the normal
+`http://10.0.2.2:18088/dialogs.html` fixture. Start with Browser controls' Page
+cursor focused,1920×1080/density320/font1.0, and the stock Android keyboard
+selected after agent-device opens. The driver must retain the exact emulator
+launcher/config/session returned by T3 device_open and any private daemon
+credentials. Forward9222 only from that emulator to chrome_devtools_remote;
+the probe checks both the AVD and forward, and uses CDP only for read-only
+synthetic result/document-identity observations. Page actions use a nonalphabetic
+uinput remote; native dialog actions use D-pad/OK/Back, with exact fixture
+messages checked before acceptance. The sequence covers conservative initial
+Cancel, Right/Left, both confirm outcomes, genuine native prompt cancellation,
+next-click recovery and cursor pixels after dismissal. It captures only the
+normal fixture after the dialogs are gone. A completed input command, syntax
+check or CDP read alone is not native-dialog acceptance.
+
 `download-fixture-server.mjs CHROMIUM_MEDIA_TEST_DATA` serves fixed synthetic
 attachments on host loopback18090. Pass the pinned `src/media/test/data`; its
 four-colors image opens through existing native download/media ownership. Run
