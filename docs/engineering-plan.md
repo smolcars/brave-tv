@@ -1769,6 +1769,25 @@ Home focus, then rerun four native cases and two pending recovery cases on one
 combined cached build. Cancel the planned test-only build in favor of this
 complete production correction; it has not started. No4.8 acceptance yet.
 
+Combined r44 source83de90 passes blocking analysis in4m05.60s/136steps;
+observed MemoryPeak16342687744bytes(15.22GiB). Both signed x64 APKs are
+preserved in compose-native-home-83de90d87-x64-debug-20261011 and installed
+in place with matching installed hashes. Production APK852736075bytes,
+SHA2562f23d1153ee1da079261f268da5690e61a062ef7673e3339a90338f137584b13;
+test APK876247001bytes, SHA256ae6dd9f2704549767d6062a8c55440f1628d651839e1cf40dd5ea854abffd9c8.
+
+The first native case now passes HIDDEN and zero content offset, then fails
+only its geometry-only toolbar predicate (8.558s). Production normal Home
+has no visible mobile toolbar: heading y64 instead of176, Address focused,
+Favorites retained. Correct the test to combine isShown with clipped global
+bounds; invisible views must not count as painted pixels, while translated
+visible views must still be checked. Keep full-height Home/zero-offset assertions.
+Acceptance: six isolated native cases and one consolidated production viewport/
+dialog/media/stockIME/security sequence. Compile only the corrected test APK;
+production source83 is unchanged and stays installed. Do not repeat unchanged
+storage/dependency/performance suites or waive mandatory native/security checks.
+Stage4.8 remains pending; count20/54. Latest source83/roota362 reviews0/0.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
