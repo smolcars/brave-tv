@@ -1874,6 +1874,26 @@ for a single Page cursor activation after HIDDEN/zero-offset settling. Run it
 and the private layout diagnostic in separate processes on one test-only build;
 investigate the resulting exact failures before altering production validation.
 
+Test-only r20 passes blocking analysis in21.94s(Siso19.30s/14steps), journal
+8.3G peak. Signed/source-pinned test876243725bytes,SHA256
+ce2c4c98c1accc5c3249044e8e9212e73bc93d186b5dcda1371b9b57ed90b727,
+is installed in place; production789 remains unchanged. Source d971/rootb64
+latest reviews0/0. Native diagnostic r8: compact single activation PASSES9.463s,
+so the suspected always-stale dismissal cause is not established. Private
+8.423s fails because the activity tab becomes null after its earlier identity
+postcondition, during the layout-return poll. Revalidate exact normal identity
+in that same UI-thread poll before dereferencing, preserving native BROWSING/
+shown-Home/focus assertions and reporting the observed layout in its failure.
+Rerun only this changed case with a test-only build; retain the compact pass.
+
+The explicitly discovered nonphysical phone AVD is now open as emulator-5556,
+brave_phone_remote_api36, with its returned launcher/config/session. With no
+build active,15–16GiB RAM is available. Both emulator Wi-Fi states are saved;
+only TV Wi-Fi was enabled for upcoming actual private-address remote checks.
+No physical device is operated. Media r3 stopped on a read-only fixture timeout
+before input; a later bounded read confirms the selected visible document with
+full1080px viewport. Its focused retry preserves the exact normal fixture owner.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
