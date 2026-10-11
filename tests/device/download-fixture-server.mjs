@@ -7,11 +7,13 @@ import {join} from 'node:path';
 assert.ok(process.argv[2], 'Usage: download-fixture-server.mjs CHROMIUM_MEDIA_TEST_DATA');
 const image = readFileSync(join(process.argv[2], 'four-colors.png'));
 assert.ok(image.length > 0);
+const slowBody = Buffer.alloc(4 * 1024 * 1024, 0x54);
 const routes = new Map([
   ['/tv-fixture-open.png', {body: image, type: 'image/png'}],
   ['/tv-fixture-keep.txt', {body: Buffer.from('TV synthetic download: keep this file.\n'), type: 'text/plain'}],
   ['/tv-fixture-delete.txt', {body: Buffer.from('TV synthetic download: delete only this file.\n'), type: 'text/plain'}],
-  ['/tv-fixture-slow.bin', {body: Buffer.alloc(4 * 1024 * 1024, 0x54), type: 'application/octet-stream', slow: true}],
+  ['/tv-fixture-slow.bin', {body: slowBody, type: 'application/octet-stream', slow: true}],
+  ['/tv-fixture-slow.txt', {body: slowBody, type: 'text/plain', slow: true}],
 ]);
 const page = '<!doctype html><meta charset="utf-8"><title>TV download checks</title>'
   + '<h1>TV download checks</h1><p>Synthetic files only.</p>'

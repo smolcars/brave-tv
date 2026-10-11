@@ -1170,6 +1170,22 @@ duplicate-name prompt is cancelled without overwriting existing files. Inspect
 the actual native save/transfer path and fix the recipe or implementation at the
 responsible owner; do not waive native security or hide failures with data wipes.
 
+Root e376 latest reviews pass Standards0/Spec0. The slow HTTP `.bin` attachment
+reaches Chromium's native “File can’t be downloaded securely” prompt, with
+Discard initially focused. It remains a trusted native security owner; select
+Discard, not a custom approval or validation bypass. This explains the missing
+transfer row and qualifies the earlier setup assumptions. Keep the binary route
+for this negative flow. Next fixture slice adds an equivalent bounded slow text
+attachment using shared synthetic bytes, retaining exact routes, global two-slow
+request bound and range/HEAD behavior. Verify both routes, then test actual safe
+text pause/resume/cancel without changing production security or profiles.
+
+Both slow fixture variants pass host HEAD/type/disposition, exact range bytes
+and a shared two-transfer bound (third request503), plus existing method/error
+checks. The first check raced the restarted listener and returned ECONNREFUSED;
+after its positive ready log the complete check passes. These are host-only
+fixtures, not native active-transfer acceptance; source APK/security is unchanged.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

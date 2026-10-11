@@ -12,13 +12,28 @@ assert.equal(image.headers.get('content-type'), 'image/png');
 assert.deepEqual(Buffer.from(await image.arrayBuffer()), readFileSync(join(process.argv[2], 'four-colors.png')));
 const keep = await request('/tv-fixture-keep.txt');
 assert.equal(await keep.text(), 'TV synthetic download: keep this file.\n');
-const slow = await request('/tv-fixture-slow.bin', {method: 'HEAD'});
-assert.equal(Number(slow.headers.get('content-length')), 4 * 1024 * 1024);
-const range = await request('/tv-fixture-slow.bin', {headers: {Range: 'bytes=10-20'}});
-assert.equal(range.status, 206);
-assert.equal(range.headers.get('content-range'), 'bytes 10-20/4194304');
-assert.deepEqual(Buffer.from(await range.arrayBuffer()), Buffer.alloc(11, 0x54));
+for (const [name, type] of [['bin', 'application/octet-stream'], ['txt', 'text/plain']]) {
+  const path = `/tv-fixture-slow.${name}`;
+  const slow = await request(path, {method: 'HEAD'});
+  assert.equal(slow.headers.get('content-type'), type);
+  assert.equal(slow.headers.get('content-disposition'), `attachment; filename="tv-fixture-slow.${name}"`);
+  assert.equal(Number(slow.headers.get('content-length')), 4 * 1024 * 1024);
+  const range = await request(path, {headers: {Range: 'bytes=10-20'}});
+  assert.equal(range.status, 206);
+  assert.equal(range.headers.get('content-range'), 'bytes 10-20/4194304');
+  assert.deepEqual(Buffer.from(await range.arrayBuffer()), Buffer.alloc(11, 0x54));
+}
+const first = await request('/tv-fixture-slow.bin');
+const second = await request('/tv-fixture-slow.txt');
+try {
+  assert.equal(first.status, 200);
+  assert.equal(second.status, 200);
+  assert.equal((await request('/tv-fixture-slow.txt')).status, 503);
+} finally {
+  await first.body.cancel();
+  await second.body.cancel();
+}
 assert.equal((await request('/tv-fixture-open.png', {headers: {Range: 'bytes=not-a-range'}})).status, 416);
 assert.equal((await request('/missing')).status, 404);
 assert.equal((await request('/tv-fixture-open.png', {method: 'POST'})).status, 405);
-console.log('Download fixture: attachment bodies, bounded slow range, HEAD, invalid range, 404 and 405 PASS');
+console.log('Download fixture: attachment bodies, both slow types/ranges, global transfer bound, HEAD, invalid range, 404 and 405 PASS');

@@ -5,8 +5,10 @@ attachments on host loopback18090. Pass the pinned `src/media/test/data`; its
 four-colors image opens through existing native download/media ownership. Run
 `download-server-check.mjs` with the same directory and require its positive
 body/range/method checks before forwarding18090 to an explicitly verified TV
-emulator. Its slow4MiB attachment supports native pause/resume/cancellation;
-at most two slow transfers run, with bounded chunks and disconnect cleanup.
+emulator. Use the slow4MiB text attachment for native pause/resume/cancellation.
+The equivalent binary attachment exercises Chromium's insecure-HTTP download
+warning: keep that native owner and conservative Discard behavior. At most two
+slow transfers run across both routes, with bounded chunks and disconnect cleanup.
 Create downloads from the fixture webpage's links, preserve the browser profile
 and any other downloads, then verify native statuses and conservative TV
 confirmation focus. List removal must preserve the synthetic file and bytes;
