@@ -456,6 +456,20 @@ fixtures. Repeat ordinary site alert/confirm/prompt focus after changes to the
 shared modal helper. Do not suppress the group confirmation or automate real
 security permission choices.
 
+## Native security fixtures
+
+Run `security-fixture-server.mjs` through the project's Nix Node environment,
+passing the pinned Chromium `net/data/ssl/certificates/expired_cert.pem` public
+test bundle. It listens only on host loopback18084 (HTTP) and18085 (HTTPS).
+Forward these ports only to the explicitly verified nonphysical TV emulator.
+`/permission.html` requests location through the real browser API after a native
+pointer click; deny using the actual trusted browser/OS prompt. `/auth` always
+challenges with a synthetic Basic-auth realm; test Cancel without entering
+credentials. The HTTPS fixture must show the native certificate interstitial;
+use Back to safety without advancing, bypass flags or trust-store changes.
+The server never reads or logs Authorization, request bodies or location data.
+Host route checks are fixture validation, not native prompt acceptance.
+
 ## Direct first launch
 
 The TV onboarding redesign is superseded: the browser now completes first-run

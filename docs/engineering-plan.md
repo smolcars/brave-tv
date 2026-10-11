@@ -3026,6 +3026,23 @@ security decisions. Implement production changes only if these paths expose a
 real native focus/recovery bug. Carry forward accepted Page info/native modal and
 phone security guards; hardware/real-phone checks remain pending.
 
+Native security fixture progress: loopback18084 GET/HEAD permission and native
+Basic-auth routes, unknown404 and method405 checks pass. Actual production
+permission request remains unaccepted: activating Page cursor then D-pad/OK
+leaves the normal controlled page at "No request yet". No permission approval,
+profile wipe or physical operation occurred.
+
+Next focused3.3/5.5 slice: add a real-engine regression with a viewport-sized
+button and actual SOURCE_DPAD events from Android's alphabetic virtual keyboard.
+Require a single native pointer click (DOM click detail1) despite held OK repeats,
+with actual activity/content focus, settled hidden native toolbar and loaded
+document. Ranked hypotheses: alphabetic-device classification rejects dedicated
+D-pad input; native focus/IME guard retains ownership; document/viewport identity
+invalidates the press. Run the new test against unchanged production first,
+then fix only the proven boundary. Keep ordinary keyboard, modifiers, IME,
+native security ownership and strict document identity guards. Acceptance is
+the real regression and original permission request/recovery, not compilation.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
