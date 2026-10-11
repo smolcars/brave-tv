@@ -2754,6 +2754,56 @@ independent production startup/scoped-clear profile. Remove the obsolete root
 mobile-toolbar replay after the actual Compose Home routes above passed; retain
 the documented ordinary-webpage restart check separately. No4.8 acceptance yet.
 
+Fresh native histogram diagnostics on productione0e3 return no
+Brave.Core.CrashReportsEnabled or Brave.Search.DefaultEngine.4 histogram,
+matching all three stored reporting booleans false. Source/build optional-service
+audit and actual direct launch/relaunch/Home/Settings/routes supplement unchanged
+native About/version/attribution/same-tab generated licenses acceptance. The TV
+init/resume gates skip optional setup; Wallet's factory is not globally disabled.
+No competing onboarding/promotion surfaced. Earlier bounded traffic evidence
+carries forward without a universal no-network claim. Item5.7 accepted on
+emulator; count28/54, Stage5:2/7. Physical startup remains unperformed.
+
+Test-only r20 on source0d501/roota216 passes blocking analysis45.79s,
+Siso42.98s/14 executed steps; cgroup peak9528864768bytes. Unit r19 was an already
+retained failed unit, so the attempted duplicate launch did not start a build;
+unused r20 was checked and used. Signed x64 test876331199bytes,
+SHA2562352e98f60dc3b31ec45df0578aa81e0c67148bcd8bc53a84a6bec4f8ea3b081,
+artifact compose-bookmark-diagnostic-tests-0d5019e95-x64-debug-20261011.
+Installed hash matches; productione0e3/profile unchanged. Latest source/root
+reviews: Standards0/Spec0. Only the failed bookmark method is rerun as r28.
+
+Isolated fresh-profile production clearing uses actual native bridges and
+synthetic privacy fixture18082. Native Seed sets cookie tv_privacy=seeded and
+localStorage tv-privacy=seeded; cached native Fetch returns Network fetch1.
+D-pad saves the page; native Home later shows its exact saved-page title/origin.
+Clear Cancel/Right Clear now/Left Cancel/OK13-step replay passes, with stored
+data intact. The first route probe used Right instead of Down from Parent folder
+to the following Controls row; it stopped before any clear action. Corrected
+20-step route passes. Native history-only21-step confirmation/completion/Back/
+History route shows No browsing history before any new navigation, retains
+storage/bookmark, and a second real fetch keeps network value1 (resource timing
+entries1→2 prove the fetch completed). Site-data27-step confirmation/completion/
+Settings/Home return passes; saved-page D-pad focus/Open survives and its real
+reloaded document reads cookie empty/localStorage null. A new fetch still returns
+network value1. Reseeding only this isolated fixture precedes native cache-only
+26-step confirmation/completion/Back; next actual fetch returns network value2
+while seeded storage/cookie and the saved bookmark remain. Native resource timing
+completion is observed with a bounded read-only fixture MutationObserver, without
+DOM writes or fake browser input. A host helper syntax error was corrected before
+the cache proof. Fixture/header reads and procedure-label mismatches are not
+product failures. All destructive replays stop on failed assertions. No profile
+reset, physical device operation or broad test repetition occurred.
+
+Remaining5.3 checks: actual provider selection/authoritative address provider and
+pending-clear Back/lifecycle completion. Use a narrowly controlled native-JNI
+completion callback with real activity/dialog/D-pad ownership to test pending
+UI state separately from the actual data deletion above; never count that callback
+fixture as native deletion acceptance. Verify bounded exact data type/profile,
+no duplicate clear, late completion after Back/pause does not reopen a panel,
+and new ownership is not retargeted. Batch with a justified bookmark correction
+after r28 identifies its focused action. Keep5.1/5.3 open until those checks pass.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

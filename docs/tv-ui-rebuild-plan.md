@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **27/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:4/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **28/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:4/8, Stage 5:2/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
 library acceptance remain pending. The latest input correction still requires
@@ -434,13 +434,20 @@ the complete feature set or a public release.
 - [ ] **5.6** Cover JS dialogs, renderer crash/network errors, new windows/popups,
   file chooser and external-app results. Every allowed flow has a return path;
   unsupported actions explain the limitation rather than opening a dead screen.
-- [ ] **5.7** Audit first run, About, source/licenses and hidden feature routes.
+- [x] **5.7** Audit first run, About, source/licenses and hidden feature routes.
   Preserve direct startup and disabled analytics/optional services. Recheck that
   upstream UI dependencies have not restored mobile onboarding/promotions.
 
 Native About r23 on source8f8bfddd9 passes installed version/attribution,
 Settings/Home focus restoration and same-tab Chromium-generated licenses.
-Item5.7 remains pending its startup/disabled-service/hidden-route audit. Library
+Fresh productione0e3 startup and ordinary restart directly reach TV Home without
+mobile onboarding/promotions. Selected Local State P3A/stats/metrics booleans are
+false, and native crash-report/search histograms are absent. The source/build
+audit confirms retained TV init/resume returns skip optional UI/service setup;
+Wallet's factory itself is not globally disabled. Home source/generated credits
+and the full Settings route supplement the unchanged About acceptance. Earlier
+bounded traffic evidence carries forward; this is not a universal no-network
+claim. Item5.7 is accepted on emulator, with physical startup still pending. Library
 r24 passes paging/Open, Cancel/confirmed removal and focused Save policy changes;
 History traversal and external-update page visibility remain red. Minimized
 production r25 proves History's Previous→Right More→OK next-page path. Sourceef292
@@ -457,7 +464,9 @@ prerequisite20.329s and160-visit continuation/policy/Cancel/removal/Open179.019s
 frozen tabs including Close20.754s and both native document/viewport guards also
 pass. Bookmark nearest-survivor recovery remains red24.811s; index/ID fallback
 alone did not resolve it. Scoped clearing and the remaining bookmark case keep
-5.1 pending. Current accepted count is26/54.
+5.1 pending. Fresh-profile native history-only/site-data/cache clearing now passes
+with nonselected data and bookmarks preserved. Search-provider and pending-clear
+callback recovery remain for5.3. Current accepted count is28/54.
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.
