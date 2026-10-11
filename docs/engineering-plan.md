@@ -1919,6 +1919,20 @@ retaining native package/normal URL/unique document/viewport/owner checks.
 Media/dialog partial failed runs remain recorded and unaccepted. Source8d22/
 root0f5 latest reviews0/0. Current total20/54; physical acceptance remains pending.
 
+Private-model r22 builds successfully in4m42.95s (Siso4m38.75s; journal12.6G
+peak). Signed test876243117bytes, SHA256d2ddb0e4292d7ccf69d9bb0566c1b83644f27be1de33ea54f5c2ad5089774476,
+is preserved and installed in place. Native r10 is RED11.399s: after the initial
+normal return, the empty private model becomes selected again. Both latest
+source240/rootdb31 review axes report0 findings; this is not runtime acceptance.
+The pinned NewTabAnimationLayout's delayed expand completion unconditionally
+selects the newly created tab's model, even after that tab was closed. Retire
+these mobile model-reactive animations on television at their existing enable
+boundary, including accessibility-mode recalculation. Keep Compose motion and
+non-TV behavior. The existing rapid final-private-close test must pass without
+an animation delay; also verify the native animation policy and normal/settings
+focus returns. Consolidate these affected checks only; retain media/dialog and
+download acceptance. No production APK packaging until this focused test gate.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
