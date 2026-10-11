@@ -2182,6 +2182,17 @@ native test, without replacing D-pad actions or hiding its failure. Consolidate
 these affected checks in one cached build; leave acceptance at25/54 until the
 full cases pass. Page info/media/group/download checks remain carried forward.
 
+Bookmark traversal diagnosis r19 captures the actual native test window. After
+the eighth owned bookmark, Down focuses the disabled Previous bookmarks button
+at the left of the paging row; More bookmarks remains enabled at its right.
+Compose for TV intentionally keeps disabled buttons focusable for context, and
+Right reaches More. The test incorrectly requires Down alone to reach a
+horizontal neighbor. Correct that stimulus to Down to Previous, Right to More,
+then require focused More before activation. Keep disabled spoken/visual states
+and all paging/open/model assertions. Consolidate this test correction into the
+pending native input recovery build; the screenshots and original failure stay
+preserved in `probes/engine-lifecycle-r1/bookmark-focus-r19.json`.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
