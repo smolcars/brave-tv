@@ -1863,6 +1863,17 @@ only the test target, then rerun this one case. Keep independent production
 dialog/media checks running while the small cached test build compiles.
 Root2f274 Spec0; Standards' documented GNU timing correction is applied above.
 
+Focused test build r19 fails compilation because BraveActivity's Java facade
+does not expose getLayoutManager; the real ChromeTabbedActivity test rule does.
+Use that existing native owner, not reflection or a production API expansion.
+Keep the failed artifact uninstalled. Separately, dialog r11/r12 stop at Page
+cursor activation (uinput and native D-pad both): controls reopen, consistent
+with runControl dismissing its dialog before validating a context whose native
+viewport changes on window-focus restoration. Add one actual native regression
+for a single Page cursor activation after HIDDEN/zero-offset settling. Run it
+and the private layout diagnostic in separate processes on one test-only build;
+investigate the resulting exact failures before altering production validation.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
