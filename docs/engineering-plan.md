@@ -36,6 +36,11 @@ test, D-pad OK/Back return to the same document, stale/private rejection and
 navigation disposal, cached blocking-analysis APK build and latest-commit review.
 Carry unchanged security/input checks; hardware remains pending.
 
+Latest source `a8bed0b70` Standards review requests the public entry points'
+UI-thread, borrowed-contents and lifecycle contracts (DOC-004). Document the
+existing TV-only stale/private/security rejection and navigation/owner disposal;
+no behavior change. Review the correction before accepting runtime results.
+
 Latest correction `04211e0` reviews: Standards0/Spec0. Next consolidated native
 slice covers fullscreen tab-switch/background recovery and remaining exceptional
 flows on installed source6d: genuine media/fullscreen, normal tab identity,
