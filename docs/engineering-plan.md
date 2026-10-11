@@ -1090,6 +1090,26 @@ No production action or guard changes. Preserve r31 logs: GNU3m59.02s,
 Siso3m55.48s, systemd peak15,484,682,240bytes (14.42GiB). Commit/review and resume
 the same cached x64 targets after clean pin advancement; no output is deleted.
 
+Source573/root378 latest reviews are Standards0/Spec0. Blocking combined build
+r32 passes from the retained cache: GNU3m38.90s, Siso3m35.33s, 73 steps;
+observed peak14,367,870,976bytes (13.38GiB), final journal13.3G. Both APKs
+verify x86_64 and the retained signing certificate. Artifacts and hashes are
+preserved in `artifacts/compose-downloads-573592b13-x64-debug-20261011`.
+The new test APK is installed in place; production remains source38e2 pending
+actual download testing. No profile data or build cache was deleted.
+
+Native Downloads r18/r19 passes2/5: dangerous updates disable Open and restore
+safe focus; document navigation disposes the observer and rejects late results.
+Paging fails when the test clicks an offscreen More action; both destructive
+cases fail at initial Cancel focus after a coordinate click. Preserve these red
+logs. Next slice: make these remote tests traverse with D-pad/OK, asserting
+every row and confirmation focus transition. Predictions: if touch-mode
+coordinate clicks cause the confirmation failure, remote activation will pass;
+if dialog replacement or the native focus adapter is responsible, initial
+Cancel will still fail. Do not relax initial Cancel assertions or acceptance.
+Real native download/file-survival tests remain mandatory regardless of these
+provider-fixture results. The canonical count remains13/54, Stage1 remains5/6.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
