@@ -1,5 +1,11 @@
 # TV device regressions
 
+`tv-compose-clear-cancel.ad` starts at the clear-data chooser with Settings
+focused. It asserts each focus transition before the next key: Cancel → Right
+to Clear now → Left to Cancel → OK back to the chooser. A failed replay stops;
+never continue a destructive-dialog batch after a failed assertion. This checks
+navigation/cancellation; verify synthetic cookie/storage persistence separately.
+
 ## Local phone remote experiment
 
 These automated probes require emulator serials. Enable the development-only `tv-local-remote-experiment`

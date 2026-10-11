@@ -347,6 +347,21 @@ blocking. Match the interface name exactly. Observed peak7,960,109,056 bytes
 (7.41GiB); no APK installed. r22 will build both this compile correction and
 the activity lifecycle guard using the retained output.
 
+Test-driving incident on installed c830 while r22 builds: a manual batch
+continued after a failed focus assertion and selected Clear now, clearing the
+emulator normal profile's cookies/site data. The native completion message
+confirms it. No application wipe occurred; bookmark/history/tab fixtures remain,
+but prior cookie/storage migration continuity is no longer valid. Reseed a
+documented synthetic site-data fixture for subsequent upgrade tests. All
+dependent test actions must stop immediately when an assertion fails; use a
+fail-fast replay for destructive confirmation traversal. This is an automation
+mistake, not evidence of a UI bypass or permission change.
+
+The corrected13-step `tv-compose-clear-cancel.ad` replay passes on c830:
+Cancel initially focused, Right reaches Clear now, Left returns Cancel, OK
+returns to the scoped chooser. This proves traversal/cancellation, not site-data
+continuity; that requires a freshly seeded fixture checked before/after.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

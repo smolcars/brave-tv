@@ -1,0 +1,14 @@
+# Enter at the scoped clear-data chooser with Settings focused. Never activate Clear now.
+wait "text=\"Settings\" focused=true" 3000
+wait "text=\"Cookies and site data\"" 3000
+tv-remote up
+wait "text=\"Cookies and site data\" focused=true" 3000
+tv-remote select
+wait "text=\"Cancel\" focused=true" 3000
+tv-remote right
+wait "text=\"Clear now\" focused=true" 3000
+tv-remote left
+wait "text=\"Cancel\" focused=true" 3000
+tv-remote select
+wait "text=\"Settings\" focused=true" 3000
+wait "text=\"Cookies and site data\"" 3000
