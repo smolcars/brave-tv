@@ -1642,6 +1642,11 @@ accept emulator methodology/budgets/Compose hosting; total20/54, Stage2 is7/7.
 Physical optimized performance remains explicitly deferred. The source4.8
 change still requires build/runtime acceptance and stays unchecked.
 
+Before the toolbar build, restore unrelated pre-existing BraveActivity formatting
+changed by whole-file formatting. Retain only the documented public TV check;
+format the new test normally. This correction does not change behavior or add
+validation scope. Keep source/root master history and review both latest slices.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
