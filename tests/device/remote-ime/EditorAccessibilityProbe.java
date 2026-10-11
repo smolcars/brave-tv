@@ -14,9 +14,12 @@ import java.util.concurrent.TimeoutException;
 
 /** Emulator-only native semantics inspection, without reading or returning editor contents. */
 public final class EditorAccessibilityProbe extends Instrumentation {
+    private boolean mCheckError;
+
     @Override
     public void onCreate(Bundle arguments) {
         super.onCreate(arguments);
+        mCheckError = arguments != null && "true".equals(arguments.getString("checkError"));
         start();
     }
 
@@ -26,6 +29,8 @@ public final class EditorAccessibilityProbe extends Instrumentation {
         int editorCount = 0;
         boolean hintMatches = false;
         boolean textActionPresent = false;
+        boolean errorPresent = false;
+        boolean errorLiveRegion = false;
         UiAutomation automation =
                 getUiAutomation(UiAutomation.FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES);
         AccessibilityServiceInfo info = automation.getServiceInfo();
@@ -52,6 +57,15 @@ public final class EditorAccessibilityProbe extends Instrumentation {
             int visited = 0;
             while (!pending.isEmpty() && visited++ < 256) {
                 AccessibilityNodeInfo node = pending.removeFirst();
+                if (mCheckError
+                        && TextUtils.equals(
+                                node.getText(),
+                                "This address is too long. Shorten it and try again.")) {
+                    errorPresent = true;
+                    errorLiveRegion |=
+                            node.getLiveRegion()
+                                    == android.view.View.ACCESSIBILITY_LIVE_REGION_POLITE;
+                }
                 if (node.isEditable()
                         && TextUtils.equals(node.getClassName(), "android.widget.EditText")) {
                     editorCount++;
@@ -74,8 +88,15 @@ public final class EditorAccessibilityProbe extends Instrumentation {
         result.putInt("focusedBrowserWindows", focusedBrowserWindows);
         result.putBoolean("nativeHintMatches", hintMatches);
         result.putBoolean("nativeSetTextAction", textActionPresent);
+        if (mCheckError) {
+            result.putBoolean("nativeErrorPresent", errorPresent);
+            result.putBoolean("nativeErrorLiveRegion", errorLiveRegion);
+        }
         finish(
-                editorCount == 1 && hintMatches && textActionPresent
+                editorCount == 1
+                                && hintMatches
+                                && textActionPresent
+                                && (!mCheckError || (errorPresent && errorLiveRegion))
                         ? Activity.RESULT_OK
                         : Activity.RESULT_CANCELED,
                 result);

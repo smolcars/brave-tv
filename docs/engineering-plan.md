@@ -751,6 +751,43 @@ absent after restart. The fixture cookie has no expiry and cannot establish
 persistent-cookie migration. Record that distinction and add a persistent-cookie
 fixture for the later upgrade slice; do not silently reseed and claim continuity.
 
+Stage1 native accessibility slice: record the verified TV emulator's original
+font scale1.0, unset force-RTL setting,1920×1080 display and320dpi. Exercise
+the installed Compose Home/controls/address at Android scales1/1.3/1.6 and RTL,
+using native focus/bounds and normal-only screenshots, then restore settings.
+The emulator has Google TTS but no installed screen-reader service; metadata
+checks cannot count as spoken operation. Add polite live-region semantics to
+address errors and changing Home loading/empty descriptions, so asynchronous
+state changes can be announced without moving keyboard focus. Acceptance:
+blocking build, native accessibility live-region metadata/state events, retained
+editor/input regressions and observed remote traversal. Keep1.5 unchecked until
+its remaining screen-reader acceptance is actually exercised; continue the rest
+of the rebuild while investigating that bounded prerequisite.
+
+Home r27 acceptance: blocking checks pass in4m06.91s (Siso4m03.46s), observed
+peak14,373,486,592 bytes (13.39GiB). Signed production/test APKs are archived
+under `compose-home-da462a005-x64-debug-20261010` and installed in place without
+profile clearing. Four of six unattended Home tests pass. Removal restores
+Address, but its immediate negative accessibility assertion races publication.
+The isolated closure case also fails its empty-text assertion after touch scroll;
+normal native D-pad inspection shows the correct empty text and one Home tab.
+Use the real remote path to the Home source footer to reveal that section, and
+poll the deleted node's absence. Preserve actual native URL/tab identity, private
+exclusion, same-Home and pending-closure Undo assertions. Rebuild only the test
+target with blocking checks and rerun all six; no production observer change is
+justified by these test-path failures.
+
+The installedda462 production APK passes native Home→address entry, IME entry
+and all fourteen Unicode/selection/deletion/composition/bounds replay steps.
+After the real IME's oversized-input stimulus, the new native probe passes
+editor hint/action and error-presence checks but goes RED on
+`nativeErrorLiveRegion=true`, as expected. Retain
+`native-editor-live-region-red.log`; the probe captures no editor contents.
+At Android scale1.6, Home, both controls pages and the editor remain legible
+and D-pad reachable on1920×1080/320dpi. Scale1.0 is restored. Scale1.3, RTL,
+broader localized native surfaces and actual spoken operation remain pending.
+Sourcea02 latest correction review: Standards0, Spec0; six-case runtime pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

@@ -81,6 +81,13 @@ success as well as exact native hint/text-action results. Reopen the agent-devic
 session afterwards and reselect the intended IME. This probe is native semantics
 evidence, not screen-reader spoken/navigation acceptance.
 
+For inline-error metadata, use the synthetic IME's Exceed address limit action,
+positively wait for the fixed too-long message, dismiss the IME and release only
+the matching agent-device lease. Add `--error` to the probe invocation; it must
+find that native error with a polite live region as well as the editor metadata.
+Run on a normal synthetic editor and never submit. This proves announcement
+semantics, not actual speech or screen-reader navigation.
+
 ## Local phone remote experiment
 
 These automated probes require emulator serials. Enable the development-only `tv-local-remote-experiment`

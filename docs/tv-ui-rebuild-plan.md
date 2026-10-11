@@ -331,9 +331,10 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
 - [ ] **4.1** Replace home with the selected design, real bookmark/tab data,
   immediate address focus and explicit private appearance. Preserve startup,
   native-page integration and upstream attribution routes.
-  Source1e86aeb wires a six-page default-folder preview and four recent normal
-  tabs, with native observers and private exclusion. Build/runtime acceptance
-  is pending; see the Home data slice in [engineering evidence](engineering-plan.md).
+  The six-page default-folder preview and four recent normal tabs retain native
+  observers and private exclusion. Source da462 passes blocking builds and four
+  of six native cases; source a02 corrects the two removal/Undo test paths and
+  awaits runtime acceptance. See [engineering evidence](engineering-plan.md).
 - [ ] **4.2** Replace address/search UI using current URL classification and
   selected search provider. Support edit/select/delete/submit/cancel, IME and
   optional available system dictation without requiring microphone access.
