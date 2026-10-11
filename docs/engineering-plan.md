@@ -1283,6 +1283,15 @@ Stage1.5 and its physical overscan gate remain pending until the emulator
 checks pass; hardware acceptance remains deferred. Do not rerun unchanged real
 download-storage acceptance for this presentation-only slice.
 
+Source1743 initial reviews pass Standards0/Spec0; focused follow-up Spec review
+finds one test-owner fidelity gap: the new synthetic native dialog installs
+only the key listener, while production also routes Android Back through its
+OnBackPressedDispatcher. Add the existing production collapse-or-cancel callback
+to the test-owned dialog; production behavior stays unchanged. Keep the active
+r34 cache checkout immutable and preserve its artifact; advance to the corrected
+test source only after that build stops. Validate both narrow journeys with the
+real Back dispatcher before accepting responsive traversal.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
