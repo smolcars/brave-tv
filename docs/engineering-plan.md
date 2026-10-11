@@ -1292,6 +1292,17 @@ r34 cache checkout immutable and preserve its artifact; advance to the corrected
 test source only after that build stops. Validate both narrow journeys with the
 real Back dispatcher before accepting responsive traversal.
 
+Full cached r34 passes blocking analysis (Siso4m11.14s,88 steps), with an
+observed peak15,166,660,608 bytes. Signed/source-pinned production1743 and
+test artifacts are preserved in `compose-responsive-17438450a-x64-debug-20261011`;
+production is installed in place and its hash matches. Corrected-test r13
+then fails the GN direct-dependency check: TvPresentationTest now directly uses
+OnBackPressedCallback/Dispatcher but the test target lacks the existing cached
+`//third_party/androidx:androidx_activity_activity_java` dependency. Add only
+that direct test dependency and rerun the test-only target with blocking analysis.
+Preserve r13's failure; do not reinstall its unfinished test output or rebuild
+unchanged production. Native/display acceptance remains pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
