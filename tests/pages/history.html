@@ -6,7 +6,7 @@
 <p>This dedicated local visit may be removed during the native history regression.</p>
 <script>
 const page = new URLSearchParams(location.search).get('page');
-if (page && /^[1-6]$/.test(page)) {
+if (page && /^(?:[1-9]|[1-9][0-9]|1[0-5][0-9]|160)$/.test(page)) {
   document.title = `TV history pagination ${page}`;
   document.querySelector('h1').textContent = document.title;
 }

@@ -558,6 +558,15 @@ verify persisted removal, check older pages/Back, and check History is disabled
 in private controls. Exercise closing the panel during loading and activity
 pause. Record actual results separately; this procedure alone is not a pass.
 
+The consolidated `TvHistoryPanelTest#nativeBatchPagingFocusRemovalAndPolicy`
+case requires `-e tv_history_fixture_url http://10.0.2.2:18088/history.html`
+with the owned fixture server running. It seeds160 unique normal visits to
+cross Chromium's150-item continuation, navigates back beyond the retained
+window and exercises exact-row recovery, current deletion policy, Cancel,
+confirmed removal and native Open. It removes only its unique URL prefix in
+teardown and restores the original deletion preference. Run this case alone
+with its signed test APK; preserve the production profile and runtime logs.
+
 ## Native privacy clearing
 
 Use a newly created Android test user/profile on the emulator, with only local

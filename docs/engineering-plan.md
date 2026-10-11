@@ -2272,6 +2272,51 @@ composition-only updates do not, and use requires current browser/field identity
 and a ready, eligible field. The correction changes documentation only; include
 it in the pending production build and review its latest commit separately.
 
+### Bounded history pages and selection recovery
+
+Next complete library slice: retain native HistoryProvider storage/query/removal,
+while bounding the Java history window to one native150-entry batch plus16
+boundary entries. Previous pages outside that window restart the native query
+and stream to the requested page; older history stays reachable. Keep eight
+visible rows and exact URL/timestamp selection through detail Back and external
+refresh, with the nearest surviving row after confirmed removal. Preserve
+normal-profile ownership, lifecycle disposal, loading escape and current deletion
+policy checks. Add one consolidated actual-native paging/open/removal/Cancel/
+policy case crossing the native batch boundary, using owned HTTP visits and
+cleaning only those visits. Carry forward unchanged bookmark and download tests.
+
+Production input r53 passes blocking analysis in3m54.72s (100 executed steps).
+Signed source1a APK is preserved at
+`~/.cache/brave-tv/artifacts/compose-native-input-1a873d81a-x64-debug-20261011`:
+852728911bytes, SHA256c8fe4c6c490e11b3d25ce1c437dae78c9acd00da8d1044e5f18dab8f140d22e6.
+In-place installation hash matches and preserves the normal profile. Sampled
+build memory reached14090743808bytes; no complete cgroup peak was captured.
+Fresh private-network QR pending approval passes r6. Stock first-edit r63
+accepts an actual composition-only version change (full12→13, replacement10
+unchanged). Unobserved r62/r64 still fail; bounded r65 proves a different,
+legitimate viewport/browser/field change rejects selection60→63/field67→71.
+No replacement is sent or replayed. Native stock-keyboard positive r66 now
+waits for the actual visual-viewport keyboard resize before editing; no timer,
+DOM mutation or edit retry is added. Full acceptance remains pending,25/54.
+
+Expanded actual native quiet-keyboard r67 passes the new composition-only
+replacement lease, old positional-version rejection and changed-native-text
+rejection, plus the retained full Unicode/Japanese/selection/deletion/textarea/
+contenteditable/stale-field/password cases. Stock r66 observes the genuine
+keyboard resize and passes the first edit and20 replacements; it stops at the
+equal-text composition-event assertion. Gboard can finish composition itself,
+so this observation is distinct from a rejected replacement. Retain r62–r67
+and do not accept3.5 yet. No authentication/queue/security changes or replay.
+
+The history implementation retains a single native batch and16 boundary rows,
+re-queries older pages without retaining all visited rows, and restores exact
+URL/timestamp focus after external removal. One native160-visit test crosses
+both forward continuation and backward window re-query, then checks detail
+Back, external update, deletion policy, conservative Cancel/confirm and Open.
+It removes only visits with its unique fixture URL prefix. Build/runtime are
+pending. Combine production and test targets once after latest-commit review;
+carry forward unaffected bookmark, download, media, bytecode and display checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
