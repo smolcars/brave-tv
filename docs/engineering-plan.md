@@ -1341,6 +1341,16 @@ journeys plus relevant panel/confirmation focus and grouped display checks.
 No native storage/security owner changes, no profile/cache reset, no physical
 acceptance. Preserve r25's1/3 and every earlier failure without relabeling them.
 
+R35 compiles the Kotlin correction, then fails its direct-dependency gate:
+the presentation target now uses Compose geometry Rect but does not declare
+the existing pinned geometry target directly. Add that one direct dependency
+in `brave/third_party/androidx_tv/targets.gni` and rerun the same cached combined
+build with blocking analysis. Preserve r35's failure; no dependency version,
+toolkit, Chromium source or artifact acceptance changes. This is explicit GN
+metadata for an already cached Compose module, not a new dependency download.
+The first metadata edit matched the earlier material dependency list; corrected
+to the presentation target before advancing the cache or starting another build.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
