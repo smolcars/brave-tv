@@ -2945,6 +2945,19 @@ one Standards P3: its current canonical summary repeats historical red library
 results despite accepted5.1. Replace that chronology with current evidence;
 historical failures remain in this engineering log. Root Spec has no findings.
 
+Latest correction review: source50f6ceb9d and roote2bba222 each pass Standards0 /
+Spec0. TEST-only r24 passes GNU23.10s/Siso19.59s/14steps, blocking analysis0,
+live cgroup peak10,776,698,880B (~10.04GiB),13samples. Preserved signed TEST
+compose-clear-pause-tests-50f6ceb9d-x64-debug-20261011/BravePublicTest.apk:
+876,323,839B, SHAd7981582e06dbdc0837a77e907d23d4864aa7393b3a29edf408574ade3c59ecd.
+Profile-preserving verified install11.712s. Native r32 only pending pause/resume
+PASS12.349s: same captured native Home, activity-window focus, Settings invoker,
+no pending Clear cache chooser and no stale completion panel. Production remains
+accepted0bd137/r60; source50 changes only TEST assertions. Carry forward actual
+native scoped deletion, provider restoration, Back and both owned callback cases.
+Canonical5.3 accepted; count30/54. Proceed with planned5.4 actual native Shields/
+filter enforcement and signed-update controls; no repeated unaffected suites.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

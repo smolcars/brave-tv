@@ -6,7 +6,7 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **29/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Current acceptance: **30/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
 Stage 3:3/5, Stage 4:4/8, Stage 5:3/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
@@ -427,7 +427,7 @@ the complete feature set or a public release.
   Full native five-case logs and artifact/file evidence are linked in the
   [engineering log](engineering-plan.md). Binary HTTP warning remains owned by
   native Chromium, with Discard initially focused. Hardware remains unverified.
-- [ ] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
+- [x] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
   native operations, explicit effects and cancellation. Do not clear other data
   merely to simplify migration or testing.
 - [ ] **5.4** Rebuild per-site Shields and filter/update controls; retain native
@@ -465,9 +465,9 @@ failed assertions and their corrections remain documented in engineering-plan.md
 For5.3, fresh-profile native history-only/site-data/cache deletion passes with
 nonselected data and bookmarks preserved. Native provider selection and Address
 provider text pass, with the original provider restored. Controlled pending-clear
-Back, owned completion and replaced-document recovery pass. Only the corrected
-pause/resume test remains to establish this slice's acceptance; callback tests
-are separate from actual native deletion. Current accepted count is29/54.
+Back, owned completion and replaced-document recovery pass. Corrected native pause/resume r32 passes12.349s with same Home, activity-window
+focus, Settings invoker and absent pending chooser. Item5.3 is accepted on the
+emulator; callback tests are separate from actual native deletion. Current accepted count is30/54.
 
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
