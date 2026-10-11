@@ -1497,6 +1497,40 @@ is876,226,981B, SHA256
 Signature/package/x64 checks pass, with retained args/logs/provenance. Source
 a648/rootd416 latest reviews pass Standards0/Spec0; it changes tests only.
 
+Native lifecycle r1 passes all three isolated actual-engine cases on the a648
+test artifact: destroyed observer/navigation (4.286s), Home activity recreation
+and old-view detachment (7.132s), and private Home/dialog secure windows with
+normal return (8.662s). Each process reports `OK (1 test)`; no private screenshot
+or permission approval is used. Logs and combined JSON remain under
+`probes/engine-lifecycle-r1/native-lifecycle-r1*`. Production fullscreen/tab and
+background/process recovery remain pending, so Stage2.4/2.5 stay unchecked.
+
+Combined production engine acceptance completes on b3a9. Native media r1 passes
+remote Play/Pause, captions, fullscreen entry/Back exit and visible cursor pixels
+at928×864, retaining page22/timeOrigin1791700770595.5. Native tab return r2
+preserves that media document/captions and dialog21/timeOrigin1791699761302.6;
+selection returns to Controls with Tabs focus. Its first scratch assertion
+incorrectly expected selection to dismiss Controls; this was a harness error.
+Native navigation r1 submits the fixed synthetic URL through genuine
+InputConnection and D-pad Go, preserving DuckDuckGo as the selected provider.
+Stock Latin IME edit/cancel and consolidated dialog r5 provide the system-keyboard
+and native-modal checks; unchanged Unicode/editor tests are not rerun.
+
+Production process return r4 passes: Home/app return retains PID30759 and the
+same media document; explicit package force-stop observes PID absence and
+relaunch restores PID31251, native tab22 and all four normal tabs. The recreated
+document is new and paused, with fullscreen/captions reset. Warm Controls restores
+its previous focus; fresh-process Controls starts at Address. Earlier scratch
+expectations of Page cursor were incorrect. Background `am kill` did not terminate
+the media process and is not an OS-reclamation pass. Native lifecycle r1 supplies
+activity/view disposal and private secure-window evidence without capture.
+
+Exact logs, probes, JSON and normal-only cursor PNG are retained under
+`probes/engine-lifecycle-r1`. Accept emulator Stage2.4/2.5: total17/54,
+Stage2 is5/7. Controlled comparative performance/go-no-go, sustained/pressure
+recovery, physical hardware and real-phone acceptance remain pending. No profile
+clearing, Chromium rebuild or Chromecast operation was used for this sequence.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

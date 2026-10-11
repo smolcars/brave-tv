@@ -298,11 +298,21 @@ known inaccessible core action. A polished home alone does not satisfy this stag
   surface attachment, input coordinates, insets and overlay focus. Evaluate
   `ComposeView`/View interop based on that ownership, not a speculative rewrite
   of the entire activity. Prevent duplicate content parents/observers.
-- [ ] **2.4** Exercise real page navigation, system IME, alert/confirm/prompt,
+- [x] **2.4** Exercise real page navigation, system IME, alert/confirm/prompt,
   fullscreen video, tab switch and return. No cursor loss, black compositor,
   duplicated keys or WebContents recreation when panels recompose.
-- [ ] **2.5** Exercise background/foreground, activity/process recreation and
+  Production b3a9 passes the consolidated native dialog/cursor sequence, stock
+  Latin IME edit/cancel, genuine InputConnection URL submission, media/captions/
+  fullscreen Back and D-pad tab return. Retained document identity and visible
+  cursor pixels pass. These are emulator checks; sustained and physical media
+  acceptance remain pending. See [engineering evidence](engineering-plan.md).
+- [x] **2.5** Exercise background/foreground, activity/process recreation and
   private switching. Verify disposal, state restoration and screenshot protection.
+  Native a648 passes disposed-observer navigation, activity recreation with
+  detached old Home, and private Home/dialog secure-window checks. Production
+  b3a9 passes same-PID background return and explicit package force-stop recovery
+  with all normal tabs retained. Android's background `am kill` retained the
+  media process; OS memory-pressure recovery remains a separate pending check.
 - [ ] **2.6** Measure dependency/APK growth, memory and UI latency against Stage 0.
   Check emulator first; require an authorized optimized low-end hardware sample
   before committing to broad migration or declaring the approach performant.
