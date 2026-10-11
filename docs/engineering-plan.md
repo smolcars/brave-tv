@@ -2037,6 +2037,13 @@ native page-info origin/security content, D-pad traversal and Back return on
 the actual APK; the route alone is not5.5 acceptance. Consolidate the bookmark
 helper correction and this small route in the next cached build/review.
 
+Page-info r47 stops at mandatory direct-dependency validation after21.57s:
+the native fixture's EmbeddedTestServer requires net_java_test_support directly
+in the test APK. Add that test-only GN dependency; no checks are disabled and
+no failed-build APK is installed. Latest review reports source Standards0/Spec1,
+root0/0: overflow has four columns, so Page info needs three Right presses from
+History, rather than Down. Correct that real D-pad path before rebuilding.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
