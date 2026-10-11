@@ -941,6 +941,58 @@ Source7e5a diagnostic cleanup review: Standards0, Spec0. Rebuild only the test
 APK in the same cache and rerun the affected closure/Undo method with required
 process separation. Production source38e2 is unchanged and remains installed.
 
+Cleanup test build r7 passes in23.81s (Siso20.22s), systemd10.4G peak; signed
+artifact/provenance: `compose-home-cleanup-7e5a6d730-x64-debug-20261010`.
+The affected closure/Undo case passes in10.302s without diagnostics. Root3518
+latest-only review: Standards0, Spec0. Production38e2 Arabic checks confirm
+correct English punctuation, mirrored Home arrows and Settings Back restoration.
+All Settings rows remain remote-reachable at Arabic/font scale1.6. Original
+locales[] and font scale1.0 are restored. Spoken acceptance remains pending.
+
+For the scoped audio restart, route both emulator playback and its input to the
+task null sink/monitor using per-process Pulse environment variables; never use
+the host default microphone or change host defaults. Verify AVD identity before
+stopping only the task emulator, wait for exit and boot that same preserved AVD.
+Re-discover/open only the verified emulator and confirm its audio stream route
+before recording any normal synthetic screen-reader checks. No build is active.
+
+Audio prerequisite investigation: direct Pulse context probes reach READY on the
+local socket, while the cached emulator's Pulse backend fails initialization.
+Its ALSA backend is unavailable. The pinned binary documents a WAV output
+backend with separate output/input drivers. Try task-owned WAV output with input
+disabled, preserving the same AVD and host defaults. Only normal synthetic Home/
+Settings may be recorded; enable TalkBack only after verifying that backend.
+This is diagnostic audio, not a phone live-view/streaming feature. If unavailable,
+keep spoken acceptance pending and continue independent native work.
+
+WAV output now records the emulator's normal Home speech, with TalkBack bound
+and the agent's suppressing UiAutomation lease closed. No host microphone is
+opened. Validate spoken labels using a small offline host-only recognizer:
+pinned Vosk0.3.45 native library and official small English0.15 model, cached
+with download hashes. Use unconstrained recognition; matching a forced phrase
+list would not establish correct speech. This adds no APK/project dependency,
+uploads no audio and does not advance accessibility acceptance by itself.
+Restore the saved accessibility settings and the emulator's original audio
+configuration after these normal synthetic checks.
+
+Spoken Home/Settings checks now produce real TalkBack audio on production38e2:
+Address, Controls, Tabs, Bookmarks and Settings are announced as buttons; the
+current search provider announces Selected. D-pad/OK opens Settings and its
+provider/clear-data panels, and Back returns through Settings to the Home
+invoker. Offline unconstrained transcripts and action/audio offsets are in
+`probes/vosk-spoken`; proper names have recognition errors, so this is partial
+spoken evidence, not a complete semantic audit. No data is cleared. Restore
+matches all seven saved accessibility settings exactly; the task WAV emulator
+is stopped and its normal browser profile is preserved. Stage1.5 stays open.
+
+Stage1.6 comparison slice: boot only the separate, currently stopped
+`brave_tv_onboarding_api36`, verify its freshly returned serial/AVD identity,
+install the signed source5829 baseline APK and seed a normal synthetic favorite
+through native controls. Measure first-saved-page and Settings navigation from
+Home Address, asserting every focus/activation. Preserve this baseline profile
+for a later in-place migration; do not downgrade or clear the current UI profile.
+No build is active; the host reports20GiB available RAM and366GiB free disk.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

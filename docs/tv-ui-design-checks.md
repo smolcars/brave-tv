@@ -54,5 +54,18 @@ Android font scale1.6. The22-step controls replay passes at scale1.3; scale1.0
 is restored. On source d558, all14 actual IME Unicode/selection/deletion/
 composition steps pass and the fixed error's native polite live-region probe
 goes GREEN after its predecessor RED. No editor contents are captured by that
-probe. RTL, broader native localized surfaces and observed spoken operation are
-still pending; announcement metadata alone does not check Stage1.5.
+probe. Announcement metadata alone does not check Stage1.5.
+
+Production38e2 Arabic checks pass for English fallback punctuation in RTL Home,
+mirrored action-row arrows, Settings Back to its exact Home invoker and all
+Settings rows at native font scale1.6. Original locales[] and font scale1.0 are
+restored. These cover Home/Settings, not every localized surface.
+
+Actual TalkBack16 speech on that APK announces Home actions as buttons and the
+current search provider as Selected. D-pad/OK reaches Settings and its provider/
+clear-data panels; Back returns through Settings to Home. Cached normal-only
+WAV/action offsets and unconstrained offline transcripts are under
+`~/.cache/brave-tv/probes/vosk-spoken`. Recognition errors in proper names prevent
+claiming verbatim label accuracy. All seven saved accessibility settings are
+restored. Broader spoken state/error and screen-reader traversal checks remain
+pending, so Stage1.5 remains unchecked.
