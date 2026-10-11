@@ -7,4 +7,5 @@
     </service>
   </application>
   <instrumentation android:name=".EditorAccessibilityProbe" android:targetPackage="org.bravetv.remoteime.test" android:label="TV editor accessibility probe" />
+  <instrumentation android:name=".PanelPerformanceProbe" android:targetPackage="org.bravetv.remoteime.test" android:label="TV native panel timing probe" />
 </manifest>

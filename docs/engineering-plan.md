@@ -1531,6 +1531,39 @@ Stage2 is5/7. Controlled comparative performance/go-no-go, sustained/pressure
 recovery, physical hardware and real-phone acceptance remain pending. No profile
 clearing, Chromium rebuild or Chromecast operation was used for this sequence.
 
+Next consolidate Stage0.5/2.6 emulator measurements on the same retained normal
+five-tab profile, API36/x64 Debug,1080p/density320/font1.0 and selected native
+Home. No build or second emulator runs during sampling. Collect repeated cold
+process launches, warm foreground returns, native-panel response/frame samples,
+whole-package/browser/renderer PSS and installed/APK footprint. Compare the
+preserved source5829 APK and reviewed production b3a9 in place: both retain the
+same Chromium155 profile format, package and signer. Do not clear data or caches;
+restore the current APK afterward and verify tabs/favorite/settings survive.
+Keep fixture network/media timings separate from presentation responsiveness.
+Report sampling/tool overhead and investigate budget misses; emulator results
+cannot accept optimized physical performance or memory-pressure recovery.
+
+Small fixture slice adds emulator-only PanelPerformanceProbe to the existing
+synthetic IME test APK, with API36/x64/ranchu and trusted normal Home guards.
+Native Back drives ten actual Home/Controls cycles. Report semantic availability
+separately from the newly created window's first completed frame; neither is a
+physical first-pixel measurement. Native frame reports are bounded, and future
+completion timestamps are unfinished frames. Production remains unchanged.
+Reuse the pinned SDK37 through explicit fixture-build overrides; SDK35 defaults
+and the existing test signer remain supported. No new production dependency.
+
+Current b3a9 samples complete without a build: seven cold launches have median
+985ms, seven warm returns median21ms. Three whole-package PSS readings are
+694315/647576/647069KiB, with browser, renderer and GPU details saved separately.
+Panel r4 passes ten normal cycles: first completed draw median58.342/p9559.564ms;
+semantic availability median107/p95154ms includes accessibility-query overhead;
+181 native-window frame samples have median29.600/p9533.453ms. Initial r1
+printed an array object identity instead of numbers; r3 exposed a future native
+frame sentinel. Only corrected r4 supplies the complete numeric panel evidence.
+Baseline comparison and controlled fixture load remain pending; no performance
+gate is checked based on these current-only samples. Both reviews of root08d7
+accept the native engine/lifecycle documentation with Standards0/Spec0.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

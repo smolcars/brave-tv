@@ -103,6 +103,32 @@ fixed Hindi/emoji/Japanese selection/composition/deletion and oversized input
 through the real Android InputConnection; it never submits or alters browser
 data. Restore stock LatinIME for separate D-pad keyboard/Back checks.
 
+`remote-ime/PanelPerformanceProbe` measures ten normal Home → Browser controls
+→ Home cycles in the production APK. Close agent-device's UiAutomation lease
+first, verify the explicit emulator serial/AVD, then run:
+
+```sh
+adb -s "$TV_SERIAL" shell am instrument -w \
+  org.bravetv.remoteime.test/.PanelPerformanceProbe
+```
+
+Require code `-1`, actual
+numeric sample arrays and `normalHomeRestored=true`. Its own API36/x64/ranchu and
+trusted normal Home guards stop before input on another device or private UI.
+The Back events use native Android input; no browser action uses CDP. It reads
+bounded `gfxinfo framestats` while each normal panel exists, recording input to
+the new window's first completed draw and frame durations across native windows.
+Future completion timestamps represent unfinished frames and are excluded.
+Accessibility-response samples include tree/query overhead. Render completion
+is an emulator proxy, not measured TV first-pixel presentation. No screenshot,
+editable value, permission approval or browser-data mutation is involved.
+
+The fixture build keeps SDK35 defaults. When reusing the pinned Chromium SDK,
+set `ANDROID_SDK_ROOT` to its `third_party/android_sdk/public`,
+`ANDROID_TEST_PLATFORM=android-37.0` and `ANDROID_TEST_BUILD_TOOLS=37.0.0` before
+running `remote-ime/build.sh` with the existing external output/signing directory.
+This only rebuilds the small test fixture; it adds no production dependency.
+
 `tv-compose-address-search-submit.ad` requires nonempty synthetic text, IME hidden
 and Go focused; it checks editor completion even offline, not search navigation.
 Selected-provider navigation needs a separate native selected-tab/URL assertion.
