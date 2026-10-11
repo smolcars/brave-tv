@@ -122,26 +122,31 @@ try {
   for (const composing of [true, false]) {
     const eventType = composing ? "compositionstart" : "compositionend";
     const before = await tv.evaluate(
-      (type) => window.events.filter((e) => e.id === "plain" && e.type === type).length,
+      (type) =>
+        window.events.filter((e) => e.id === "plain" && e.type === type).length,
       eventType,
     );
-    assert.ok(await phone.evaluate(async (composing) => {
-      const e = state.editable;
-      return command("edit", {
-        editable: e.revision,
-        version: e.version,
-        edit: "replace",
-        text: e.text,
-        start: e.text.length,
-        end: e.text.length,
-        composing,
-      });
-    }, composing));
+    assert.ok(
+      await phone.evaluate(async (composing) => {
+        const e = state.editable;
+        return command("edit", {
+          editable: e.revision,
+          version: e.version,
+          edit: "replace",
+          text: e.text,
+          start: e.text.length,
+          end: e.text.length,
+          composing,
+        });
+      }, composing),
+    );
     await settled(text);
     assert.equal(await tv.locator("#plain").inputValue(), text);
     await tv.waitForFunction(
-      ({type, before}) => window.events.filter((e) => e.id === "plain" && e.type === type).length > before,
-      {type: eventType, before},
+      ({ type, before }) =>
+        window.events.filter((e) => e.id === "plain" && e.type === type)
+          .length > before,
+      { type: eventType, before },
     );
   }
   // Android resizes the visual viewport for its keyboard. Dismiss it before
@@ -220,6 +225,59 @@ try {
   await tv.waitForFunction(() =>
     window.events.some((e) => e.type === "compositionend" && e.id === "plain"),
   );
+
+  async function nativeEdit(edit, extra = {}) {
+    await phone.waitForFunction(
+      () => state?.editable?.ready && !busy && !pendingEdit && !dirty,
+    );
+    assert.ok(
+      await phone.evaluate(
+        async ({ edit, extra }) => {
+          const e = state.editable;
+          return command("edit", {
+            editable: e.revision,
+            version: e.version,
+            edit,
+            ...extra,
+          });
+        },
+        { edit, extra },
+      ),
+    );
+  }
+  await nativeEdit("select", { start: 0, end: 1 });
+  await phone.waitForFunction(
+    () =>
+      state.editable.ready &&
+      state.editable.start === 0 &&
+      state.editable.end === 1,
+  );
+  await nativeEdit("compose", { text: "é🌍" });
+  await settled("é🌍本");
+  assert.equal(await tv.locator("#plain").inputValue(), "é🌍本");
+  await nativeEdit("commit", { text: "क" });
+  await settled("क本");
+  assert.equal(await tv.locator("#plain").inputValue(), "क本");
+  await phone.locator("#editor").fill("A🌍BCéD");
+  await settled("A🌍BCéD");
+  await nativeEdit("select", { start: 3, end: 5 });
+  await phone.waitForFunction(
+    () =>
+      state.editable.ready &&
+      state.editable.start === 3 &&
+      state.editable.end === 5,
+  );
+  await nativeEdit("delete", { start: 1, end: 1 });
+  await settled("ABCD");
+  assert.equal(await tv.locator("#plain").inputValue(), "ABCD");
+  assert.deepEqual(
+    await tv
+      .locator("#plain")
+      .evaluate((e) => [e.selectionStart, e.selectionEnd]),
+    [1, 3],
+  );
+  await phone.locator("#editor").fill("日本");
+  await settled("日本");
 
   await phone.locator("#editor").evaluate((e) => e.setSelectionRange(0, 1));
   await phone.waitForFunction(

@@ -2098,6 +2098,26 @@ Hardware gates remain pending.
 
 ### Native input review correction and consolidated checks
 
+Correction review on00d91ff76 reports Standards1/Spec1, root0/0. Document the
+native helper's submission/failure contract. The outgoing input barrier is
+valid, but renderer state and ping replies return on different pipes; a generic
+STATE phase can accept old content for commit/compose/delete. Require their
+expected native result using actual composition offsets and code-point ranges.
+Conflict draining must invalidate/refresh after completion, rather than declare
+the conflicting state ready. Keep r50 immutable while it compiles; its artifact
+does not include this follow-up and is not input acceptance. Consolidate these
+corrections into the next incremental build after native library diagnostics.
+
+Combined r50 on00d91ff76 passes blocking analysis in5m20.37s
+(Siso5m16.85s,184 executed steps), observed cgroup peak18245726208bytes
+(16.99GiB). Both native libraries and APK targets reuse the existing cache.
+Its production/test artifacts are preserved before testing. Source999b621cd
+adds expected commit/compose/delete/finish results and genuine composition
+offsets, with signature-checked hook/test changes. The phone probe now covers
+20 repeated replacements, equal-text composition/commit, and preservation of
+selected text while deleting surrounding code points. Those checks remain
+pending runtime; r50 does not contain999b's correction. Count stays25/54.
+
 Latest source9a5e review found that replyToRequest cannot identify an edit:
 unchanged-text composition/replacement could consume an older reply. Remove
 that inference. Add a small content-layer completion helper using the pinned
