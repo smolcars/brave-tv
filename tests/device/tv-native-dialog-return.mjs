@@ -106,8 +106,9 @@ try {
   send('register', { name: 'Brave TV native dialog fixture', vid: 4660, pid: 1, bus: 'usb',
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
   send('delay', { duration: 1500 });
-  tap(353); // Activate page input at 960×540; density320 means a32px directional step.
-  await move(105, 24);
+  tap(353); // Activate page input; density320 means a32px directional step.
+  await move(105, 60); await move(103, 34); // Clamp to origin, regardless of prior cursor state.
+  await move(106, 6); await move(108, 17); //192×544 is inside the controlled Alert button.
   await click(); modal('TV alert: close this dialog with the remote.', 'OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Alert closed');
@@ -126,15 +127,23 @@ try {
   assert.ok(snapshot().some(n => n.focused && n.editable && !n.password),
     'Native prompt must focus its genuine editor');
   adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
-  if (snapshot().some(n => n.editable)) adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
+  const afterBack = snapshot();
+  const promptVisible = afterBack.some(n => n.label === 'TV prompt: edit or cancel.');
+  const stockImeVisible = afterBack.some(n => n.bundleId === 'com.google.android.inputmethod.latin'
+    && n.visibleToUser);
+  console.log(JSON.stringify({ check: 'First prompt Back', promptVisible, stockImeVisible }));
+  if (promptVisible || stockImeVisible) adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
   await result('Prompt canceled');
   await move(105, 7); await click(); modal('TV confirmation: accept or cancel.', 'Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');
   await result('Confirm: false');
-  assert.ok(!snapshot().some(n => n.label === 'Cancel' || n.label === 'Browser controls'),
-    'Normal fixture must own input before its cursor screenshot');
+  const deadline = Date.now() + 3000;
+  while (snapshot().some(n => n.label === 'Cancel' || n.label === 'Browser controls')) {
+    assert.ok(Date.now() < deadline, 'Native dialog animation must release the fixture before capture');
+    await new Promise(yes => setTimeout(yes, 25));
+  }
   execFileSync('python3', [resolve(driver), 'screenshot', resolve(screenshot)], { timeout: 20000 });
-  execFileSync('java', ['tests/device/CursorScreenshot.java', resolve(screenshot), '480', '540'],
+  execFileSync('java', ['tests/device/CursorScreenshot.java', resolve(screenshot), '480', '544'],
     { encoding: 'utf8', timeout: 20000 });
 } finally {
   clearTimeout(watchdog);

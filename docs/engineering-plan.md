@@ -1461,6 +1461,42 @@ argument/capture. Build only the changed native-test APK after r38 is preserved;
 production stays on the exact reviewed compositor artifact. Background/process
 return and ordinary fullscreen remain separate actual production checks.
 
+R38 passes blocking build in3m34.65s/26 steps, observed peak17,630,318,592B;
+signed artifacts/install hashes match. Dialog r3 passes Alert, Confirm Cancel,
+Confirm OK and native Prompt canceled on unchanged document21. Recovery then
+stops; its Back helper incorrectly treats the always-editable mobile URL bar
+as a remaining prompt. Require the exact native prompt or visible stock IME
+before a second Back and retain stopped r3. Lifecycle tests-only r17 passes in
+21.43s/14 steps; runtime cases remain pending. No production rebuild for tests.
+
+Dialog r4 passes all five result/retained-document checks, including the click
+after Prompt cancellation. First prompt Back reports prompt/stockIME both gone,
+confirming r3's unnecessary second Back. Final capture precondition stops while
+the dismissed native dialog is still animating out; the following native tree
+shows the normal Confirm button/result and no modal. Wait for the actual native
+modal absence before capture, bounded to3s. Stock LatinIME's genuine q insertion
+appends at the existing cursor; Cancel restores the original URL/control owner
+in `stock-ime-r1.json`. Neither failed harness assumption is a product acceptance
+failure or a complete sequence pass; retain the stopped logs.
+
+Consolidated dialog r5 completes on productionb3a9: native Alert, conservative
+Confirm Cancel/Right/Left, Confirm OK, Prompt cancel and the following Confirm
+all report expected results on document21/timeOrigin1791699761302.6. Positive
+cursor pixels pass at480×544 after native dismissal; task-owned uinput exits0.
+The probe homes its initial cursor so it also works with an existing position.
+Actual native results and normal-only PNG remain in `probes/engine-lifecycle-r1`;
+no permission/private capture or hardware operation. Stage2.4 remains pending
+the other navigation/tab/fullscreen routes, and2.5 pending native/runtime cases.
+
+Production artifact `compose-dialog-return-b3a9e38a2-x64-debug-20261011` is
+852,705,331B, SHA256
+`a8709a0a27093d86ae3aad83d04d35a5e2a96c6600af3b8cda9e32e802fb8917`.
+Lifecycle test artifact `compose-lifecycle-tests-a648dfd55-x64-debug-20261011`
+is876,226,981B, SHA256
+`f19e8fc4c6fbf20ce4a8a07cc65696cc4bfae95bbe111b468caa622e3d250446`.
+Signature/package/x64 checks pass, with retained args/logs/provenance. Source
+a648/rootd416 latest reviews pass Standards0/Spec0; it changes tests only.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
