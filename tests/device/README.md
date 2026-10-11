@@ -84,6 +84,16 @@ The case requires held-OK count1/detail1, keyboard/modifier exclusion, actual
 cursor hide, held wake with no click, and the subsequent native pointer click
 at the content center. Emulator events do not prove physical remote hardware.
 
+`TvHomePageTest#compactControlsUseNativeNavigationAndSiteState` needs the owned
+`security-fixture-server.mjs` and explicit emulator reverse18084. Run
+`security-server-check.mjs` first: it verifies fixed routes, methods and the
+two-slot slow-document limit/abort cleanup. The native case uses D-pad/OK for
+same-tab Back/Forward/Reload/Stop, checks actual connection/protection labels,
+and changes/restores only the TEST profile's synthetic-origin Shields setting
+through its native API to verify observer updates retain Address focus.
+The15-second slow body is bounded and canceled by actual Chromium Stop; host
+checks alone do not accept native navigation or security behavior.
+
 Run `@DoNotBatch` cases such as `TvHomePageTest` in separate instrumentation
 processes, matching the pinned host runner's test isolation. A whole-class
 `-e class` invocation bypasses that separation. Filter one method per invocation:

@@ -3145,6 +3145,27 @@ case; existing native phone touch/wheel/viewport and certificate checks carry
 forward. Do not accept3.3 until input coverage and first-selection behavior are
 accounted for; no new dependency or production timing retry.
 
+Latest3915/b123 reviews Standards0/Spec0 each. TEST-only r30 passes blocking
+analysis (Siso17.50s/14 steps), sampled cgroup peak9,382,309,888bytes. Preserved
+compose-idle-input-tests-3915f2c09-x64-debug-20261011 TEST876,346,507bytes,
+SHA2564414cac7528913123bf83ee2ee75458a00bdf535c6d5196c4cde736f79c28b33;
+verified profile-preserving install11.498s. Native r40 PASS11.822s: held count1/
+detail1, actual cursor white-center then hidden background, ordinary alphabetic
+keyboard/modifier exclusion, held wake still count1, next native pointer click
+count2/detail1 at the actual content center. No saved/private screenshot.
+
+Next4.3 vertical slice: display native connection security and per-site Shields
+state beneath the URL in compact controls, using Chromium's security levels,
+existing translated status labels and native Shields preference. Observe native
+SSL changes through the existing session observer; keep browser models and
+security decisions authoritative. Extend the fixed loopback host security
+fixture with one bounded slow document for actual Stop. Native D-pad acceptance
+must prove same-tab Back/Forward, reload callback, loading Stop, actual HTTP
+connection/protection labels and continued focus; presentation updates retain
+their keyed target. Build both APKs once with cache/blocking analysis. Carry
+forward pointer, permission, certificate, privacy and signed-filter checks.
+Do not mark4.3 or3.3 passed from compilation, host HTTP or presentation-only tests.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

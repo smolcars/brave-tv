@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 // Pass Chromium's public expired_cert.pem fixture; never use a user certificate.
 const certificate = readFileSync(process.argv[2]);
+const slowResponses = new Set();
 
 const permissionPage = `<!doctype html>
 <meta charset="utf-8"><title>TV native permission fixture</title>
@@ -36,6 +37,25 @@ const server = createServer((request, response) => {
   let status = 200;
   let body;
   const headers = {'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store'};
+  if (request.url === '/slow.html') {
+    const start = '<!doctype html><title>TV slow document</title><main><h1>Controlled slow document</h1>';
+    const end = '</main>';
+    if (request.method === 'HEAD') {
+      response.writeHead(200, {...headers, 'Content-Length': Buffer.byteLength(start + end)}).end();
+    } else if (slowResponses.size >= 2) {
+      response.writeHead(503, {...headers, 'Retry-After': '1'}).end();
+    } else {
+      slowResponses.add(response);
+      response.writeHead(200, {...headers, 'Content-Length': Buffer.byteLength(start + end)});
+      response.write(start);
+      const timer = setTimeout(() => response.end(end), 15000);
+      response.once('close', () => {
+        clearTimeout(timer);
+        slowResponses.delete(response);
+      });
+    }
+    return;
+  }
   if (request.url === '/permission.html') {
     body = permissionPage;
   } else if (request.url === '/auth') {
