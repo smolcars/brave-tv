@@ -574,6 +574,14 @@ and the real `TV remote input checks` heading (0.5s). No deep link establishes
 this result. Source034566 changes only test assertions; retain the d6bda production
 artifact while compiling the corrected test target.
 
+Native Java attempt2 gets through compilation and analysis, then fails the
+mandatory bytecode dependency check: TvBrowserSessionTest references the actual
+ContentView return type through Tab.getContentView. Add the exact existing
+`//components/embedder_support/android:content_view_java` direct dependency to
+BravePublicTest; do not disable dependency validation. Logs
+`build-session-test-java-r2.*`,13.51s, completed cgroup peak4,735,832,064 bytes
+(4.41GiB). Rebuild the same bounded compile/analysis target after review.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
