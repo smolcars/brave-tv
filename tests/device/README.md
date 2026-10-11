@@ -76,6 +76,14 @@ exit successfully when tests fail. Do not pass a failure-screenshot argument:
 upstream screenshot capture clears private-window security flags. Native
 private tests must retain those flags and remain uncaptured.
 
+`TvHomePageTest#dedicatedDpadFromVirtualKeyboardClicksOnce` uses a solid-color
+normal data-page fixture. It observes cursor pixels in transient, recycled
+UiAutomation bitmaps after requiring the exact normal tab/URL, focused activity
+and absence of secure-window flags. It never saves images or changes flags.
+The case requires held-OK count1/detail1, keyboard/modifier exclusion, actual
+cursor hide, held wake with no click, and the subsequent native pointer click
+at the content center. Emulator events do not prove physical remote hardware.
+
 Run `@DoNotBatch` cases such as `TvHomePageTest` in separate instrumentation
 processes, matching the pinned host runner's test isolation. A whole-class
 `-e class` invocation bypasses that separation. Filter one method per invocation:

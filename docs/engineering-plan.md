@@ -3123,6 +3123,28 @@ then use the existing native lifecycle synchronization for the proven cause.
 Only the failed case needs rerunning; certificate recovery carries forward.
 Count remains31/54;5.5 and3.3 pending until their full emulator scope passes.
 
+Focused diagnostic outcome: TEST-only r29 passes blocking analysis in23.07s
+(Siso19.47s/14 steps), sampled cgroup peak10,941,816,832bytes. Preserved TEST
+compose-dpad-focus-tests-ed87788b7-x64-debug-20261011:876,351,499bytes,
+SHA2569996d9814fe4da44bb02219084fc31d0984a2e03fff77c81a3b7f47d5ed4ece4;
+verified profile-preserving install11.939s. Native isolated r37/r38/r39 all PASS
+10.399/10.415/10.043s, with controls absent, activity/content focus and actual
+held-OK pointer click detail1/count1. This does not explain the earlier first
+selection retry during production page loading; retain that observation rather
+than infer a production focus fix from diagnostic synchronization. Actual r62
+HTTP-auth Cancel also passes native Back/Down/Down/OK to Authentication canceled.
+
+Next input slice extends that same real-engine regression with normal-fixture
+cursor pixels, alphabetic keyboard/modifier exclusion, idle-hide completion,
+held wake without clicking, and the subsequent single click at the real content
+center. Observe native screen pixels only after checking exact normal fixture
+ownership, window focus and nonsecure flags; retain no screenshot artifact and
+never clear secure flags. Wait for actual hide visibility, not a timing delay.
+Acceptance: cached TEST-only blocking-analysis build and the affected native
+case; existing native phone touch/wheel/viewport and certificate checks carry
+forward. Do not accept3.3 until input coverage and first-selection behavior are
+accounted for; no new dependency or production timing retry.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
