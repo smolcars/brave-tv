@@ -1,10 +1,17 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **implementation in progress**, 10 October 2026. Requested by the user
+Status: **implementation in progress**, 11 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
+
+Current acceptance: **25/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:2/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
+These are completed checklist items with emulator evidence. Physical acceptance
+remains deferred. Page info and broader library acceptance remain pending;
+the latest input correction still requires native runtime validation. Carry
+forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
 retaining Chromium rendering and the existing Brave browser foundations.
@@ -280,7 +287,7 @@ display/focus checks at720p and1080p, enlarged Android text, Arabic RTL,
 exceptionally long multilingual headings, conservative confirmations and
 editor recovery, alongside recorded actual TalkBack state/error speech.
 See the [native design acceptance](tv-ui-design-checks.md). Stage1 is6/6 and
-the canonical count is15/54. This is emulator acceptance under the execution
+the canonical count was15/54. This is emulator acceptance under the execution
 override; physical overscan and hardware accessibility acceptance remain pending.
 
 **Gate:** chosen visual direction and complete interaction contract, with no

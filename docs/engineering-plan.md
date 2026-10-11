@@ -2054,6 +2054,48 @@ connection row. Remove the now-unneeded test dependency and document the
 instrumentation argument. No product endpoint, trust exception or data reset
 is introduced; resume the same cached production/test build after termination.
 
+
+### Consolidated native origin/library and text-input correction
+
+Combined r49 on source24bd3 passes blocking analysis in3m42.23s
+(Siso3m38.56s,26 executed steps), observed peak14618308608bytes. Signed production
+852735327bytes SHA256589a84d4a45b5f2dddf95c042171c831a02abbffdd6db87cacfa51bcba4b4ab7
+and test876261277bytes SHA256853141b7f9c3a9f3f841599f96a69d168a99c1223c98cefe97964d8c7d641060
+are preserved in `compose-site-info-24bd3f35f-x64-debug-20261011`. Both install
+in place with exact installed hashes and preserved production profile. Latest
+source/root Standards0/Spec0. Native library r15 fails9.651s on the first folder
+activation, before paging. Do not accept or rerun the dependent removal case
+until that transition is diagnosed. Independent Page info r16 reaches the
+trusted native origin/connection rows and returns to the same tab/URL; only
+its final focus assertion fails. The shell initially collapses overflow on
+return, so assert More controls, matching existing documented focus behavior.
+
+Next input slice is driven by passive native r52 failure, rather than guessed
+client timing: the accepted replacement exports original selection0..5 before
+ending with20 UTF-16 units instead of the requested15. Chromium's pinned native
+implementation sends selection via FrameWidgetInputHandler but text commits via
+WidgetInputHandler. Use existing ImeAdapterImpl.replaceText for an atomic native
+replacement range; confirm renderer text before applying the requested caret.
+For composition, wait for native full-range selection before composing, keeping
+actual Chromium composition. Renderer-confirmed stages must retain field,
+viewport and version cancellation, reject conflicting state, be bounded, and
+clear on invalidation/destruction. The bytecode hook may carry replyToRequest
+so an unrelated intermediate IME update cannot complete a commit. Validate the
+original actual-phone Unicode/selection/composition/password/stale-field probe
+and repeat the tight initial replacement path. No DOM value writes, fake key
+text, relaxed guards or new native engine are authorized by this correction.
+The correction uses a renderer-request reply flag to distinguish an ordered
+commit acknowledgement from intermediate state. Pending edits have a two-second
+abort and clear on focus/viewport/lifecycle invalidation; no replay is queued.
+Consolidate the Page info assertion and realistic100ms D-pad OK events for the
+native library tests with that build. Manual production replay from both webpage
+and native Home opens Mobile bookmarks, including a zero-duration ADB folder
+activation; this does not establish why UiDevice's transition failed. The new
+native stimulus still needs runtime acceptance, and must not be labeled a
+product fix solely because it changes timing. Retain unchanged media/group/
+download/storage/accessibility results. Accepted count remains25/54.
+Hardware gates remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
