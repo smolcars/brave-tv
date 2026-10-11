@@ -803,6 +803,15 @@ Source67fb109c4 adds the planned polite error/Home live-region semantics and
 passes latest-only Standards/Spec review with0 findings each. Build/native
 announcement metadata, state events and spoken operation remain pending.
 
+Home a02 native r5:5/6 pass in31.353s; polling removes the bookmark-deletion
+failure. Closure now fails at the Source-footer focus expectation before the
+empty-state assertion. Two directional presses are sent without checking the
+intermediate favorite-row focus; Undo likewise sends Up before the restored
+recent node is published. Require the intermediate favorite focus and positive
+restored-node publication before the next key. Keep all native data/Undo/same-Home
+assertions and the real timer. Acceptance: all six cases plus production address
+and controls regressions; no timeouts enlarged or production model changes.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
