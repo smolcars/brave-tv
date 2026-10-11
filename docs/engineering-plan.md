@@ -3073,6 +3073,13 @@ for the minimal source-classification and native-dangerous-owner fixes. Native
 auth Cancel recovered to its fixture page using Back/Down/Down/OK; no credentials,
 trust changes, certificate bypass or physical actions.5.5 remains pending.
 
+Latest a0bd/8304 reviews: Standards0/Spec0 each. Mandatory dependency validation
+stops test buildr27: the new native dangerous-state assertion requires direct
+//components/security_state/content/android:java. Add that existing pinned
+target to the test APK dependencies; no dependency download/version change,
+production behavior or assertion weakening. Cgroup peak7938707456bytes; no OOM.
+Retain failed logs and rebuild only the affected test target before the red run.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
