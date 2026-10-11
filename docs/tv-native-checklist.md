@@ -1,14 +1,15 @@
 # TV-native development checklist
 
-Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), implement direct source changes, run focused checks and the cached emulator build, review only the latest implementation commit, then commit evidence and push `master`. Record failed or partial checks honestly. Return to the Chromecast after emulator flows are usable.
+Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), implement direct source changes, run focused checks and the cached emulator build, review only the latest implementation commit, then commit evidence and push `master`. Record failed or partial checks honestly. Physical testing requires later user authorization.
 
 ## Current priority (user direction, 10 October)
 
 The current requested work is the [TV UI rebuild engineering plan](tv-ui-rebuild-plan.md).
-Its ordered, unchecked tasks are the canonical checklist for the future
-Kotlin/Compose presentation migration. The list below retains existing browser
-progress and unresolved acceptance; it does not mean the rebuild has started
-or grant new hardware-test permission.
+Its ordered tasks are the canonical checklist for the ongoing Kotlin/Compose
+presentation migration. The list below retains earlier browser progress and
+acceptance. Historical Chromecast permissions are superseded: do not operate it
+during this rebuild. Emulator acceptance and actual hardware acceptance remain
+separate; the canonical checklist records the rebuild's current progress.
 
 - [x] Fix the restored-home startup panel issue. `44ccdafef` passes the previously failing 20-step home replay; real webpages retain automatic browser controls.
 - [ ] Resolve the intermittent Android 14 first-launch handoff with a repeatable, awake-device reproduction and verified correction. Ten fresh Chromecast initializations pass, including actual agent launch/inspection; the original rejection is unreproduced and is not claimed fixed.

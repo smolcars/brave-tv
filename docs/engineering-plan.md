@@ -812,6 +812,42 @@ restored-node publication before the next key. Keep all native data/Undo/same-Ho
 assertions and the real timer. Acceptance: all six cases plus production address
 and controls regressions; no timeouts enlarged or production model changes.
 
+Screen-reader prerequisite: the verified phone AVD includes Google TalkBack
+16.0.0.738667889 (API26 minimum, x86-64). Extract its existing signed APK,
+verify package/signature/hash and retain provenance; install only on the verified
+TV emulator as an accessibility test tool. Record and restore original service,
+touch-exploration and accessibility settings; use normal synthetic data only.
+Test actual spoken focus/state and D-pad traversal after the announcement APK
+is installed. Compatibility or metadata alone is not spoken acceptance. The
+unused phone emulator is stopped before r28 to release its memory; its profile,
+APK, image and all browser/build caches remain preserved.
+
+Announcement build r28 on sourced558 passes blocking checks in4m03.49s
+(Siso3m59.94s), observed peak14,429,429,760 bytes (13.44GiB). Production/test
+signatures and provenance are retained in
+`compose-announcements-d55879c5f-x64-debug-20261010`; both update installations
+preserve profiles. All14 native Unicode/composition steps pass. The unchanged
+native error probe is now GREEN, including polite live-region metadata; this is
+not proof of speech. The22-step controls replay passes at Android scale1.3;
+scale1.0 is restored. Native RTL and spoken operation remain pending.
+
+Home r6 remains5/6 in29.358s. Bounded normal-only debugger inspection finds
+Source really focused, one active application window, and an accessibility
+snapshot initially retaining the previous favorite. Source is accessible with
+the native Undo message still showing after its timeout is reset for diagnosis;
+the message is not independently stealing window focus. Paused diagnostic runs
+are not unattended Undo acceptance. After Undo, the test waits for an off-screen
+recent card before sending Up to reveal it, which cannot establish publication.
+
+Next Home-test slice: use Chromium's existing test-only snackbar duration hook
+to allow30s for model/remote traversal on the emulator, assert the closure is
+still pending immediately before Undo, and await the native pre-draw callback before Up
+rather than requiring an off-screen node first. Keep normal/private model,
+same-Home, URL and focus postconditions; leave production duration unchanged.
+If Source still fails, add only bounded boolean focus diagnostics to that normal
+fixture. Acceptance remains all six unattended cases with blocking test build.
+Restore debugger settings and remove only the task's JDWP forward after probes.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

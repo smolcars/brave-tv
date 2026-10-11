@@ -47,3 +47,12 @@ no horizontal screen overflow in nine routes at1280×720 and1920×1080
 (108 combinations). This does not prove Android font scaling, overscan, spoken
 state, screen-reader traversal or every native target's semantics. Stage1.5
 remains unchecked until those acceptance checks pass.
+
+Native partial checks on the1920×1080/320dpi TV emulator: source da462 Home,
+both controls pages and address editor remain readable and remote-reachable at
+Android font scale1.6. The22-step controls replay passes at scale1.3; scale1.0
+is restored. On source d558, all14 actual IME Unicode/selection/deletion/
+composition steps pass and the fixed error's native polite live-region probe
+goes GREEN after its predecessor RED. No editor contents are captured by that
+probe. RTL, broader native localized surfaces and observed spoken operation are
+still pending; announcement metadata alone does not check Stage1.5.
