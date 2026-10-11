@@ -2193,6 +2193,40 @@ and all paging/open/model assertions. Consolidate this test correction into the
 pending native input recovery build; the screenshots and original failure stay
 preserved in `probes/engine-lifecycle-r1/bookmark-focus-r19.json`.
 
+### Consolidated r52 runtime checks and diagnostic cleanup
+
+Source2da584628 r52 passes blocking Android analysis in7m08.42s
+(143 executed steps), observed cgroup peak18710953984bytes (17.43GiB).
+Signed x64 production/test artifacts and native patch checksums are preserved in
+`~/.cache/brave-tv/artifacts/compose-native-input-2da584628-x64-debug-20261011`.
+Both installed APK hashes match; production profiles remain intact. Fresh QR r5
+uses the actual shared simulator Wi-Fi, privately decoded visible invitation,
+bundled assets and truthful hidden-manual-form approval state. No physical
+operation or profile wipe is performed.
+
+Native bookmark r20 stops in the temporary focus-trail diagnostic itself:
+UiObject2.getContentDescription throws StaleObjectException while Compose
+replaces a node. This is not a paging assertion verdict. Remove that diagnostic
+scan and its error wrapper now that r19 established the horizontal traversal.
+Keep the target focus checks, Down/Right stimulus and all native paging/open/
+removal assertions. Runtime remains pending; carry forward the unchanged IME
+hook, Page info, media, group, downloads and display evidence. Combine any
+necessary input follow-up with this test cleanup; otherwise rebuild only the
+test APK. Accepted todos remain25/54 until affected real runtime cases pass.
+
+Actual normal-keyboard r57 still fails the first Unicode replacement. The
+post-failure native field remains its original five characters, with Gboard
+compositionstart/update events; no replacement input is observed. The viewport
+refresh has not proved this race fixed. Controlled quiet-keyboard r58 passes
+the complete expanded phone probe: first Unicode replacement,20 repeats,
+equal-text composition/commit, native Japanese phone IME, direct selected
+compose/commit, selected surrounding deletion preservingABCD and selection1..3,
+textarea/contenteditable, stale-field rejection and password exclusion. This
+proves native renderer deletion recovery without normal-keyboard acceptance.
+Keep3.5 unchecked and retain r57/r58 logs. Run a bounded first-edit request trace
+to distinguish stale field/version/viewport rejection from native composition
+conflict before the next correction; no rejected edit may be replayed.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
