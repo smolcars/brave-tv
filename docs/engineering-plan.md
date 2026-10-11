@@ -281,6 +281,17 @@ Bookmarks text wait as matching its invoker. Require panel-only More bookmarks
 instead, preserving the New tab focus assertion. Child Back must also restore
 Tabs; the existing NTP reset may expose a separate failure after attachment.
 
+Attachment correction r18/cdea passes blocking analysis3m44.57s, signature and
+update installation; observed peak13,678,456,832 bytes (12.74GiB). Artifact
+852,618,650 bytes, SHA256
+`f311e1020222dcf64a05bf5e6dd94c375af17a0c44c0ecac563ea40874d69519`.
+The unchanged replay now opens native-model Tabs with New tab focused, then
+fails exactly at child Back restoring Tabs: existing showControls resets NTP
+focus to Address even on return from a child. Correction slice distinguishes
+root entry from child return: root home controls keep Address; child return
+preserves the existing action identity. Acceptance is the unchanged panel replay
+and home/overflow/root-Back replay together. Continue panel native gates afterward.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
