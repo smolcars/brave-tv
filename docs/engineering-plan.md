@@ -333,6 +333,14 @@ lets the genuine InputConnection set no-learning/no-extract flags; do not fake a
 password input type. Dispose/reset editor text and undo history with its owner.
 Observed failed-build peak9,098,833,920 bytes (8.47GiB); cache preserved.
 
+Editor correction0370 review: Spec reports no findings; Standards finds the
+native ownership observer touches editor UI before the existing activity-alive
+guard. Move that guard ahead of editor handling and recheck after synchronous
+session capture, retaining input cancellation. Acceptance: latest-only review
+and blocking native build, then owner-switch/disposal runtime probes. r21 is
+building committed0370 in the immutable cached checkout; a subsequent build
+will include this lifecycle correction without resetting dependencies.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
