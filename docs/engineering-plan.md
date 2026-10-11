@@ -2149,6 +2149,39 @@ phone replacement/composition regression, including unchanged text and repeated
 first replacement. Carry forward unchanged passing checks; acceptance stays25/54
 until those actual runtime checks pass. No physical device operation is allowed.
 
+### Consolidated input completion and native renderer recovery
+
+Combined source34609 r51 passes blocking Android analysis in6m56s
+(Siso6m55.73s,271 executed steps), sampled cgroup peak19015077888bytes
+(17.71GiB). Signed x64 production/test APKs and provenance are preserved at
+`~/.cache/brave-tv/artifacts/compose-native-input-34609de54-x64-debug-20261011`.
+Both installed hashes match; profiles remain intact. Native r18 passes the
+changed IME hook, but bookmark paging now fails reaching More bookmarks after
+opening the owned folder; dependent removal is skipped. The document-lease
+correction fixes the earlier first-folder rejection without proving paging.
+
+Actual phone r53 still appends the first Unicode replacement with the normal
+TV keyboard. Passive r54 instead loses editable readiness when that keyboard
+resizes the viewport. A controlled r55 with the quiet TV test keyboard passes
+first replacement,20 repeat replacements, equal-text composition/commit,
+Japanese native phone IME and direct selected composition/commit. It then
+crashes the renderer deleting surrounding code points from a selected range.
+The crash is a pinned Blink DCHECK at selection_editor.cc:546. Symbolization
+identifies InputMethodController::DeleteSurroundingText at line1600: after the
+right-side deletion it reads visible selection before updating layout. Preserve
+`probes/engine-lifecycle-r1/phone-selected-delete-renderer-crash-r55.log`.
+This is a native failure, not host memory pressure or a timeout-only verdict.
+
+Next correction: add the smallest functional native layout update before that
+selection read; keep Chromium deletion/event-listener semantics. Refresh native
+editable state after browser/viewport cancellation, while retaining field,
+version, normal/private/modal and document guards. Use the already-red full
+phone probe as runtime regression; test both quiet and normal TV keyboards and
+retain failed evidence. Add focused bookmark traversal diagnostics to the real
+native test, without replacing D-pad actions or hiding its failure. Consolidate
+these affected checks in one cached build; leave acceptance at25/54 until the
+full cases pass. Page info/media/group/download checks remain carried forward.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
