@@ -1303,6 +1303,23 @@ that direct test dependency and rerun the test-only target with blocking analysi
 Preserve r13's failure; do not reinstall its unfinished test output or rebuild
 unchanged production. Native/display acceptance remains pending.
 
+Corrected r14 test-only build passes blocking analysis in Siso37.33s/23 steps;
+its signed fab0 APK is preserved. Production1743 grouped720p/font1.6/ar checks
+pass disabled Previous/More downloads and expose a real restored-focus failure:
+Back to controls focuses More at y610..720, partly clipped even after settling.
+Evidence `display-responsive-r1.json` stops at that failed edge assertion;
+no later keys or acceptance are counted. Root/source latest reviews pass0/0.
+
+Next responsive correction: first strengthen the native More/Back journey with
+a visible-edge assertion and exercise an exceptionally long synthetic panel
+title with conservative Cancel/Right/Left reachability. Run both against the
+current presentation before changing it. Use the pinned Compose bring-into-view
+facility for restored focus, including space for its focus border, and bound
+fixed panel headings if the title case proves they consume the action viewport.
+Keep complete spoken labels, native dialog/security/data ownership and cached
+builds. Consolidate native and display evidence; restore original settings after
+the pass. Stage1.5 remains pending until these actual failures are resolved.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
