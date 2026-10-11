@@ -919,6 +919,28 @@ native Home suite together in the retained x64 output, with blocking Android
 analysis, four Siso workers and18/22GiB memory limits. Preserve signed artifacts
 and update both APKs in place. Runtime Settings/RTL/footer acceptance is pending.
 
+Settings/RTL build r29 passes in4m24.58s (Siso4m21.06s), observed cgroup peak
+14,509,973,504 bytes (13.51GiB), systemd reports13.5G. Signed production/test
+APKs and provenance are retained in
+`compose-home-settings-38e2a3c82-x64-debug-20261010`; both install in place.
+Root8130 latest-only review: Standards0, Spec0.
+
+The ten native Home cases pass individually on source38e2, including both
+Settings return paths, stale/private owner rejection and actual closure/Undo.
+The pinned host runner separates non-Batch tests; whole-class manual invocation
+bypassed the Home class's `@DoNotBatch` process isolation. The earlier5/7 result
+remains recorded, rather than accepted as a supported run. Each new invocation
+requires exact `OK (1 test)` and instrumentation success; no profile wiping,
+private capture or shared ADB restart is used. Logs/summary:
+`native-home-separated-r15`. Remove the temporary failure-only footer diagnostic
+and document the required per-method invocation. Preserve every focus/model
+postcondition and test timeout; compile/review the cleanup and rerun its affected
+native case. RTL, spoken accessibility and migration/hardware gates remain open.
+
+Source7e5a diagnostic cleanup review: Standards0, Spec0. Rebuild only the test
+APK in the same cache and rerun the affected closure/Undo method with required
+process separation. Production source38e2 is unchanged and remains installed.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

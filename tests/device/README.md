@@ -27,6 +27,19 @@ exit successfully when tests fail. Do not pass a failure-screenshot argument:
 upstream screenshot capture clears private-window security flags. Native
 private tests must retain those flags and remain uncaptured.
 
+Run `@DoNotBatch` cases such as `TvHomePageTest` in separate instrumentation
+processes, matching the pinned host runner's test isolation. A whole-class
+`-e class` invocation bypasses that separation. Filter one method per invocation:
+
+```sh
+adb -s emulator-5554 shell am instrument -w -r \
+  -e class 'org.chromium.chrome.browser.tv.TvHomePageTest#closingAndUndoingUnselectedRecentTabRefreshesSameHome' \
+  com.brave.browser.tests/org.chromium.base.test.BaseChromiumAndroidJUnitRunner
+```
+
+Repeat for each method from the artifact's pinned source and require `OK (1 test)`
+in every log. Do not reset production data or restart shared ADB for isolation.
+
 `tv-compose-clear-cancel.ad` starts at the clear-data chooser with Settings
 focused. It asserts each focus transition before the next key: Cancel → Right
 to Clear now → Left to Cancel → OK back to the chooser. A failed replay stops;
