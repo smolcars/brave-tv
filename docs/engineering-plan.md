@@ -2266,6 +2266,12 @@ change. Run it on the next exact production APK with stock and quiet TV IMEs.
 Unchanged bookmark r21, native bytecode hook and broader passing checks carry
 forward; rebuild the production target only for this phone-state change.
 
+Latest review reports source Standards1 (DOC-004)/Spec0, root0/0. Document the
+replacement-version contract explicitly: eligibility/text/selection advance it,
+composition-only updates do not, and use requires current browser/field identity
+and a ready, eligible field. The correction changes documentation only; include
+it in the pending production build and review its latest commit separately.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
