@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **28/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:4/8, Stage 5:2/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **29/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:4/8, Stage 5:3/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
 library acceptance remain pending. The latest input correction still requires
@@ -407,9 +407,14 @@ the complete feature set or a public release.
 
 ### Stage 5 — library, settings and exceptional flows
 
-- [ ] **5.1** Rebuild bookmarks/favorites add/open/remove and history paging,
+- [x] **5.1** Rebuild bookmarks/favorites add/open/remove and history paging,
   open/remove/clear using existing bridges. Preserve selection after updates,
   pending-operation behavior, policy restrictions and private separation.
+  Native bookmark paging/Open/Cancel/remove/policy and external deletion/nearest
+  survivor/rename/disposed-observer checks pass on actual GN builds (r24/r30).
+  Native160-history paging/Open/remove/policy and actual production history-only
+  clearing preserve bookmarks and other data. Production0bd137 includes the
+  accepted focus correction; hardware remains pending.
 - [x] **5.2** Provide a bounded TV view of existing downloads, supported status,
   open/cancel/removal actions and errors. Distinguish removing a list entry from
   deleting a file; retain existing storage permissions and download ownership.
@@ -466,7 +471,7 @@ pass. Bookmark nearest-survivor recovery remains red24.811s; index/ID fallback
 alone did not resolve it. Scoped clearing and the remaining bookmark case keep
 5.1 pending. Fresh-profile native history-only/site-data/cache clearing now passes
 with nonselected data and bookmarks preserved. Search-provider and pending-clear
-callback recovery remain for5.3. Current accepted count is28/54.
+callback recovery remain for5.3. Current accepted count is29/54.
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.

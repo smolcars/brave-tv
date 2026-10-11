@@ -1,15 +1,19 @@
 // Diagnostic assertions against the Android browser, forwarded through ADB.
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
+import {resolve} from 'node:path';
 
 const expected = process.argv[2];
 assert.ok(['up', 'down', 'site-on', 'site-off', 'cookie-on', 'cookie-off', 'startup-cookie-on'].includes(expected),
-  'Usage: node tests/device/shields-probe.mjs MODE EMULATOR_SERIAL');
+  'Usage: node tests/device/shields-probe.mjs MODE EMULATOR_SERIAL AGENT_DRIVER.py');
 const serial = process.argv[3];
 assert.match(serial ?? '', /^emulator-\d+$/);
-const avd = execFileSync('adb', ['-s', serial, 'emu', 'avd', 'name'], {encoding: 'utf8'}).split('\n')[0].trim();
+const driver = process.argv[4];
+assert.ok(driver, 'Matching device_open agent driver required');
+const adbOptions = {encoding: 'utf8', timeout: 10000, maxBuffer: 65536};
+const avd = execFileSync('adb', ['-s', serial, 'emu', 'avd', 'name'], adbOptions).split('\n')[0].trim();
 assert.ok(['brave_tv_clean_api36', 'brave_tv_launch_followup_api36', 'brave_tv_onboarding_api36'].includes(avd));
-const forwards = execFileSync('adb', ['-s', serial, 'forward', '--list'], {encoding: 'utf8'});
+const forwards = execFileSync('adb', ['-s', serial, 'forward', '--list'], adbOptions);
 assert.ok(forwards.split('\n').some(line => line.trim() === `${serial} tcp:9222 localabstract:chrome_devtools_remote`));
 const siteDown = expected === 'down' || expected === 'site-off';
 const observeRestoredDocument = expected === 'startup-cookie-on';
@@ -19,9 +23,36 @@ const timeout = setTimeout(() => {
 }, 15000);
 let socket;
 try {
-  const tabs = await (await fetch('http://127.0.0.1:9222/json/list')).json();
-  const tab = tabs.find(tab => tab.url === 'http://127.0.0.1:18081/shields.html');
-  assert.ok(tab, 'Open the local Shields fixture in the normal profile first');
+  const url = 'http://127.0.0.1:18081/shields.html';
+  const normalOwner = () => {
+    let reply;
+    try {
+      reply = JSON.parse(execFileSync('python3', [resolve(driver), 'snapshot', '--json'],
+        {encoding: 'utf8', timeout: 20000, maxBuffer: 262144}));
+    } catch {
+      throw new Error('Native fixture ownership unavailable');
+    }
+    assert.ok(reply.success && !reply.data.truncated, 'Complete native owner required');
+    const nodes = reply.data.nodes;
+    assert.ok(nodes.some(n => n.label === 'Browser controls'), 'Normal native controls required');
+    assert.ok(!nodes.some(n => n.label === 'Private browsing'), 'Private owner rejected');
+    assert.ok(nodes.some(n => n.label === url), 'Exact native fixture owner required');
+    assert.ok(nodes.some(n => n.focused && ['Address or search', 'Page cursor',
+      'Go back', 'Go forward', 'Reload', 'Stop loading', 'Tabs', 'Bookmarks',
+      'More controls'].includes(n.label)), 'Focused compact native controls required');
+  };
+  const uniqueTarget = async () => {
+    normalOwner();
+    const tabs = await (await fetch('http://127.0.0.1:9222/json/list',
+      {signal: AbortSignal.timeout(5000)})).json();
+    const matches = tabs.filter(tab => tab.type === 'page' && tab.url === url);
+    assert.equal(matches.length, 1, 'Unique normal fixture target required');
+    return matches[0];
+  };
+  const tab = await uniqueTarget();
+  const validateOwner = async () => {
+    assert.equal((await uniqueTarget()).id, tab.id, 'Native fixture target changed');
+  };
   socket = new WebSocket(tab.webSocketDebuggerUrl);
   const pending = new Map();
   const requests = new Map();
@@ -81,11 +112,13 @@ try {
     const { frameTree } = await send('Page.getFrameTree');
     frameId = frameTree.frame.id;
     previousLoader = frameTree.frame.loaderId;
+    await validateOwner();
     await send('Page.reload', { ignoreCache: true });
     await loaded;
   }
   let result;
   for (let attempt = 0; attempt < 30; attempt++) {
+    await validateOwner();
     const response = await send('Runtime.evaluate', {
       expression: `JSON.stringify({
         ready: document.readyState,

@@ -2897,6 +2897,43 @@ custom test filters, fake counters or private capture. Written fixture/server
 checks alone do not accept5.4. Run only after native callback tests release the
 device; do not alter cached browser source during this build.
 
+Latest root4b46250 review Standards0 (bounded ADB concern forwarded), Spec1P2:
+URL-only target matching lacks native normal ownership/unique target. Correct
+the diagnostic with existing trusted native Controls pattern and exact matching
+fixture cardinality, revalidating before CDP reload/read-back. Bound child process
+time/output before its watchdog. Retain exact returned agent driver/session;
+fail closed on missing/changed normal Controls before any page body read/log.
+No runtime5.4 acceptance yet. Initial host server request raced its Nix startup
+and returned connection refused; service is active/no OOM, retry only after
+loopback readiness. No Nix/cache reset.
+
+Full r60 passes GNU3m39.60s/Siso3m36.08s/33steps, blocking analysis0,
+live cgroup peak18,189,475,840B (~16.94GiB),111samples. Signed preserved
+compose-clear-recovery-0bd137d9b-x64-debug-20261011 artifacts: production
+852,748,802B/SHA3d7f11396b306b07e2369707d744339cf6102dcd7666edcc0b18c704c36108d5,
+TEST876,323,667B/SHA8cb216fec0da0f1807789472ca7520b11c0436b5d5c3331d49441f62124185ba.
+Both profile-preserving fresh-AVD installs/hash checks pass. Native r31 owned
+completion PASS14.237s and replaced-document window release PASS11.463s. Pause
+14.704s still fails its Address assertion, but its bounded diagnostic proves
+normal native Home, SettingsFocused=true and pendingPanel=false. This is retained
+invoker focus, not a reopened panel or lost focus. Correct the test to require
+the same captured native Home and Settings focus; remove the failure diagnostic.
+No production resume changes. Rebuild only TEST and rerun only pause; carry
+forward the two owned-completion positives and previous bookmark/tab/Back passes.
+
+The owned Shields fixture Nix startup was throttled by its initial128MiB high
+limit (ps wchan mem_cgroup_handle_over_high,168MiB current), not a server or
+Chromium failure. Raise only this fixture service to512MiB high/1GiB max; retain
+its process/cache and four-worker18/22GiB browser build limits unchanged.
+
+Stage5.1 emulator acceptance: native bookmark paging/Open/conservative Cancel/
+remove/policy passes carried fromr24; external native deletion/nearest-surviving
+ID/index6/rename/disposed observer now passesr30 on actual GN TESTd5c429. Native
+160-history paging/Open/remove/policy and actual production history-only clearing
+with saved bookmark/cookie/storage/cache survival already pass. Full production
+0bd137 includes the exact accepted focus correction and passes build/install.
+Canonical5.1 accepted; count advances29/54, with hardware pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

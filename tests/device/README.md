@@ -294,7 +294,7 @@ verify the former listener refuses connections and that returning to Brave
 requires a new opt-in/pairing. Remove only these emulator forwards and restore
 the original debug flags/network settings after the run.
 
-`shields-probe.mjs startup-cookie-on EMULATOR_SERIAL` observes the already-restored local
+`shields-probe.mjs startup-cookie-on EMULATOR_SERIAL AGENT_DRIVER.py` observes the already-restored local
 `http://127.0.0.1:18081/shields.html` document without navigating or reloading it.
 Use after a cold agent-device relaunch with protection and the cookie list on,
 and the usual ADB DevTools forward to port 9222. It requires the control script
@@ -498,7 +498,7 @@ custom filters, then append these two temporary rules in Content Filters:
 127.0.0.1##+js(set, tvShieldsProbe, true)
 ```
 
-Run `nix develop --command node tests/device/shields-probe.mjs up EMULATOR_SERIAL`. Use the TV
+Run `nix develop --command node tests/device/shields-probe.mjs up EMULATOR_SERIAL AGENT_DRIVER.py`. Use the TV
 Site protection panel to turn protection off, run the `down` check, then turn it on
 and rerun `up`. Background the browser and allow its asynchronous preference
 write before relaunching and checking persistence. An immediate force-stop can
@@ -729,7 +729,10 @@ Run it under the project Nix environment. Verify the emulator's AVD identity,
 then use explicit `adb -s EMULATOR_SERIAL reverse tcp:18081 tcp:18081` and
 `forward tcp:9222 localabstract:chrome_devtools_remote`. Open only the normal
 `http://127.0.0.1:18081/shields.html` fixture. `shields-probe.mjs MODE
-EMULATOR_SERIAL` checks that emulator and its exact forward before attaching;
+EMULATOR_SERIAL AGENT_DRIVER.py` checks that emulator and its exact forward before attaching;
+the driver must retain the matching device_open launcher/config/session. Keep
+compact native normal Controls focused over the exact fixture. The probe rejects
+duplicate targets and revalidates the native owner before reload/read-back;
 it performs a diagnostic reload and records request-specific completion or
 ERR_BLOCKED_BY_CLIENT. `site-on`/`site-off` need no custom rules; cookie modes
 isolate the optional list while ads remain blocked. Existing `up`/`down` also
