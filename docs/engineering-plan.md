@@ -2098,6 +2098,19 @@ Hardware gates remain pending.
 
 ### Native input review correction and consolidated checks
 
+Native r17 on the preserved00d APK proves the library failure: its first folder
+activation captured112px content offset, then observed0px after Home settled
+(6.622s, failed before paging). This is a product callback invalidation, not
+UiDevice key duration. Page info passes independently in11.403s, including real
+native origin/connection rows, same tab/URL and More-controls focus on return.
+Broader5.5 permissions/authentication remains pending. Use the existing document
+lease for bookmark actions, while pointer/input actions retain full viewport
+identity. Keep normal/private/lifecycle and native model revalidation. Remove
+the diagnostic assertion; retain the original failing paging/removal checks and
+wait for the known final offset only after the folder has actually opened.
+Consolidate this narrow correction with999b input/hook validation in r51. No
+repeat of unchanged Page info, media, group or download checks is needed.
+
 Correction review on00d91ff76 reports Standards1/Spec1, root0/0. Document the
 native helper's submission/failure contract. The outgoing input barrier is
 valid, but renderer state and ping replies return on different pipes; a generic

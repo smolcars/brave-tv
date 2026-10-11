@@ -9,8 +9,9 @@ linked evidence, not just code. Source inspected at
 Current acceptance: **25/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
 Stage 3:3/5, Stage 4:2/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
-remains deferred. Page info and broader library acceptance remain pending;
-the latest input correction still requires native runtime validation. Carry
+remains deferred. Native Page info entry/return passes; broader permissions and
+library acceptance remain pending. The latest input correction still requires
+native runtime validation. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
