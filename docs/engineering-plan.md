@@ -23,6 +23,18 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scoped overrides and first slice
 
+Latest correction `04211e0` reviews: Standards0/Spec0. Next consolidated native
+slice covers fullscreen tab-switch/background recovery and remaining exceptional
+flows on installed source6d: genuine media/fullscreen, normal tab identity,
+revoked background session, native foreground/controls recovery, controlled
+network failure, renderer crash, file-picker cancel and unsupported external
+navigation. Reuse accepted playback/input/security results. Require explicit
+AVD/forward ownership and unique authenticated normal fixture targets before
+DOM reads; keep native security/OS decisions authoritative. Record failures
+before source changes and accept only actual engine/native return paths. No
+profile wipe, private page capture, physical operation or rebuild without a
+source change.
+
 Latest-review correction for root `8381a24d`: reject missing or duplicate exact
 TV fixture and companion targets before any DOM reads or input. Keep native
 text mismatch diagnostics value-free. Acceptance: host-only CLI negatives prove
@@ -3468,6 +3480,31 @@ fresh-invitation guidance with no waiting form. No blind approval, profile wipe,
 secret log or physical operation. Item3.5 and4.7 emulator scope accepted;
 canonical35/54, Stage3:4/5, Stage4:6/8. Actual manual/expiry, fullscreen switching,
 exceptional recovery, migration/retirement and final V checks remain open.
+
+Consolidated fullscreen recovery r97 passes on installed production source6d.
+Actual media/fullscreen survives normal tab switching with the original
+document retained; D-pad Back exits restored fullscreen. Direct simulated-LAN
+listener200→foreground departure→connection refusal passes through the existing
+background probe. Phone controls are disabled with state cleared; its in-memory
+epoch is retained for network recovery, not accepted by the stopped listener.
+Native foreground/Back returns to the same document with full1920×1080 viewport
+and cursor pixels at actual D-pad160/160. The browser PID survives. Only the
+known newly-created normal fixture tab is removed. Stock TV IME remains selected;
+no screenshot file, private read, profile wipe, physical operation or APK rebuild.
+
+Earlier r90/r91 hit unsettled revisions around fullscreen/new Home; use the
+existing two-response viewport synchronization before context-sensitive commands,
+without retrying rejected commands. R92 stops before DOM on duplicate exact
+targets; scope this fixture URL and retain that guard. R93 expected automatic
+fullscreen exit after switching, but the engine restores video fullscreen;
+native Back exits safely without replacing the document. R94 protects the
+unremoved fixture tab. R95's credential-clear expectation was wrong for approved
+network loss; prove native listener revocation and disabled/cleared phone state.
+R96's synchronous netcat closes stdin too early for its positive control;
+reuse the established bounded background probe instead. These failures do not
+establish application defects or waive security. Earlier media/IME/cursor checks
+carry. Item4.6 emulator scope accepted; canonical36/54, Stage4:7/8. Other native
+exceptions, first-selection input, retirement/migration and final V remain open.
 
 ## Previous feature: phone remote (10 October)
 

@@ -264,6 +264,15 @@ reads or input. `node tests/device/phone-native-guards.mjs` checks missing and
 duplicate targets with host-only synthetic subprocesses; it never contacts a
 device or browser and supplements actual native-input acceptance.
 
+`phone-fullscreen-recovery-probe.mjs PW TV_SERIAL TV_AVD PHONE_SERIAL PHONE_AVD
+DRIVER` supplements fullscreen Back checks with real normal-tab and background
+recovery. Both emulator identities and CDP forwards are verified. Approve a
+fresh session separately and use a profile without another bookmark workflow
+fixture; it creates/removes only its own test tab. It observes document identity,
+uses the existing direct-LAN background probe, then verifies native foreground/
+Back, full viewport and D-pad cursor pixels without storing a screenshot. The
+background phase stops the remote session; re-pair before further phone checks.
+
 `phone-stock-ime-probe.mjs` is a focused stock-TV-IME smoke check. First focus
 the normal fixture's plain field through native input, with the verified stock
 TV keyboard selected. Pass the existing Playwright directory followed by the

@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **35/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:4/5, Stage 4:6/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **36/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:4/5, Stage 4:7/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
 cancellation and certificate recovery pass; broader exceptional flows remain
@@ -408,9 +408,17 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   Native source a26 passes both isolated cases, including Cancel/Right/Delete/
   Left/Cancel, exact original tab/group identity through repeated Cancel,
   and confirmed deletion returning to normal Home with Address focus.
-- [ ] **4.6** Integrate fullscreen/media presentation and pointer overlay across
+- [x] **4.6** Integrate fullscreen/media presentation and pointer overlay across
   enter/exit, system bars, tab switches and background recovery. Keep existing
   media session/decoder behavior and native webpage editing.
+  Source6d production r97 passes actual media/fullscreen, switching to a new
+  normal tab and back with the original document retained, and native D-pad
+  fullscreen escape. Background closes the direct simulated-LAN listener,
+  disables phone controls and preserves the browser process. Native foreground/
+  Back restores the same document, full1920×1080 viewport and cursor pixels at
+  the real D-pad160/160 position. Only the newly-created fixture tab is removed;
+  profiles and native media ownership remain. Earlier playback/captions/phone
+  Back/native editing checks carry; optimized physical acceptance is pending.
 - [x] **4.7** Replace TV pairing/connection surfaces. QR auto-pair waiting state
   must not look like an empty manual-code form; expose approval/disconnect and
   truthful paused reasons. Keep physical control usable while paired.
