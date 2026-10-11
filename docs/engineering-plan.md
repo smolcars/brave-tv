@@ -2010,6 +2010,33 @@ acceptance. Test-only r24 builds successfully in21.35s; its uncorrected cases
 are not run or accepted. Preserve that successful build log and reuse its cache
 for the correction, without packaging an unchanged production APK.
 
+Native r12 on source a26c526 passes final-group Cancel10.420s and Delete11.064s,
+including exact retained group identity and usable Home/Address after deletion.
+Bookmark paging fails11.530s while entering the owned folder, before paging;
+removal is not run. The helper sends subsequent directions without waiting for
+the preceding folder to become the active panel, and incorrectly expects a
+disabled Save action to get initial focus. Wait for each actual folder title
+and its enabled Parent action; retain the paging/removal assertions and failed
+log. Test-only r25 completes blocking analysis in4m18s (Siso4m14.40s), observed
+peak13937864704bytes. Its signed876265225byte test APK has SHA256
+c8143e15a1a1395a2f06caa430eb5dc0f2bf3b69c98bb25aabe9085a05f7216e.
+
+Consolidate already-passing acceptance: shared real TV/phone state/navigation
+seam3.1, shell/focus ownership3.2, lifecycle-bound native observers3.4, native
+address/provider editing4.2 and final-group semantics4.5. Evidence spans the
+unchanged source65/da718 same-URL/phone gates, a648 lifecycle disposal, d6/b3
+genuine IME/provider navigation and current de2/a26 final closure. Count becomes
+25/54; unresolved current phone first-edit race keeps3.5 pending. This uses
+existing actual-engine evidence instead of repeating unchanged checks.
+
+Next complete source slice: expose the missing Page info action in compact
+controls using existing localized menu_page_info and the trusted native
+info_menu_id command. Keep document/input/private revalidation, hide/disable on
+non-web pages, and leave certificate/permission decisions with Chromium. Prove
+native page-info origin/security content, D-pad traversal and Back return on
+the actual APK; the route alone is not5.5 acceptance. Consolidate the bookmark
+helper correction and this small route in the next cached build/review.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

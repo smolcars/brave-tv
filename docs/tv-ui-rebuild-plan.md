@@ -324,7 +324,7 @@ known inaccessible core action. A polished home alone does not satisfy this stag
 and measured feasibility. Independent design/model work may continue while
 hardware is unavailable; hardware-dependent claims remain unchecked.
 
-Emulator Stage2 is7/7; canonical acceptance is20/54. Matched uncontended
+Emulator Stage2 is7/7; canonical acceptance is25/54. Matched uncontended
 baseline/current Debug measurements pass the provisional startup, panel,
 PSS and footprint regression budgets. [Performance/hosting evidence](tv-ui-inventory.md)
 records actual samples and overhead, including local page/video timing variance.
@@ -334,15 +334,15 @@ no emulator result checks that hardware gate or establishes release acceptance.
 
 ### Stage 3 — shared state and input ownership
 
-- [ ] **3.1** Extract only the browser actions/state required by home, controls,
+- [x] **3.1** Extract only the browser actions/state required by home, controls,
   tabs and current phone callers from `TvBrowserControls`. Preserve validation
   and errors; leave model/JNI implementations in their existing language.
-- [ ] **3.2** Implement explicit shell/panel state and stable focus restoration.
+- [x] **3.2** Implement explicit shell/panel state and stable focus restoration.
   Test input-owner transitions and cancellation through the shared interface.
 - [ ] **3.3** Preserve physical `TvRemoteInput` behavior, held-OK exactly-one-click,
   pointer idle/wake and scoped touch/wheel delivery. Phone gestures are not
   repeated D-pad events. Match coordinates to the actual content viewport.
-- [ ] **3.4** Connect lifecycle-aware observations without poll-driven whole-UI
+- [x] **3.4** Connect lifecycle-aware observations without poll-driven whole-UI
   redraws. Test stale async results, destroyed activities and tab replacement.
 - [ ] **3.5** Route phone actions through the extracted browser behavior while
   retaining authentication, revisions, deduplication and UI-thread revalidation.
@@ -363,7 +363,7 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   earlier unsupported whole-class5/7 run remains recorded. The native Undo
   fixture uses a scoped test timer and restored-layout callback. Broader startup/
   route acceptance remains pending. See [engineering evidence](engineering-plan.md).
-- [ ] **4.2** Replace address/search UI using current URL classification and
+- [x] **4.2** Replace address/search UI using current URL classification and
   selected search provider. Support edit/select/delete/submit/cancel, IME and
   optional available system dictation without requiring microphone access.
 - [ ] **4.3** Add compact browsing controls with authoritative loading/history,
@@ -371,8 +371,11 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
 - [ ] **4.4** Replace tab presentation: create/select/close, large lists, discarded
   tab restoration, selection after removal and last-normal/private-tab behavior.
   Present existing groups safely; do not ungroup/delete stored tabs implicitly.
-- [ ] **4.5** Retain group-close/delete semantics and conservative confirmation
+- [x] **4.5** Retain group-close/delete semantics and conservative confirmation
   focus. Exercise both Cancel and confirm on the final grouped tab.
+  Native source a26 passes both isolated cases, including Cancel/Right/Delete/
+  Left/Cancel, exact original tab/group identity through repeated Cancel,
+  and confirmed deletion returning to normal Home with Address focus.
 - [ ] **4.6** Integrate fullscreen/media presentation and pointer overlay across
   enter/exit, system bars, tab switches and background recovery. Keep existing
   media session/decoder behavior and native webpage editing.
