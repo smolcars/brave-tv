@@ -1828,6 +1828,15 @@ fixture URL/unique document checks, before any page movement. This is a test
 precondition correction, not permission to proceed with a native modal or unknown
 page. No capture occurred. Source789 production recovery build remains next.
 
+Root18cf latest reviews0/0. Dialog r9 stops before page movement: activation
+dismisses controls, but native accessibility now exposes the retained HTML Alert
+button as focused, rather than its parent content frame. The normal fixture
+heading, exact native URL and unique document remain present. Extend the positive
+owner predicate to the fixture's known focused HTML button identifiers with its
+heading and browser package; retain all existing document/viewport/modal checks.
+Acceptance: one consolidated native dialog run, then media/IME/security; no
+new APK build or unchanged suite rerun for this host replay correction.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

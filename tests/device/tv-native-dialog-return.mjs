@@ -155,7 +155,10 @@ try {
   await sync();
   await waitNative(nodes => !nodes.some(n => n.label === 'Browser controls')
     && nodes.some(n => n.focused
-      && (n.label === 'Web View' || n.label === 'TV native dialog checks')),
+      && n.bundleId === 'com.brave.browser_default'
+      && (n.label === 'Web View' || n.label === 'TV native dialog checks'
+        || (Object.hasOwn(initial.buttons, n.identifier)
+          && nodes.some(node => node.label === 'TV native dialog checks')))),
   'Native Page cursor activation must release controls before page movement');
   await point('alert');
   await click(); await modal('TV alert: close this dialog with the remote.', 'OK');
