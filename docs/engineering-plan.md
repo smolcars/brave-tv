@@ -1451,6 +1451,16 @@ the same fixture URL can exist privately. Require the trusted normal controls
 heading and a unique matching fixture target, and bound initial CDP discovery.
 Failure stops before input/capture. Keep r38 on its immutable committed source.
 
+Complete the combined lifecycle acceptance with three focused native cases:
+destroyed session observers must ignore real subsequent navigation; recreated
+normal Home must detach the old view and restore native tab identity, bookmarks
+and Address focus; private Home/controls must retain native secure window flags
+and return to normal without private sections. Use existing test classes and
+activity recreation utility, isolated processes for Home cases, and no screenshot
+argument/capture. Build only the changed native-test APK after r38 is preserved;
+production stays on the exact reviewed compositor artifact. Background/process
+return and ordinary fullscreen remain separate actual production checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

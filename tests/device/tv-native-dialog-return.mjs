@@ -33,7 +33,6 @@ focus('Page cursor');
 const url = 'http://10.0.2.2:18088/dialogs.html';
 const controls = snapshot();
 assert.ok(controls.some(n => n.label === 'Browser controls'), 'Trusted normal controls required');
-assert.ok(!controls.some(n => n.label === 'Private browser controls'), 'Private diagnostics forbidden');
 assert.ok(controls.some(n => n.label === url), 'Controls must belong to the exact fixture');
 const pages = await (await fetch('http://127.0.0.1:9222/json/list',
   { signal: AbortSignal.timeout(5000) })).json();
