@@ -2423,6 +2423,23 @@ and ordinary enabled-action fallback. This is documentation only; review the
 latest correction separately before one cached bookmark build and the affected
 native paging/Open, confirmed-removal focus, external-update and Save-policy cases.
 
+
+### Native selector correction and About runtime result
+
+Native r23 against source8f/rootfe0 passes About in17.429s (JUnit16.182s):
+installed package version/attribution, Settings/Home focus restoration, same-tab
+license navigation and the actual Chromium-generated credits document.5.7 remains
+pending startup/disabled-service/hidden-route audit. History again seeds/queries
+160 owned native visits, but fails at95.560s before paging with UiAutomator
+`IllegalStateException: Focused selector is already defined`. BySelector.focused
+mutates its receiver; the loop reused and amended it. Construct the focused More
+and Previous selectors once, then use them without amendment. The newly added
+Save-policy test has the same mutable-selector hazard for enabled/disabled
+states; use two independently constructed selectors. Combine these test-only
+corrections with the reviewed bookmark source in one cached build. Run affected
+history and bookmark cases, carry forward About and other unchanged checks.
+Canonical accepted count remains25/54; fixture seeding is not paging acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
