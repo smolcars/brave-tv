@@ -369,14 +369,18 @@ the complete feature set or a public release.
 - [ ] **5.1** Rebuild bookmarks/favorites add/open/remove and history paging,
   open/remove/clear using existing bridges. Preserve selection after updates,
   pending-operation behavior, policy restrictions and private separation.
-- [ ] **5.2** Provide a bounded TV view of existing downloads, supported status,
+- [x] **5.2** Provide a bounded TV view of existing downloads, supported status,
   open/cancel/removal actions and errors. Distinguish removing a list entry from
   deleting a file; retain existing storage permissions and download ownership.
   Implemented on source573 with eight-row native-provider pages. Actual emulator
   image download/Open, conservative Cancel/Right/Left and history-only removal
   with exact file-byte survival pass. Paging native fixture passes; its complete
   five-case suite now passes on source8b47. Real Cancel/file deletion preserves
-  the other synthetic file. Active-transfer acceptance remains open.
+  the other synthetic file. Real slow text pause/resume/cancel and terminal
+  disabled actions pass in `probes/downloads-r1/actual-active-text-r1.json`.
+  Full native five-case logs and artifact/file evidence are linked in the
+  [engineering log](engineering-plan.md). Binary HTTP warning remains owned by
+  native Chromium, with Discard initially focused. Hardware remains unverified.
 - [ ] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
   native operations, explicit effects and cancellation. Do not clear other data
   merely to simplify migration or testing.

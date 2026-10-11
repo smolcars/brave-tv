@@ -1186,6 +1186,26 @@ checks. The first check raced the restarted listener and returned ECONNREFUSED;
 after its positive ready log the complete check passes. These are host-only
 fixtures, not native active-transfer acceptance; source APK/security is unchanged.
 
+Root c22 latest reviews pass Standards0/Spec0. Actual safe slow text transfer
+passes native D-pad/OK location acceptance, Downloading→Pause→Paused→Resume→
+Downloading→Cancel confirmation (Cancel first, Right/Left)→Cancelled. Its
+terminal detail disables Open/Pause/Resume/Cancel. Evidence is
+`probes/downloads-r1/actual-active-text-r1.json`; profile/security remain intact.
+Stage5.2 is now accepted with the complete native5/5 suite, actual Open and exact
+history-removal/file-deletion evidence. The canonical count is14/54; Stage1
+remains5/6. The binary HTTP native warning remains a separate negative flow;
+no screenshot of that security prompt was captured and no custom Keep/validation
+was invoked. The history-removed image is preserved as upgrade data.
+
+Next slice (Stage1.5): finish emulator design/accessibility acceptance across
+remaining panel states, including Downloads loading/empty/disabled, address
+error/recovery and destructive prompts. Reuse actual native controls, stress
+long text/RTL/font scaling and inspect edge safety, focus, semantics and spoken
+state with the installed TalkBack/host-only audio fixture. Restore original
+locales/font/accessibility/audio settings, preserve profiles and the upgrade
+baseline, and keep hardware overscan/physical acceptance explicitly deferred.
+Prototype stress checks and announcement metadata alone are insufficient.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
