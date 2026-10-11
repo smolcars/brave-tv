@@ -1351,6 +1351,35 @@ metadata for an already cached Compose module, not a new dependency download.
 The first metadata edit matched the earlier material dependency list; corrected
 to the presentation target before advancing the cache or starting another build.
 
+Combined cached r36 passes blocking analysis in Siso4m37.60s/114 steps,
+observed peak15,140,618,240 bytes. Signed source1edfe APKs are preserved in
+`compose-visible-1edfe7a0a-x64-debug-20261011`, installed in place and matched
+against their recorded SHA256 values. ProductionSHA
+`dc2e3fe7ce204e1d9b4f465c8f0832dcdfe29cf14d3c1ed1edbc1dd281a5ff5a`;
+testSHA `f3d0a8fd38c87ed3d308c43468cd4b937e7932730b4a5396e81d35f66fb93114`.
+The install helper's final close finds no active agent session; both installs
+and hashes already passed. No application data or compile cache was cleared.
+
+Native r26 at720p/font1.6 passes4/5: all three layout regressions and
+conservative cancellation/private replacement pass. Deletion-owner traversal
+passes its key steps but times out on visible empty text after confirmation.
+The same signed test passes this case at font1.0 (r27). Production r6 proves
+Refresh focus scrolls the empty message above the viewport; D-pad Up to Previous
+reveals its full native57px text. This is a visibility assumption, not evidence
+of failed deletion. Test correction: positively wait for Refresh, navigate Up
+to Previous, then retain the existing empty-message and exact owner assertions.
+Use a test-only cached build and rerun this changed case at font1.6; retain r26
+as4/5 and r27 as a separate configuration, rather than merging them into5/5.
+
+Production720p/font1.6/ar restored More is now fully visible at y541..672,
+with at least24px screen-edge space. RTL scoped clear-data confirmation passes initial
+Cancel, mirrored Left/Right, Cancel preservation and exact Home Settings focus
+restoration (`display-confirmation-r5.json`,8 checks). Intermediate r2/r3/r4
+helpers stop on incorrect traversal/translated-label assumptions; their partial
+records remain unaltered. They do not count as complete passes. Stage1.5 remains
+pending until the remaining display/editor/spoken checks and settings restoration
+finish; the count remains14/54. Physical acceptance stays deferred.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
