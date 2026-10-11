@@ -3292,6 +3292,13 @@ disabled navigation, reachable Disconnect and restoration of unchanged tab
 rows. Actual APK badge/pause/security acceptance remains pending build/runtime;
 count stays32/54. Native badge focus/click/disposal case is added, not yet run.
 
+Latest source1703 review: Standards1 (missing factory lifecycle/thread/disposal
+contract), Spec1 (native security ownership must precede controls guidance).
+Root18383 reviews Standards0/Spec0. Correct both before the combined build:
+share the existing critical native guard and require the controls dialog itself
+to own window focus before reporting controls. Runtime negative probes can
+require the expected finite reason as well as exact metadata redaction.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

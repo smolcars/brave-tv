@@ -7,6 +7,8 @@ import { resolve } from "node:path";
 const { chromium } = createRequire(resolve(process.argv[2], "package.json"))(
   "playwright-core",
 );
+const expectedReason = process.argv[3];
+assert.ok(expectedReason === undefined || ["controls", "tv"].includes(expectedReason));
 const browser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
   const phone = browser
@@ -44,6 +46,7 @@ try {
     assert.equal(result.paused, true);
     assert.deepEqual(result.keys, ["pauseReason", "paused", "revision"]);
     assert.ok(["controls", "tv"].includes(result.reason));
+    if (expectedReason) assert.equal(result.reason, expectedReason);
   }
   console.log(
     "PASS: authenticated actions rejected and metadata redacted while native/private input owns the session",
