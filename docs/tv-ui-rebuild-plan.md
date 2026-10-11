@@ -271,6 +271,11 @@ rebuilding UI fixes an unmeasured renderer/network problem.
   and compare with baseline. Remove unnecessary confirmation/menu levels while
   preserving destructive/security confirmation behavior.
 
+Current [design checks](tv-ui-design-checks.md) record spatial focus, fourteen
+Back/invoker regressions, bounded prototype counts and108 text/display stress
+combinations. Missing baseline comparisons and native/spoken accessibility remain
+pending; neither Stage1 acceptance checkbox is advanced by these checks.
+
 **Gate:** chosen visual direction and complete interaction contract, with no
 known inaccessible core action. A polished home alone does not satisfy this stage.
 

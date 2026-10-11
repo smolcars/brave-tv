@@ -1,5 +1,32 @@
 # TV device regressions
 
+The native session/Home tests belong to the existing `brave_java_unit_tests`
+GN target and its separate `com.brave.browser.tests` application. Reuse the
+cached build and resource limits in `docs/build.md`. Verify APK signature and
+manifest package before installing on an explicitly identified nonphysical TV
+emulator. Keep the production browser profile intact.
+
+The upstream host runner can restart shared ADB on discovery failures. For this
+session's physical-device restriction, use explicitly targeted native
+instrumentation instead, after closing only the matching agent-device session
+to release UiAutomation. The pinned test root certificate is a Java test-process
+fixture; push `src/net/data/ssl/certificates/root_ca_cert.pem` to
+`/sdcard/chromium_tests_root/net/data/ssl/certificates/root_ca_cert.pem` on that
+emulator. Record the test package's MANAGE_EXTERNAL_STORAGE appop, temporarily
+allow it for the fixture and restore it after testing. Never alter production
+permissions or the OS trust store. Example after that setup:
+
+```sh
+adb -s emulator-5554 shell am instrument -w -r \
+  -e class 'org.chromium.chrome.browser.tv.TvBrowserSessionTest,org.chromium.chrome.browser.BytecodeTest#testTvImeHooksExist' \
+  com.brave.browser.tests/org.chromium.base.test.BaseChromiumAndroidJUnitRunner
+```
+
+Require the exact test count and positive JUnit results; `am instrument` can
+exit successfully when tests fail. Do not pass a failure-screenshot argument:
+upstream screenshot capture clears private-window security flags. Native
+private tests must retain those flags and remain uncaptured.
+
 `tv-compose-clear-cancel.ad` starts at the clear-data chooser with Settings
 focused. It asserts each focus transition before the next key: Cancel → Right
 to Clear now → Left to Cancel → OK back to the chooser. A failed replay stops;

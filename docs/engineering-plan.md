@@ -644,6 +644,61 @@ The new sixth native test checks the same selected Home through closure and
 undo, with positive empty-state/rematerialized-card assertions. It is written,
 not yet compiled or run; cachedf10d55 remains untouched while the test APK builds.
 
+Stage1 follow-up: replace the prototype's linear arrow traversal with spatial
+directional focus, retain the invoking action on Back and initially focus the
+address action inside controls. Align Home's direct links with the selected
+native design. Measure common D-pad routes against the preserved source5829
+replays, then check long/RTL/scaled text and focus safety in T3 preview. These
+are design checks; native accessibility and spoken screen-reader operation
+remain separate pending acceptance. Keep the build checkout immutable.
+
+The normal privacy fixture is now explicitly reseeded on installed sourced6bda:
+real nonalphabetic uinput D-pad/OK activates its Seed button, and the native
+page reports cookie tv_privacy=seeded and localStorage seeded. Preserve this
+equivalent fixture across the next update. This does not recover or prove the
+earlier cookie continuity invalidated by the documented clearing incident.
+Agent-device's synthetic page arrows did not move the native pointer; genuine
+remote uinput did. Retain that distinction when measuring page input.
+
+Prototype latest review: Standards0, Spec1. Tabs/Library/Settings Back hard-codes
+Home, and Source/Licenses Back hard-codes Settings, losing the real invoker.
+Track each panel's actual parent and use one restoration path for D-pad Back
+and visible Back/Cancel actions. Check page-controls Tabs/Library/Settings return
+and Home Source/Licenses return before committing the correction.
+
+Correction review finds a self-transition cycle: the prototype's page-history
+Back action re-enters controls and records controls as its own parent. Exclude
+self-transitions and root page/Home from panel ancestry, and give Home Back its
+documented controls-opening behavior. Verify history-Back escape and Home Back
+after new/final-tab recovery, alongside the eleven parent-restoration checks.
+
+Source609bb6e33 passes all fourteen prototype route checks after both review
+corrections. Latest Standards0/Spec0. The design evidence records spatial counts
+and108 long/RTL/scaled-CSS combinations at720p/1080p; native font/accessibility
+and missing baseline comparisons remain pending. Stage1 stays4/6.
+
+Native test APKf10d55 passes blocking analysis: GNU elapsed19m09.26s,
+Siso19m06.43s,2589 steps, observed peak15,426,945,024 bytes(14.37GiB).
+Artifact `compose-session-test-f10d55ca0-x64-debug-20261010/BravePublicTest.apk`,
+876,095,912 bytes, SHA256
+`296d552d2fa56684e8347ee53ff3b2ffc63f5a15d446f58b48897fc6839dfd86`;
+signature/provenance retained. Its separate com.brave.browser.tests package
+runs both real TvBrowserSession tests and BytecodeTest's IME-hook test:
+three passes in4.442s. Logs `native-session-tests-r3.log` retain exact names.
+Initializationr1 fails for a missing pinned test-certificate fixture;r2 fails
+for fixture storage access. Supply that fixture and enable storage access only
+for the test package;r3 passes. No OS trust store or production permission
+changes; no failure-screenshot argument. The ordinary Chromium wrapper can
+restart shared ADB on device-discovery failure, so explicitly targeted native
+instrumentation is used instead. Production profile and Chromecast untouched.
+
+Next Home acceptance slice: advance only the reviewed pinned checkout after the
+test build has stopped, then incrementally compile/package production and the
+existing Home instrumentation target with retained objects and blocking checks.
+Run the six native Home tests, address-entry/Back and populated/empty/private
+Home plus real Android text/display checks. Preserve the reseeded normal data
+across the in-place update; compilation alone does not complete4.1.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
