@@ -1320,6 +1320,27 @@ Keep complete spoken labels, native dialog/security/data ownership and cached
 builds. Consolidate native and display evidence; restore original settings after
 the pass. Stage1.5 remains pending until these actual failures are resolved.
 
+Native r25 completes all three isolated cases on source3c7: Home fails the
+horizontal Tabs expectation, controls update/Back passes, and the real
+TvBrowserPanel long-title case cannot expose initially focused Cancel. The
+synthetic Home/controls dialog still uses the default native inset background;
+production uses transparent backgrounds. Its unaccounted insets invalidate
+the intended Home two-column width and can cushion the controls edge test.
+Correct the test window to match the production transparent background; keep
+the production restored-More red screenshot and stopped display path as the
+actual failure evidence. The long-title case uses the real production factory
+and proves a second accessibility failure, not a test-only approximation.
+
+Implement both confirmed issues in one presentation correction: explicitly
+bring focused actions into their scroll viewport with vertical focus-border
+space after layout, using the pinned existing BringIntoViewRequester (API
+inspection retained). Bound fixed panel headings to two lines with visual
+ellipsis and full native pane/text semantics, leaving descriptions scrollable.
+Build production+corrected native tests together and rerun the three layout
+journeys plus relevant panel/confirmation focus and grouped display checks.
+No native storage/security owner changes, no profile/cache reset, no physical
+acceptance. Preserve r25's1/3 and every earlier failure without relabeling them.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
