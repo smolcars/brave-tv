@@ -457,9 +457,11 @@ reporting preferences. Verify direct native home, disabled reporting preferences
 focus/keyboard/Back, and a subsequent ordinary restart. Do not reset user data.
 The historical onboarding replays were removed because those screens no longer
 exist in the TV flow. With a normal native home tab active, run
-`replay tests/device/tv-home.ad` to check initial address focus, the controls and
-attribution actions, and entry into the browser panel. Verify actual GitHub and
-license navigation, keyboard behavior and private mode separately.
+`replay tests/device/tv-home.ad` to check initial address focus, all four
+Compose shortcuts, Settings return focus and entry into the compact controls.
+Verify actual GitHub and license navigation, keyboard behavior and private mode
+separately. The replay requires a selected normal Home; it does not navigate away
+from a restored webpage to manufacture that precondition.
 
 For restored-home coverage, first load a real webpage in a normal tab, select
 Home from Browser controls, then run the same replay. Retaining that tab's page
@@ -608,8 +610,8 @@ with its signed test APK; preserve the production profile and runtime logs.
 
 ## Native privacy clearing
 
-Use a newly created Android test user/profile on the emulator, with only local
-fixtures and a disposable bookmark; do not run clearing against the preserved
+Use a separately identified fresh AVD or newly created Android test user/profile
+on the emulator, with only local fixtures and a disposable bookmark; do not run clearing against the preserved
 main profile. Seed a uniquely named history visit, cookie/localStorage value and
 cached fixture. In Settings → Clear browsing data, check all-time wording, the
 cookie sign-out warning and Cancel-first focus for each type. Cancel and verify
@@ -621,7 +623,8 @@ close/pause during another clear and require no late dialog to reopen. Private
 Settings must not expose clearing. Preserve this isolated profile afterward for
 follow-up rather than wiping or deleting it without authorization.
 
-`tv-home-bookmarks.ad` checks the third home card with D-pad, opens the existing
+`tv-home-bookmarks.ad` traverses Address → Controls → Tabs → Bookmarks using
+acknowledged D-pad focus, opens the existing
 native bookmark list without changing saved data, and backs out to controls.
 Its Bookmarks focus assertion fails on the older two-card home (`ef6cabbb4`).
 

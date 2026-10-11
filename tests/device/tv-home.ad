@@ -1,20 +1,24 @@
-# Requires a normal native home tab; never clears browser/profile data.
+# Requires the current Compose normal Home; never clears browser/profile data.
 open com.brave.browser_default --relaunch
-wait "text=\"Address or search\" focused=true" 5000
-wait "text=\"Simple, private, and ad-blocking.\"" 3000
-tv-remote right
-wait "text=\"Browser controls\" focused=true" 3000
-tv-remote down
-wait "text=\"Open-source licenses\" focused=true" 3000
-tv-remote left
-wait "text=\"Project and source on GitHub\" focused=true" 3000
-tv-remote up
+wait "text=\"The web. On your terms.\"" 5000
 wait "text=\"Address or search\" focused=true" 3000
 tv-remote down
-wait "text=\"Project and source on GitHub\" focused=true" 3000
+wait "text=\"Browser controls\" focused=true" 3000
 tv-remote right
-wait "text=\"Open-source licenses\" focused=true" 3000
-tv-remote up
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote right
+wait "text=\"Bookmarks\" focused=true" 3000
+tv-remote right
+wait "text=\"Settings\" focused=true" 3000
+tv-remote select
+wait "text=\"Search engine\" focused=true" 3000
+tv-remote back
+wait "text=\"Settings\" focused=true" 3000
+tv-remote left
+wait "text=\"Bookmarks\" focused=true" 3000
+tv-remote left
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote left
 wait "text=\"Browser controls\" focused=true" 3000
 tv-remote select
 wait "text=\"Address or search\" focused=true" 3000

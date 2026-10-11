@@ -2532,9 +2532,9 @@ bookmark behavior changed in this correction.
 
 After r57's affected native cases, reuse the same signed APK for the remaining
 startup/About audit and native clear-data scope. Use an explicitly discovered
-nonphysical onboarding AVD with no prior application profile; stop only the
+nonphysical fresh AVD with no prior application profile; stop only the
 owned clean-TV emulator first so resource use stays bounded. Retain its existing
-normal upgrade fixtures unchanged. The onboarding AVD is a separate persistent
+normal upgrade fixtures unchanged. The fresh AVD is a separate persistent
 synthetic profile, not a wipe of the main test profile. Acceptance: genuine first
 launch reaches Compose Home/Address without mobile onboarding/promotions;
 Settings/About/source/licenses and restart retain usable native focus. Inspect
@@ -2628,6 +2628,40 @@ Run the nine-visit real-entry History prerequisite first, and run160 continuatio
 only if it passes. Batch both document/viewport lease cases with the affected
 bookmark/tab cases, carrying forward private-window and unchanged positives.
 Acceptance count remains25/54 pending runtime results.
+
+
+Pre-boot filesystem inspection finds the onboarding AVD already has retained
+userdata from an earlier task run; it does not qualify as a fresh profile.
+Use brave_tv_launch_followup_api36 instead: its stopped directory still contains
+only config.ini. Discover/open it explicitly after affected native tests finish
+and the owned clean-TV emulator stops. No AVD or application data is cleared.
+
+
+Pinned-source optional-service audit (runtime startup still pending): Android's
+P3A target selects p3a_service_android_disabled.cc, whose constructor forces
+brave.p3a.enabled=false and creates no analytics observer/uploader/storage.
+BraveBrowserProcessImpl forces brave.stats.reporting_enabled=false on Android;
+the generated brave/browser/brave_stats/buildflags.h confirms
+ENABLE_BRAVE_STATS_UPDATER=0, and generated Web Discovery buildflags are0.
+AdsServiceFactory returns null on Android; Rewards support is disabled by the
+Android feature gate; Leo/VPN availability is false; Android NTP background
+images service is null. WelcomeOnboardingActivity sets metrics/P3A consent false,
+completes existing first-run/EULA state and hands off through the existing intent.
+Compose presentation neither constructs those services nor adds another network
+client. These source/build facts supplement prior bounded native histogram and
+startup traffic evidence; they do not prove a universal absence of network
+traffic. Confirm current fresh-profile booleans/histograms, direct startup and
+visible routes before accepting5.7. Updated Home replays are runtime pending.
+
+
+R58 blocking analysis rejects source40fa after3m38.24s (Siso3m34.70s), with
+live cgroup peak15249448960bytes. Production/test packaging completed, but
+chrome_java__errorprone reports OperatorPrecedence on the c6f6 control guard's
+ungrouped OR condition before its ternary. This is a failed build; no new APK
+is installed or accepted. Add the explicitly required parentheses without
+changing the condition, retain logs/outputs and repeat the combined cached
+build with all blocking checks enabled. Latest40fa/10ae review has0 findings
+in both axes. Runtime batch remains pending; count stays25/54.
 
 ## Previous feature: phone remote (10 October)
 
