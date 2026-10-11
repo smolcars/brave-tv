@@ -234,6 +234,12 @@ adb -s emulator-5554 forward tcp:9222 localabstract:chrome_devtools_remote
 adb -s emulator-5556 forward tcp:9223 localabstract:chrome_devtools_remote
 ```
 
+The QR probe takes explicit TV/phone serials and AVD names plus the pinned TV
+agent driver. It requires the native QR panel, refuses secure-window capture,
+and writes a new private screenshot file. It verifies the bundled page and
+pending approval state; approve separately through the visible native
+`Approve phone` action. Never use blind OK injection to approve pairing.
+
 Serve `tests/pages` on host loopback 18088 and use the companion address UI to
 open `http://10.0.2.2:18088/phone-remote.html` on the TV. With its plain text field
 visible and the companion keyboard panel closed, run:

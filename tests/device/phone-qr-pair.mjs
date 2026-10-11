@@ -1,17 +1,56 @@
 // Decode the visible TV QR and pair in the actual phone browser. Never log the invitation.
 // Usage: node phone-qr-pair.mjs PLAYWRIGHT_CORE ZXING_JAR SCREENSHOT_PATH
+//        TV_SERIAL TV_AVD PHONE_SERIAL PHONE_AVD TV_AGENT_DRIVER
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
-const [modulePath, jar, screenshot] = process.argv.slice(2);
+const [modulePath, jar, screenshot, tvSerial, tvAvd, phoneSerial, phoneAvd, driver] =
+  process.argv.slice(2);
+assert.ok(
+  driver && tvAvd && phoneAvd,
+  "Provide both verified AVD identities and the pinned TV agent driver",
+);
+assert.match(tvSerial, /^emulator-\d+$/);
+assert.match(phoneSerial, /^emulator-\d+$/);
+assert.notEqual(tvSerial, phoneSerial);
+function verifyAvd(serial, expected) {
+  assert.equal(
+    execFileSync("adb", ["-s", serial, "emu", "avd", "name"], {
+      encoding: "utf8",
+      timeout: 15000,
+    }).replace(/\r/g, "").trim(),
+    expected + "\nOK",
+    "Emulator identity changed",
+  );
+}
+verifyAvd(tvSerial, tvAvd);
+verifyAvd(phoneSerial, phoneAvd);
 const { chromium } = createRequire(resolve(modulePath, "package.json"))(
   "playwright-core",
 );
 const adb = (...args) =>
-  execFileSync("adb", ["-s", "emulator-5554", ...args], { timeout: 15000 });
-writeFileSync(screenshot, adb("exec-out", "screencap", "-p"));
+  execFileSync("adb", ["-s", tvSerial, ...args], { timeout: 15000 });
+const snapshot = execFileSync("python3", [driver, "snapshot"], {
+  encoding: "utf8",
+  timeout: 15000,
+});
+assert.ok(snapshot.includes("App: com.brave.browser_default"));
+assert.ok(
+  snapshot.includes('"Use your phone"') &&
+    snapshot.includes("Pairing QR code; manual address and code above"),
+  "Open the native pairing QR panel before capture",
+);
+assert.ok(
+  !/\bSECURE\b/.test(adb("shell", "dumpsys", "window", "windows").toString()),
+  "Refuse capture while a secure window exists",
+);
+verifyAvd(tvSerial, tvAvd);
+writeFileSync(screenshot, adb("exec-out", "screencap", "-p"), {
+  mode: 0o600,
+  flag: "wx",
+});
 const invitation = execFileSync(
   "java",
   ["--class-path", jar, "tests/device/PhoneQr.java", screenshot],
@@ -55,15 +94,13 @@ try {
     "QR approval must not ask for the code again",
   );
   assert.equal(await page.locator("#approval").isVisible(), true);
-  adb("shell", "input", "keyevent", "23");
-  await page.waitForFunction(() => connected && !state.paused);
   assert.ok(!externalRequest, "Companion attempted an external request");
   assert.ok(
     ["/", "/remote.js", "/remote.css"].every((path) => assets.has(path)),
     "Bundled assets were not loaded",
   );
   console.log(
-    "PASS: TV-only assets, screenshot QR decode, fragment removal and explicit TV approval at " +
+    "PASS: TV-only assets, screenshot QR decode and fragment removal; explicit native approval remains pending at " +
       url.origin,
   );
 } finally {

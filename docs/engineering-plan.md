@@ -3197,6 +3197,36 @@ Canonical4.3 accepted; count32/54, Stage4:5/8. Keep3.3 pending for the unresolve
 entry observation, despite its native held/idle/keyboard/coordinate positives.
 Certificate/permission/auth and unaffected phone/filter/privacy checks carry.
 
+Next consolidated phone slice: use one verified phone AVD with the current TV
+APK on the simulated private network. Record fresh TV network/debug-switch
+settings before temporarily enabling the existing development experiment;
+preserve both profiles and use exact emulator identities. Harden QR test
+capture/approval preconditions so it cannot capture a private page or approve
+an unrelated native security dialog. Reproduce the stock-IME equal-text
+composition failure with bounded event/lease diagnostics, then fix only a
+proven cause. Pairing, fullscreen/background recovery and native-security
+rejections share this session; unchanged library/settings/filter tests carry
+forward. Acceptance requires actual Chromium input and suppressed sensitive
+metadata, no unlock side effects, no automatic native approval, and honest
+separation of host fixtures, simulated LAN and unverified real phones/hardware.
+Latest documentation correction41a08f4 reviews Standards0/Spec0; no rebuild.
+
+Phone setup observation: a3GiB emulator soft limit caused shell timeouts and
+38% memory-pressure stalls without OOM. Raising only the owned phone service to
+MemoryHigh5GiB/Max6GiB made the same boot/IME checks respond immediately; build
+limits remain18/22GiB. The fresh TV settings are preserved in the private
+fresh-phone-network-before-r1.json; profiles are retained. TV10.0.2.16 and
+phone10.0.2.18 use shared virtual Wi-Fi, with no remote-traffic ADB forwarding.
+QR r7 passes actual screenshot decoding, TV-only assets, fragment removal and
+hidden manual-code form during pending approval. Visible native Approve phone
+is focused and confirmed by D-pad/OK, returning to the normal fixture. The QR
+probe requires exact AVDs, native QR visibility and no secure window, creates a
+private new screenshot and never injects blind approval. Negative wrong-AVD
+and missing-QR gates are checked before capture. Initial platform record read
+timed out before changes; a shell-quoting error in command-line setup was
+corrected with an explicit emulator push. No shared service restart or wipe.
+Count remains32/54; complete composition/security/recovery acceptance pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
