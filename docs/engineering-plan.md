@@ -2345,6 +2345,28 @@ TvBrowserControls and use them from Home, About and the native license check.
 The correction retains the exact destinations and ownership guards. Review the
 latest correction separately; current installed history APK remains sourcedb6.
 
+### Actual history first-page traversal correction
+
+Combined r54 sourcedb6/root641 passes blocking analysis in4m27.19s
+(Siso4m23.44s,145 executed steps), sampled cgroup peak14901682176bytes.
+Both signed x64 APKs are preserved at
+`~/.cache/brave-tv/artifacts/compose-history-db6b16fa4-x64-debug-20261011`:
+production852727627bytes/SHA256dcfe26f62ca7e7aa8e02820f1ad441d4bb4dffa60a8c38f2b8b26714400f7cbe;
+test876288473bytes/SHA256903cccc2295a5186b3c141b265f7e55b7d600f20fc6a4c04685893fb4bf35e90.
+In-place installed hashes match and preserve profiles. Native r22 seeds and
+queries160 owned visits, then fails the first Previous-focus traversal at97.249s.
+The borrowed bookmark assumption that disabled Previous is always focusable
+has not held on this history footer. Teardown removes only its owned URL prefix.
+No history paging acceptance follows from the successful fixture seeding.
+
+Correct the stimulus to observe both native footer positions: if More owns
+focus, use it; if Previous owns focus, press Right and positively require More.
+This handles first-page disabled behavior and later adjacent enabled buttons
+without relying on an inferred Compose focus rule. Use only focused selectors,
+not a broad UiObject content-description scan. Combine this test correction with
+the already reviewed About slice in one production/test build, then run only
+history and About. Unchanged checks carry forward; accepted count remains25/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
