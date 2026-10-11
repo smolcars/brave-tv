@@ -2446,6 +2446,53 @@ The pre-build fixture check also catches the new Save-policy case's nonexistent
 native argument/assertion and README; no duplicate fixture or server alias. This
 is a test-route correction, and the pending runtime assertions remain intact.
 
+
+### Stable native tab-list focus and discarded-tab restoration
+
+While the pinned library build runs, complete the tab-list gap independently.
+Keep the existing flat eight-row presentation, native tab/profile/group models,
+New and normal/private actions, and the existing trusted Close menu/group
+confirmation path. Observe native membership/order/selection and the eight
+visible tab titles while the list owns its native dialog. Coalesce on the UI
+thread; restore exact Tab ID after updates or the nearest remaining row when
+removed, and preserve non-row focus. Dispose observers and posted work on every
+native dismissal using the existing owner cleanup. Native selection retains
+Chromium's discarded-tab restoration; do not allocate WebContents for rendering
+rows or silently ungroup tabs. Acceptance: one isolated native case creates
+sixteen genuinely frozen tabs from native serialized fixture navigation, pages
+into the second window, removes preceding/focused owned tabs, opens the surviving
+frozen tab and verifies its actual renderer/document. Close through the existing
+native TV control and verify the model's remaining selection. Teardown removes
+only owned fixture tab IDs. Carry forward existing last-normal/private-tab and
+group Cancel/confirm evidence, unless connected behavior changes.
+
+
+Tab-list ownership inspection finds an additional privacy gap: opening the private
+list from a selected normal tab inherits the normal tab's dialog screenshot
+policy. Mark that list explicitly as private content so its native window is
+secure even without selecting the private model. Add an isolated normal→private
+list window-policy check with only an owned private fixture tab, no private
+screenshots and no sensitive payload logs. This strengthens native screenshot
+ownership while retaining the existing private-lock checks.
+
+
+Combined r56 source5bbc/root622 passes blocking analysis in4m23.99s
+(Siso4m19.84s,141 executed steps), observed cgroup peak16190103552bytes.
+Signed preserved x64 artifacts:
+`~/.cache/brave-tv/artifacts/compose-library-history-5bbc5ace0-x64-debug-20261011`,
+production852721726bytes/SHA256f1eab550432db04a9324f893b3e6ccc88f36454b4f11469f3d15dd7d43063f35;
+test876319511bytes/SHA2560be441b4954c7f952f1ac3bf998cf6542e3b16b5c820d60e8f0ac038c9ffcd78.
+Verified in-place installed hashes match and profiles are preserved.
+Native r24 passes bookmark paging/Open12.749s, Cancel/confirmed removal with
+immediate survivor focus14.706s, and disabled/enabled focused Save10.928s.
+History99.000s still fails More focus after the twelve Down steps, before any
+paging. The bookmark native-update case17.266s passes detail Back/selected-row
+focus but fails its first-row-visible assertion after removal of a preceding
+bookmark; selected last-row scrolling may make that visibility expectation
+invalid. Inspect real focus/viewport state with bounded native stimuli before
+changing either UI behavior or acceptance. No history/5.1 acceptance is inferred.
+The subsequent tab-list changes are not in r56 and remain build/runtime pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

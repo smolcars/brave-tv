@@ -564,6 +564,20 @@ that activating disabled Save creates no bookmark. First-entry focus keeps the
 ordinary enabled-action fallback. The selection case also replaces the native
 document before Back and checks usable controls after native dialog dismissal.
 
+
+The isolated `TvTabsPanelTest` cases use only owned synthetic tab IDs.
+`largeListPreservesSelectionAndRestoresFrozenNativeDocument` serializes sixteen
+real native fixture navigations into frozen tabs, asserts absent WebContents,
+crosses the eight-row page, removes preceding/focused owned tabs, requires exact
+surviving focus, opens the frozen tab and checks its actual renderer/document.
+It closes through the existing TV control with native Undo preserved; teardown
+commits only owned pending closures. Existing group and final-tab regressions
+carry forward when their connected close behavior is unchanged.
+`privateListFromNormalSelectionKeepsSecureWindow` opens the private list while
+the normal model remains selected, checks the private dialog FLAG_SECURE and
+usable normal return, then removes only its owned private tab. Do not capture
+private screenshots or log private payloads. Both cases preserve other models.
+
 ## Native history
 
 Serve `history.html` with the other fixtures and visit it in a normal tab. This
