@@ -535,6 +535,45 @@ one native editable node, matching hint, SET_TEXT action and success code.
 The duplicate synthetic label child is absent. This is native metadata evidence,
 not spoken screen-reader acceptance; Stage1.5 remains pending.
 
+r25 sourced6bda passes blocking analysis in4m03.06s (Siso3m59.57s), observed peak
+13,975,277,568 bytes (13.02GiB). Preserved APK
+`compose-address-lease-d6bda020d-x64-debug-20261010/BraveMonox64.apk`,852,651,096
+bytes, SHA256 `da4abe7259fc9951af80b719dd780b55d1e50fc67d77ea0b95fbb3809b538f85`.
+Its submission/runtime checks follow in place; no profile wipe. Roota8b4 latest
+review has Standards0 and Spec0; the physical-input host regression also passes.
+
+Native test compilation slice: build the existing BravePublicTest Java compile
+target through the same pinned wrapper, output and resource limits, after the
+production APK build finishes. This checks the new session tests and BytecodeTest
+against actual native APIs without creating a separate dependency checkout.
+Compilation is not test execution; native instrumentation acceptance stays
+pending until the test APK runs on an explicitly verified emulator.
+
+Installedd6bda signature/update checks pass. Home-entry4 and native IME4 replays
+pass; genuine Unicode/selection/deletion/composition/bound14 steps pass in9.0s.
+The original stale-lease three-step replay now passes (0.3s). Opening native
+controls positively shows the selected tab URL
+`https://duckduckgo.com/?q=%E6%97%A5%E6%9C%AC&t=brave&ia=web`, confirming the
+configured DuckDuckGo classified and navigated the synthetic Japanese query.
+Add this positive selected-tab URL assertion to its own fixed-provider replay;
+keep the independent stale-lease replay narrowly scoped. Local URL navigation,
+owner/document rejection and private editor checks remain pending.
+
+Native Java test attempt1 fails blocking Error Prone in55.08s: six older
+BytecodeTest IME reflection calls ignore getDeclaredMethod's return value.
+New session-test headers compile, but neither test execution nor full Java check
+passes. Wrap those results in Assert.assertNotNull, retaining the exact native
+signatures and checks; no analysis suppression. Observed peak9,639,383,040 bytes
+(8.98GiB), logs `build-session-test-java-r1.*`, retained cache. Rebuild only the
+same test compile/analysis targets after the reviewed source correction.
+
+Native local URL acceptance passes on installedd6bda: the fixed InputConnection
+stimulus replaces the prior search URL, IME Back hides only the keyboard, Down
+focuses Go, and the four-step submission replay observes editor disappearance
+and the real `TV remote input checks` heading (0.5s). No deep link establishes
+this result. Source034566 changes only test assertions; retain the d6bda production
+artifact while compiling the corrected test target.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
