@@ -1933,6 +1933,34 @@ an animation delay; also verify the native animation policy and normal/settings
 focus returns. Consolidate these affected checks only; retain media/dialog and
 download acceptance. No production APK packaging until this focused test gate.
 
+Source de2cf07/root a3b8a55 latest reviews are Standards0/Spec0. Only the new
+layout patch was incrementally applied; its target checksum is
+10166466f2b63743dbbe00b20f97f78c87c7a15797b7b478cab8a8c2a59339ca.
+Test-only r23 passes blocking analysis in4m23.45s (Siso4m19.42s), journal12.9G
+peak; largest observed peak13925007360bytes. Signed876242349byte test,
+SHA25649d9cccba45ef9b968db71d79be8732a461bafff35efade471f0f2b2796e7178,
+is installed in place. Native r11 PASSES5/5 separate-process cases: animation
+policy through accessibility changes13.313s, rapid private closure8.330s,
+normal final closure8.837s, nested clear-data Back12.370s, Home Settings Back
+9.677s. The unchanged-timing private regression establishes the delayed mobile
+animation as the cause. Production remains source789 until r46 packaging and
+in-place installation; retain the unchanged media/dialog/download evidence.
+
+Actual phone acceptance has started on source789: phone Brave155.0.8059.40,
+TV10.0.2.17 and phone10.0.2.18 over shared virtual Wi-Fi. Save the TV's original
+Ethernet-enabled state and temporarily disable that emulator's Ethernet using
+Android16 IEthernetManager transaction13; Wi-Fi then connects. Original platform
+Wi-Fi0 will be restored at closeout. QR screenshot decoding, all three bundled
+assets, fragment removal and waiting-for-approval UI pass; explicit focused
+TV Approve is activated separately. Four authenticated commands are rejected
+with only paused/revision metadata under native controls. Dismissing controls
+restores all five normal-tab rows. Exact-number protocol checks and direct
+phone-to-TV Host/Origin/method/parser/idle-socket checks also pass. Diagnostic
+CDP forwards are separate from this actual private-address transport. These are
+partial emulator phone results, not private/password/native-permission acceptance
+or physical LAN/phone/Safari proof. The private invitation capture remains local
+with restrictive permissions; no invitation/controller credentials are logged.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
