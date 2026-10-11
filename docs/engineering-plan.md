@@ -1961,6 +1961,48 @@ partial emulator phone results, not private/password/native-permission acceptanc
 or physical LAN/phone/Safari proof. The private invitation capture remains local
 with restrictive permissions; no invitation/controller credentials are logged.
 
+### Consolidated grouped-tab and library acceptance
+
+Production r46 on source de2cf07 passes blocking analysis in17.15s (Siso13.47s,
+9 cached packaging steps; journal10.5G peak). The signed852735475byte APK,
+SHA256dbd145fa8316ce457a3d3b6962db59f831015a3805234be078f0f0c935104a08,
+is preserved in `compose-native-animation-de2cf07bc-x64-debug-20261011` and
+installed in place. Actual D-pad private creation/closure returns to normal
+Home with Address focus and removes FLAG_SECURE; private Home previously has
+FLAG_SECURE. Four authenticated phone commands reject with redacted metadata
+while private, without opening an unlock or approval surface. The phone resumes
+with all six expected normal rows. Actual phone touch/click/drag/two-finger scroll,
+Back/Forward/Reload, stale and duplicate command rejection, and temporary normal
+tab create/select/close pass without closing the five preserved baseline tabs.
+
+Native phone r46 initially fails Unicode propagation, leaving both fields at
+their original text. A stable native edit subsequently passes. A fresh-document
+r47 replay with request metadata observation passes the full native Unicode,
+actual Android InputConnection composition/commit, selection/deletion,
+textarea/contenteditable, stale-field rejection and password exclusion sequence.
+No product input guard was relaxed. Retain the initial failure; replay the
+unchanged canonical probe on a fresh owned fixture without the observer before
+claiming the initial stimulus problem resolved. That unchanged r48 replay again
+fails the first Unicode edit after viewport resampling, so this input race
+remains open despite the complete r47 pass. Capture request/editable-version
+transitions without an extra pre-typing state read to isolate the race.
+Existing RemoteIme was already
+installed/enabled: restore the saved default/enabled IME settings at closeout
+and preserve that preexisting fixture.
+
+Next slice: add native tests for Cancel and Delete of the final grouped normal
+tab using TabModel.createSingleTabGroup and the existing native close action.
+Require initial Cancel focus, Right/Delete and Left/Cancel traversal, exact
+original tab/group preservation on Cancel, and usable Address-focused Home
+after confirmed deletion. Run in the isolated instrumentation profile, never
+close all preserved production tabs. Consolidate related native library/settings
+checks in the same cached test build where practical: native bookmark paging,
+opening, conservative removal Cancel/confirm, and preservation of other saved
+pages are included. Retain unchanged media,
+dialog, downloads, storage and dependency evidence. Test-only changes require
+only the test APK, latest-commit reviews and blocking analysis. Physical gates
+remain pending and the canonical accepted count remains20/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
