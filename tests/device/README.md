@@ -10,7 +10,9 @@ credentials. Forward9222 only from that emulator to chrome_devtools_remote;
 the probe checks both the AVD and forward, and uses CDP only for read-only
 synthetic result/document-identity observations. Page actions use a nonalphabetic
 uinput remote; native dialog actions use D-pad/OK/Back, with exact fixture
-messages checked before acceptance. The sequence covers conservative initial
+messages checked before acceptance. Trusted normal controls and a unique
+fixture target are required before diagnostics/input; failed ownership validation
+prevents capture. The sequence covers conservative initial
 Cancel, Right/Left, both confirm outcomes, genuine native prompt cancellation,
 next-click recovery and cursor pixels after dismissal. It captures only the
 normal fixture after the dialogs are gone. A completed input command, syntax

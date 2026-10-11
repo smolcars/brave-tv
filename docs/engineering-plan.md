@@ -1445,6 +1445,12 @@ Find, back-handler, IME and private checks intact. The actual alert/next-confirm
 failure is the regression; build once with native tests and rerun the combined
 dialog/media/lifecycle routes. Do not count the stopped sequence as acceptance.
 
+Latest compositor review: source Standards0/Spec0. Root Spec requests an explicit
+normal-profile precondition before any diagnostic read or cursor screenshot;
+the same fixture URL can exist privately. Require the trusted normal controls
+heading and a unique matching fixture target, and bound initial CDP discovery.
+Failure stops before input/capture. Keep r38 on its immutable committed source.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

@@ -31,10 +31,15 @@ const modal = (message, label) => {
 };
 focus('Page cursor');
 const url = 'http://10.0.2.2:18088/dialogs.html';
-assert.ok(snapshot().some(n => n.label === url), 'Controls must belong to the exact fixture');
-const pages = await (await fetch('http://127.0.0.1:9222/json/list')).json();
-const page = pages.find(p => p.type === 'page' && p.url === url);
-assert.ok(page, 'Exact normal synthetic fixture required');
+const controls = snapshot();
+assert.ok(controls.some(n => n.label === 'Browser controls'), 'Trusted normal controls required');
+assert.ok(!controls.some(n => n.label === 'Private browser controls'), 'Private diagnostics forbidden');
+assert.ok(controls.some(n => n.label === url), 'Controls must belong to the exact fixture');
+const pages = await (await fetch('http://127.0.0.1:9222/json/list',
+  { signal: AbortSignal.timeout(5000) })).json();
+const matches = pages.filter(p => p.type === 'page' && p.url === url);
+assert.equal(matches.length, 1, 'Unique normal synthetic fixture target required');
+const page = matches[0];
 const socket = new WebSocket(page.webSocketDebuggerUrl);
 await new Promise((yes, no) => {
   const timeout = setTimeout(() => { socket.close(); no(new Error('CDP open timed out')); }, 10000);
