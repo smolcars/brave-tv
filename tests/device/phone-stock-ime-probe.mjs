@@ -42,6 +42,7 @@ try {
   const tv = targets[0];
   tv.setDefaultTimeout(5000);
   assert.equal(await tv.evaluate(() => document.activeElement.id), "plain");
+  await tv.waitForFunction(() => visualViewport.height < innerHeight - 1);
   await phone.waitForFunction(() => connected && !state.paused && state.editable?.ready && !busy);
   const field = await phone.evaluate(() => state.editable.revision);
   if (await phone.locator("#editor").isHidden()) await phone.locator("#showKeyboard").click();

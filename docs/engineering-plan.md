@@ -3326,6 +3326,26 @@ probe to require both AVD/forward identities and one exact fixture URL matching
 the authenticated unpaused normal state. Assertion messages contain no values.
 The production APK remains335d; a TEST-only rebuild will validate badge focus.
 
+Rootb218 correction reviews Standards0/Spec0. TEST-only r31 passes blocking
+analysis in19.52s/14 executed steps; sampled cgroup peak10301894656bytes. Preserve
+only its verified TEST APK at
+`~/.cache/brave-tv/artifacts/compose-phone-badge-tests-585c3c20e-x64-debug-20261011`;
+SHA2566aefabc7a103bb5b02859e280284e0c0595e4be985033a3a20edeca6ff24425d.
+Production remains the installed r64/335d APK. Isolated native badge r43 passes
+6.663s, proving page focus retention, one activation and removal after disposal.
+Phone restart r2 lacked SDK environment; r3 used the TV-only image root. R4
+uses the retained phone image at `/home/nitesh/Android/Sdk`, preserves the profile
+and boots normally. No shared service restart, image change or cache deletion.
+
+Production QR r12 passes direct simulated-LAN pairing, TV-only assets, fragment
+removal, pending/hidden manual form and separate focused D-pad approval. Native
+snapshot shows the connection badge while the fixture WebView retains focus.
+Stock-TV-IME r69 passes20 Unicode replacements and equal-text native input/
+composition acknowledgement with stable field identity. Observe the genuine
+stock keyboard viewport resize before editing, matching the prior r66 positive
+precondition. Default full strict probe stays unchanged; no text-bridge workaround.
+Count32/54: actual private/security pauses, fullscreen and recovery remain open.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
