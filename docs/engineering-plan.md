@@ -1732,6 +1732,22 @@ existing production D-pad/group/phone tests, not replace them. Compile the
 focused test target only after r43 is finished and the new source pin advances.
 No recovery acceptance is claimed before actual isolated native runs.
 
+Roota167 patch-workflow reviews0/0. Source17e1/root4de8 Spec0; Standards1:
+the private recovery case must pin INCOGNITO_SCREENSHOT disabled and require
+FLAG_SECURE before closing. Source627dd pins that feature and waits for the
+actual protected private window before native Close; runtime remains pending.
+Rootd66e9 pins the correction; both latest reviewers report0 source/root findings.
+No production UI/checkout mutation during r43.
+
+Applied-factory r43 passes all blocking checks, Siso3m32.61s with26steps;
+observed MemoryPeak17856835584bytes(16.63GiB). Preserve source7b006 production/
+test artifacts with the actual factory/patch metadata hashes, install in place,
+and rerun the four isolated native cases before production viewport replay.
+Only after artifact preservation advance to the reviewed test-only source627dd
+and compile the focused test target for the new final-tab cases. No4.8/recovery
+acceptance from build success alone; source7b's earlier unapplied artifact stays
+separate. Continue the remaining independent emulator scope after these checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
