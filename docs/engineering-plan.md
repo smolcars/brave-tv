@@ -3098,6 +3098,31 @@ Revalidate both exact red cases and the original permission/auth/certificate
 fixtures using one cached full build with blocking analysis. No bypass, trust
 change, private unlock or loosened document/viewport validation.
 
+Latest a245/208 reviews: Standards0/Spec0 each. Cached full buildr62 succeeds
+with blocking Android analysis, GNU3m37.69s/Siso3m34.06s/26 steps, sampled cgroup
+peak16417918976bytes (110 samples), no OOM. Preserved
+compose-native-security-a2451649b-x64-debug-20261011: PROD852748554bytes,
+SHA2560b8e2527d233366c6099f7e457499b3188b9d1d43cf39d06f09c7a01b99a8c4f;
+TEST876352079bytes,
+SHA25691bd6a9ea21f3907cb197e5b179a929ed027974ed9f4be7c3d8fb9fd7a2e60c2.
+Verified profile-preserving installs12.342/11.722s. Native certificate Back
+regressionr35 PASS6.928s. DedicatedDpad case FAIL9.517s, now earlier at activity/
+content focus after activating Page cursor (line412); focused rerunr36
+FAIL8.717s at the same precondition. Click correction remains unaccepted.
+
+Actual PROD permission fixture reaches Chromium's genuine location dialog via
+explicit SOURCE_DPAD input on verified emulator5554. Origin is exactly
+http://127.0.0.1:18084. Left reaches Block; D-pad/OK Block returns to the
+controlled page reporting Location denied. No allow, OS trust change, data reset
+or physical action. The first Page cursor selection retained controls; a second
+selection entered content, so do not hide the activation defect with retries.
+Next focused test-only diagnostics distinguish controls still showing from
+closed controls with missing activity/content focus. Assert each ownership
+condition with a precise message, preserve the final pointer-click assertion,
+then use the existing native lifecycle synchronization for the proven cause.
+Only the failed case needs rerunning; certificate recovery carries forward.
+Count remains31/54;5.5 and3.3 pending until their full emulator scope passes.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
