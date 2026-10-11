@@ -2003,6 +2003,13 @@ dialog, downloads, storage and dependency evidence. Test-only changes require
 only the test APK, latest-commit reviews and blocking analysis. Physical gates
 remain pending and the canonical accepted count remains20/54.
 
+Latest review reports Standards1/Spec1 in the test slice, root0/0: share the
+bookmark page-size constant with the test, and compare the exact pre-close
+group token after both Cancel operations. Correct these assertions before
+acceptance. Test-only r24 builds successfully in21.35s; its uncorrected cases
+are not run or accepted. Preserve that successful build log and reuse its cache
+for the correction, without packaging an unchanged production APK.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
