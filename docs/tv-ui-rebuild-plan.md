@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **26/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:3/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **27/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:4/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
 library acceptance remain pending. The latest input correction still requires
@@ -361,7 +361,7 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
 
 ### Stage 4 — everyday browsing shell
 
-- [ ] **4.1** Replace home with the selected design, real bookmark/tab data,
+- [x] **4.1** Replace home with the selected design, real bookmark/tab data,
   immediate address focus and explicit private appearance. Preserve startup,
   native-page integration and upstream attribution routes.
   The six-page default-folder preview and four recent normal tabs retain native
@@ -369,8 +369,10 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   with required `@DoNotBatch` process separation, including Home Settings return
   through child panels, stale/private owner rejection and closure/Undo. The
   earlier unsupported whole-class5/7 run remains recorded. The native Undo
-  fixture uses a scoped test timer and restored-layout callback. Broader startup/
-  route acceptance remains pending. See [engineering evidence](engineering-plan.md).
+  fixture uses a scoped test timer and restored-layout callback. Sourcee0e3
+  fresh-profile direct startup, ordinary relaunch, Home shortcuts/Settings/
+  Bookmarks, stock TV IME/Back/Cancel and native source/generated license routes
+  pass. Physical acceptance remains pending. See [engineering evidence](engineering-plan.md).
 - [x] **4.2** Replace address/search UI using current URL classification and
   selected search provider. Support edit/select/delete/submit/cancel, IME and
   optional available system dictation without requiring microphone access.

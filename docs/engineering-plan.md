@@ -2717,6 +2717,43 @@ Spec1 (the acknowledged import), with no additional findings. Build only the
 affected test APK next, retaining productione0e3 for independent fresh-profile
 startup and scoped clearing. Canonical acceptance remains26/54.
 
+Test-only r18 on source6817/root568297 passes blocking analysis in22.17s,
+Siso18.35s/14 executed steps; cgroup peak10990518272bytes. Retained signed x64
+test APK876331303bytes,SHA2565b1b58e8c12f7f7db2e3dafe5c1fb1796f08908d2bfb9a2365baf6882721fc2e,
+artifact compose-bookmark-diagnostic-tests-6817d048d-x64-debug-20261011.
+Latest correction reviews: Standards0/Spec0. Production remains sourcee0e3.
+
+The owned clean-TV emulator stopped after its native batch. Explicitly discovered
+and opened brave_tv_launch_followup_api36; pre-boot directory had only config.ini,
+and com.brave.browser_default was absent after boot. No profile was cleared.
+Initial T3 attach during boot failed; discovery after cold boot and retry passed.
+The shared daemon reused serial5554 helper-install knowledge from the stopped
+AVD; explicitly installing its existing snapshot-helper APK repaired the absent
+helper without resetting data or shared services. Productione0e3 installed and
+hash matched. Fresh first launch has normal Home/Address, no mobile promotion or
+phone experiment card. Home24-step and Bookmarks13-step D-pad replays pass;
+stock LatinIME opens, OK types q, Back hides IME, Down/Right/Right reaches Cancel,
+and OK restores Home Address. A probe's extra Back then opens Controls as designed;
+its Home expectation was incorrect, not a product failure. Home source/license
+D-pad routes pass, exact GitHub URL verified, and generated Credits contains
+Chromium and AndroidX TV Material and Compose Material Icons Core. The initial
+credit probe's package-name assertion was incorrect; bounded native readback
+shows the real dependency title. Native Go back restores Home, and an ordinary
+relaunch retains Home/Address. P3A, stats reporting and usage metrics are all
+stored false in selected fresh Local State boolean readback. Earlier native Home
+model/private/Undo/Settings acceptance carries forward. Item4.1 now accepted on
+emulator; count27/54. About/histogram/hidden-route audit5.7 remains pending.
+
+Native bookmark diagnostic r27 reproduces the same failure on the fresh test
+package in26.400s (JUnit25.559s): focused button is outside the initial narrow
+whitelist; native rows7/survivorIndex6/removedExists=false prove expected native
+ordering and deletion. Extend only the fixed localized panel-action whitelist
+to classify the remaining focused action on failure. No fixture payload/hierarchy
+dump or timing delay. Compile only the changed test target; proceed with the
+independent production startup/scoped-clear profile. Remove the obsolete root
+mobile-toolbar replay after the actual Compose Home routes above passed; retain
+the documented ordinary-webpage restart check separately. No4.8 acceptance yet.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

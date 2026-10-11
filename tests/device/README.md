@@ -469,11 +469,10 @@ history exercises restoration before the native home view is ready; an unused
 blank tab can be discarded at restart and misses this case. Also restart on a
 real webpage and confirm Browser controls still open there.
 
-`replay tests/device/tv-toolbar-menu.ad` starts from the same normal home,
-reaches the toolbar menu from the controls card, then asserts that D-pad Select
-opens the native panel. Its original center-key assertion failed while touch
-activation worked. The card-to-toolbar approach changed with the home layout;
-the menu-focus/Select/panel assertion is unchanged.
+The obsolete mobile-toolbar replay was removed after native Compose Home and
+shortcut replays passed on a fresh profile. Use the Home shortcuts above; the
+mobile toolbar is no longer a TV navigation precondition. Ordinary webpage
+restart and retained native entry-hook checks remain separate acceptance cases.
 
 ## TV panels and Shields
 
