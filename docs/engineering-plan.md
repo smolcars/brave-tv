@@ -1675,6 +1675,15 @@ owner/teardown contract. Add a focused real-tab/app observer release regression;
 retain actual native editable/recovery and viewport cases. Retry the same combined
 cached build only after committing/pinning/reviewing the correction. No cache reset.
 
+Latest sourcecd3/rootc9d6 reviews0/0; r40 compiles observer/input changes but
+stops at the pinned public Tab interface lacking isRendererUnresponsive.
+43steps/17.74s, MemoryPeak9290932224bytes(8.65GiB), no runtime acceptance.
+Move the source-owned TV subclass into the native tab package so it can use
+its inherited package-local TabImpl renderer state without another copied flag
+or visibility patch. Update factory FQN, GN source path and test import together;
+retain all behavior, focused cases and cached blocking build. This is a Java
+access-boundary correction; no Chromium/toolkit update or broad rebuild.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
