@@ -109,6 +109,41 @@ try {
       state?.editable?.ready && state.editable.text === expected && !busy,
     text,
   );
+  // Exercise the first-replacement race repeatedly without re-pairing/reloading.
+  for (let i = 0; i < 10; i++) {
+    for (const replacement of ["hello", text]) {
+      await phone.locator("#editor").fill(replacement);
+      await settled(replacement);
+      assert.equal(await tv.locator("#plain").inputValue(), replacement);
+    }
+  }
+  // Equal text cannot identify a native acknowledgement. Require actual IME
+  // composition events as well as settled content for these unchanged edits.
+  for (const composing of [true, false]) {
+    const eventType = composing ? "compositionstart" : "compositionend";
+    const before = await tv.evaluate(
+      (type) => window.events.filter((e) => e.id === "plain" && e.type === type).length,
+      eventType,
+    );
+    assert.ok(await phone.evaluate(async (composing) => {
+      const e = state.editable;
+      return command("edit", {
+        editable: e.revision,
+        version: e.version,
+        edit: "replace",
+        text: e.text,
+        start: e.text.length,
+        end: e.text.length,
+        composing,
+      });
+    }, composing));
+    await settled(text);
+    assert.equal(await tv.locator("#plain").inputValue(), text);
+    await tv.waitForFunction(
+      ({type, before}) => window.events.filter((e) => e.id === "plain" && e.type === type).length > before,
+      {type: eventType, before},
+    );
+  }
   // Android resizes the visual viewport for its keyboard. Dismiss it before
   // targeting toolbar buttons; desktop coordinates can hit the wrong element.
   if (await phone.evaluate(() => visualViewport.height < innerHeight - 30)) {

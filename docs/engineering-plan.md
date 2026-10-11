@@ -2096,6 +2096,26 @@ product fix solely because it changes timing. Retain unchanged media/group/
 download/storage/accessibility results. Accepted count remains25/54.
 Hardware gates remain pending.
 
+### Native input review correction and consolidated checks
+
+Latest source9a5e review found that replyToRequest cannot identify an edit:
+unchanged-text composition/replacement could consume an older reply. Remove
+that inference. Add a small content-layer completion helper using the pinned
+WidgetInputHandler PingMainThread queue barrier after native IME operations.
+FrameWidgetInputHandler is associated with that same pipe and both dispatch to
+the same MainThreadEventQueue; the ping follows prior input tasks. Preserve
+ImeAdapterImpl/RenderWidgetHost observer and security behavior. Correlate each
+phase by a monotonic ID, with weak callback ownership, cancellation and a
+two-second timeout. Document UI-thread acceptance versus renderer completion.
+
+Remove the unproven100ms bookmark test key change. Capture its browser context
+before and after the failed folder activation to distinguish viewport changes
+from key delivery. Keep the Page info return-focus correction. Build both APK
+targets once, then run affected native checks independently and the real paired
+phone replacement/composition regression, including unchanged text and repeated
+first replacement. Carry forward unchanged passing checks; acceptance stays25/54
+until those actual runtime checks pass. No physical device operation is allowed.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
