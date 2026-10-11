@@ -58,6 +58,7 @@ public final class EditorAccessibilityProbe extends Instrumentation {
             while (!pending.isEmpty() && visited++ < 256) {
                 AccessibilityNodeInfo node = pending.removeFirst();
                 if (mCheckError
+                        && !node.isEditable()
                         && TextUtils.equals(
                                 node.getText(),
                                 "This address is too long. Shorten it and try again.")) {

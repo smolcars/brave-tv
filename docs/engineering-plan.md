@@ -788,6 +788,13 @@ and D-pad reachable on1920×1080/320dpi. Scale1.0 is restored. Scale1.3, RTL,
 broader localized native surfaces and actual spoken operation remain pending.
 Sourcea02 latest correction review: Standards0, Spec0; six-case runtime pending.
 
+Root5e1 review correction: both axes identify that the fixed-error matcher
+reads editable-node text before excluding it. Guard `!node.isEditable()` before
+that read, preserving the probe's no-editor-content contract. It returned only
+bounded booleans, with no field contents logged. Acceptance: rebuild the small
+fixture and repeat the expected live-region RED, then review this correction
+before continuing the native acceptance/build slice.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
