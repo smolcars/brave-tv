@@ -178,12 +178,25 @@ try {
     && nodes.some(n => n.focused && n.editable && !n.password),
   'Exact synthetic prompt must focus its genuine editor');
   adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
+  const promptDeadline = Date.now() + 5000;
+  let promptCanceled = false;
+  while (!promptCanceled && Date.now() < promptDeadline) {
+    const state = await read();
+    assert.equal(state.documentTime, initial.documentTime, 'Prompt changed the document');
+    promptCanceled = state.result === 'Prompt canceled';
+    if (!promptCanceled) await new Promise(yes => setTimeout(yes, 25));
+  }
   const afterBack = snapshot();
   const promptVisible = afterBack.some(n => n.label === 'TV prompt: edit or cancel.');
   const stockImeVisible = afterBack.some(n => n.bundleId === 'com.google.android.inputmethod.latin'
     && n.visibleToUser);
-  console.log(JSON.stringify({ check: 'First prompt Back', promptVisible, stockImeVisible }));
-  if (promptVisible || stockImeVisible) adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
+  console.log(JSON.stringify({ check: 'First prompt Back', promptCanceled, promptVisible, stockImeVisible }));
+  if (!promptCanceled) {
+    assert.ok(promptVisible && !stockImeVisible
+      && afterBack.some(n => n.focused && n.editable && !n.password),
+    'Second Back requires the settled exact native Prompt without its keyboard');
+    adb('shell', 'input', 'keyevent', 'KEYCODE_BACK');
+  }
   await result('Prompt canceled');
   await point('confirm'); await click(); await modal('TV confirmation: accept or cancel.', 'Cancel');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');

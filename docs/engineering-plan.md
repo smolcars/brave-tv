@@ -1837,6 +1837,22 @@ heading and browser package; retain all existing document/viewport/modal checks.
 Acceptance: one consolidated native dialog run, then media/IME/security; no
 new APK build or unchanged suite rerun for this host replay correction.
 
+Source789 combined r45 passes blocking analysis in3m36.36s(Siso3m32.38s,
+26steps); observed peak15600795648bytes(14.53GiB). Both signed x64 APKs are
+preserved in compose-private-home-78932e44f-x64-debug-20261011:
+production852735683bytes,SHA256a3dd43eb84e499986b4de19c69d420ecfe10086f49aa52a04a6fa65c1457cbe4;
+test876246581bytes,SHA256bdae6a3b9eef65991505c3bd61dce0e4066a1666f28d17f6bc8479a78c9f1ea3.
+Installation/native recovery acceptance remains pending. Rootfbf latest reviews0/0.
+
+Dialog r10 passes Alert, both conservative Confirm outcomes and genuine Prompt
+cancellation in the retained document, then fails the next Confirm: the immediate
+post-Back snapshot still contains the disappearing Prompt, causing an unnecessary
+second Back that opens controls. Correct this replay decision by observing the
+native cancellation outcome for a bounded interval first. Send a second Back
+only when the exact Prompt still positively owns focus after that interval and
+the stock IME is absent. Preserve same-document checks and fail before further
+input on an unknown owner. No production change or acceptance from partial results.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
