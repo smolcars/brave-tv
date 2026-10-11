@@ -16,8 +16,8 @@ collections or the six/four production preview limits.
 | Browser controls | 2 | 2, Right/OK in `tv-home.ad` |
 | Tabs | 3 | 3, Right/Up/OK in `tv-toolbar-tabs.ad` |
 | Bookmarks/library | 4 | 3, Right/Right/OK in `tv-home-bookmarks.ad` |
-| First saved page | 3 | Not recorded |
-| Settings | 5 | Not recorded |
+| First saved page | 3 | 9, measured source5829/native Mobile bookmarks |
+| Settings | 5 | 5 on first entry; 4 with Home remembered in controls |
 | Page to controls | 1 | Existing Back route retained |
 | Address cancel to invoking controls | 1 | Existing cancel route retained |
 | Fullscreen exit | 1 | Existing native fullscreen Back retained |
@@ -26,7 +26,23 @@ collections or the six/four production preview limits.
 Bookmarks adds one press from Home; the direct saved-page preview avoids opening
 the library for the common first favorite. Address, controls and tabs add no
 menu level. Security/destructive confirmations remain owned by their existing
-native owner. Complete missing baseline comparisons before checking Stage1.6.
+native owner. The old controls remember their last action: Settings is one press
+quicker when that action is Home. The prototype's Home-to-Settings route uses
+five presses from Address consistently; it adds no confirmation/menu level.
+
+The two missing baseline comparisons now run on the signed source5829 APK in
+the separate `brave_tv_onboarding_api36` profile. The favorite is seeded through
+native bookmark controls into Mobile bookmarks. Its nine-press route is
+Right/Right/OK to Bookmarks, Down/OK to Mobile bookmarks, Down/Down/OK to the
+saved item's detail, then OK to Open bookmark. Each intermediate focus and the
+actual fixture's Clicks:0/committed URL are asserted. Cached evidence:
+`~/.cache/brave-tv/probes/baseline-favorite-r1.json` and
+`baseline-settings-r1.json`. The initial Settings five-press path is checked
+manually; the later four-press path has its own focus assertions. A replay with
+the wrong remembered focus correctly fails and is not counted as a pass.
+These are bounded initial-state comparisons; history, remembered controls,
+folder depth and collection size can change native counts. No data is cleared,
+and this baseline profile is retained for later in-place migration.
 
 At1280×720 the spatial focus graph reaches every enabled action in each of nine
 routes. Maximum presses from each route's initial focus, including activation:

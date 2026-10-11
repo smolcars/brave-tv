@@ -267,14 +267,16 @@ rebuilding UI fixes an unmeasured renderer/network problem.
   Decide the exact root Back/home/exit behavior and controls-opening gesture.
 - [ ] **1.5** Check screen-edge safety, long/localized text, RTL, font scaling,
   semantic labels/roles, announced state and remote/screen-reader operation.
-- [ ] **1.6** Record maximum navigation steps for common tasks from the prototype
+- [x] **1.6** Record maximum navigation steps for common tasks from the prototype
   and compare with baseline. Remove unnecessary confirmation/menu levels while
   preserving destructive/security confirmation behavior.
 
 Current [design checks](tv-ui-design-checks.md) record spatial focus, fourteen
 Back/invoker regressions, bounded prototype counts and108 text/display stress
-combinations. Missing baseline comparisons and native/spoken accessibility remain
-pending; neither Stage1 acceptance checkbox is advanced by these checks.
+combinations. Native source5829 comparisons now include first favorite (9 versus
+prototype3) and Settings (5 on first entry,4 with Home remembered, versus5).
+Stage1.6 records these bounded-state comparisons; native/spoken accessibility
+keeps Stage1.5 pending.
 
 **Gate:** chosen visual direction and complete interaction contract, with no
 known inaccessible core action. A polished home alone does not satisfy this stage.

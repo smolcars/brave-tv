@@ -1,0 +1,15 @@
+# Source5829 baseline: Home Address, no panel/IME; controls remember Address.
+# Reopening controls can instead restore a previously used action.
+# Five measured presses; preserve profile and existing native security owners.
+wait "text=\"The web. On your terms.\"" 3000
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote right
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote select
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote down
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote down
+wait "text=\"Settings\" focused=true" 3000
+tv-remote select
+wait "text=\"Search engine\" focused=true" 3000

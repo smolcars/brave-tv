@@ -1,0 +1,23 @@
+# Source5829 baseline, normal Home Address and one favorite in Mobile bookmarks.
+# Nine presses. Seed outside the measured route; preserve the native hierarchy.
+wait "text=\"The web. On your terms.\"" 3000
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote right
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote right
+wait "text=\"Bookmarks\" focused=true" 3000
+tv-remote select
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote down
+wait "text=\"Folder: Mobile bookmarks\" focused=true" 3000
+tv-remote select
+wait "text=\"Parent folder\" focused=true" 3000
+tv-remote down
+wait "text=\"Browser controls\" focused=true" 3000
+tv-remote down
+wait "text=\"TV remote input checks\" focused=true" 3000
+tv-remote select
+wait "text=\"Open bookmark\" focused=true" 3000
+tv-remote select
+wait "text=\"Clicks: 0\"" 10000
+wait "text=\"127.0.0.1:18088/remote-input.html\"" 3000

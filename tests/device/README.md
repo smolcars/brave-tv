@@ -1,5 +1,14 @@
 # TV device regressions
 
+`tv-baseline-navigation-{settings,favorite}.ad` apply only to source5829.
+Favorite starts on normal Home Address with the synthetic remote-input page
+saved in Mobile bookmarks; the measured route is nine presses. Its final page
+content and native toolbar URL distinguish navigation from the item's dialog.
+Settings measures five presses when controls initially focus Address. Reopening
+controls can restore another action; the measured Home-restored case is four.
+Seed and prepare outside the counted route, preserve the browser profile, and
+record a failed precondition rather than continuing its keys or changing data.
+
 The native session/Home tests belong to the existing `brave_java_unit_tests`
 GN target and its separate `com.brave.browser.tests` application. Reuse the
 cached build and resource limits in `docs/build.md`. Verify APK signature and

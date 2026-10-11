@@ -993,6 +993,31 @@ Home Address, asserting every focus/activation. Preserve this baseline profile
 for a later in-place migration; do not downgrade or clear the current UI profile.
 No build is active; the host reports20GiB available RAM and366GiB free disk.
 
+Root e9648 latest-only review: Standards0, Spec0. The old source5829 Settings
+route passes with five presses: Right/OK to Controls, Down to Tabs, Down to
+Settings, OK; every focus transition and final Search engine focus is asserted.
+The T3-launched baseline emulator subsequently disconnects during normal fixture
+navigation, before the favorite comparison. That comparison remains pending.
+The host is healthy with23GiB available; no build is running. Restart only the
+same baseline AVD with the cached emulator, explicit SDK root, disabled Vulkan,
+no audio and5/6GiB process memory limits. Preserve userdata and installed APK.
+
+The same baseline profile is stable with that graphics configuration. Its
+native saved-page route passes all nine measured keys and ends on the actual
+remote-input fixture, with Clicks:0 and the committed URL visible. Evidence:
+`baseline-favorite-r1.json`. The original Settings path is five presses; the
+controls' remembered Home action instead gives four, positively asserted in
+`baseline-settings-r1.json`. An Address-initial replay correctly fails on that
+different remembered focus; later startup/restore preparation failures are also
+retained. None are converted into passing runtime evidence. Record both initial
+states and the six-press favorite improvement, preserve this upgrade profile,
+and check Stage1.6 only. Stage1.5 stays open; overall13/54, Stage1 now5/6.
+The recorded nine-key route's replay also passes all21 steps in1.9s, including
+the actual page-content and native URL assertions:
+`baseline-favorite-replay-r2.log`. Settings' Address-initial replay remains a
+documented precondition-dependent recipe; its five-key manual measurement and
+the separate four-key Home-restored path are the accepted runtime evidence.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
