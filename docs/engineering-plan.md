@@ -1721,6 +1721,17 @@ patch metadata, then rebuild with preserved caches. Keep r42's missing-hook
 artifact/failure evidence distinct from the next applied-patch artifact. Do not
 hide this failure by changing viewport expectations or widening test timeouts.
 
+While r43 builds the immutable source7b006 checkout, prepare two focused native
+recovery cases in the source fork for Stage4.4/V2: close the sole normal tab
+through the same native close action used by TV controls, require a different
+usable normal Home with Address focus; close the sole private tab, require the
+original normal Home/model and cleared private window protection with normal
+favorites intact. Use only the separate native-test app's synthetic models;
+do not close the production profile's preserved tabs. These supplement the
+existing production D-pad/group/phone tests, not replace them. Compile the
+focused test target only after r43 is finished and the new source pin advances.
+No recovery acceptance is claimed before actual isolated native runs.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
