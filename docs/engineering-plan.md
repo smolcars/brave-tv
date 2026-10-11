@@ -3254,6 +3254,21 @@ checks. Keep full strict composition/selection/replacement-version coverage on
 the quiet-IME fixture distinct from stock-keyboard behavior; verify actual phone
 composition and security before accepting3.5.
 
+QR parser review correction: sanitize malformed successful decoder output as
+well as subprocess failures. Validate the whole native invitation shape inside
+the opaque parse boundary. Consolidate wrong-device/forward, private output,
+native-ancestry and secure-window rejection checks in a host CLI fixture using
+synthetic subprocesses, so those checks need no repeated emulator pairing.
+Acceptance: malformed invitation markers never reach stdout/stderr; valid
+native QR r11 evidence carries forward for the unchanged device path. Host
+guard tests remain distinct from runtime pairing acceptance.
+
+Consolidated host QR guards PASS7/7. The same harness against exact parent
+df531d9 is RED at the successful-decoder/malformed-invitation boundary, proving
+the logging regression is caught. The corrected whole-invitation parser keeps
+that synthetic marker out of both output streams. The unchanged native capture,
+bundled assets and separate D-pad approval retain actual r11 acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

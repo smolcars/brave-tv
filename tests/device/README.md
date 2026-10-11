@@ -240,6 +240,11 @@ and writes a new private screenshot file. It verifies the bundled page and
 pending approval state; approve separately through the visible native
 `Approve phone` action. Never use blind OK injection to approve pairing.
 
+`node tests/device/phone-qr-guards.mjs /absolute/path/to/playwright-core` runs
+seven consolidated host CLI negatives using synthetic subprocesses. It never
+contacts a device or browser. These guard tests supplement actual native QR
+pairing; they do not establish simulator or physical acceptance.
+
 Serve `tests/pages` on host loopback 18088 and use the companion address UI to
 open `http://10.0.2.2:18088/phone-remote.html` on the TV. With its plain text field
 visible and the companion keyboard panel closed, run:

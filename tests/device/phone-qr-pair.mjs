@@ -93,10 +93,17 @@ const invitation = privateOutput(
   ["--class-path", jar, "tests/device/PhoneQr.java", screenshot],
   { encoding: "utf8", timeout: 15000 },
 );
-const url = new URL(invitation);
-assert.match(url.hostname, /^10\.0\.2\.\d+$/);
-assert.equal(url.protocol, "http:");
-assert.ok(/^#[A-Za-z0-9_-]{43}$/.test(url.hash), "Unexpected invitation shape");
+let url;
+try {
+  url = new URL(invitation);
+  assert.ok(
+    /^10\.0\.2\.\d+$/.test(url.hostname) && url.protocol === "http:" &&
+    !url.username && !url.password && url.pathname === "/" && !url.search &&
+    /^#[A-Za-z0-9_-]{43}$/.test(url.hash),
+  );
+} catch {
+  throw new Error("Private QR capture or decode failed");
+}
 const browser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
   const page = browser.contexts()[0].pages().at(-1);
