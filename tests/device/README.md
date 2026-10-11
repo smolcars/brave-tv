@@ -115,7 +115,13 @@ adb -s "$TV_SERIAL" shell am instrument -w \
 Require code `-1`, actual
 numeric sample arrays and `normalHomeRestored=true`. Its own API36/x64/ranchu and
 trusted normal Home guards stop before input on another device or private UI.
-The Back events use native Android input; no browser action uses CDP. It reads
+It prepares focus on the known Home control through the bounded native D-pad
+route from Address, then measures genuine D-pad OK. Untimed return uses native Back on the compact panel and the existing Home
+action on the legacy panel; legacy Back can navigate underlying history. Preparation is outside
+timing and does not prove D-pad traversal from Home. Panel acceptance requires
+a different native window from Home, plus the controls heading and Reload;
+return requires the original Home window. Failure logs contain a phase, static fixture assertion or exception class,
+never Android's event dump. No browser action uses CDP. It reads
 bounded `gfxinfo framestats` while each normal panel exists, recording input to
 the new window's first completed draw and frame durations across native windows.
 Future completion timestamps represent unfinished frames and are excluded.

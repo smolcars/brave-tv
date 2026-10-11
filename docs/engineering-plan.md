@@ -1564,6 +1564,61 @@ Baseline comparison and controlled fixture load remain pending; no performance
 gate is checked based on these current-only samples. Both reviews of root08d7
 accept the native engine/lifecycle documentation with Standards0/Spec0.
 
+Matched startup/memory sampling completes with identical package/version/signer
+and five normal tabs: baseline cold median997ms, warm20ms, whole-package PSS
+median615961KiB; current cold985ms, warm21ms, PSS647576KiB. Installed code is
+830956/832624KiB respectively. Preserve source5829's in-place install/hash proof.
+Root2a684's fixture reviews pass Standards0/Spec0, but actual baseline panel r1
+times out: Home itself contains a Browser controls button, so its label alone
+does not establish a new panel owner. Baseline Home Back also differs when the
+tab has history. Keep this failure; do not compare that run to current metrics.
+
+Correct the timing probe to prepare focus on the known Home control outside
+timing, then use the same native D-pad OK action on both APKs. Require a different
+native window with controls heading/Reload for opening and the exact original
+Home window on return. Keep first-frame and semantic timings separate. Suppress
+Android TimeoutException event dumps; log only the exception class, with no
+editable event payloads. Rebuild only the small signed fixture and repeat the
+two panel samples; startup/PSS do not depend on that predicate and stay valid.
+
+The stricter baseline r2 still stops on return: legacy controls intentionally
+forward cancellation to native Back, navigating the Home tab's prior fixture
+history. Restore Home through the existing normal panel Home action outside
+measurement on both APKs (More first where required); do not alter the immutable
+baseline or erase its history. Record failure phase without event contents.
+
+Baseline corrected panel r4 passes all ten cycles and restores normal Home.
+Current r5 stops before timed input: Compose does not implement the fixture's
+accessibility ACTION_FOCUS. Use the already accepted native Home D-pad route
+from focused Address for both APKs, choosing Right/Down from the two
+known Home button positions. Revalidate focus before timing D-pad OK; keep both
+trusted-window guards. No production change or repeated startup/memory sampling.
+
+Current r7 reaches timed panel opening but stops on untimed Home preparation;
+Compose expansion publication makes the legacy Home-action return inappropriate.
+Use current controls' accepted native Back-to-Home route when More identifies
+that presentation, while legacy controls use their existing Home action.
+Both must restore the original normal Home window before the next sample;
+timed D-pad OK and panel/frame predicates stay identical.
+
+Matched panel acceptance now passes on baseline r4/current r9: ten cycles each,
+first completed draw median95.054/74.251ms and p95108.940/80.486ms; native semantic
+availability median242.5/243ms and p95298/263ms. Native-window frame duration
+median30.781/33.426ms and p9550.087/50.073ms (221/264 frames). Relative budgets
+pass. Semantic query/event overhead exceeds the100/200ms investigation target
+on both; these results do not prove100ms physical presentation. New-window draw
+is a render-completion proxy. Keep r5–r8 fixture failures and the UiAutomation
+lease conflict distinct from product failures. Current APK is restored in place,
+normal favorite and five tabs remain; display1080p320/font1.0 is unchanged.
+
+Finish the controlled load comparison with five reloads each of the same local
+remote-input and byte-range media fixtures on both signed APKs. Diagnostic CDP
+reload/readback measures navigation/resource timing, metadata and first decoded
+video frame; it is not native address/action acceptance. Use trusted normal
+fixture UI plus exact unique targets; do not observe private/security pages.
+Record sampling overhead and media/network work separately, then restore current
+APK/profile and close Stage0.5/2.6 emulator feasibility with hardware pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
