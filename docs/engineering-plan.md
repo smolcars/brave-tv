@@ -1619,6 +1619,29 @@ fixture UI plus exact unique targets; do not observe private/security pages.
 Record sampling overhead and media/network work separately, then restore current
 APK/profile and close Stage0.5/2.6 emulator feasibility with hardware pending.
 
+Latest root68db native-panel correction reviews: Standards0/Spec0.
+
+Next source slice4.8: retire the duplicate mobile top toolbar only for tabbed
+BraveActivity TV presentation. Return Chromium's native HIDDEN visibility
+constraint from TabbedModeTabDelegateFactory on TV; its BrowserControlsManager
+continues to own visibility/content offsets, IME, fullscreen and compositor
+positioning. Use one functional Java patch line and existing Activity TV check,
+not View.GONE/fullscreen flags, global CCT routing or a copied factory constructor.
+Custom-tab/security window owners stay unchanged. Add an actual native Home→web
+case asserting constraint, zero content offset, hidden mobile controls and usable
+TV Address/Back. Consolidate current production viewport/cursor/media/dialog/
+stockIME/native security checks after one cached blocking build. Do not rerun
+unchanged storage/dependency or broad unit suites. No physical acceptance.
+
+Controlled load r1 passes five input-page and five video-page samples on each
+APK. All video samples report decoded frames, readyState4,427×240/24.109s and
+no media error. Median video readiness is126.427/128.864ms; load-event median
+72.6/96.1ms is noisier and not a shell-speed claim. Currentb3a9 is restored and
+its native controls identify the exact normal media fixture. Stage0.5/2.6/2.7
+accept emulator methodology/budgets/Compose hosting; total20/54, Stage2 is7/7.
+Physical optimized performance remains explicitly deferred. The source4.8
+change still requires build/runtime acceptance and stays unchecked.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

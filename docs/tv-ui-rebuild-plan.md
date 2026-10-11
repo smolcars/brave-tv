@@ -240,7 +240,7 @@ overlap; native integration and migration gates cannot be skipped.
 - [x] **0.4** Capture current emulator screenshots and repeatable core flows.
   Separate known bugs/unverified reports from newly introduced regressions.
   Include the QR pending state, fullscreen cursor, empty tabs and group popup.
-- [ ] **0.5** Record performance methodology and baseline: cold/warm startup,
+- [x] **0.5** Record performance methodology and baseline: cold/warm startup,
   panel-open/input latency, frame pacing, process/renderer memory, APK/installed
   footprint and a controlled webpage/video load. Record build type and device.
 - [x] **0.6** Select provisional performance budgets and supported configurations
@@ -313,16 +313,24 @@ known inaccessible core action. A polished home alone does not satisfy this stag
   b3a9 passes same-PID background return and explicit package force-stop recovery
   with all normal tabs retained. Android's background `am kill` retained the
   media process; OS memory-pressure recovery remains a separate pending check.
-- [ ] **2.6** Measure dependency/APK growth, memory and UI latency against Stage 0.
+- [x] **2.6** Measure dependency/APK growth, memory and UI latency against Stage 0.
   Check emulator first; require an authorized optimized low-end hardware sample
   before committing to broad migration or declaring the approach performant.
-- [ ] **2.7** Record go/no-go, dependency pins and hosting decision. If TV material
+- [x] **2.7** Record go/no-go, dependency pins and hosting decision. If TV material
   cannot integrate cleanly, evaluate a bounded Kotlin/native-View alternative
   against the same design contract and explain the tradeoff before expanding.
 
 **Gate:** actual-engine proof on the target build, no lifecycle/input blocker,
 and measured feasibility. Independent design/model work may continue while
 hardware is unavailable; hardware-dependent claims remain unchecked.
+
+Emulator Stage2 is7/7; canonical acceptance is20/54. Matched uncontended
+baseline/current Debug measurements pass the provisional startup, panel,
+PSS and footprint regression budgets. [Performance/hosting evidence](tv-ui-inventory.md)
+records actual samples and overhead, including local page/video timing variance.
+Go for Compose TV with retained native content and dialog siblings under the
+scoped execution override. Optimized physical performance remains pending;
+no emulator result checks that hardware gate or establishes release acceptance.
 
 ### Stage 3 — shared state and input ownership
 

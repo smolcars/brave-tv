@@ -151,3 +151,55 @@ still need measurement. Hardware, screen reader, font/RTL and real-phone checks
 remain pending. Two source-independent design variants and the eight prototype
 route/focus checks are recorded above; design acceptance is separate from APK
 runtime acceptance.
+
+
+## Matched emulator feasibility and hosting decision (11 October)
+
+Source5829 versus productionb3a9; same signer/version/Chromium155, native Home,
+five retained normal tabs, x64 Debug/API36/1080p320/font1.0. No Chromium build,
+second emulator or agent accessibility lease during timing. The two in-place
+APK installations preserve profiles; currentb3a9 is restored. Local load checks
+subsequently add two normal synthetic media tabs; do not apply their seven-tab
+state to the earlier five-tab startup/PSS comparison.
+
+| Measurement | Baseline5829 | Currentb3a9 | Samples/method |
+| --- | ---: | ---: | --- |
+| Cold Activity display median / p95 | 997 / 1034 ms | 985 / 1130 ms | Seven force-stop/start-W; not webpage readiness |
+| Warm task-return median | 20 ms | 21 ms | Seven Home/start-W returns |
+| Whole-package PSS median | 615961 KiB | 647576 KiB | Three sums of browser/renderer/GPU meminfo |
+| APK bytes | 851001060 | 852705331 | Verified preserved signed artifacts |
+| Installed code | 830956 KiB | 832624 KiB | Package directory du |
+| Input→new-panel first completed draw median / p95 | 95.054 / 108.940 ms | 74.251 / 80.486 ms | Ten native D-pad OK openings, completed gfxinfo first-draw frame |
+| Input→native panel semantics median / p95 | 242.5 / 298 ms | 243 / 263 ms | Same distinct-window/heading/Reload predicate; includes query/event overhead |
+| Native-window frame duration median / p95 | 30.781 / 50.087 ms | 33.426 / 50.073 ms | 221 / 264 completed frames |
+| Local input-page load-event median | 39.9 ms | 43.9 ms | Five cache-bypassed diagnostic reloads |
+| Local video-page load-event median | 72.6 ms | 96.1 ms | Five diagnostic reloads, loopback byte-range MP4 |
+| Video metadata/decoded-frame host readiness median | 126.427 ms | 128.864 ms | Includes25ms polling; paused first decoded frame,427×240/24.109s |
+
+Startup/panel relative budgets pass; PSS grows30.9MiB and APK1.63MiB, within
+80MiB/10MiB limits. Native semantic response exceeds the100/200ms investigation
+target on both; query/event overhead prevents treating it as display latency.
+New-window render completion is an emulator proxy, not physical first pixel.
+Small page/video load samples vary (current input-page load includes a281.5ms
+outlier); video load-event median grows32.4% while decoded readiness grows1.9%.
+Record this engine/network variance separately: no claim of faster website
+loading or an explanation of YouTube latency. Actual native media playback,
+IME and fullscreen acceptance are recorded independently in engineering-plan.
+
+Logs/JSON and the diagnostic load harness remain under
+`~/.cache/brave-tv/probes/performance-r1`; matched panel runs are
+`5829-panel-r4` and `b3a9-panel-r9`. Both contain ten numeric samples and restored
+normal Home. Earlier stopped fixture/window/focus/lease failures stay preserved.
+Reproduce load methodology using the existing media/input fixtures: diagnostic
+Page.reload(ignoreCache=true), NavigationTiming loadEventEnd and bounded native
+video metadata/decoded-frame readback; this does not prove native URL entry.
+
+Go for the requested Compose for TV toolkit in the actual GN APK. Keep native
+BasicNativePage content ownership and modal sibling panels, UI-thread browser
+state/actions and explicit composition/observer disposal. Dependency/version/
+AAR hashes and licenses are pinned in
+[AndroidX TV metadata](../brave/third_party/androidx_tv/README.chromium) and
+[GN targets](../brave/third_party/androidx_tv/targets.gni); Chromium's pinned
+Compose/Kotlin/compiler supply the remainder without an upstream upgrade.
+No compatibility fallback is needed. Physical optimized performance, second TV,
+real-phone and OS-pressure acceptance remain pending.
