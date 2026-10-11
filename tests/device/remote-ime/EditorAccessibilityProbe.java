@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 
 import java.util.ArrayDeque;
+import java.util.concurrent.TimeoutException;
 
 /** Emulator-only native semantics inspection, without reading or returning editor contents. */
 public final class EditorAccessibilityProbe extends Instrumentation {
@@ -30,6 +31,14 @@ public final class EditorAccessibilityProbe extends Instrumentation {
         AccessibilityServiceInfo info = automation.getServiceInfo();
         info.flags |= AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
         automation.setServiceInfo(info);
+        try {
+            automation.waitForIdle(100, 3000);
+        } catch (TimeoutException error) {
+            result.putBoolean("nativeWindowIdle", false);
+            finish(Activity.RESULT_CANCELED, result);
+            return;
+        }
+        int focusedBrowserWindows = 0;
         for (AccessibilityWindowInfo window : automation.getWindows()) {
             if (!window.isFocused()) continue;
             AccessibilityNodeInfo root = window.getRoot();
@@ -37,6 +46,7 @@ public final class EditorAccessibilityProbe extends Instrumentation {
                     || !TextUtils.equals(root.getPackageName(), "com.brave.browser_default")) {
                 continue;
             }
+            focusedBrowserWindows++;
             ArrayDeque<AccessibilityNodeInfo> pending = new ArrayDeque<>();
             pending.add(root);
             int visited = 0;
@@ -61,6 +71,7 @@ public final class EditorAccessibilityProbe extends Instrumentation {
             }
         }
         result.putInt("editorCount", editorCount);
+        result.putInt("focusedBrowserWindows", focusedBrowserWindows);
         result.putBoolean("nativeHintMatches", hintMatches);
         result.putBoolean("nativeSetTextAction", textActionPresent);
         finish(

@@ -512,6 +512,29 @@ instrumentation tests for resize/restore and same-URL navigation, plus fixed URL
 InputConnection stimuli and actual page assertions. No payload logging or new
 production endpoint. Tests must run before claiming their native acceptance.
 
+Latestd6bda source review: Standards0, Spec0. Rootb628 review: Standards0;
+Spec catches that editor disappearance alone cannot prove selected-provider
+search navigation. Limit the three-step replay to the original stale-lease
+symptom; keep selected-tab URL/provider acceptance pending until positively
+observed. Its independent URL replay also requires the actual fixture heading.
+
+Native hint metadata on installed897 reports editorCount1, hinttrue, SET_TEXTtrue
+and instrumentation success once, but repeat wrapper runs report no editable
+node. Starting instrumentation in the test IME package and enabling interactive
+window retrieval can change the active IME/window during capture. Wait for bounded
+native accessibility idleness after service configuration; expose only window
+counts for diagnosis and retain all original success assertions. Do not call this
+stable accessibility acceptance until repeat native runs pass.
+
+The repeat hint-false result was a test precondition error: a diagnostic Back
+after instrumentation had already hidden the IME dismissed the editor, so the
+probe read the mobile toolbar field on Home. Window-count diagnostics isolated
+that owner; removed per-window debugging. With the actual editor retained and
+bounded native-idle waiting, three consecutive wrapper runs pass on897:
+one native editable node, matching hint, SET_TEXT action and success code.
+The duplicate synthetic label child is absent. This is native metadata evidence,
+not spoken screen-reader acceptance; Stage1.5 remains pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

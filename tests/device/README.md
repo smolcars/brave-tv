@@ -15,7 +15,8 @@ through the real Android InputConnection; it never submits or alters browser
 data. Restore stock LatinIME for separate D-pad keyboard/Back checks.
 
 `tv-compose-address-search-submit.ad` requires nonempty synthetic text, IME hidden
-and Go focused; it verifies native classification closes the editor even offline.
+and Go focused; it checks editor completion even offline, not search navigation.
+Selected-provider navigation needs a separate native selected-tab/URL assertion.
 For `tv-compose-address-submit.ad`, use the test IME's Fixture URL button first,
 hide the IME and focus Go. It additionally requires the actual local page heading,
 so a dismissed editor without navigation cannot pass. Site data URL opens the

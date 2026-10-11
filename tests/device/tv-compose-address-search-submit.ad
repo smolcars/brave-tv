@@ -1,5 +1,6 @@
 # Start with synthetic nonempty search text entered through native InputConnection, IME hidden, Go focused.
-# Native classification must accept it and close the editor even if the network is offline.
+# This isolates the stale-lease bug: valid input must close the editor even offline.
+# Selected-provider navigation requires a separate native tab/URL postcondition.
 wait "text=\"Go\" focused=true" 3000
 tv-remote select
 wait absent "text=\"Clear\"" 3000
