@@ -1149,6 +1149,27 @@ and `actual-image-r5.json` (refresh/file survival). Earlier recipe failures
 remain preserved; they are not claimed as passing scripts. Actual file deletion
 and active-transfer checks remain pending, so Stage5.2 remains unchecked.
 
+Source8b47/rootd375 latest reviews pass Standards0/Spec0. Test-only r10 passes
+blocking analysis in GNU21.91s/Siso18.60s, 14 cached steps, journal peak10.1G.
+Signed/hash-verified test APK is preserved at
+`compose-downloads-tests-8b47f8db6-x64-debug-20261011`. Native r22 passes all
+five cases individually with positive JUnit OK(1), no negative status/skips:
+paging/progress focus, distinct native removal/deletion owners, conservative
+Cancel/private replacement, dangerous-action rejection, navigation disposal.
+Installed test hash matches the artifact. Earlier r21 is a three-case subset;
+its original fixed summary text incorrectly said5/5, while its JSON correctly
+contains three cases. Correct the helper summary; r22 is the complete5/5 run.
+
+Real native file deletion also passes: Cancel preserves the46-byte text file,
+Delete removes exactly `/sdcard/Download/tv-fixture-delete.txt`, Refresh shows
+an empty native list, and the history-removed image retains its original hash.
+Evidence: `probes/downloads-r1/actual-delete-r2.json`; the initial45-byte display
+expectation failure is preserved. Pause/resume/cancel still pending. Slow fixture
+recipes failed before transfer checks on native-dialog/setup assumptions; a
+duplicate-name prompt is cancelled without overwriting existing files. Inspect
+the actual native save/transfer path and fix the recipe or implementation at the
+responsible owner; do not waive native security or hide failures with data wipes.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

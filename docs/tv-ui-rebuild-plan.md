@@ -375,7 +375,8 @@ the complete feature set or a public release.
   Implemented on source573 with eight-row native-provider pages. Actual emulator
   image download/Open, conservative Cancel/Right/Left and history-only removal
   with exact file-byte survival pass. Paging native fixture passes; its complete
-  five-case suite, real file deletion and active-transfer acceptance remain open.
+  five-case suite now passes on source8b47. Real Cancel/file deletion preserves
+  the other synthetic file. Active-transfer acceptance remains open.
 - [ ] **5.3** Rebuild search-provider, privacy and clear-data settings with scoped
   native operations, explicit effects and cancellation. Do not clear other data
   merely to simplify migration or testing.
