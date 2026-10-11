@@ -2367,6 +2367,24 @@ not a broad UiObject content-description scan. Combine this test correction with
 the already reviewed About slice in one production/test build, then run only
 history and About. Unchanged checks carry forward; accepted count remains25/54.
 
+
+### Stable bookmark library selection and native updates
+
+The reviewed history/About build continues independently. Complete the remaining
+bookmark selection behavior using native BookmarkId, the existing eight-row
+presentation and BookmarkModelObserver. Restore the selected row after detail
+Back or confirmed removal; on native updates preserve the same BookmarkId or
+nearest surviving row and the current non-row control. Observe only while the
+list owns its dialog, coalesce updates on the UI thread, and remove the observer
+and posted work on dismissal. Retain native edit/managed policy revalidation and
+selected document ownership; no duplicate bookmark storage or generic state bus.
+Acceptance: one native case crosses the second page, returns from detail,
+removes a preceding native bookmark, removes the focused bookmark externally,
+and verifies exact surviving focus and policy changes. Carry forward unchanged
+bookmark Open/Cancel/confirmation checks; combine only affected native cases
+with the next cached build. History/About acceptance remains independently
+pending until the currently built APK passes its two native cases.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

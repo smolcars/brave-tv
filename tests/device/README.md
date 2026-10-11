@@ -545,6 +545,17 @@ before it. It checks D-pad toolbar entry into the native list, then selects
 grid; source `ef6cabbb4` passes native entry but fails the final focus assertion.
 Do not delete other tabs to force these preconditions on a user's profile.
 
+
+The isolated native
+`TvHomePageTest#bookmarkLibraryRestoresNativeSelectionAcrossUpdates` case uses
+only its owned folder/bookmarks. It returns from second-page detail, removes a
+preceding native bookmark, checks native edit-policy disabling, removes the
+focused bookmark externally, renames the survivor and returns to the containing
+folder. Require exact focus after each update; D-pad navigation to rediscover a
+row is not restoration acceptance. The case restores the original policy and
+teardown removes only its owned bookmark IDs. The existing confirmed-removal
+case also requires immediate focus on the nearest surviving bookmark.
+
 ## Native history
 
 Serve `history.html` with the other fixtures and visit it in a normal tab. This
