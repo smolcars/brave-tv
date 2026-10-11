@@ -2834,6 +2834,12 @@ APK only first; productione0e3 remains retained and unchanged. No clearing or
 bookmark acceptance is added by this unrun test/correction. Latest root audit
 commit ceb5574 review has Standards0/Spec0. Count remains28/54.
 
+Latest510c/22bd review: Spec0 source/root, Standards1 source (DOC-004 callback
+contract),0 root. Document UI-thread/initial-frame/success-only invocation and
+noninvocation when selection/focus fails or disposal cancels restoration. This
+is a documentation correction before the first affected build; no behavior or
+acceptance changes. Review the correction before advancing the cached checkout.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
