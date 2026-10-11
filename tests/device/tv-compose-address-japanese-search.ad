@@ -5,5 +5,6 @@ wait "value=\"日本\" editable=true" 3000
 wait "text=\"Go\" focused=true" 3000
 tv-remote select
 wait absent "text=\"Clear\"" 3000
+wait "value=\"duckduckgo.com/?q=日本&t=brave&ia=web\" editable=true" 20000
 tv-remote back
 wait "text=\"https://duckduckgo.com/?q=%E6%97%A5%E6%9C%AC&t=brave&ia=web\"" 3000

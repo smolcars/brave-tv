@@ -19,7 +19,9 @@ and Go focused; it checks editor completion even offline, not search navigation.
 Selected-provider navigation needs a separate native selected-tab/URL assertion.
 `tv-compose-address-japanese-search.ad` supplies that positive assertion for the
 fixed DuckDuckGo/Japanese fixture: the editor states its selected provider, and
-the native controls must show the selected tab's exact encoded query URL.
+the native toolbar must show the committed query before Back opens controls with
+the selected tab's exact encoded URL. Its20-second wait depends on external
+navigation; it is not a network or performance guarantee.
 For `tv-compose-address-submit.ad`, use the test IME's Fixture URL button first,
 hide the IME and focus Go. It additionally requires the actual local page heading,
 so a dismissed editor without navigation cannot pass. Site data URL opens the

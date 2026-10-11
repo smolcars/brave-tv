@@ -582,6 +582,30 @@ BravePublicTest; do not disable dependency validation. Logs
 `build-session-test-java-r2.*`,13.51s, completed cgroup peak4,735,832,064 bytes
 (4.41GiB). Rebuild the same bounded compile/analysis target after review.
 
+Native Java attempt3 onf10d55 passes compile, Error Prone and direct-dependency
+validation in30.55s (Siso27.85s,9 steps). Observed cgroup peak5,296,840,704 bytes
+(4.93GiB); completed transient peak was unavailable. Logs
+`build-session-test-java-r3.*`. Native JUnit execution remains pending; the
+production APK remainsd6bda. Latestf10d55/702296 reviews: Standards0, Spec0.
+
+The fixed-provider replay goes RED at its final URL assertion: immediately
+pressing Back after editor disappearance cancels the pending navigation and
+returns to the old fixture. A separate submission with the same genuine Unicode
+stimulus eventually renders DuckDuckGo, with the native toolbar showing the
+decoded Japanese query. Add a bounded positive native toolbar URL wait before
+Back and the full controls URL assertion. This distinguishes committed search
+navigation from editor completion and external load timing; it does not establish
+performance or the pending-navigation escape contract. The corrected eight-step
+replay passes on installedd6bda in3.4s: genuine Japanese input, selected provider,
+native committed toolbar URL, then the full encoded selected-tab URL in controls.
+
+Native instrumentation slice: inspect the incremental BravePublicTest APK graph
+before building its existing target, retaining the same output and four-worker/
+memory/analysis limits. Run only TvBrowserSessionTest and relevant BytecodeTest
+methods on the verified TV emulator; test application data is separate from the
+preserved normal browser profile. Retain actual failures and do not count a
+compiled test jar as runtime acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
