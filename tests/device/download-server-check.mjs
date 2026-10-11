@@ -1,0 +1,24 @@
+// Verify the running host fixture before treating its files as native download stimuli.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
+assert.ok(process.argv[2], 'Usage: download-server-check.mjs CHROMIUM_MEDIA_TEST_DATA');
+const base = 'http://127.0.0.1:18090';
+const request = (path, options = {}) => fetch(base + path, {...options, signal: AbortSignal.timeout(3000)});
+const image = await request('/tv-fixture-open.png');
+assert.equal(image.status, 200);
+assert.equal(image.headers.get('content-disposition'), 'attachment; filename="tv-fixture-open.png"');
+assert.equal(image.headers.get('content-type'), 'image/png');
+assert.deepEqual(Buffer.from(await image.arrayBuffer()), readFileSync(join(process.argv[2], 'four-colors.png')));
+const keep = await request('/tv-fixture-keep.txt');
+assert.equal(await keep.text(), 'TV synthetic download: keep this file.\n');
+const slow = await request('/tv-fixture-slow.bin', {method: 'HEAD'});
+assert.equal(Number(slow.headers.get('content-length')), 4 * 1024 * 1024);
+const range = await request('/tv-fixture-slow.bin', {headers: {Range: 'bytes=10-20'}});
+assert.equal(range.status, 206);
+assert.equal(range.headers.get('content-range'), 'bytes 10-20/4194304');
+assert.deepEqual(Buffer.from(await range.arrayBuffer()), Buffer.alloc(11, 0x54));
+assert.equal((await request('/tv-fixture-open.png', {headers: {Range: 'bytes=not-a-range'}})).status, 416);
+assert.equal((await request('/missing')).status, 404);
+assert.equal((await request('/tv-fixture-open.png', {method: 'POST'})).status, 405);
+console.log('Download fixture: attachment bodies, bounded slow range, HEAD, invalid range, 404 and 405 PASS');

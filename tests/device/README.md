@@ -1,5 +1,25 @@
 # TV device regressions
 
+`download-fixture-server.mjs CHROMIUM_MEDIA_TEST_DATA` serves fixed synthetic
+attachments on host loopback18090. Pass the pinned `src/media/test/data`; its
+four-colors image opens through existing native download/media ownership. Run
+`download-server-check.mjs` with the same directory and require its positive
+body/range/method checks before forwarding18090 to an explicitly verified TV
+emulator. Its slow4MiB attachment supports native pause/resume/cancellation;
+at most two slow transfers run, with bounded chunks and disconnect cleanup.
+Create downloads from the fixture webpage's links, preserve the browser profile
+and any other downloads, then verify native statuses and conservative TV
+confirmation focus. List removal must preserve the synthetic file and bytes;
+file deletion must remove only the selected fixture. A server check is not
+download/storage acceptance. Do not infer real LAN or physical-TV compatibility.
+
+`TvDownloadsPanelTest` uses native dialogs with a provider fixture for paging,
+focus retention/recovery, private-item rejection, separate action ownership,
+conservative cancellation and late-query disposal. Run every `@DoNotBatch`
+method in its own instrumentation process, as described below. These tests
+cannot prove file preservation/deletion or actual download opening; verify
+those separately with the real native provider and synthetic attachments.
+
 `tv-baseline-navigation-{settings,favorite}.ad` apply only to source5829.
 Favorite starts on normal Home Address with the synthetic remote-input page
 saved in Mobile bookmarks; the measured route is nine presses. Its final page

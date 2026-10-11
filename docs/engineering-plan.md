@@ -1066,6 +1066,22 @@ peak13,104,885,760bytes (12.21GiB), GNU wall1m07.04s, Siso1m03.37s. Source
 3e1e/root4a3e correction reviews are Standards0/Spec0. Commit/review the import correction and rebuild
 through the documented clean checkout path, with the same blocking checks.
 
+Source413a/root77c2 import-correction reviews are Standards0/Spec0. Runtime
+fixture slice: add a loopback-only host server with fixed synthetic attachment
+routes (image, text and bounded slow download), no user paths or Android server.
+Use the pinned Chromium four-colors image, retain provenance, and verify its
+HTTP methods/ranges/body before forwarding to the verified TV emulator only.
+These fixtures create real native downloads; they do not substitute for native
+panel/storage assertions. Preserve existing production downloads and delete
+only explicitly chosen synthetic files through the UI. No cache/profile reset.
+
+Host download-fixture checks pass: pinned image bytes and attachment headers,
+fixed text body, slow4MiB HEAD/range bytes, invalid-range416, missing404 and
+method405. The first check raced Nix/service startup and returned ECONNREFUSED;
+after the listener's positive ready log, the complete check passes. The fixture
+unit uses256MiB high/512MiB maximum with no swap; only host loopback18090 is
+bound. Actual native panel/download acceptance remains pending on build r31.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
