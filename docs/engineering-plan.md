@@ -1206,6 +1206,25 @@ locales/font/accessibility/audio settings, preserve profiles and the upgrade
 baseline, and keep hardware overscan/physical acceptance explicitly deferred.
 Prototype stress checks and announcement metadata alone are insufficient.
 
+Stage1.5 native speech reproduces a missing-context issue on production573:
+D-pad reaches disabled Pointer/Back/Forward and empty Previous/More downloads,
+with actual TalkBack speech including disabled roles. Opening empty Downloads
+speaks Refresh downloads but omits Downloads and No downloads yet. Evidence:
+`probes/a11y-states-r1/downloads-r1-complete.json`, `empty-r1.json` and action
+byte offsets. The automation lease is closed during speech, so it cannot explain
+this omission. Panel title and subtitle/description have no pane/live-region
+semantics, unlike the existing Home empty state and Address error.
+
+Correction slice: expose native Compose panel/controls pane titles and polite
+panel subtitle/status descriptions using the existing presentation seam. Keep
+native window/focus/security/action ownership unchanged. Announce download state
+transitions separately from received-byte progress, so a transfer does not
+produce a stream of spoken byte updates. Add a focused native
+loading→empty and detail-status semantic regression using the existing provider
+fixture; verify blocking analysis, actual spoken context/recovery, and retained
+conservative focus. Do not count semantics alone as spoken acceptance. Continue
+remaining Stage1.5 display/error checks and restore the saved emulator settings.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
