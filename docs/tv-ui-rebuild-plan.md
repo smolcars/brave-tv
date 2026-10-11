@@ -265,7 +265,7 @@ rebuilding UI fixes an unmeasured renderer/network problem.
 - [x] **1.4** Write the focus/Back transition table, including keyboard, nested
   dialogs, private unlock, native prompts and return from an external app.
   Decide the exact root Back/home/exit behavior and controls-opening gesture.
-- [ ] **1.5** Check screen-edge safety, long/localized text, RTL, font scaling,
+- [x] **1.5** Check screen-edge safety, long/localized text, RTL, font scaling,
   semantic labels/roles, announced state and remote/screen-reader operation.
 - [x] **1.6** Record maximum navigation steps for common tasks from the prototype
   and compare with baseline. Remove unnecessary confirmation/menu levels while
@@ -275,8 +275,13 @@ Current [design checks](tv-ui-design-checks.md) record spatial focus, fourteen
 Back/invoker regressions, bounded prototype counts and108 text/display stress
 combinations. Native source5829 comparisons now include first favorite (9 versus
 prototype3) and Settings (5 on first entry,4 with Home remembered, versus5).
-Stage1.6 records these bounded-state comparisons; native/spoken accessibility
-keeps Stage1.5 pending.
+Stage1.6 records these bounded-state comparisons. Stage1.5 now has native
+display/focus checks at720p and1080p, enlarged Android text, Arabic RTL,
+exceptionally long multilingual headings, conservative confirmations and
+editor recovery, alongside recorded actual TalkBack state/error speech.
+See the [native design acceptance](tv-ui-design-checks.md). Stage1 is6/6 and
+the canonical count is15/54. This is emulator acceptance under the execution
+override; physical overscan and hardware accessibility acceptance remain pending.
 
 **Gate:** chosen visual direction and complete interaction contract, with no
 known inaccessible core action. A polished home alone does not satisfy this stage.

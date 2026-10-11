@@ -83,5 +83,42 @@ clear-data panels; Back returns through Settings to Home. Cached normal-only
 WAV/action offsets and unconstrained offline transcripts are under
 `~/.cache/brave-tv/probes/vosk-spoken`. Recognition errors in proper names prevent
 claiming verbatim label accuracy. All seven saved accessibility settings are
-restored. Broader spoken state/error and screen-reader traversal checks remain
-pending, so Stage1.5 remains unchecked.
+restored. At that point broader spoken state/error and screen-reader traversal
+checks remained pending.
+
+Stage1.5 emulator acceptance now passes on production source1edfe7a0a and
+corrected test source054403030. Native r26 passes all three narrow-layout
+regressions: Home traversal/callback identity, controls updates/Back with safe
+focus edges, and an exceptionally long multilingual production-panel title
+with conservative Cancel/Right/Left. Its cancellation/private-replacement
+case also passes. Its deletion-owner case fails a visible-text lookup after
+scrolling, while r27 passes at normal font size; r28 passes the corrected case
+at font1.6 after D-pad Up exposes the empty message. Exact history and file
+owners remain asserted. These are separate runs, not a claimed5/5 r26 result.
+
+Production checks cover1280x720/density320/font1.6/ar and1920x1080/font1.6/en:
+Home actions, disabled controls, restored More focus, Settings scrolling,
+mirrored confirmation arrows, Cancel preservation and exact invoker restoration.
+The empty Downloads message is fully visible after one D-pad Up; editor Clear,
+Cancel and Back remain inside safe edges without recording editor contents.
+At restored1920x1080/font1.0/en the18-check controls/Home flow passes, retaining
+the normal four-column shortcuts. Cached evidence lives under
+`~/.cache/brave-tv/probes/a11y-states-r1`: `display-confirmation-r5.json`,
+`display-empty-visibility-r6.json`, `display-editor-r7.json`,
+`display-wide-confirmation-r9.json`, `display-restored-r10.json` and
+`display-restored-r11.json`. Partial helpers that stop on wrong traversal or
+case-sensitive translated-label assumptions are retained as partial results.
+
+Actual productionb35a TalkBack state/error checks speak Downloads and its empty
+state, disabled controls and the native oversize-address rejection. Native r24
+passes7/7 semantic/state tests, including polite status and non-live byte
+progress. Immutable normal-only audio and verified unconstrained decoder prefix
+hashes are retained in `green-audio-provenance.json`; display changes preserve
+these semantics. This is spoken evidence, not an inference from live-region
+metadata. All seven accessibility settings and the saved font, display size,
+density, app locale and existing synthetic IME match their before values after
+the automation lease closes. No profile or cache was cleared.
+
+Stage1 is6/6 for the authorized emulator scope. Physical overscan, hardware
+screen-reader behavior and the broader sustained accessibility/localization
+matrix in Stage6 remain pending. This does not accept all feature stages.

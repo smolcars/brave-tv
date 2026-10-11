@@ -1380,6 +1380,32 @@ records remain unaltered. They do not count as complete passes. Stage1.5 remains
 pending until the remaining display/editor/spoken checks and settings restoration
 finish; the count remains14/54. Physical acceptance stays deferred.
 
+Test-only r16 passes blocking analysis in18.99s/14 steps, journal peak9.2G.
+Its signed source054403030 artifact is preserved as
+`compose-visible-tests-054403030-x64-debug-20261011`; installed testSHA
+`f41f9e1a7d389554396d4f17ee67b5a9b678383270fe2d83ae44d99ec7aa6a54`
+matches. Corrected r28 passes the deletion-owner case at720p/font1.6, retaining
+exact owners and the visible empty-message assertion after D-pad Up. Production
+editor r7 passes10 focus/recovery checks; wide r9 passes10 confirmation/Back
+checks at1080p/font1.6/en. Wide r8's first8 checks pass before its incorrect
+Content filters case assumption; r9 continues from the actual Content Filters
+focus. Restored r10 passes18 checks with normal four-column Home and controls.
+Saved display/locale/IME and all seven accessibility settings match exactly
+after lease closure (`display-restored-r11.json`). Source/root latest reviews
+pass Standards0/Spec0. Native/spoken/design evidence now accepts Stage1.5 for
+the emulator scope: Stage1 is6/6, total15/54. Physical gates remain pending.
+
+Next complete acceptance slice combines Stage2.4 and2.5 actual-engine routes:
+controlled native navigation, stock Android IME, site alert/confirm/prompt,
+fullscreen video, tab return, background/foreground and activity/process
+recreation. Retain Chromium WebContents and stable document ownership, verify
+cursor and focus recovery, observer disposal and private screenshot protection.
+Reuse existing fixtures and native tests; consolidate related regressions into
+one recorded pass, fixing only failures at their responsible owner. Preserve
+normal/upgrade profiles, native security and phone rejection boundaries. Do not
+count fixture scripts, compilation, mocked state or physical hardware as runtime
+acceptance. Continue the remaining stages after this slice.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
