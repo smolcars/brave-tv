@@ -1,9 +1,17 @@
 // Diagnostic assertions against the Android browser, forwarded through ADB.
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 
 const expected = process.argv[2];
-assert.ok(['up', 'down', 'cookie-on', 'cookie-off', 'startup-cookie-on'].includes(expected),
-  'Usage: node tests/device/shields-probe.mjs up|down|cookie-on|cookie-off|startup-cookie-on');
+assert.ok(['up', 'down', 'site-on', 'site-off', 'cookie-on', 'cookie-off', 'startup-cookie-on'].includes(expected),
+  'Usage: node tests/device/shields-probe.mjs MODE EMULATOR_SERIAL');
+const serial = process.argv[3];
+assert.match(serial ?? '', /^emulator-\d+$/);
+const avd = execFileSync('adb', ['-s', serial, 'emu', 'avd', 'name'], {encoding: 'utf8'}).split('\n')[0].trim();
+assert.ok(['brave_tv_clean_api36', 'brave_tv_launch_followup_api36', 'brave_tv_onboarding_api36'].includes(avd));
+const forwards = execFileSync('adb', ['-s', serial, 'forward', '--list'], {encoding: 'utf8'});
+assert.ok(forwards.split('\n').some(line => line.trim() === `${serial} tcp:9222 localabstract:chrome_devtools_remote`));
+const siteDown = expected === 'down' || expected === 'site-off';
 const observeRestoredDocument = expected === 'startup-cookie-on';
 const timeout = setTimeout(() => {
   console.error('Shields probe timed out');
@@ -104,12 +112,16 @@ try {
   };
   if (!observeRestoredDocument) {
     assertRequest('http://127.0.0.1:18081/shields-control.js', false);
-    assertRequest('http://localhost:18081/showbanner.js', expected !== 'down');
+    assertRequest('http://localhost:18081/showbanner.js', !siteDown);
   }
   assert.equal(result.ready, 'complete');
   assert.ok(!result.body.includes('pending'));
   assert.ok(result.body.includes('Control script: loaded'));
-  if (expected.startsWith('cookie-') || observeRestoredDocument) {
+  if (expected.startsWith('site-')) {
+    assert.equal(result.adLoaded, siteDown);
+    assert.equal(result.cookieLoaded, siteDown);
+    assertRequest('http://localhost:18081/1_cookie.js', !siteDown);
+  } else if (expected.startsWith('cookie-') || observeRestoredDocument) {
     assert.equal(result.adLoaded, false);
     assert.ok(result.body.includes('Cookie-list request:'));
     assert.equal(result.cookieLoaded, expected === 'cookie-off');

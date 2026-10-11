@@ -97,6 +97,14 @@ loaded fixture heading, then enters Chromium's native Page info through D-pad
 controls and verifies its origin, connection row and Back recovery. It does
 not require a separate EmbeddedTestServer APK or an OS trust exception.
 
+The `TvHomePageTest#pendingClear*` methods hold only completion through the
+existing generated JNI test hook. They exercise real native dialogs, D-pad,
+Back, activity pause/resume and document replacement, asserting the exact
+normal profile, CACHE type, ALL_TIME and empty exclusions. Run each in its
+own instrumentation process and retain the native fixture's scoped cleanup.
+These cases prove pending UI ownership and recovery; actual category deletion
+and preservation require the production privacy fixture below.
+
 `tv-compose-clear-cancel.ad` starts at the clear-data chooser with Settings
 focused. It asserts each focus transition before the next key: Cancel → Right
 to Clear now → Left to Cancel → OK back to the chooser. A failed replay stops;
@@ -286,7 +294,7 @@ verify the former listener refuses connections and that returning to Brave
 requires a new opt-in/pairing. Remove only these emulator forwards and restore
 the original debug flags/network settings after the run.
 
-`shields-probe.mjs startup-cookie-on` observes the already-restored local
+`shields-probe.mjs startup-cookie-on EMULATOR_SERIAL` observes the already-restored local
 `http://127.0.0.1:18081/shields.html` document without navigating or reloading it.
 Use after a cold agent-device relaunch with protection and the cookie list on,
 and the usual ADB DevTools forward to port 9222. It requires the control script
@@ -490,7 +498,7 @@ custom filters, then append these two temporary rules in Content Filters:
 127.0.0.1##+js(set, tvShieldsProbe, true)
 ```
 
-Run `nix develop --command node tests/device/shields-probe.mjs up`. Use the TV
+Run `nix develop --command node tests/device/shields-probe.mjs up EMULATOR_SERIAL`. Use the TV
 Site protection panel to turn protection off, run the `down` check, then turn it on
 and rerun `up`. Background the browser and allow its asynchronous preference
 write before relaunching and checking persistence. An immediate force-stop can
@@ -715,3 +723,19 @@ the same paired TV listener. It restores the page in `finally`. Results include
 load/video-readiness deadlines, navigation timing. This
 comparison cannot establish optimized Chromecast performance or separate every
 network/cache effect; record individual samples rather than implying a benchmark.
+
+`shields-fixture-server.mjs` serves four fixed resources on host loopback18081.
+Run it under the project Nix environment. Verify the emulator's AVD identity,
+then use explicit `adb -s EMULATOR_SERIAL reverse tcp:18081 tcp:18081` and
+`forward tcp:9222 localabstract:chrome_devtools_remote`. Open only the normal
+`http://127.0.0.1:18081/shields.html` fixture. `shields-probe.mjs MODE
+EMULATOR_SERIAL` checks that emulator and its exact forward before attaching;
+it performs a diagnostic reload and records request-specific completion or
+ERR_BLOCKED_BY_CLIENT. `site-on`/`site-off` need no custom rules; cookie modes
+isolate the optional list while ads remain blocked. Existing `up`/`down` also
+require the historical temporary cosmetic/scriptlet fixture rules, which must
+never be shipped. Native D-pad Shields/filter actions are separate prerequisites.
+The Compose standard-mode replay starts with compact controls at Address and
+Aggressive selected. Keep profiles and restore original site/list preferences.
+Fixture-server checks and counters alone cannot establish native enforcement,
+signed-update validation, hardware or LAN acceptance.

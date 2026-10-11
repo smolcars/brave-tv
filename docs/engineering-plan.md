@@ -2843,7 +2843,7 @@ acceptance changes. Review the correction before advancing the cached checkout.
 Correction5d103/cb3aa1b review has Standards0/Spec0 source/root. Test-onlyr21
 stops on declaration-only AndroidX Nullable used in array type position at
 TvHomePageTest919. Correct only the declaration placement; keep the same nullable
-JNI signature and callback assertions. GNU45.03s Siso failure, live cgroup peak
+JNI signature and callback assertions. GNU48.79s/Siso45.03s failure, live cgroup peak
 11,570,319,360B (~10.78GiB), no OOM or installation. Reuse completed compilation
 steps in the next cached test build. Actual production provider D-pad selection
 Google→DuckDuckGo and authoritative native Address description pass on retained
@@ -2883,6 +2883,19 @@ normal native Home identity and static Settings/pending focus booleans at the
 existing failing Address assertion before changing resume behavior. Batch this
 small correction and diagnostic in the next cached production+test build; carry
 forward passed bookmark/tab/Back cases.
+
+Latest0bd137/99f316 review Standards0/Spec0 both. Independent next5.4 fixture
+work while its cached full build runs: make existing Shields request fixture
+reproducible with a loopback-only fixed-route server for control/ad/cookie scripts,
+add exact emulator/forward guards and site-on/off observations to its existing
+bounded reload/read-back diagnostic, and replace the obsolete mobile-control replay route.
+Acceptance requires actual native D-pad Shields off/on plus request-specific
+ERR_BLOCKED_BY_CLIENT/HTTP completion, cookie-list disabled/enabled attribution,
+native update status/check/Back and ordinary restart persistence. Keep native
+signed validation/update enforcement and existing known backend evidence; no
+custom test filters, fake counters or private capture. Written fixture/server
+checks alone do not accept5.4. Run only after native callback tests release the
+device; do not alter cached browser source during this build.
 
 ## Previous feature: phone remote (10 October)
 

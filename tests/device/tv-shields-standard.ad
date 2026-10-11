@@ -1,11 +1,19 @@
-# Normal shields.html tab active; protection on, Aggressive selected, no page history.
-open com.brave.browser_default --relaunch
-wait "text=\"Address or search\" focused=true" 5000
+# Normal shields.html active; compact Compose controls at Address.
+# Protection is on and Aggressive selected. No profile reset or restart.
+wait "text=\"Address or search\" focused=true" 3000
 tv-remote down
-wait "text=\"Page cursor\" focused=true" 3000
-tv-remote down
+wait "text=\"Reload\" focused=true" 3000
+tv-remote right
+wait "text=\"Tabs\" focused=true" 3000
+tv-remote right
 wait "text=\"Bookmarks\" focused=true" 3000
-tv-remote down
+tv-remote right
+wait "text=\"More controls\" focused=true" 3000
+tv-remote select
+wait "text=\"History\" focused=true" 3000
+tv-remote right
+wait "text=\"Downloads\" focused=true" 3000
+tv-remote right
 wait "text=\"Site protection\" focused=true" 3000
 tv-remote select
 wait "text=\"Protection on · Turn off for this site\" focused=true" 3000

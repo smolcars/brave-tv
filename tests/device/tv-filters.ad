@@ -1,13 +1,5 @@
-# Normal native home; cookie list initially enabled. Restores it to enabled.
-open com.brave.browser_default --relaunch
-wait "text=\"Address or search\" focused=true" 5000
-tv-remote right
-tv-remote select
-wait "text=\"Address or search\" focused=true" 3000
-tv-remote down
-tv-remote down
-wait "text=\"Settings\" focused=true" 3000
-tv-remote select
+# Native Compose Settings at Search engine; cookie list initially enabled.
+# Restores the optional list to enabled without restarting or resetting data.
 wait "text=\"Search engine\" focused=true" 3000
 tv-remote down
 wait "text=\"Content Filters\" focused=true" 3000
