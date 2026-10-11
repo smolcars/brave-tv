@@ -3053,6 +3053,26 @@ Host security-r2 HTTP route/method and TLS rejection checks pass; native Basic
 auth shows the exact loopback origin, Back dismisses stock IME and two Down
 presses reach Cancel. Cancellation/permission/certificate acceptance is pending.
 
+Correction915/d976 latest reviews: Standards0/Spec0 each. Test buildr26 succeeds
+with blocking analysis (Siso19.24s/14 steps), sampled cgroup peak9515479040bytes.
+Preserved compose-dpad-red-tests-915d732bd-x64-debug-20261011 TEST APK876337391bytes,
+SHA2564a227817c47fb2f97f130b173ddadcf07f436b2eadccf8720074c1f1ba7e3427,
+verified profile-preserving install12.350s. Native dedicatedDpad regressionr33
+FAIL11.333s at exact pointer-click assertion after loaded-document, settled
+toolbar, activity/content focus and alphabetic-device assertions all pass.
+This reproduces the dedicated D-pad rejection without weakening input guards.
+
+Certificate fixture actual production warning shows127.0.0.1 and native
+NET::ERR_CERT_AUTHORITY_INVALID; protected document never opens. Native Back
+currently opens Compose controls over that same warning rather than dispatching
+to Chromium's trusted Back handler. Add a second real-engine native regression
+using the documented host TLS fixture: start on a known normal document, assert
+native dangerous state, press Back and require the original normal document.
+Run red against unchanged security ownership, then share one production build
+for the minimal source-classification and native-dangerous-owner fixes. Native
+auth Cancel recovered to its fixture page using Back/Down/Down/OK; no credentials,
+trust changes, certificate bypass or physical actions.5.5 remains pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
