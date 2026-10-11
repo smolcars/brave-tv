@@ -2476,7 +2476,7 @@ screenshots and no sensitive payload logs. This strengthens native screenshot
 ownership while retaining the existing private-lock checks.
 
 
-Combined r56 source5bbc/root622 passes blocking analysis in4m23.99s
+Combined r56 source5bbc/root622 passes blocking analysis in4m23.48s
 (Siso4m19.84s,141 executed steps), observed cgroup peak16190103552bytes.
 Signed preserved x64 artifacts:
 `~/.cache/brave-tv/artifacts/compose-library-history-5bbc5ace0-x64-debug-20261011`,
@@ -2492,6 +2492,40 @@ bookmark; selected last-row scrolling may make that visibility expectation
 invalid. Inspect real focus/viewport state with bounded native stimuli before
 changing either UI behavior or acceptance. No history/5.1 acceptance is inferred.
 The subsequent tab-list changes are not in r56 and remain build/runtime pending.
+
+
+### Consolidated library/tab corrections before r57
+
+Latest d195/696 review: Standards0/root0, Spec1 source finding. The pinned
+Chromium tree has no EmptyTabObserver; replace it with TabObserver's default
+interface callbacks before compiling. Diagnose history first-page footer focus
+with nine actual native fixture visits instead of repeating the160-visit setup.
+Inspect selected-row viewport after external library changes; assert the page
+boundary through native traversal rather than requiring an offscreen first row
+to be visible. Batch affected history/bookmark/tab runtime cases in one cached
+production/test build. Carry forward unchanged positive checks; count stays25/54.
+
+Native production r25 minimizes the History failure to nine owned visits.
+Twelve Down observations move9→8→7→6→5→4→3→2→disabled Previous visits→Controls,
+then remain at Controls. Thus the actual first-page footer is D-pad reachable.
+Use the existing fresh UiObject2/isFocused traversal used by other native cases,
+then Right to More; remove the separate focused-selector lookup. No production
+focus behavior changes. The same native trace shows upper rows leave the visible
+viewport after last-row focus. Bookmark/tab update assertions now synchronize on
+the newly disabled Previous footer (the normalized first page), then traverse
+seven Up to the first row and seven Down back to the retained stable ID. This
+checks real page membership and focus without demanding offscreen visibility.
+R25 evidence: `probes/engine-lifecycle-r1/history-focus-r25.json`. Nine synthetic
+normal visits and the owned fixture tab are retained until scoped cleanup; no
+profile clearing. The platform uiautomator dump attempt exited137 without output;
+no acceptance is taken from it. Latest correction/build/runtime remains pending.
+
+R25 additionally proves native Right focuses More visits and OK opens the next
+page with pagination1 focused. This is the minimized footer regression only;
+150-entry continuation/deletion/policy remain pending the native aggregate case.
+Correction sourceef292 uses exact pinned TabObserver default callbacks and the
+bounded native traversal assertions described above. No production History or
+bookmark behavior changed in this correction.
 
 ## Previous feature: phone remote (10 October)
 
