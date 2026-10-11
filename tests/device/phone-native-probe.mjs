@@ -10,10 +10,11 @@ const { chromium } = require("playwright-core");
 const tvBrowser = await chromium.connectOverCDP("http://127.0.0.1:9222");
 const phoneBrowser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
+  const url = "http://10.0.2.2:18088/phone-remote.html";
   const tv = tvBrowser
     .contexts()[0]
     .pages()
-    .find((p) => p.url().includes("/phone-remote.html"));
+    .find((p) => p.url() === url);
   const phone = phoneBrowser
     .contexts()[0]
     .pages()
@@ -22,8 +23,15 @@ try {
     tv && phone,
     "Open the fixture and pair the real phone browser first",
   );
-  await phone.waitForFunction(() => connected && !busy && !state.paused);
+  await phone.waitForFunction(
+    (url) => connected && !busy && !state.paused && state.url === url,
+    url,
+  );
   async function focus(selector) {
+    if (await tv.evaluate((id) => document.activeElement?.id === id, selector.slice(1))) {
+      await phone.waitForFunction(() => state.editable?.ready && !busy && !state.paused);
+      return;
+    }
     for (let attempt = 0; attempt < 16; attempt++) {
       await phone.waitForFunction(() => connected && !busy && !state.paused);
       const target = await tv.locator(selector).evaluate((element) => {
@@ -96,7 +104,9 @@ try {
     timeout: 5000,
   });
   assert.equal(await tv.evaluate(() => document.activeElement.id), "plain");
-  await phone.locator("#showKeyboard").click();
+  if (await phone.locator("#editor").isHidden()) {
+    await phone.locator("#showKeyboard").click();
+  }
   const text = "héllo हिन्दी 🌍";
   await phone.locator("#editor").fill(text);
   await tv.waitForFunction(

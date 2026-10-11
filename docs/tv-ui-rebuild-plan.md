@@ -6,12 +6,13 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **33/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:5/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **35/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:4/5, Stage 4:6/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
 cancellation and certificate recovery pass; broader exceptional flows remain
-pending. Stock phone composition coverage remains pending. Carry
+pending. Custom phone IME/native composition passes; stock-phone and physical
+phone IME compatibility remain unverified. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
@@ -352,9 +353,17 @@ no emulator result checks that hardware gate or establishes release acceptance.
   repeated D-pad events. Match coordinates to the actual content viewport.
 - [x] **3.4** Connect lifecycle-aware observations without poll-driven whole-UI
   redraws. Test stale async results, destroyed activities and tab replacement.
-- [ ] **3.5** Route phone actions through the extracted browser behavior while
+- [x] **3.5** Route phone actions through the extracted browser behavior while
   retaining authentication, revisions, deduplication and UI-thread revalidation.
   Rejection must never invoke private-tab unlock or native permission approval.
+  Source6d's packaged r65 passes strict native-input r89: real phone
+  InputConnection composition, Unicode, replacement/composition versions,
+  selection/code-point deletion, textarea/contenteditable, stale-field rejection
+  and password exclusion. Stock TV IME r69 and unchanged authentication/revision/
+  deduplication/session tests carry. Production private r76 and native-security
+  r72–r74 reject authenticated commands with exact metadata redaction. Native
+  guards retain side-effect-free private eligibility; no phone unlock or native
+  approval. Stock-phone/physical IME checks remain separate and unverified.
 
 **Gate:** existing input/phone security regressions pass before replacing core
 surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
@@ -402,9 +411,19 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
 - [ ] **4.6** Integrate fullscreen/media presentation and pointer overlay across
   enter/exit, system bars, tab switches and background recovery. Keep existing
   media session/decoder behavior and native webpage editing.
-- [ ] **4.7** Replace TV pairing/connection surfaces. QR auto-pair waiting state
+- [x] **4.7** Replace TV pairing/connection surfaces. QR auto-pair waiting state
   must not look like an empty manual-code form; expose approval/disconnect and
   truthful paused reasons. Keep physical control usable while paired.
+  Compose warning/pairing/pending/connection surfaces retain native ownership.
+  Native badge r43 retains page focus, one activation and disposal. Packaged
+  source6d QR r13 passes actual simulated-LAN pairing, hidden manual pending
+  form, fragment removal and separate D-pad approval. Native editing→pause r84
+  proves previously offscreen guidance becomes visible, fields are cleared,
+  Disconnect stays enabled and the same tab rows recover. Phone Disconnect and
+  TV D-pad rejection r14 clear/revoke the session and restore fresh-pair guidance;
+  Home regains Address focus. Controls/security/private reasons and D-pad actions
+  while paired pass on emulator. Actual manual/expiry and physical-client checks
+  remain in final V4 verification, not claimed by QR acceptance.
 - [ ] **4.8** Retire replaced mobile toolbar/tab/home entry routes per slice so
   old and new UI never compete for focus or dispatch the same action twice.
 

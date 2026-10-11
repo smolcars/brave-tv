@@ -3405,6 +3405,56 @@ the TEST certificate fixture. Canonical count33/54, Stage5:6/7;5.6 exceptional
 recovery, phone packaging and hardware gates remain pending. This evidence-only
 acceptance does not change the source or the currently running r65 build.
 
+Stage3.5 final consolidated native-input acceptance: after packaged pause
+visibility, run the unchanged complete phone-native probe once on source6d,
+using the existing quiet TV IME fixture and genuine phone InputConnection IME.
+Preserve stock TV IME acceptance r69 separately and restore the TV's stock IME
+after this test. Require composition/replacement versions, selection/deletion,
+stale document/field/viewport rejection and sensitive-field refusal; combine
+with the current private/native-security rejection results. No fake DOM input,
+new native command, unlock or repeated broad library/settings suite.
+
+Strict probe r85 stops before its first replacement: the prior visibility test
+left the phone editor open, and its unconditional Show keyboard toggle closes
+that editor. Preserve all strict native assertions; only open the editor when
+it is hidden. This shared-session precondition correction needs no APK rebuild.
+
+R86/r88 stop at the first editable-state acknowledgement after re-tapping an
+already-focused field; authenticated state becomes generic native pause. R87
+is interrupted after the alternate cached IME install is rejected for a different
+fixture signing key; replace only that just-installed task fixture, retaining
+Brave profiles. The modern TV fixture then installs/enables normally. Native
+Back twice returns to the exact normal fixture. A minimized genuine phone
+replacement passes without re-tapping that already-focused native field. Keep
+the strict probe bound to the authenticated exact normal fixture, and reuse
+its existing field focus when ready; genuine native field switching and all
+composition/version/selection/deletion/password assertions remain mandatory.
+No application guard change or native focus injection is justified by this case.
+
+Cached combined r65 passes blocking analysis in1m39.90s/61 executed steps;
+53 cgroup samples record peak14200107008bytes (13.22GiB), no OOM. Preserved
+verified artifacts at
+`~/.cache/brave-tv/artifacts/compose-phone-6d12c8529-x64-debug-20261011`:
+production852743294bytes/SHA256f0f5d13a22cc72289ce6c865b06c54a7cbae58507a08ae66571d058d2fcc9ea0,
+TEST876360027bytes/SHA25650e91062a6b2bf43bad6f44e2de52f62706d9c275e0344b26723238233dfbb66.
+Provenance pins source6d and root719 at build start. In-place installs match
+hashes in13.421/13.841s, retaining profiles. Only the owned phone AVD stopped
+during build and restarted with its retained image/profile and explicit SDK.
+
+Fresh packaged QR r13 passes direct simulated-LAN/native approval. Pause r83
+passes actual visibility/redaction/Disconnect, then stops at an incorrect tab
+row locator; r84 uses the real `.tab` rows and passes same-ID resume. Strict
+native-input r89 passes the complete existing assertions, including genuine
+phone Japanese composition, replacement/selection/deletion/contenteditable,
+stale-field rejection and password exclusion. Stock TV IME is restored afterward.
+Real phone Disconnect clears credentials/disables controls/removes the TV badge;
+native D-pad returns to Home/Address. Fresh pending QR r14 is separately rejected
+by D-pad Back; the actual companion clears token/epoch/connection and restores
+fresh-invitation guidance with no waiting form. No blind approval, profile wipe,
+secret log or physical operation. Item3.5 and4.7 emulator scope accepted;
+canonical35/54, Stage3:4/5, Stage4:6/8. Actual manual/expiry, fullscreen switching,
+exceptional recovery, migration/retirement and final V checks remain open.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
