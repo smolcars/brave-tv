@@ -1647,6 +1647,19 @@ changed by whole-file formatting. Retain only the documented public TV check;
 format the new test normally. This correction does not change behavior or add
 validation scope. Keep source/root master history and review both latest slices.
 
+Toolbar implementation review: sourcec36 Standards0/Spec1, root0a3530/0.
+The constant HIDDEN removes native TabState safety/IME visibility decisions;
+fix before building. Source3a624/root32464 formatting correction reviews0/0,
+but that earlier functional finding remains open. Retain native composition
+and all TabState observers through a small TV subclass: dangerous/error/
+unresponsive/focused editable state and native app showing tokens keep SHOWN;
+ordinary TV Home/page presentation uses HIDDEN. Observe app token changes and
+remove that observer on native tab destruction; fullscreen HIDDEN retains native
+priority. Mobile loading/Chrome-scheme/accessibility visibility assumptions are
+superseded only by the accepted TV presentation. Add actual native editable
+visibility/recovery coverage and later exercise trusted error/interstitial flows.
+No build has started; preserve the advanced checkout and every compile cache.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
