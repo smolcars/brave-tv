@@ -1082,6 +1082,14 @@ after the listener's positive ready log, the complete check passes. The fixture
 unit uses256MiB high/512MiB maximum with no swap; only host loopback18090 is
 bound. Actual native panel/download acceptance remains pending on build r31.
 
+Root c444 fixture review: Standards0/Spec0. Build r31 passes the previously
+failing production Java compilation, then blocking test Error Prone rejects
+`1000 - index` assigned to long creationTimeMs (IntLongMath). Change the fixture
+literal to1000L; retain blocking warnings-as-errors and the exact native tests.
+No production action or guard changes. Preserve r31 logs: GNU3m59.02s,
+Siso3m55.48s, systemd peak15,484,682,240bytes (14.42GiB). Commit/review and resume
+the same cached x64 targets after clean pin advancement; no output is deleted.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
