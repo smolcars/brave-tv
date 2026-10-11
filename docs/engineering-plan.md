@@ -1057,6 +1057,15 @@ Root17a4 review is Standards0/Spec0. Cached r30 builds the original ce4a pin;
 do not mutate that cached checkout until its build exits. After correction,
 advance the clean source/pin with checkout.py and perform the incremental build.
 
+Build r30 stops at Java compilation: the imported browser DownloadUtils lacks
+shouldDisplayDownloadAsDangerous(int,int). The pinned download-list caller uses
+components.browser_ui.util.DownloadUtils instead, which chrome_java already
+depends on. Correct this import, retaining the exact upstream danger predicate
+and the additional isDangerous guard. Preserve the failed log and cached steps;
+peak13,104,885,760bytes (12.21GiB), GNU wall1m07.04s, Siso1m03.37s. Source
+3e1e/root4a3e correction reviews are Standards0/Spec0. Commit/review the import correction and rebuild
+through the documented clean checkout path, with the same blocking checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
