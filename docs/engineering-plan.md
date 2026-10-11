@@ -3080,6 +3080,24 @@ target to the test APK dependencies; no dependency download/version change,
 production behavior or assertion weakening. Cgroup peak7938707456bytes; no OOM.
 Retain failed logs and rebuild only the affected test target before the red run.
 
+Latest a60d/3add reviews: Standards0/Spec0 each. Test buildr28 succeeds with
+blocking analysis (Siso36.19s/22 steps), sampled peak9908092928bytes. Preserved
+compose-certificate-red-tests-a60d2254a-x64-debug-20261011 TEST876352327bytes,
+SHA25686c1b49e10c94c4b5eb9c5461004601b35f753cb118ae14c96f16c62fa84e505,
+verified profile-preserving install11.847s. Native certificate regressionr34
+FAIL11.360s after native dangerous-state/origin/window-focus preconditions pass,
+specifically at same-tab safe-document recovery after Back (line461). This
+matches the production warning covered by our controls rather than native Back.
+
+Implement the two proven boundaries in TvBrowserControls: let dedicated
+SOURCE_DPAD events through the alphabetic-device check while ordinary keyboard,
+modifiers, IME and security checks remain; classify Chromium's native dangerous
+content as trusted native input ownership. The shared owner check must pause
+phone commands and dispatch Back natively without changing certificate decisions.
+Revalidate both exact red cases and the original permission/auth/certificate
+fixtures using one cached full build with blocking analysis. No bypass, trust
+change, private unlock or loosened document/viewport validation.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
