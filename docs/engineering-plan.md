@@ -2840,6 +2840,15 @@ noninvocation when selection/focus fails or disposal cancels restoration. This
 is a documentation correction before the first affected build; no behavior or
 acceptance changes. Review the correction before advancing the cached checkout.
 
+Correction5d103/cb3aa1b review has Standards0/Spec0 source/root. Test-onlyr21
+stops on declaration-only AndroidX Nullable used in array type position at
+TvHomePageTest919. Correct only the declaration placement; keep the same nullable
+JNI signature and callback assertions. GNU45.03s Siso failure, live cgroup peak
+11,570,319,360B (~10.78GiB), no OOM or installation. Reuse completed compilation
+steps in the next cached test build. Actual production provider D-pad selection
+Google→DuckDuckGo and authoritative native Address description pass on retained
+e0e3/fresh AVD; no external search submitted. Count remains28/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
