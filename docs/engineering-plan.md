@@ -1406,6 +1406,25 @@ normal/upgrade profiles, native security and phone rejection boundaries. Do not
 count fixture scripts, compilation, mocked state or physical hardware as runtime
 acceptance. Continue the remaining stages after this slice.
 
+Stage2 actual-engine alert passes on production1edfe with a non-alphabetic
+uinput remote and native initially focused OK; the retained document21 reports
+Alert closed. A following direction exposes cursor loss: modal display calls
+detachCursor(), clearing mPage, while dismissal only restores ContentView focus.
+The next remote direction therefore opens controls instead of moving on the
+same page. The confirm fixture command completion is not a confirm-dialog pass.
+Preserve this failure under `probes/engine-lifecycle-r1`.
+
+Correction slice: suspend the cursor visibly and cancel held input during a
+trusted native modal, retaining its attachment and a captured document context.
+Resume the prior pointer/scroll mode only after native ownership ends, on the
+same tab/WebContents/document and attached page, with private-lock rejection
+using the read-only supplier. Clamp to the current viewport and cancel old OK
+before resuming; never invoke the side-effecting private access/unlock path.
+Clear retained modal context on pause/destruction and reject navigation changes,
+including same-URL replacement. Add focused input resume checks and retain a
+native modal/next-click regression; verify actual alert/confirm/prompt recovery
+and native keyboard ownership in one pass after the blocking cached build.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

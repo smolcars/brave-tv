@@ -91,6 +91,7 @@ public final class TvRemoteInputTest {
         assert !input.onKey(TvRemoteInput.Key.RIGHT, true, 0, false)
                 : "Native controls own D-pad focus";
         assert !input.back() : "Back in controls belongs to the native dispatcher";
+        assert !input.resume() : "Native controls must not resume page input";
         assert input.activate(TvRemoteInput.Mode.POINTER);
         input.onKey(TvRemoteInput.Key.SELECT, false, 0, false);
         assert page.clicks == 1 : "A press from before the mode switch cannot click";
@@ -102,6 +103,10 @@ public final class TvRemoteInputTest {
         int pointedX = page.x;
         int pointedY = page.y;
         assert input.activate(TvRemoteInput.Mode.SCROLL);
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false);
+        assert input.resume() : "A suspended scroll mode resumes";
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false);
+        assert page.mode == TvRemoteInput.Mode.SCROLL : "Resuming cancels the old held OK";
         input.onKey(TvRemoteInput.Key.DOWN, true, 0, false);
         input.onKey(TvRemoteInput.Key.DOWN, false, 0, false);
         input.onKey(TvRemoteInput.Key.RIGHT, true, 0, false);
@@ -114,6 +119,8 @@ public final class TvRemoteInputTest {
         assert page.clicks == 1 : "Leaving scroll mode must not click the page";
         page.width = 3;
         page.height = 2;
+        assert input.resume();
+        assert page.x == 2 && page.y == 1 : "Resuming clamps to the current viewport";
         input.onKey(TvRemoteInput.Key.SELECT, true, 0, false);
         input.onKey(TvRemoteInput.Key.SELECT, false, 0, false);
         assert page.x == 2 && page.y == 1 : "Click coordinates clamp after a resize";
