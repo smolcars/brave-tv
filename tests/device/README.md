@@ -258,6 +258,12 @@ visible and the companion keyboard panel closed, run:
 node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 ```
 
+The strict probe requires one exact TV fixture and one companion target across
+all browser contexts, then authenticated unpaused normal state, before page
+reads or input. `node tests/device/phone-native-guards.mjs` checks missing and
+duplicate targets with host-only synthetic subprocesses; it never contacts a
+device or browser and supplements actual native-input acceptance.
+
 `phone-stock-ime-probe.mjs` is a focused stock-TV-IME smoke check. First focus
 the normal fixture's plain field through native input, with the verified stock
 TV keyboard selected. Pass the existing Playwright directory followed by the

@@ -23,6 +23,20 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scoped overrides and first slice
 
+Latest-review correction for root `8381a24d`: reject missing or duplicate exact
+TV fixture and companion targets before any DOM reads or input. Keep native
+text mismatch diagnostics value-free. Acceptance: host-only CLI negatives prove
+both ambiguity gates stop before DOM access, plus a unique-target boundary
+check. Carry the unchanged complete native r89 result; no APK rebuild or broad
+input rerun is needed for this test-instrumentation correction.
+
+Correction result: five host-only strict-input CLI checks pass. Missing and
+duplicate TV/phone targets across browser contexts stop before DOM access;
+unique targets reach authenticated-state validation. Text assertions preserve
+their strict comparisons but report only a generic mismatch. These host guards
+supplement the real r89 native-input evidence; they do not establish runtime
+input or privacy acceptance independently.
+
 Review correction: remove the stale current total from the Stage 5 evidence
 paragraph and refer to the canonical totals at the top of the UI checklist.
 Acceptance: the current summary uses the canonical checklist totals, with

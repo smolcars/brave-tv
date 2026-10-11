@@ -11,18 +11,18 @@ const tvBrowser = await chromium.connectOverCDP("http://127.0.0.1:9222");
 const phoneBrowser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
   const url = "http://10.0.2.2:18088/phone-remote.html";
-  const tv = tvBrowser
-    .contexts()[0]
-    .pages()
-    .find((p) => p.url() === url);
-  const phone = phoneBrowser
-    .contexts()[0]
-    .pages()
-    .find((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
-  assert.ok(
-    tv && phone,
-    "Open the fixture and pair the real phone browser first",
-  );
+  const tvTargets = tvBrowser
+    .contexts()
+    .flatMap((context) => context.pages())
+    .filter((p) => p.url() === url);
+  assert.equal(tvTargets.length, 1, "Require one exact TV fixture target");
+  const phoneTargets = phoneBrowser
+    .contexts()
+    .flatMap((context) => context.pages())
+    .filter((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
+  assert.equal(phoneTargets.length, 1, "Require one companion target");
+  const tv = tvTargets[0];
+  const phone = phoneTargets[0];
   await phone.waitForFunction(
     (url) => connected && !busy && !state.paused && state.url === url,
     url,
@@ -124,7 +124,8 @@ try {
     for (const replacement of ["hello", text]) {
       await phone.locator("#editor").fill(replacement);
       await settled(replacement);
-      assert.equal(await tv.locator("#plain").inputValue(), replacement);
+      assert.ok(await tv.locator("#plain").inputValue() === replacement,
+        "Native fixture replacement did not match");
     }
   }
   // Equal text cannot identify a native acknowledgement. Require actual IME
@@ -151,7 +152,8 @@ try {
       }, composing),
     );
     await settled(text);
-    assert.equal(await tv.locator("#plain").inputValue(), text);
+    assert.ok(await tv.locator("#plain").inputValue() === text,
+      "Native fixture composition did not match");
     await tv.waitForFunction(
       ({ type, before }) =>
         window.events.filter((e) => e.id === "plain" && e.type === type)
@@ -308,7 +310,8 @@ try {
   await phone.waitForFunction(() => !composing, undefined, { timeout: 3000 });
   await settled("日本");
   assert.equal(await phone.evaluate(() => composing), false);
-  assert.equal(await phone.locator("#editor").inputValue(), "日本");
+  assert.ok(await phone.locator("#editor").inputValue() === "日本",
+    "Phone fixture composition did not match");
   await tv.waitForFunction(() =>
     window.events.some((e) => e.type === "compositionend" && e.id === "plain"),
   );
@@ -341,10 +344,12 @@ try {
   );
   await nativeEdit("compose", { text: "é🌍" });
   await settled("é🌍本");
-  assert.equal(await tv.locator("#plain").inputValue(), "é🌍本");
+  assert.ok(await tv.locator("#plain").inputValue() === "é🌍本",
+    "Native fixture composition did not match");
   await nativeEdit("commit", { text: "क" });
   await settled("क本");
-  assert.equal(await tv.locator("#plain").inputValue(), "क本");
+  assert.ok(await tv.locator("#plain").inputValue() === "क本",
+    "Native fixture commit did not match");
   await phone.locator("#editor").fill("A🌍BCéD");
   await settled("A🌍BCéD");
   await nativeEdit("select", { start: 3, end: 5 });
@@ -356,7 +361,8 @@ try {
   );
   await nativeEdit("delete", { start: 1, end: 1 });
   await settled("ABCD");
-  assert.equal(await tv.locator("#plain").inputValue(), "ABCD");
+  assert.ok(await tv.locator("#plain").inputValue() === "ABCD",
+    "Native fixture deletion did not match");
   assert.deepEqual(
     await tv
       .locator("#plain")
@@ -402,7 +408,8 @@ try {
     return result.ok === false;
   }, stale);
   assert.ok(rejected, "Old field identity was accepted");
-  assert.equal(await tv.locator("#second").inputValue(), "second");
+  assert.ok(await tv.locator("#second").inputValue() === "second",
+    "Stale edit changed the second fixture field");
   for (const [selector, replacement] of [
     ["#area", "First line\nहिन्दी 🌍"],
     ["#editable", "Native café 🌍"],
@@ -414,11 +421,11 @@ try {
     await settled(original);
     await phone.locator("#editor").fill(replacement);
     await settled(replacement);
-    assert.equal(
+    assert.ok(
       await tv
         .locator(selector)
-        .evaluate((e) => (e.isContentEditable ? e.textContent : e.value)),
-      replacement,
+        .evaluate((e) => (e.isContentEditable ? e.textContent : e.value)) === replacement,
+      "Native fixture multiline replacement did not match",
     );
   }
   await focus("#password");
@@ -430,8 +437,8 @@ try {
     ),
     false,
   );
-  const events = await tv.evaluate(() => window.events);
-  assert.ok(events.some((e) => e.type === "input" && e.id === "plain"));
+  assert.ok(await tv.evaluate(() =>
+    window.events.some((e) => e.type === "input" && e.id === "plain")));
   console.log(
     "PASS: native Unicode, composition, selection, code-point deletion, textarea/contenteditable, stale-focus rejection and password exclusion",
   );
