@@ -2325,6 +2325,20 @@ package page-size constant and derive test page counts/row expectations from it.
 Review this correction separately before the combined production/test build;
 no runtime acceptance is inferred from review.
 
+### Native About, source and license routes
+
+While the pinned history build runs, implement the missing About entry in TV
+Settings. Use the existing Compose/native dialog ownership, localized attribution
+and installed package version, with explicit project-source and Chromium-generated
+license actions. Return through the existing Settings/Home invoker; revalidate
+selected tab/lifecycle before opening a destination. Keep Home's quiet source/
+license links and native startup restrictions. Acceptance: one consolidated native
+About→Back→About→licenses test checks the installed version, attribution, focus
+restoration, same selected tab and actual generated credits document. Audit
+startup/disabled-service routes separately; do not accept all5.7 from this panel.
+No cache mutation occurs while r54 compiles; build this source only after its
+commit/pin and the running build completes.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
