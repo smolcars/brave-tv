@@ -1820,6 +1820,14 @@ exact outcomes/document identity and a1080px final viewport; never continue keys
 or capture after failed ownership. Run consolidated dialog/media/IME/security
 on the production APK while the reviewed recovery build compiles. No4.8 checkbox.
 
+Latest source789/root59c reviews0/0. Root replay r8 stops at its new page-owner
+guard: controls did dismiss and the native focused Chromium content is exposed
+as Web View, with no virtual HTML heading in this accessibility snapshot. The
+guard must accept that observed focused native content, retaining exact normal
+fixture URL/unique document checks, before any page movement. This is a test
+precondition correction, not permission to proceed with a native modal or unknown
+page. No capture occurred. Source789 production recovery build remains next.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

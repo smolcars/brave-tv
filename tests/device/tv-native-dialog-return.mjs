@@ -154,7 +154,8 @@ try {
   tap(353); // Activate page input; density320 means a32px directional step.
   await sync();
   await waitNative(nodes => !nodes.some(n => n.label === 'Browser controls')
-    && nodes.some(n => n.label === 'TV native dialog checks'),
+    && nodes.some(n => n.focused
+      && (n.label === 'Web View' || n.label === 'TV native dialog checks')),
   'Native Page cursor activation must release controls before page movement');
   await point('alert');
   await click(); await modal('TV alert: close this dialog with the remote.', 'OK');
