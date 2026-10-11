@@ -1228,6 +1228,29 @@ fixture; verify blocking analysis, actual spoken context/recovery, and retained
 conservative focus. Do not count semantics alone as spoken acceptance. Continue
 remaining Stage1.5 display/error checks and restore the saved emulator settings.
 
+Sourceb35a latest reviews pass Standards0/Spec0; rootcfa evidence correction
+is resolved in efc1 (latest Standards0/Spec0). Full cached r33 passes blocking
+analysis in GNU4m11.36s/Siso4m07.87s,141 steps, journal peak14.4G (observed
+15,478,743,040 bytes). Both signed/hash-verified x64 APKs are preserved at
+`compose-a11y-b35a4839c-x64-debug-20261011` and installed in place; installed
+hashes match. ProductionSHA32ad51b1784e5708f379854904a7b93966fb81b973833f5c1b7c1b36b928cce3;
+testSHA41d253352220463fd1b41c5d16c30db3636347658531a3a3f0bc5e3a75957852.
+No profile/cache reset. The first artifact-preservation guard incorrectly treated
+systemd's expected unloaded-unit exit4 as an exception; corrected before creating
+its artifact directory. The formatter override-only jar was not executable;
+the existing pinned formatter launcher passes. No dependencies were replaced.
+
+Native r23 fails its first new loading-state semantic test at the text-search
+lookup, after pane-title/focus acceptance. Remaining six cases did not run.
+The pinned Compose virtual-node provider does not override Android text search
+(`pinned-compose-provider-api.txt`); tree traversal is supported, as used by
+our existing editor probe and this test's pane-title check. Test correction
+slice: traverse native virtual nodes for exact state/progress text and live-region
+metadata, retaining positive focus/state barriers, and rerun all seven relevant
+cases. Keep actual spoken green and Stage1.5 pending. Preserve the red suite,
+immutable red WAV and verified decoder-prefix hashes for the original speech
+failure; restore the saved accessibility settings before test instrumentation.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
