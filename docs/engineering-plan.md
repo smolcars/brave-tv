@@ -1110,6 +1110,24 @@ Cancel will still fail. Do not relax initial Cancel assertions or acceptance.
 Real native download/file-survival tests remain mandatory regardless of these
 provider-fixture results. The canonical count remains13/54, Stage1 remains5/6.
 
+Source4f21/root72b8 latest reviews pass Standards0/Spec0. Test-only r8 passes
+blocking analysis in GNU21.46s/Siso18.60s, 14 cached steps; journal peak8.4G.
+Production source573 is installed in place; its on-device APK SHA256 matches
+the preserved artifact. A real synthetic image download completes through the
+native location dialog. Native D-pad opens its TV list/details/removal prompt:
+Cancel initially focused, Right reaches Remove, Left returns Cancel, and OK on
+Cancel returns to Open without removing the item. This refutes a general
+Cancel-focus or dialog-replacement failure under remote activation.
+
+The real panel also shows disabled Resume receives D-pad focus. This is pinned
+TV Material behavior, permitting users to discover disabled actions; the test
+incorrectly assumed focus skips disabled rows. Before the next native run,
+assert that disabled intermediate focus and traverse onward to Remove. At the
+paging boundary likewise traverse Previous before Right to More. Preserve
+strict Cancel-first checks and dangerous-action nonexecution. Test-only r8 is
+compiled proof, not a passing native test suite. Actual open/removal/deletion,
+pause/resume/cancel and file-byte checks remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
