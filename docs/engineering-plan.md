@@ -2339,6 +2339,12 @@ startup/disabled-service routes separately; do not accept all5.7 from this panel
 No cache mutation occurs while r54 compiles; build this source only after its
 commit/pin and the running build completes.
 
+Latest About review reports source Standards1 (BS-048, duplicated source and
+license destinations)/Spec0, root0/0. Share the two existing TV destinations in
+TvBrowserControls and use them from Home, About and the native license check.
+The correction retains the exact destinations and ownership guards. Review the
+latest correction separately; current installed history APK remains sourcedb6.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
