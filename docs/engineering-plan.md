@@ -312,6 +312,27 @@ focus/IME Unicode/selection/deletion, URL vs selected-provider search, empty and
 invalid/stale state, Cancel/Back returning to home/page, private/native phone
 rejection. Toolbar retirement and real home content follow independently.
 
+Corrected panel c830/r19 runtime passes unchanged16-step real-model panel replay
+and22-step home/overflow/root-Back replay. Both latest correction reviewers have
+no findings. Editor cb805 review: Standards requests single authoritative text
+and suggestion limits; Spec finds an open editor survives selected tab/profile
+closure/switch with old text visible, despite rejecting submit. Correction slice
+shares limits at the editor seam and binds its owning context to native change
+notifications, dismissing/clearing composition and state on tab/content ownership
+change. Document-only staleness remains a recoverable error. Also request Android
+IME no-personalized-learning for address text (including private input), using
+the pinned platform IME option, without controlling or granting keyboard permissions.
+Acceptance: reviewed correction, blocking build, actual owner-switch/stale/IME
+probes. r20 still compiles committed cb805; cached checkout remains immutable.
+
+Editor r20 fails early in real Kotlin compilation because pinned Compose1.13
+marks TextFieldValue BasicTextField overload deprecated and warnings are errors.
+Use its supported TextFieldState overload (unsaved instance, genuine selection
+and composition) rather than suppress checks. Its platform input interceptor
+lets the genuine InputConnection set no-learning/no-extract flags; do not fake a
+password input type. Dispose/reset editor text and undo history with its owner.
+Observed failed-build peak9,098,833,920 bytes (8.47GiB); cache preserved.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
