@@ -11,6 +11,20 @@ import android.widget.TextView;
 
 /** Emulator-only fixed synthetic stimuli through genuine InputConnection, without an endpoint. */
 public final class RemoteIme extends InputMethodService {
+    private TextView mPrivacyFlags;
+
+    @Override
+    public void onStartInput(EditorInfo info, boolean restarting) {
+        super.onStartInput(info, restarting);
+        updatePrivacyFlags(info);
+    }
+
+    @Override
+    public void onStartInputView(EditorInfo info, boolean restarting) {
+        super.onStartInputView(info, restarting);
+        updatePrivacyFlags(info);
+    }
+
     @Override
     public boolean onEvaluateInputViewShown() {
         return true;
@@ -44,16 +58,9 @@ public final class RemoteIme extends InputMethodService {
     private View createTvView() {
         LinearLayout column = new LinearLayout(this);
         column.setOrientation(LinearLayout.VERTICAL);
-        TextView flags = new TextView(this);
-        EditorInfo info = getCurrentInputEditorInfo();
-        int expected =
-                EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
-                        | EditorInfo.IME_FLAG_NO_EXTRACT_UI
-                        | EditorInfo.IME_FLAG_NO_FULLSCREEN;
-        flags.setText(
-                "Native IME privacy flags: "
-                        + (info != null && (info.imeOptions & expected) == expected));
-        column.addView(flags);
+        mPrivacyFlags = new TextView(this);
+        updatePrivacyFlags(getCurrentInputEditorInfo());
+        column.addView(mPrivacyFlags);
         LinearLayout first = new LinearLayout(this);
         column.addView(first);
         addStimulus(
@@ -97,6 +104,17 @@ public final class RemoteIme extends InputMethodService {
                     input.commitText(oversized, 1);
                 });
         return column;
+    }
+
+    private void updatePrivacyFlags(EditorInfo info) {
+        if (mPrivacyFlags == null) return;
+        int expected =
+                EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+                        | EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                        | EditorInfo.IME_FLAG_NO_FULLSCREEN;
+        mPrivacyFlags.setText(
+                "Native IME privacy flags: "
+                        + (info != null && (info.imeOptions & expected) == expected));
     }
 
     private interface Stimulus {

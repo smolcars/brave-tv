@@ -1,0 +1,5 @@
+# Actual home Address must enter the TV editor, not the mobile omnibox.
+wait "text=\"Address or search\" focused=true" 3000
+tv-remote select
+wait "text=\"Clear\"" 3000
+wait "text=\"Cancel\"" 3000

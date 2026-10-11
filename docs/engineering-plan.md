@@ -388,6 +388,21 @@ the final private test tab restores the original normal home/3tabs with Address
 focused. These are native emulator proofs, not physical LAN/phone acceptance.
 TV-mode test IME builds/signs using the existing SDK; runtime stimuli pending.
 
+Editor entry r22 runtime is RED: the actual home→OK replay fails waiting for
+the TV-only Clear action; it opens the mobile omnibox instead. The tabbed
+activity consumes focus_url_bar before calling BraveActivity's parent override.
+Correct the retained bytecode adapter to consult one TV-only command handler
+at the start of that real tabbed command method; keep phone behavior and all
+native commands not handled by TV unchanged. Fail the adapter build if its
+exact native method disappears. Remove duplicated parent command logic.
+Acceptance: unchanged red-capable home-entry replay, controls entry and native
+keyboard entry, then the full editor IME/lifetime/security checks. No cache edits.
+
+Test-IME review correction: Android reuses the input view across targets, so
+the privacy flag label must refresh for every input/input-view start. Update
+only that boolean from current EditorInfo; never log/extract field payloads.
+Acceptance includes a second editor connection, avoiding a stale true display.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
