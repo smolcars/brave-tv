@@ -428,6 +428,13 @@ explicitly let focused editor D-pad OK request the native software keyboard.
 Acceptance: unchanged IME replay and actual Unicode/selection/composition/
 deletion/bound/privacy results. No injected DOM text or keyboard permission grant.
 
+Bytecode compatibility completeness: the new command-hook reflection test
+requires its method name/signature retained in the existing test APK's R8
+whitelist, not just its class. Add the exact boolean/int member to the existing
+BraveActivity rule. Acceptance: latest-only review, matching reflection signature
+and later targeted BytecodeTest instrumentation; the current Debug r23 build
+does not prove optimized test-APK reflection acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
