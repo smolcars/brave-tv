@@ -2857,6 +2857,33 @@ package, dependency upgrade or bypass. Siso20.89s failure, cgroup live peak
 13,266,628,608B (~12.36GiB), no install. Completed steps remain cached. Provider
 Google restoration and native Home return pass; preserve this fresh profile.
 
+Direct dependency correctiond5c429/479d15 review Standards0/Spec0 both.
+Cached testr23 succeeds GNU3m45.71s/Siso3m42.17s/61steps, blocking analysis0,
+live cgroup peak14,365,241,344B (~13.38GiB),114 samples. Preserved signed TEST
+compose-focus-clear-tests-d5c429bf9-x64-debug-20261011/BravePublicTest.apk:
+876,325,651B, SHA45591585e10d1a97f091fe89241a30d5387129cd90a057647b0ebbdf9caac4bc.
+Profile-preserving fresh-AVD install/hash passes; PRODe0e3 unchanged.
+Native r30: bookmark external deletion/nearest6/rename/stale observer PASS30.664s;
+frozen16-tab selection/update/removal/real restore PASS22.004s; pending-clear
+disabled duplicate/Back/no late reopen PASS15.172s. Pause/resume FAIL15.421s at
+Address focus; document replacement FAIL14.167s at regained activity-window focus.
+No data deletion is inferred from controlled completion. Native Clear and provider
+production positives carry forward; no broad rechecks or reset. Count28 remains
+until corrected production acceptance is recorded.
+
+Next correction: the completion callback already rejects a replaced document
+through isCurrent; it returns before dismissing the obsolete pending window.
+Capture its exact dialog owner and dismiss only that owned window when the
+context is invalid; never dismiss or rebuild another current panel. Preserve
+native deletion completion and global pending-flag release. Add a positive owned
+completion case; rerun changed document case and positive callback, plus bounded
+pause diagnostic. For pause, ranked hypotheses: retained Home Settings focus
+(valid invoker restoration), a stale pending panel, or absent Home focus. Check
+normal native Home identity and static Settings/pending focus booleans at the
+existing failing Address assertion before changing resume behavior. Batch this
+small correction and diagnostic in the next cached production+test build; carry
+forward passed bookmark/tab/Back cases.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
