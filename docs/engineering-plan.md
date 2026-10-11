@@ -2385,6 +2385,37 @@ bookmark Open/Cancel/confirmation checks; combine only affected native cases
 with the next cached build. History/About acceptance remains independently
 pending until the currently built APK passes its two native cases.
 
+
+Latest bookmark Spec review finds one focus-restoration gap: the shared panel's
+first-entry rule rejects a disabled preferred action, so native policy disabling
+focused Save would move focus to another control. Give the existing panel an
+explicit restoration mode only for returning/refreshed bookmark focus. Ordinary
+first entry keeps its enabled-action fallback, and disabled activation stays
+blocked. Add a native focused-Save→policy-disabled→enabled case using the owned
+HTTP fixture, with the original native preference restored. Review the correction
+separately; no new runtime acceptance follows from the initial review.
+
+
+Standards reports0/0 and flags a connected lifecycle defect for Spec: native
+AlertDialog dismissal can bypass controls dismissal after document replacement,
+leaving a bookmark observer registered. Extend the existing panel dismiss path
+with optional native-owner cleanup while preserving Compose disposal. Bind the
+exact list observer and posted refresh to that native dismiss callback, so stale
+Back and activity-owned dismissal unregister it even when browser context rejects
+opening another list. Revalidate and review this correction before the next build.
+
+
+Combined r55 source8f/rootfe0 passes production/test packaging and blocking
+analysis in8:03.08 (Siso7m59.39s,1082 executed steps), cgroup observed peak
+15682658304bytes. Both signed x64 APKs are preserved at
+`~/.cache/brave-tv/artifacts/compose-library-about-8f8bfddd9-x64-debug-20261011`:
+production852725810bytes/SHA256ee036bf92980cbe11f04ff523d3e137600f5f7b73facfa694aa8f7c44d5f57c9;
+test876300227bytes/SHA256e1cb4b5ac5b3d1ded96981d209d60f3ad2ed7e48aa352f5a39ca3b07429dc349.
+Verified in-place installed hashes match; profiles remain intact. Only the
+history and About native cases are running against this exact source. Bookmark
+corrections committed afterward are not present in r55 and require their next
+cached build. Latest8f/fe0 review finishes0/0 for both axes. Acceptance stays25/54.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

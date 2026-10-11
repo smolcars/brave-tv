@@ -556,6 +556,14 @@ row is not restoration acceptance. The case restores the original policy and
 teardown removes only its owned bookmark IDs. The existing confirmed-removal
 case also requires immediate focus on the nearest surviving bookmark.
 
+
+`TvHomePageTest#bookmarkLibraryPreservesFocusedSaveWhenPolicyDisablesIt`
+requires `-e tv_bookmark_fixture_url http://10.0.2.2:18088/bookmarks.html`.
+It preserves focused Save across native policy disabling/re-enabling and checks
+that activating disabled Save creates no bookmark. First-entry focus keeps the
+ordinary enabled-action fallback. The selection case also replaces the native
+document before Back and checks usable controls after native dialog dismissal.
+
 ## Native history
 
 Serve `history.html` with the other fixtures and visit it in a normal tab. This
