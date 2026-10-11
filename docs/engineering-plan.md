@@ -341,6 +341,12 @@ and blocking native build, then owner-switch/disposal runtime probes. r21 is
 building committed0370 in the immutable cached checkout; a subsequent build
 will include this lifecycle correction without resetting dependencies.
 
+r21 fails on the supported interceptor's override parameter-name warning
+(`outAttrs` versus the pinned interface's `outAttributes`), with warnings still
+blocking. Match the interface name exactly. Observed peak7,960,109,056 bytes
+(7.41GiB); no APK installed. r22 will build both this compile correction and
+the activity lifecycle guard using the retained output.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
