@@ -1702,6 +1702,25 @@ field final while retaining nullable initialization for the base constructor's
 virtual calculation. Retry the combined cached target with all checks enabled;
 preserve logs and do not install the failed build's APKs.
 
+Source7b006/rootc366 latest reviews0/0. Combined r42 passes blocking analysis in
+3m39.36s with26steps and observed MemoryPeak17220943872bytes(16.04GiB).
+Signed x64 production/test APKs are preserved under
+`artifacts/compose-toolbar-7b0062047-x64-debug-20261011`, hashes
+`c510359f2a322d88dbfbc6cca81fc43cdb31555c226e4a161eab64aef586f133` and
+`12067411e3d162ea5e06bbb6df01e5df9fcd930d0e01c760e3100ee6b79ffc14`;
+in-place installs and installed hashes pass. The first isolated native viewport
+case fails at initial Home,8.198s; the bundle correctly stops. No4.8 acceptance.
+
+Diagnosis: the cached Chromium factory still has its original delegate line.
+Ordinary build does not apply newly added tracked Chromium patches. A read-only
+Brave patcher checksum scan reports exactly one pending patch, the new factory,
+NO_PATCH_INFO, with no obsolete patches. Its upstream target has no unrelated
+edits. Correct the documented source workflow, run the pinned incremental
+`pnpm run apply_patches` while builds are stopped, verify the actual target and
+patch metadata, then rebuild with preserved caches. Keep r42's missing-hook
+artifact/failure evidence distinct from the next applied-patch artifact. Do not
+hide this failure by changing viewport expectations or widening test timeouts.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

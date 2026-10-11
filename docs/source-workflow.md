@@ -21,8 +21,9 @@ For an existing project checkout, use `git submodule update --init brave`. Befor
 2. Edit ordinary files under `brave/`. Run focused tests, formatting and `git -C brave diff --check`.
 3. Commit the source on its `master`, then commit the updated `brave` pointer in this project. Do not advance the build checkout while a build is running.
 4. In the project's Nix shell, run `python3 tools/checkout.py "$HOME/.cache/brave-tv/workspace"`. It verifies the recorded source revision, clean working trees, upstream ancestry and Chromium pin, then clones or fast-forwards the external build checkout. Divergent commits and dirty files are preserved and reported.
-5. Build in that external checkout with the [resource limits](build.md#resume-with-host-resource-limits). Keep the current `out/android_Debug` and `out/android_Static_arm` directories and dependencies.
-6. Install on the emulator without clearing the profile, run the relevant remote checks and record evidence. Review only the latest implementation commit against its parent, fix findings, and push the source fork before pushing the project pointer.
+5. When the slice adds or changes Brave's tracked Chromium patches, inspect pending patch/target checksums and preserve unrelated upstream edits before running `pnpm run apply_patches` from the external `src/brave` directory. Its incremental patcher restores only stale patch target files, then reapplies their tracked patches; it is separate from `pnpm run build`. Verify the intended changes in the actual Chromium files before building. Do this only while no build is running; do not run `init` or a destructive sync/reset.
+6. Build in that external checkout with the [resource limits](build.md#resume-with-host-resource-limits). Keep the current `out/android_Debug` and `out/android_Static_arm` directories and dependencies.
+7. Install on the emulator without clearing the profile, run the relevant remote checks and record evidence. Review only the latest implementation commit against its parent, fix findings, and push the source fork before pushing the project pointer.
 
 Use the existing `pnpm run build` commands. On this initialized builder, ordinary UI changes do not need a new Chromium checkout or `pnpm run init`. Never run a destructive sync/reset to silence a dirty-tree error.
 
