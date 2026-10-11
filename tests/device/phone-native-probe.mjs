@@ -149,6 +149,83 @@ try {
       { type: eventType, before },
     );
   }
+  await nativeEdit("replace", {
+    text,
+    start: text.length,
+    end: text.length,
+    composing: true,
+  });
+  await settled(text);
+  const compositionLease = await phone.evaluate(() => ({
+    editable: state.editable.revision,
+    version: state.editable.version,
+    replacementVersion: state.editable.replacementVersion,
+  }));
+  assert.equal(typeof compositionLease.replacementVersion, "number");
+  await nativeEdit("finish");
+  await settled(text);
+  assert.notEqual(
+    await phone.evaluate(() => state.editable.version),
+    compositionLease.version,
+  );
+  assert.equal(
+    await phone.evaluate(() => state.editable.replacementVersion),
+    compositionLease.replacementVersion,
+  );
+  assert.equal(
+    await phone.evaluate(
+      async (old) =>
+        command("edit", {
+          ...old,
+          edit: "compose",
+          text: "must not arrive",
+        }),
+      compositionLease,
+    ),
+    false,
+    "Positional composition accepted an old full version",
+  );
+  assert.ok(
+    await phone.evaluate(
+      async ({ old, text }) =>
+        command("edit", {
+          ...old,
+          edit: "replace",
+          text,
+          start: text.length,
+          end: text.length,
+          composing: false,
+        }),
+      { old: compositionLease, text },
+    ),
+  );
+  await settled(text);
+  const textLease = await phone.evaluate(() => ({
+    editable: state.editable.revision,
+    version: state.editable.version,
+    replacementVersion: state.editable.replacementVersion,
+  }));
+  await nativeEdit("commit", { text: "!" });
+  await settled(text + "!");
+  assert.equal(
+    await phone.evaluate(
+      async ({ old, text }) =>
+        command("edit", {
+          ...old,
+          edit: "replace",
+          text,
+          start: text.length,
+          end: text.length,
+          composing: false,
+        }),
+      { old: textLease, text },
+    ),
+    false,
+    "Replacement accepted a changed native text version",
+  );
+  await settled(text + "!");
+  await phone.locator("#editor").fill(text);
+  await settled(text);
   // Android resizes the visual viewport for its keyboard. Dismiss it before
   // targeting toolbar buttons; desktop coordinates can hit the wrong element.
   if (await phone.evaluate(() => visualViewport.height < innerHeight - 30)) {

@@ -17,6 +17,8 @@ let delayedPoll = false;
 let selectionStarted;
 let releaseSelection;
 let conflictingCaret = false;
+let compositionBeforeReplace = false;
+let textBeforeReplace = false;
 const initial = {
   revision: 1,
   paused: false,
@@ -34,6 +36,7 @@ const initial = {
   editable: {
     revision: 2,
     version: 1,
+    replacementVersion: 1,
     ready: true,
     text: "hello",
     start: 5,
@@ -104,14 +107,30 @@ const server = createServer(async (req, res) => {
     initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
     initial.editable.end = data.end;
     initial.editable.version++;
+    initial.editable.replacementVersion++;
   }
   if (data.edit === "replace") {
-    const ok = data.version === initial.editable.version;
+    if (compositionBeforeReplace) {
+      compositionBeforeReplace = false;
+      initial.editable.version++;
+    }
+    if (textBeforeReplace) {
+      textBeforeReplace = false;
+      initial.editable.text = "Updated on TV";
+      initial.editable.start = initial.editable.end =
+        initial.editable.text.length;
+      initial.editable.version++;
+      initial.editable.replacementVersion++;
+    }
+    const ok =
+      data.version === initial.editable.version ||
+      data.replacementVersion === initial.editable.replacementVersion;
     if (ok) {
       initial.editable.text = data.text;
       initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
       initial.editable.end = data.end;
       initial.editable.version++;
+      initial.editable.replacementVersion++;
     }
     res.end(JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial }));
     return;
@@ -259,6 +278,29 @@ try {
   assert.equal(await page.locator("#editor").inputValue(), "Changed on TV");
   selectionStarted = undefined;
   conflictingCaret = false;
+  compositionBeforeReplace = true;
+  await page.locator("#editor").fill("Composition-safe replacement");
+  await page.waitForFunction(
+    () =>
+      state.editable.text === "Composition-safe replacement" &&
+      !busy &&
+      !pendingEdit,
+  );
+  assert.equal(
+    typeof commands.filter((c) => c.edit === "replace").at(-1)
+      .replacementVersion,
+    "number",
+  );
+  textBeforeReplace = true;
+  await page.locator("#editor").fill("Discard changed text");
+  await page.waitForFunction(
+    () =>
+      state.editable.text === "Updated on TV" &&
+      !busy &&
+      !pendingEdit &&
+      !dirty,
+  );
+  assert.equal(await page.locator("#editor").inputValue(), "Updated on TV");
   await page.locator("#editor").fill("");
   await page.waitForFunction(
     () => state.editable.text === "" && !busy && !pendingEdit,

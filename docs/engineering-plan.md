@@ -2227,6 +2227,45 @@ Keep3.5 unchecked and retain r57/r58 logs. Run a bounded first-edit request trac
 to distinguish stale field/version/viewport rejection from native composition
 conflict before the next correction; no rejected edit may be replayed.
 
+### Native composition-only replacement identity
+
+The test-only b3f552625 build passes blocking analysis in22.46s (14 executed
+steps), with sampled memory peak9664708608bytes. Its signed test APK is preserved
+at `~/.cache/brave-tv/artifacts/compose-library-tests-b3f552625-x64-debug-20261011`.
+Native r21 passes bookmark paging/open in15.632s and removal Cancel/confirm in
+17.279s. The installed production APK remains source2da; its profiles are intact.
+History acceptance is still pending, so5.1 remains unchecked.
+
+The bounded top-of-document first-edit r61 now reproduces the normal-keyboard
+failure with metadata only: selection accepts field88/browser73/version146,
+then confirms version147/text length5/selection0..5. Replacement requests147,
+but Chromium returns148 with the same field/browser/text/selection and rejects
+it. The only changed native state is composition. No replacement is replayed.
+The earlier r59 with extra scrolling passed, so retain both observations.
+
+Next slice: add a native whole-field replacement version that changes on field
+eligibility, text or selection, while the full existing version also tracks
+composition. Whole-field replacement finishes composition and atomically replaces
+the native range; validate it against this narrower version. Positional
+compose/commit/delete/select keep the full version. Document/viewport/field,
+normal/private/native-modal guards, native completion and cancellation stay
+mandatory. The companion captures this version with each coalesced edit and only
+advances it after its own confirmed same-field result. Test real native
+composition-only changes followed by replacement, and rejection after a text
+change, plus the existing full unobserved stock/quiet probes. No timers, stale
+edit retries or input-owner takeover are introduced. Acceptance stays25/54.
+
+The focused host companion regression passes with actual bundled JavaScript,
+including composition-only version changes and rejection of changed native
+text/selection. Syntax and formatting checks pass. These are UI/wire checks,
+not Chromium runtime acceptance. The expanded genuine native probe additionally
+requires composition-only finish to preserve the replacement version, permits
+whole-field replacement with that captured version, rejects positional compose
+with an old full version and rejects replacement after an actual native text
+change. Run it on the next exact production APK with stock and quiet TV IMEs.
+Unchanged bookmark r21, native bytecode hook and broader passing checks carry
+forward; rebuild the production target only for this phone-state change.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
