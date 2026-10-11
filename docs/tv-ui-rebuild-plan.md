@@ -6,11 +6,12 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **32/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:5/8, Stage 5:5/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **33/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:5/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
-remains deferred. Native Page info entry/return passes; broader permissions and
-exceptional security flows remain pending. Stock phone composition coverage remains pending. Carry
+remains deferred. Native site information, permission denial, authentication
+cancellation and certificate recovery pass; broader exceptional flows remain
+pending. Stock phone composition coverage remains pending. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
@@ -446,9 +447,18 @@ the complete feature set or a public release.
   signed snapshot and last-attempt time; restored fixture enforcement passes.
   Earlier17 native signed-validation cases carry forward unchanged. Hardware
   remains pending. See [engineering evidence](engineering-plan.md).
-- [ ] **5.5** Handle site information, permissions and supported authentication
+- [x] **5.5** Handle site information, permissions and supported authentication
   prompts with accurate origin and safe focus. Keep certificate/interstitial
   decisions and platform permissions with their existing trusted owners.
+  Native Page info entry/full origin/return and earlier native authentication
+  cancellation carry forward. Production335d r74 reaches the actual localhost
+  location prompt with Block initially focused; D-pad OK returns to Location
+  denied. Certificate r72 and authentication r73 reject all four authenticated
+  phone commands with only revision/paused/pauseReason, then native Back returns
+  safely without approval or credentials. Native certificate Back r42 passes
+  on the isolated TEST app; production reports authority-invalid on unchanged
+  trust, not an expiry-specific pass. No physical or OS permission grant claimed.
+  See [engineering evidence](engineering-plan.md).
 - [ ] **5.6** Cover JS dialogs, renderer crash/network errors, new windows/popups,
   file chooser and external-app results. Every allowed flow has a return path;
   unsupported actions explain the limitation rather than opening a dead screen.

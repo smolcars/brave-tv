@@ -25,8 +25,9 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 Review correction: remove the stale current total from the Stage 5 evidence
 paragraph and refer to the canonical totals at the top of the UI checklist.
-Acceptance: the current summary remains32/54, with historical test counts
-preserved. This documentation correction requires no rebuild or repeated test.
+Acceptance: the current summary uses the canonical checklist totals, with
+historical test counts preserved. Documentation corrections require no rebuild
+or repeated test.
 
 The user authorizes the complete canonical UI checklist, emulator tests and
 incremental reviewed commits/pushes to both master branches. The physical spike
@@ -3394,6 +3395,15 @@ departure, connection refusal and the same native browser PID. Syntax/diff
 checks pass. Consolidate these positives; the next cached combined build only
 packages source6d's pause-visibility fix and the already accepted TEST correction.
 Stop only the owned phone AVD before building; preserve profiles and all caches.
+
+Item5.5 emulator acceptance: carry native Page info full-origin/return, native
+auth cancellation and isolated certificate Back r42, and add the production
+permission denial/phone rejection r74 plus certificate/auth negatives r72/r73.
+Trusted native owners remain authoritative; no Allow, OS grant, trust override
+or phone approval. Authority-invalid production evidence remains separate from
+the TEST certificate fixture. Canonical count33/54, Stage5:6/7;5.6 exceptional
+recovery, phone packaging and hardware gates remain pending. This evidence-only
+acceptance does not change the source or the currently running r65 build.
 
 ## Previous feature: phone remote (10 October)
 
