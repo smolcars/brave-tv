@@ -1258,6 +1258,31 @@ progress node with a live region. This remains a test-only correction; the
 production b35a APK is unchanged. Run the complete seven-case native suite
 on the corrected signed test artifact before continuing spoken/display checks.
 
+Stage1.5 consolidated native r24 passes7/7 on sourcec879 test APK: loading/empty
+pane/state, detail/disabled focus and non-live byte progress, paging/private
+exclusion, distinct history/file owners, conservative cancellation, dangerous
+Open rejection and navigation disposal. Actual productionb35a TalkBack now speaks
+Downloads, its empty state and disabled controls. Genuine native InputConnection
+oversize input is wholly rejected; TalkBack speaks the address error, and
+Clear/Back recover. Immutable green WAV and four verified decoder-prefix hashes
+are in `probes/a11y-states-r1/green-audio-provenance.json`; instrumentation
+summary is `logs/native-downloads-a11y-r24/summary.json`. These are different
+checks: virtual-node metadata alone is not spoken acceptance. Accessibility
+settings were restored exactly; no private/security/editor contents were recorded.
+
+Next complete slice: at emulator1280x720/density320/font1.6/app locale ar,
+Home and controls reproduce narrow four-column action labels with silent
+clipping (Browser controls, Address or search and Page cursor). Adapt the shared
+presentation rows to their actual available width and font scale, preserve
+normal1080p grids and action identities, and show an explicit ellipsis for
+bounded long labels while retaining their full spoken name. Check native
+Home/control/panel reachability, conservative confirmations, long/RTL text,
+address recovery and scroll edges together at both configurations; add a focused
+native responsive/focus regression. Restore saved display settings afterwards.
+Stage1.5 and its physical overscan gate remain pending until the emulator
+checks pass; hardware acceptance remains deferred. Do not rerun unchanged real
+download-storage acceptance for this presentation-only slice.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
