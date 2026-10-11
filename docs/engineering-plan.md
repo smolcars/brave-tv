@@ -1050,6 +1050,13 @@ build, actual emulator download/open/cancel/removal/file-survival checks and
 remote-only traversal. Tests using a provider fixture are seam tests, not proof
 of a real native download. Stage5.2 remains unchecked until runtime acceptance.
 
+Source ce4a latest-only review: Spec0; Standards requests a shared paging bound
+for the boundary fixture and an explicit injected-provider lifecycle contract.
+Correct those two points, retaining actual native UI assertions and ownership.
+Root17a4 review is Standards0/Spec0. Cached r30 builds the original ce4a pin;
+do not mutate that cached checkout until its build exits. After correction,
+advance the clean source/pin with checkout.py and perform the incremental build.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
