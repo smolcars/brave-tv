@@ -240,6 +240,11 @@ and writes a new private screenshot file. It verifies the bundled page and
 pending approval state; approve separately through the visible native
 `Approve phone` action. Never use blind OK injection to approve pairing.
 
+The bundled companion host regression also checks finite paused guidance,
+cleared page/editable fields, disabled navigation, reachable Disconnect and tab
+restoration after resume. Actual native paused-state probes require exactly
+`pauseReason`, `paused` and `revision`; private/security reasons remain generic.
+
 `node tests/device/phone-qr-guards.mjs /absolute/path/to/playwright-core` runs
 seven consolidated host CLI negatives using synthetic subprocesses. It never
 contacts a device or browser. These guard tests supplement actual native QR

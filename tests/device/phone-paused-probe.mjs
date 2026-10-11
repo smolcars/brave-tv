@@ -34,6 +34,7 @@ try {
         ok: response.ok,
         keys: Object.keys(response.state ?? {}).sort(),
         paused: response.state?.paused,
+        reason: response.state?.pauseReason,
       });
     }
     return results;
@@ -41,7 +42,8 @@ try {
   for (const result of results) {
     assert.equal(result.ok, false);
     assert.equal(result.paused, true);
-    assert.deepEqual(result.keys, ["paused", "revision"]);
+    assert.deepEqual(result.keys, ["pauseReason", "paused", "revision"]);
+    assert.ok(["controls", "tv"].includes(result.reason));
   }
   console.log(
     "PASS: authenticated actions rejected and metadata redacted while native/private input owns the session",

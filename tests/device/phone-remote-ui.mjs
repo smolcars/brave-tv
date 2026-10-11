@@ -10,6 +10,7 @@ const assets = resolve(process.argv[3] || "brave/android/java/brave-res/raw");
 const commands = [];
 let approved = false;
 let nativePaused = false;
+let pauseReason = "controls";
 let approvalError = "approval";
 let pollStarted;
 let releasePoll;
@@ -82,7 +83,7 @@ const server = createServer(async (req, res) => {
       JSON.stringify({
         ok: true,
         epoch: "synthetic-epoch",
-        state: { revision: 2, paused: true },
+        state: { revision: 2, paused: true, pauseReason },
       }),
     );
     return;
@@ -362,6 +363,18 @@ try {
   nativePaused = true;
   await page.getByText("Control paused", { exact: true }).waitFor();
   assert.equal(await page.locator("#tabs .tab").count(), 0);
+  for (const [reason, guidance] of [
+    ["controls", "Paused — close the browser controls on the TV to continue."],
+    ["tv", "Paused — continue on the TV. Phone control is unavailable on this screen."],
+    ["unknown", "Paused — continue on the TV. Phone control is unavailable on this screen."],
+  ]) {
+    pauseReason = reason;
+    await page.getByText(guidance, { exact: true }).waitFor();
+    assert.equal(await page.locator("#url").textContent(), "");
+    assert.equal(await page.locator("#editor").inputValue(), "");
+    assert.equal(await page.locator("#back").isDisabled(), true);
+    assert.equal(await page.locator("#disconnect").isEnabled(), true);
+  }
   nativePaused = false;
   initial.revision = 3;
   await page.waitForFunction(() => state && !state.paused);

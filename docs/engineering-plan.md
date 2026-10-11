@@ -3269,6 +3269,29 @@ the logging regression is caught. The corrected whole-invitation parser keeps
 that synthetic marker out of both output streams. The unchanged native capture,
 bundled assets and separate D-pad approval retain actual r11 acceptance.
 
+### Stage4.7: native connection badge and bounded pause guidance
+
+Latest root14b9839 reviews: Standards0/Spec0. Implement a readable Compose
+connection badge with explicit disposal, retaining native pairing, approval and
+Disconnect ownership. Replace the generic companion pause message with two
+bounded reasons: browser controls, or a screen requiring TV input. Private and
+native-security screens share the latter; expose no page/tab/editable metadata
+and perform no unlock checks. Keep all command revalidation unchanged.
+
+Acceptance: bundled companion tests exercise both messages, redaction, disabled
+actions and recovery; native badge integration preserves focus and disposes on
+disconnect. One cached x64 build with blocking analysis, followed by affected
+actual pairing/controls/private/native-security and fullscreen checks. Stop only
+the owned phone emulator during compilation to keep host memory available.
+Unchanged passing library/settings/filter checks carry forward. This slice does
+not accept hardware, real phone IME or the remaining composition assertion.
+
+Source1703db290 is committed/pushed. Bundled companion host regression passes,
+including both finite pause messages, unknown-reason fallback, cleared fields,
+disabled navigation, reachable Disconnect and restoration of unchanged tab
+rows. Actual APK badge/pause/security acceptance remains pending build/runtime;
+count stays32/54. Native badge focus/click/disposal case is added, not yet run.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
