@@ -14,9 +14,14 @@
 <button id="prompt">Prompt</button>
 <button id="popup">Popup</button>
 <button id="location">Location permission</button>
+<label>Choose a local file <input id="file" type="file"></label>
+<label>Choose an image <input id="imageFile" type="file" accept="image/*"></label>
+<a id="external" href="bravetv-unavailable://fixture">Open an unavailable external app</a>
 <output id="result" aria-live="polite">No action yet</output>
 <script>
   const result = document.querySelector('#result');
+  document.querySelector('#file').oncancel = () => { result.textContent = 'File choice canceled'; };
+  document.querySelector('#imageFile').oncancel = () => { result.textContent = 'Image choice canceled'; };
   document.querySelector('#alert').onclick = () => {
     alert('TV alert: close this dialog with the remote.');
     result.textContent = 'Alert closed';

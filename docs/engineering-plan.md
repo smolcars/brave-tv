@@ -23,6 +23,19 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scoped overrides and first slice
 
+Exceptional-flow correction: a genuine user gesture on the controlled
+`bravetv-unavailable://fixture` link leaves the actual Chromium page unchanged
+without an explanation. After Chromium returns no external-navigation override,
+show a small TV-only informational panel for an unsupported main-frame scheme
+with a user gesture. Bind it to the delegate's actual activity/WebContents;
+reject stale, private, background, editable and native-security owners without
+unlock side effects. Preserve Chromium's navigation/permission decisions and
+never display/log the external URL. Dispose on future navigation, tab/contents
+change, renderer loss and activity lifecycle. Acceptance: actual-link native
+test, D-pad OK/Back return to the same document, stale/private rejection and
+navigation disposal, cached blocking-analysis APK build and latest-commit review.
+Carry unchanged security/input checks; hardware remains pending.
+
 Latest correction `04211e0` reviews: Standards0/Spec0. Next consolidated native
 slice covers fullscreen tab-switch/background recovery and remaining exceptional
 flows on installed source6d: genuine media/fullscreen, normal tab identity,
@@ -34,6 +47,20 @@ DOM reads; keep native security/OS decisions authoritative. Record failures
 before source changes and accept only actual engine/native return paths. No
 profile wipe, private page capture, physical operation or rebuild without a
 source change.
+
+Fullscreen acceptance commit `9578ca5` reviews: Standards0/Spec0. Native error
+recovery passes on the current APK: connection-refused UI, D-pad Back to controls,
+then a real Reload after an owned local endpoint/reverse becomes available.
+The file-input D-pad activation reaches the genuine OS camera prompt; deny it
+without approval. Chromium returns to the same field with an empty selection
+and real cancel event. This TV image lacks DocumentsUI, so do not claim a picker
+was displayed. The image-only input opens the real native Photos/Albums picker;
+D-pad Back returns a real cancel event with no file selected. Its diagnostic
+opener was a browser touch gesture, so remote activation remains to be verified.
+TV GET_CONTENT handlers include DocumentsStub/MediaStub instead of DocumentsUI.
+The phone's stock picker APK was inspected but not installed. Keep the generic
+picker limitation and hardware uncertainty separate from the working image
+picker. Preserve native security ownership; no capture grant or file upload.
 
 Latest-review correction for root `8381a24d`: reject missing or duplicate exact
 TV fixture and companion targets before any DOM reads or input. Keep native
