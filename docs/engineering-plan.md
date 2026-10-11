@@ -2440,6 +2440,12 @@ corrections with the reviewed bookmark source in one cached build. Run affected
 history and bookmark cases, carry forward About and other unchanged checks.
 Canonical accepted count remains25/54; fixture seeding is not paging acceptance.
 
+
+The pre-build fixture check also catches the new Save-policy case's nonexistent
+`bookmarks.html` path. Use the already owned `bookmark.html` fixture in its exact
+native argument/assertion and README; no duplicate fixture or server alias. This
+is a test-route correction, and the pending runtime assertions remain intact.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

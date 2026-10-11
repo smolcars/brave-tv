@@ -558,7 +558,7 @@ case also requires immediate focus on the nearest surviving bookmark.
 
 
 `TvHomePageTest#bookmarkLibraryPreservesFocusedSaveWhenPolicyDisablesIt`
-requires `-e tv_bookmark_fixture_url http://10.0.2.2:18088/bookmarks.html`.
+requires `-e tv_bookmark_fixture_url http://10.0.2.2:18088/bookmark.html`.
 It preserves focused Save across native policy disabling/re-enabling and checks
 that activating disabled Save creates no bookmark. First-entry focus keeps the
 ordinary enabled-action fallback. The selection case also replaces the native

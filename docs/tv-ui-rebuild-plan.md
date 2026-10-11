@@ -431,6 +431,12 @@ the complete feature set or a public release.
   Preserve direct startup and disabled analytics/optional services. Recheck that
   upstream UI dependencies have not restored mobile onboarding/promotions.
 
+Native About r23 on source8f8bfddd9 passes installed version/attribution,
+Settings/Home focus restoration and same-tab Chromium-generated licenses.
+Item5.7 remains pending its startup/disabled-service/hidden-route audit. History
+r23 fails a mutable-selector test stimulus before paging; corrected history and
+bookmark selection/policy cases remain pending their combined native build/run.
+
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.
 
