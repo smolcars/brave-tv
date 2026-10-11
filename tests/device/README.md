@@ -55,6 +55,23 @@ cached build and resource limits in `docs/build.md`. Verify APK signature and
 manifest package before installing on an explicitly identified nonphysical TV
 emulator. Keep the production browser profile intact.
 
+`TvHomePageTest#unavailableExternalLinkReturnsToSameDocumentAndDisposesOnNavigation`
+requires the owned `dialogs.html` fixture, passed as instrumentation argument
+`tv_external_link_fixture_url` (for example
+`http://10.0.2.2:18088/dialogs.html?native-external`). The opener is a genuine
+native touch; D-pad Back and OK dismiss the TV explanation while retaining the
+same tab, WebContents and document time origin. A subsequent real navigation
+must dispose the notice. Run its focused-editor/hidden-IME and stale/private-owner
+negative cases separately. Neither an APK build nor a direct bridge invocation
+alone accepts the actual external-navigation flow.
+
+`TvHomePageTest#nativeRendererCrashDpadReachesRecoveryAndPreservesTab` uses
+`WebContentsUtils.crashTabAndWait`, which crashes the real renderer process;
+the separate `simulateRendererKilled` helper is not runtime acceptance.
+The case traverses native help text → recovery button using D-pad, reloads
+through Chromium, and requires unchanged tab/WebContents/model count before
+Back reaches usable TV controls. Keep private-window failure capture disabled.
+
 The upstream host runner can restart shared ADB on discovery failures. For this
 session's physical-device restriction, use explicitly targeted native
 instrumentation instead, after closing only the matching agent-device session

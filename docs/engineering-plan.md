@@ -23,6 +23,34 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scoped overrides and first slice
 
+Renderer recovery slice: production source6d actual `Page.crash` reaches native
+Aw, Snap. D-pad Down focuses `sad_tab_message`; subsequent Down/Right stay in
+the clickable-span text instead of reaching the native Reload button. Back
+returns to the previous usable page, so preserve that native behavior. For
+unmodified D-pad Down from that exact visible native crash-message owner, move
+focus to its existing enabled recovery button. Retain native click/Back/help,
+security/modal/IME and alphabetic-key ownership. Acceptance: genuine native
+renderer-process crash, D-pad message → Reload → same-tab restored page, no
+replacement tab/contents, then native Back to usable TV controls. Use the actual
+crash helper, not its separate fake-notification helper. Review latest commits
+and build only affected source/tests in the retained cache.
+
+Unavailable-link result: reviewed source `ff6d2dfa9` and root `5b221fe` each
+Standards0/Spec0. Cached r67 full APK build passes blocking analysis in7m24.10s
+(1050 steps);221 cgroup samples observe13,652,529,152 bytes peak (12.72GiB),
+no OOM. Preserved signed x64 APKs in
+`~/.cache/brave-tv/artifacts/compose-external-ff6d2dfa9-x64-debug-20261011`:
+production852,744,909 bytes SHA256
+`69f6ae507db8593df687743e7764678114c08086a25c29e2606b3a7b4195dd4e`,
+TEST876,385,339 bytes SHA256
+`0e6c795a6e16579dd17f5b4ad6d792865a8605712e0704749942cc8ae0fde2a0`.
+Both profile-preserving installations verify the exact device-side hashes.
+Native r44 isolated cases pass actual unavailable-link/same-document Back+OK
+and future-navigation disposal (12.639s), focused-editor/hidden-IME rejection
+(6.294s), stale/private-owner rejection (6.313s). Each reports OK(1test); no
+private capture or permission override. Stage5.6 remains unchecked while crash,
+popup and complete remote file-picker paths are consolidated.
+
 Exceptional-flow correction: a genuine user gesture on the controlled
 `bravetv-unavailable://fixture` link leaves the actual Chromium page unchanged
 without an explanation. After Chromium returns no external-navigation override,
