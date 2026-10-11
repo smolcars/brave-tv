@@ -3346,6 +3346,27 @@ stock keyboard viewport resize before editing, matching the prior r66 positive
 precondition. Default full strict probe stays unchanged; no text-bridge workaround.
 Count32/54: actual private/security pauses, fullscreen and recovery remain open.
 
+### Stage4.7 paused guidance after phone editing
+
+Production controls pauses r70/r71 reject all four authenticated actions with
+exact metadata redaction and expected controls reason. A bounded real-phone-
+emulator geometry probe finds the correct status at top-316.86/bottom-274.86
+after editing, outside the811px viewport despite cleared fields. Add a host
+regression that scrolls the editor before pause, then requires visible guidance.
+On transition into paused state, scroll the existing status into view once;
+do not move it again on polling or change native security/command ownership.
+Acceptance: host red/green, then actual phone-emulator editing→pause geometry,
+resume/Disconnect usability on the packaged APK. No aesthetic or hardware gate.
+
+Host regression is RED at the one-second status-visibility predicate on335d,
+then GREEN after source6d12c8529's one transition-only scroll. Native production
+controls r70/r71, certificate r72 and HTTP-auth r73 each reject four authenticated
+actions with exact redacted state and the expected generic reason. Certificate
+warning is `NET::ERR_CERT_AUTHORITY_INVALID` on the unmodified production trust
+store; it does not prove an expiry-specific warning. D-pad Back returns to the
+original fixture and cancels authentication without entering credentials. Actual
+packaged visibility, permission/private/fullscreen/recovery remain pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

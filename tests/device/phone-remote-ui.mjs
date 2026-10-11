@@ -360,8 +360,15 @@ try {
     ),
     false,
   );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("#editor").scrollIntoViewIfNeeded();
   nativePaused = true;
   await page.getByText("Control paused", { exact: true }).waitFor();
+  await page.waitForFunction(() => {
+    const r = document.querySelector("#status").getBoundingClientRect();
+    return r.top >= visualViewport.offsetTop &&
+      r.bottom <= visualViewport.offsetTop + visualViewport.height;
+  }, undefined, { timeout: 1000 });
   assert.equal(await page.locator("#tabs .tab").count(), 0);
   for (const [reason, guidance] of [
     ["controls", "Paused — close the browser controls on the TV to continue."],
