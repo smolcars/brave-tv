@@ -2317,6 +2317,14 @@ It removes only visits with its unique fixture URL prefix. Build/runtime are
 pending. Combine production and test targets once after latest-commit review;
 carry forward unaffected bookmark, download, media, bytecode and display checks.
 
+Latest history review: source Standards1 (BS-048/TI-009, shared page-size
+constant)/Spec1 (first-page horizontal footer traversal), root0/0. Correct the
+native stimulus on every page to Down→Previous→Right→More with a positive
+More-focus check, retaining the disabled Previous focus behavior. Expose the
+package page-size constant and derive test page counts/row expectations from it.
+Review this correction separately before the combined production/test build;
+no runtime acceptance is inferred from review.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
