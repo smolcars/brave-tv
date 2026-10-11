@@ -1894,6 +1894,31 @@ No physical device is operated. Media r3 stopped on a read-only fixture timeout
 before input; a later bounded read confirms the selected visible document with
 full1080px viewport. Its focused retry preserves the exact normal fixture owner.
 
+Test-only r21 passes blocking analysis in32.94s; journal10.2G peak (largest
+sample8510828544bytes is not the final peak). Signed876243437byte test,
+SHA256c9faa93b8d83cd60949d9e4a0a742a11b14dccb7a378dbfd3e8db9cc8eb7cde4,
+is installed in place. Native private r9 remains RED11.433s: the activity tab
+is null while native layout remains BROWSING(1). This rules out the proposed
+overview explanation. The source789 helper relies on that nullable activity
+supplier and skips restoration. Recover from the authoritative selected normal
+model instead, guard zero private tabs/live normal TvHomePage, and reselect its
+existing index through TabModelUtils before requesting Address focus. Preserve
+all foreground/modal/private checks; no tab creation, private unlock or layout
+override. Test the focused correction in the test APK first, then package the
+production APK only after native recovery/normal/settings focus acceptance.
+
+Production789 media r5 PASSES real Play/Pause/captions/fullscreen/Back,214 decoded
+frames and exact cursor pixels with same document24, full1920x1080 viewport.
+Dialog r14 PASSES the complete Alert/Confirm/Prompt/next-click/cursor sequence
+in document21. Chromium exposes a focused native accessibility root with class
+android.webkit.WebView and no label in some states; this is native Chromium
+accessibility, not an Android WebView engine substitution. The successful replay
+also uses a100ms Select press when entering page input; zero-duration down/up
+can race Compose's press handling. Persist those exact replay corrections while
+retaining native package/normal URL/unique document/viewport/owner checks.
+Media/dialog partial failed runs remain recorded and unaccepted. Source8d22/
+root0f5 latest reviews0/0. Current total20/54; physical acceptance remains pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

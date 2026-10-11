@@ -151,12 +151,14 @@ try {
   send('delay', { duration: 1500 });
   await sync();
   await focus('Page cursor');
-  tap(353); // Activate page input; density320 means a32px directional step.
+  key(353, true); send('delay', { duration: 100 }); key(353, false);
+  send('delay', { duration: 40 });
   await sync();
   await waitNative(nodes => !nodes.some(n => n.label === 'Browser controls')
     && nodes.some(n => n.focused
       && n.bundleId === 'com.brave.browser_default'
-      && (n.label === 'Web View' || n.label === 'TV native dialog checks'
+      && (n.label === 'Web View' || n.type === 'android.webkit.WebView'
+        || n.label === 'TV native dialog checks'
         || (Object.hasOwn(initial.buttons, n.identifier)
           && nodes.some(node => node.label === 'TV native dialog checks')))),
   'Native Page cursor activation must release controls before page movement');
