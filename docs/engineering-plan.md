@@ -2044,6 +2044,16 @@ no failed-build APK is installed. Latest review reports source Standards0/Spec1,
 root0/0: overflow has four columns, so Page info needs three Right presses from
 History, rather than Down. Correct that real D-pad path before rebuilding.
 
+Inspection shows EmbeddedTestServer additionally requires its separate native
+service APK, which is absent from the retained artifacts. Stop only owned r48
+with SIGINT and preserve its partial outputs. Use the already-running owned HTTP
+fixture server instead of adding another native harness for one origin check.
+The native test receives an explicit fixture URL, positively waits for the
+fixture heading before opening Page info, and checks that native origin plus
+connection row. Remove the now-unneeded test dependency and document the
+instrumentation argument. No product endpoint, trust exception or data reset
+is introduced; resume the same cached production/test build after termination.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

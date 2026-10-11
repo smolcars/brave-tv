@@ -89,6 +89,14 @@ adb -s emulator-5554 shell am instrument -w -r \
 Repeat for each method from the artifact's pinned source and require `OK (1 test)`
 in every log. Do not reset production data or restart shared ADB for isolation.
 
+`TvHomePageTest#compactPageInfoUsesNativeOriginAndReturnsToSamePage` also
+requires the owned HTTP fixture server serving `tests/pages/bookmark.html`.
+Pass `-e tv_site_info_fixture_url http://10.0.2.2:18088/bookmark.html` to its
+explicit emulator instrumentation invocation. The test first requires the
+loaded fixture heading, then enters Chromium's native Page info through D-pad
+controls and verifies its origin, connection row and Back recovery. It does
+not require a separate EmbeddedTestServer APK or an OS trust exception.
+
 `tv-compose-clear-cancel.ad` starts at the clear-data chooser with Settings
 focused. It asserts each focus transition before the next key: Cancel → Right
 to Clear now → Left to Cancel → OK back to the chooser. A failed replay stops;
