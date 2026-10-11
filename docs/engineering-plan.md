@@ -2613,6 +2613,22 @@ same row-acknowledged route for aggregate Previous paging. The short prerequisit
 checks the nine-owned-visit first page→More→next-row1 path; older global history
 is intentionally not rewritten to simplify its second page.
 
+
+### Stable survivor identity before restored focus
+
+Latest c6f6/fb8 review: Standards0/source and root, Spec0/source and root.
+Before the consolidated r58 build, retain both the selected index and the actual
+survivor ID chosen by each refreshed bookmark/tab panel. A second native reorder
+before its first focus frame otherwise searches the already deleted original ID
+and falls back by position again, potentially selecting a different survivor.
+Capture the actual current native ID beside the existing fallback index; leave
+focused-action lookup, disposal, security and authoritative models intact. The
+existing native external-update and frozen-tab tests cover affected behavior.
+Run the nine-visit real-entry History prerequisite first, and run160 continuation
+only if it passes. Batch both document/viewport lease cases with the affected
+bookmark/tab cases, carrying forward private-window and unchanged positives.
+Acceptance count remains25/54 pending runtime results.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
