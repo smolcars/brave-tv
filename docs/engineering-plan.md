@@ -1660,6 +1660,21 @@ superseded only by the accepted TV presentation. Add actual native editable
 visibility/recovery coverage and later exercise trusted error/interstitial flows.
 No build has started; preserve the advanced checkout and every compile cache.
 
+Cached r39 stops at Java compile after52steps/25.85s; MemoryPeak11110313984
+bytes(10.35GiB). EmptyTabObserver is absent from this pin and protected mTab's
+TabImpl type is package-private. Keep the failure/artifacts unaccepted. Latest
+source3a6d reviews: Standards1(public ownership/thread/teardown documentation),
+Spec1(duplicated editable flag survives parent crash reset). Connected lifecycle
+inspection also finds delegate replacement without tab destruction.
+
+Correct with the public Tab interface, current native ImeAdapter.focusedNodeEditable
+(no duplicate editable flag), and parent's existing input/SSL/navigation observers.
+Subscribe to app visibility on first observer, unsubscribe on last and compute
+unobserved get on demand, matching the pinned Composed delegate. Document UI-thread/
+owner/teardown contract. Add a focused real-tab/app observer release regression;
+retain actual native editable/recovery and viewport cases. Retry the same combined
+cached build only after committing/pinning/reviewing the correction. No cache reset.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
