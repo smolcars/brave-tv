@@ -730,6 +730,27 @@ The original production debug-app setting is restored after diagnosis; no privat
 capture, production permission/data change or physical-device operation.
 Latest root7af review: Standards0, Spec0.
 
+Home interaction correction: the6b0 test APK passes blocking checks in20.06s;
+the unattended suite now reaches all feature assertions, with preview bounds and
+private isolation passing, four failures. The two activation tests use touch,
+but the pinned TV Material Surface implements D-pad/Enter activation. Replace
+those stimuli with verified native directional focus and OK, retaining actual
+selected-tab/URL postconditions. Two Down presses also fail to reach the first
+favorite: make Address Down explicitly enter the first quiet Home shortcut,
+matching the selected prototype contract, then verify each focus transition.
+For closure/undo, native inspection confirms the recent model becomes empty;
+settle the UI before closure, verify focus recovery, and scroll the empty section
+into view before its assertion. Keep Undo within the actual native timer. A long
+debugger pause allowed pending closure to expire before diagnostic Undo, so that
+run cannot establish an Undo regression or acceptance. Original debug settings
+and only the test-owned debugger connection are restored/closed. Acceptance:
+all six unattended native Home cases, address/Back regressions and reviewed APK.
+
+The normal localStorage fixture survives the production update; its cookie is
+absent after restart. The fixture cookie has no expiry and cannot establish
+persistent-cookie migration. Record that distinction and add a persistent-cookie
+fixture for the later upgrade slice; do not silently reseed and claim continuity.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
