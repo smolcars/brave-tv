@@ -3367,6 +3367,34 @@ store; it does not prove an expiry-specific warning. D-pad Back returns to the
 original fixture and cancels authentication without entering credentials. Actual
 packaged visibility, permission/private/fullscreen/recovery remain pending.
 
+Latest source6d12/rootf231 reviews: Standards0/Spec0 in both repositories.
+Production permission r74 rejects four authenticated phone commands with exact
+redaction and generic TV guidance; native Block is initially focused and D-pad
+OK returns to Location denied. The private chooser r75 still has the normal tab
+selected, so its controls reason is not private acceptance. Creating a synthetic
+private tab gives r76's four rejected commands, exact redaction and generic TV
+guidance. D-pad navigation returns to a normal tab; no phone unlock, private
+DOM read or screenshot. Fullscreen r77 starts while controls own input; r78 then
+fails playback because this AVD lacks the documented18083 media reverse. Restore
+only that owned test reverse: r79 passes actual playback, phone input/Back,
+same-document exit and visible native cursor pixels. No application media fix.
+
+Reconnect probe correction (test only): r80 fails its positive-control move
+before network loss. Bounded diagnostics show cursor1700/900, target321/425,
+delta-1379/-475: the existing native1000-unit limit correctly rejects it. Move
+to the same target in bounded steps, retaining command/revision validation and
+the real click-counter positive control. Acceptance: actual same-epoch network
+recovery without replay, then background listener revocation with the browser
+process retained. Do not enlarge native command bounds or rerun unrelated checks.
+
+Reconnect r81 passes: offline action is discarded, the same epoch reconnects
+in458ms, and two subsequent state responses show no replayed click. Background
+r82 passes: direct simulated-LAN listener200 positive control, actual Home
+departure, connection refusal and the same native browser PID. Syntax/diff
+checks pass. Consolidate these positives; the next cached combined build only
+packages source6d's pause-visibility fix and the already accepted TEST correction.
+Stop only the owned phone AVD before building; preserve profiles and all caches.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

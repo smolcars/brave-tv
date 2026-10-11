@@ -35,12 +35,16 @@ try {
   });
   assert.ok(
     await phone.evaluate(async (point) => {
-      return (
-        (await command("move", {
-          dx: Math.round(point.x - state.x),
-          dy: Math.round(point.y - state.y),
-        })) && (await command("click"))
-      );
+      const x = Math.round(point.x);
+      const y = Math.round(point.y);
+      for (let step = 0; step < 4; step++) {
+        if (state.x === x && state.y === y) return command("click");
+        if (!(await command("move", {
+          dx: Math.max(-1000, Math.min(1000, x - state.x)),
+          dy: Math.max(-1000, Math.min(1000, y - state.y)),
+        }))) return false;
+      }
+      return false;
     }, target),
   );
   const before = `Clicked ${initialClicks + 1} times`;
