@@ -480,7 +480,8 @@ nonselected data and bookmarks preserved. Native provider selection and Address
 provider text pass, with the original provider restored. Controlled pending-clear
 Back, owned completion and replaced-document recovery pass. Corrected native pause/resume r32 passes12.349s with same Home, activity-window
 focus, Settings invoker and absent pending chooser. Item5.3 is accepted on the
-emulator; callback tests are separate from actual native deletion. Current accepted count is31/54.
+emulator; callback tests are separate from actual native deletion. See the current
+acceptance totals at the top of this checklist.
 
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through

@@ -23,6 +23,11 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scoped overrides and first slice
 
+Review correction: remove the stale current total from the Stage 5 evidence
+paragraph and refer to the canonical totals at the top of the UI checklist.
+Acceptance: the current summary remains32/54, with historical test counts
+preserved. This documentation correction requires no rebuild or repeated test.
+
 The user authorizes the complete canonical UI checklist, emulator tests and
 incremental reviewed commits/pushes to both master branches. The physical spike
 and performance gate is deferred because the TV is busy. Produce concrete visual
