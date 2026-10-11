@@ -1018,6 +1018,38 @@ the actual page-content and native URL assertions:
 documented precondition-dependent recipe; its five-key manual measurement and
 the separate four-key Home-restored path are the accepted runtime evidence.
 
+Root eb454 latest-only review: Standards0, Spec0. Next, confirm the installed
+source7e5 native test artifact's session/input tests on the current UI AVD, one
+method per process: viewport resize retains document identity while rejecting
+old coordinates; same-URL navigation invalidates both leases; IME bytecode hooks
+remain present. Stop only the baseline emulator after recording its preserved
+profile/forwarding state, then open the named clean-UI AVD and verify its new
+serial. Keep default browser data intact, close only its agent lease for native
+instrumentation, and require positive JUnit counts rather than shell exit alone.
+Spoken error/state and broader native accessibility checks remain open; no new
+build or source checkout is required for these already packaged tests.
+
+Native session/input r17 passes3/3 on the verified clean-UI AVD, one method per
+process: viewport resize, same-URL navigation and native IME hook presence.
+Every process reports positive JUnit OK(1), success status0 and no skips; logs
+are `logs/native-session-separated-r17`. Installed production source38e2 and
+test source7e5 hashes match the preserved signed artifacts. No profile is wiped.
+
+Downloads slice (Stage5.2): use the existing offline-content aggregator and
+native download ownership in a normal-session Compose panel, retaining only
+eight rows per page. Revalidate exact native ContentId, normal owner and document
+before asynchronous actions; dispose observers and invalidate outstanding work
+on Back, tab/document change, pause and destroy. Progress updates retain row
+actions/focus, with explicit refresh for structural changes. Distinguish native
+history-only removal (file remains) from native file deletion; both confirmations
+start on Cancel. Keep dangerous-download/security approval with native owners,
+never validate dangerous content from this panel. Include loading/empty/missing,
+paused/interrupted/failed and retry states, native open/cancel/pause/resume where
+supported. Acceptance: focused native panel/state tests, blocking cached x64
+build, actual emulator download/open/cancel/removal/file-survival checks and
+remote-only traversal. Tests using a provider fixture are seam tests, not proof
+of a real native download. Stage5.2 remains unchecked until runtime acceptance.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
