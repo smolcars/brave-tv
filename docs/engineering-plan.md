@@ -848,6 +848,13 @@ If Source still fails, add only bounded boolean focus diagnostics to that normal
 fixture. Acceptance remains all six unattended cases with blocking test build.
 Restore debugger settings and remove only the task's JDWP forward after probes.
 
+Home e352 test build r4 fails mandatory direct-bytecode dependency analysis:
+`OneShotPreDrawListener` requires AndroidX Core directly on
+`//brave/test:brave_java_unit_tests`, rather than only its transitive test library.
+Add that existing pinned target to this APK's dependency list, keep validation
+enabled, review the correction and rebuild only tests. No failed artifact is
+installed or accepted. Elapsed17.87s, observed peak8,627,081,216 bytes (8.03GiB).
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
