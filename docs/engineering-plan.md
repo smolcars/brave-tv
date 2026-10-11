@@ -3319,6 +3319,13 @@ Unicode replacements. This mode does not substitute for the full strict lease,
 phone InputConnection, selection/deletion or password/security suite. Acceptance
 requires actual stock TV IME runtime; no production workaround or fake event.
 
+Latest585c3 source correction reviews Standards0/Spec0. Rootb88b725 reviews
+Standards0/Spec2: bind phone9223 to an explicit verified emulator and reject
+ambiguous/background fixture targets before reading native input. Correct the
+probe to require both AVD/forward identities and one exact fixture URL matching
+the authenticated unpaused normal state. Assertion messages contain no values.
+The production APK remains335d; a TEST-only rebuild will validate badge focus.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

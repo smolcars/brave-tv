@@ -262,7 +262,10 @@ node tests/device/phone-native-probe.mjs /absolute/path/to/playwright-core
 the normal fixture's plain field through native input, with the verified stock
 TV keyboard selected. Pass the existing Playwright directory followed by the
 explicit TV emulator serial and verified AVD name; it checks identity, the owned
-diagnostic forward and stock LatinIME before contacting the browser. It checks
+diagnostic forward and stock LatinIME before contacting the browser. Append the
+explicit phone serial and AVD name; its forward must also match. The probe
+requires one companion and one exact fixture target matching authenticated
+unpaused normal browser state before reading native values. It checks
 twenty Unicode replacements, genuine native
 input/composition events and stable field identity. A new composition-end event
 is required only if composition was still active; the stock keyboard can finish

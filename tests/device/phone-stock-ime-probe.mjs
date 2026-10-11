@@ -7,9 +7,12 @@ import { resolve } from "node:path";
 const { chromium } = createRequire(resolve(process.argv[2], "package.json"))(
   "playwright-core",
 );
-const [serial, avd] = process.argv.slice(3);
+const [serial, avd, phoneSerial, phoneAvd] = process.argv.slice(3);
 assert.match(serial, /^emulator-\d+$/);
+assert.match(phoneSerial, /^emulator-\d+$/);
+assert.notEqual(serial, phoneSerial);
 assert.ok(avd, "Provide the verified TV AVD identity");
+assert.ok(phoneAvd, "Provide the verified phone AVD identity");
 const adb = (...args) => execFileSync("adb", ["-s", serial, ...args], {
   encoding: "utf8", timeout: 15000,
 });
@@ -18,14 +21,26 @@ assert.equal(adb("shell", "settings", "get", "secure", "default_input_method").t
   "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME");
 assert.ok(adb("forward", "--list").split(/\r?\n/).includes(
   serial + " tcp:9222 localabstract:chrome_devtools_remote"));
+const phoneAdb = (...args) => execFileSync("adb", ["-s", phoneSerial, ...args], {
+  encoding: "utf8", timeout: 15000,
+});
+assert.equal(phoneAdb("emu", "avd", "name").replace(/\r/g, "").trim(), phoneAvd + "\nOK");
+assert.ok(phoneAdb("forward", "--list").split(/\r?\n/).includes(
+  phoneSerial + " tcp:9223 localabstract:chrome_devtools_remote"));
 const tb = await chromium.connectOverCDP("http://127.0.0.1:9222");
 const pb = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
-  const tv = tb.contexts()[0].pages().find((p) => p.url().includes("/phone-remote.html"));
-  const phone = pb.contexts()[0].pages().find((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
-  assert.ok(tv && phone, "Open the normal fixture and pair the phone emulator");
-  tv.setDefaultTimeout(5000);
+  const phones = pb.contexts()[0].pages().filter((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
+  assert.equal(phones.length, 1, "Require one companion target");
+  const phone = phones[0];
   phone.setDefaultTimeout(5000);
+  const url = "http://10.0.2.2:18088/phone-remote.html";
+  await phone.waitForFunction((url) => connected && !state.paused && state.page &&
+    state.url === url && state.editable?.ready && !busy, url);
+  const targets = tb.contexts()[0].pages().filter((p) => p.url() === url);
+  assert.equal(targets.length, 1, "Require one exact authenticated normal fixture target");
+  const tv = targets[0];
+  tv.setDefaultTimeout(5000);
   assert.equal(await tv.evaluate(() => document.activeElement.id), "plain");
   await phone.waitForFunction(() => connected && !state.paused && state.editable?.ready && !busy);
   const field = await phone.evaluate(() => state.editable.revision);
@@ -36,7 +51,8 @@ try {
         state.editable.text === text && !busy && !dirty && !pendingEdit,
       { field, text },
     );
-    assert.equal(await tv.locator("#plain").inputValue(), text);
+    assert.ok(await tv.locator("#plain").inputValue() === text,
+      "Native fixture text did not match the synthetic replacement");
   }
   const text = "héllo हिन्दी 🌍";
   for (let i = 0; i < 10; i++) {
