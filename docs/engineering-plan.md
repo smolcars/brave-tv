@@ -855,6 +855,29 @@ Add that existing pinned target to this APK's dependency list, keep validation
 enabled, review the correction and rebuild only tests. No failed artifact is
 installed or accepted. Elapsed17.87s, observed peak8,627,081,216 bytes (8.03GiB).
 
+Corrected69b4 test build r5 passes in39.71s (Siso36.19s), systemd reports9G
+peak. Its signed test APK and provenance are archived in
+`compose-home-test-69b4ff6d5-x64-debug-20261010` and installed in place. Native
+r10 still passes5/6; Source-footer focus fails within the existing3s bound even
+with the test Undo window extended. This falsifies timeout expiry as its cause.
+Add a temporary, tagged failure-only probe of fixed-label boolean focus results,
+before/after Android's public accessibility-cache invalidation on API33+, to
+distinguish stale accessibility caching from actual focus movement. It cannot
+make the failed assertion pass or capture editor/private data. Remove the probe
+after diagnosis. Preserve all acceptance assertions and timeouts.
+
+Native Arabic app configuration mirrors Home arrows and keeps Arabic Settings/
+filter/clear-data labels readable. Original app locales[] are restored afterward.
+It exposes English fallback punctuation following RTL paragraph direction, and
+Home Settings Back returning to Controls instead of its Home invoker. Add a
+native remote-only Settings/Back regression before fixing that return seam.
+The later production correction will retain the actual invoking Home action and
+native context through nested Settings, reject stale owners and clear references
+on return/lifecycle invalidation. Apply first-strong text direction inside the
+TV theme while retaining RTL layout. Acceptance: red→green native return test,
+RTL punctuation/arrow checks, existing controls/address/Unicode and private
+ownership checks. Spoken operation remains pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
