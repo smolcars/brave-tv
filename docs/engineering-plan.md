@@ -1694,6 +1694,14 @@ replaces obsolete toolbar-offset coordinates; it does not inject DOM actions.
 Run it once on the new production APK alongside focused media/IME/security
 routes. Preserve earlier unchanged storage/Unicode/performance acceptance.
 
+Latest rootd568 viewport probe reviews: Standards0/Spec0. Combined r41 reaches
+packaging/lint but fails blocking Error Prone FieldCanBeFinal on the borrowed
+app-visibility field. Elapsed4m22.07s, MemoryPeak13954215936bytes(13.0GiB);
+137steps completed, no installed/runtime acceptance. Make that constructor-only
+field final while retaining nullable initialization for the base constructor's
+virtual calculation. Retry the combined cached target with all checks enabled;
+preserve logs and do not install the failed build's APKs.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
