@@ -1425,6 +1425,11 @@ including same-URL replacement. Add focused input resume checks and retain a
 native modal/next-click regression; verify actual alert/confirm/prompt recovery
 and native keyboard ownership in one pass after the blocking cached build.
 
+Latest cursor review: Spec0 findings; Standards requests the public resume
+method's boolean/failure contract. Document unchanged state on a rejected resume
+and held-press cancellation/current-viewport clamping on success. This is a
+comment-only correction; the running r37 cache remains on source31067860c.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
