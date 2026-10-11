@@ -606,6 +606,30 @@ methods on the verified TV emulator; test application data is separate from the
 preserved normal browser profile. Retain actual failures and do not count a
 compiled test jar as runtime acceptance.
 
+Home data slice: extend the existing Compose Home with at most six native saved
+pages and four recent normal tabs, plus quiet direct Tabs/Bookmarks/Settings
+access. BookmarkModel and the normal TabModel remain authoritative. Observe only
+while this normal Home is attached; unregister on detach/destroy. Revalidate
+bookmark ID/URL and tab ID on activation, preserve action identity across updates,
+and recover focus if a displayed item disappears. Private Home must read no
+normal saved/recent data. Localize loading/empty/section labels in Brave strings.
+Acceptance: actual populated and empty emulator Home, native saved-page opening,
+recent-tab selection without creating a tab, focus/Back/private isolation,
+large text/RTL/display checks, existing address-entry regression and reviewed
+incremental APK. Do not mark4.1 complete on compilation alone. The cached source
+checkout stays immutable during the separate native test APK build.
+
+Home source1e86aeb adds the bounded native preview and five instrumentation
+cases: six saved pages, real saved-page navigation, focus recovery on removal,
+existing-tab selection without creating a tab, and private-section isolation.
+Favorites use the existing default bookmark destination, inspecting at most64
+direct children through getChildAt and showing at most six pages; the full
+bookmark panel retains all folders/pages. Recent tabs retain native IDs and scan
+the existing normal model with only four candidate objects. Formatting and
+diff checks pass. Compilation, native tests and actual Home runtime remain
+pending; the current test APK build still uses immutablef10d55. No acceptance
+checkbox is advanced for this source commit.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
