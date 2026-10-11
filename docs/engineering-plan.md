@@ -2416,6 +2416,13 @@ history and About native cases are running against this exact source. Bookmark
 corrections committed afterward are not present in r55 and require their next
 cached build. Latest8f/fe0 review finishes0/0 for both axes. Acceptance stays25/54.
 
+
+Bookmark correction review: Spec0; Standards1 DOC-004 asks for the public panel
+restoration contract. Document disabled preferred focus with activation blocked,
+and ordinary enabled-action fallback. This is documentation only; review the
+latest correction separately before one cached bookmark build and the affected
+native paging/Open, confirmed-removal focus, external-update and Save-policy cases.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
