@@ -1251,6 +1251,13 @@ cases. Keep actual spoken green and Stage1.5 pending. Preserve the red suite,
 immutable red WAV and verified decoder-prefix hashes for the original speech
 failure; restore the saved accessibility settings before test instrumentation.
 
+Sourceb73 Spec review passes; Standards finds that positive non-live progress
+lookup alone could miss a duplicate live node. Correct the test contract by
+retaining positive exact-text lookup and explicitly rejecting any matching
+progress node with a live region. This remains a test-only correction; the
+production b35a APK is unchanged. Run the complete seven-case native suite
+on the corrected signed test artifact before continuing spoken/display checks.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
