@@ -1837,7 +1837,7 @@ heading and browser package; retain all existing document/viewport/modal checks.
 Acceptance: one consolidated native dialog run, then media/IME/security; no
 new APK build or unchanged suite rerun for this host replay correction.
 
-Source789 combined r45 passes blocking analysis in3m36.36s(Siso3m32.38s,
+Source789 combined r45 passes blocking analysis in3m35.80s(Siso3m32.38s,
 26steps); observed peak15600795648bytes(14.53GiB). Both signed x64 APKs are
 preserved in compose-private-home-78932e44f-x64-debug-20261011:
 production852735683bytes,SHA256a3dd43eb84e499986b4de19c69d420ecfe10086f49aa52a04a6fa65c1457cbe4;
@@ -1852,6 +1852,16 @@ native cancellation outcome for a bounded interval first. Send a second Back
 only when the exact Prompt still positively owns focus after that interval and
 the stock IME is absent. Preserve same-document checks and fail before further
 input on an unknown owner. No production change or acceptance from partial results.
+
+Both r45 installed hashes match the preserved artifacts; profiles remain intact.
+Native r6 private recovery remains RED9.219s: exact normal tab/counts/security
+postconditions pass, Address focus still fails. The stopped bundle does not count
+other tests. Strengthen that regression to require actual BROWSING layout and a
+visible native Home before focus. This distinguishes a covered Home from a lost
+Compose focus request; no private screenshot or security flag override. Build
+only the test target, then rerun this one case. Keep independent production
+dialog/media checks running while the small cached test build compiles.
+Root2f274 Spec0; Standards' documented GNU timing correction is applied above.
 
 ## Previous feature: phone remote (10 October)
 
