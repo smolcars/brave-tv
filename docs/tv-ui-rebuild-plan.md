@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **25/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:3/5, Stage 4:2/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
+Current acceptance: **26/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:3/5, Stage 4:3/8, Stage 5:1/7, Stage 6:0/7, final V checks:0/8.
 These are completed checklist items with emulator evidence. Physical acceptance
 remains deferred. Native Page info entry/return passes; broader permissions and
 library acceptance remain pending. The latest input correction still requires
@@ -332,7 +332,7 @@ known inaccessible core action. A polished home alone does not satisfy this stag
 and measured feasibility. Independent design/model work may continue while
 hardware is unavailable; hardware-dependent claims remain unchecked.
 
-Emulator Stage2 is7/7; canonical acceptance is25/54. Matched uncontended
+Emulator Stage2 is7/7; canonical acceptance is26/54. Matched uncontended
 baseline/current Debug measurements pass the provisional startup, panel,
 PSS and footprint regression budgets. [Performance/hosting evidence](tv-ui-inventory.md)
 records actual samples and overhead, including local page/video timing variance.
@@ -376,9 +376,14 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   optional available system dictation without requiring microphone access.
 - [ ] **4.3** Add compact browsing controls with authoritative loading/history,
   protection and security state. Preserve page area and a clear return to input.
-- [ ] **4.4** Replace tab presentation: create/select/close, large lists, discarded
+- [x] **4.4** Replace tab presentation: create/select/close, large lists, discarded
   tab restoration, selection after removal and last-normal/private-tab behavior.
   Present existing groups safely; do not ungroup/delete stored tabs implicitly.
+  Sourcee0e3 native r26 passes16 genuinely frozen tabs, bounded paging, native
+  preceding/focused removal, stable survivor focus, actual engine restoration
+  and Close to a valid remaining native tab. Private-list secure-window r25 and
+  prior normal/private final-tab Home/Address and grouped confirmation checks
+  carry forward unchanged. Physical TV remains unverified.
 - [x] **4.5** Retain group-close/delete semantics and conservative confirmation
   focus. Exercise both Cancel and confirm on the final grouped tab.
   Native source a26 passes both isolated cases, including Cancel/Right/Delete/
@@ -444,6 +449,13 @@ the actual document but fails Close completion. History first-page focus and
 bookmark nearest-survivor recovery remain red. The next slice preserves selection
 before restored focus, scopes non-coordinate controls to strict document identity,
 and adds a nine-visit native History prerequisite before the160-visit case.
+R58 fails blocking analysis on required operator-precedence parentheses; r59
+sourcee0e3 passes the corrected cached build. Native r26 passes the short History
+prerequisite20.329s and160-visit continuation/policy/Cancel/removal/Open179.019s;
+frozen tabs including Close20.754s and both native document/viewport guards also
+pass. Bookmark nearest-survivor recovery remains red24.811s; index/ID fallback
+alone did not resolve it. Scoped clearing and the remaining bookmark case keep
+5.1 pending. Current accepted count is26/54.
 
 **Gate:** Stage 0 inventory is accounted for. No ordinary core task falls through
 to an unusable mobile screen; retained OS/security surfaces remain accessible.

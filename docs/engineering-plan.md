@@ -2663,6 +2663,53 @@ changing the condition, retain logs/outputs and repeat the combined cached
 build with all blocking checks enabled. Latest40fa/10ae review has0 findings
 in both axes. Runtime batch remains pending; count stays25/54.
 
+
+Consolidated r59 sourcee0e3/root6c747 passes blocking analysis in3m33.60s,
+Siso3m29.83s with4 executed steps; unchanged compilation/packaging outputs from
+r58 were reused only after the correction passed. Sampled peak15843958784bytes;
+live peak15845486592bytes. Signed x64 production852749910bytes,
+SHA2564aef9e4031e13db482efb88b8dd33681b878c8d7dcb22dca0f97a2e121922468;
+test876332851bytes,SHA256044aeec2e189a2064c4420bdde54169ea3e31609fa968e41cfc80239889d4491.
+Artifact/provenance: `~/.cache/brave-tv/artifacts/compose-library-tabs-e0e3f437d-x64-debug-20261011`.
+In-place installs match both hashes,13.091s/12.657s,
+with profiles preserved and Agent UiAutomation closed before JUnit. The short
+History prerequisite and affected library/tab/document cases are running. Latest
+e0e3/6c747 reviews have0 findings in both axes. Count stays25/54 pending native
+results; physical acceptance remains deferred and unperformed.
+
+
+The TV-specific BraveActivity native-init return precedes Wallet/Rewards/News/
+VPN setup, and its resume return precedes optional badges, update promotions,
+subscription messages and Leo-widget handling. Wallet's native factory itself
+is not globally disabled; do not describe it as null on Android. TV startup
+retains the existing early return instead of initializing that optional path.
+BraveToolbarManager also routes the native grid-switcher handler to showTvTabs
+on TV. Visible startup/route tests still must show that retained hooks cannot
+bring a competing mobile surface into ordinary TV navigation.
+
+
+Native r26 on sourcee0e3 has5 positive cases and1 failure. Short real-entry
+History20.329s and full160 continuation/backward paging/policy/Cancel/confirmed
+removal/native Open179.019s pass. Frozen-tab paging/preceding removal/focused
+removal/actual renderer restoration/Close to a valid remaining native tab passes
+20.754s. Viewport change keeps document but rejects coordinates2.794s, and
+same-URL navigation invalidates document2.541s both pass. Private-list r25 and
+unchanged native final normal/private/group confirmation evidence carry forward.
+Item4.4 now has emulator acceptance; canonical count advances26/54, Stage4:3/8.
+No physical acceptance is inferred. Logs/results: native-library-tabs-r26.json.
+
+Bookmark external-update still fails24.811s at nearest survivor6 after policy
+re-enable and selected8 deletion. Captured index/effective ID did not fix that
+runtime failure. Ranked next predictions: (1) a newly rebuilt dialog briefly
+focuses an automatic default before explicit restoration; the failure will show
+Parent/Controls focus. (2) native ordering/index differs from the assumed survivor;
+native owned IDs/indices will disagree. (3) accessibility focus and application
+focus differ; the survivor will be selected internally but absent from native
+focused metadata. Add bounded failure-only native metadata to that exact normal
+fixture case, not repeated broad setup or timing delays. Compile only the changed
+native test target while the same production APK proceeds through independent
+fresh startup/scoped clearing. Carry forward the five accepted r26 cases.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
