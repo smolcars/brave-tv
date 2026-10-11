@@ -3043,6 +3043,16 @@ then fix only the proven boundary. Keep ordinary keyboard, modifiers, IME,
 native security ownership and strict document identity guards. Acceptance is
 the real regression and original permission request/recovery, not compilation.
 
+Latest f68/b2ff reviews: Standards0/Spec0 in each repository. Test buildr25
+fails before APK generation: renderer readback throws a checked TimeoutException
+and the new native test omitted its throws declaration. Add the declaration
+matching existing native renderer tests; no production or assertion change.
+Cgroup peak9071259648bytes, no OOM. Retain the failed log/output cache, rebuild
+only the affected test target with blocking analysis, then run the real red case.
+Host security-r2 HTTP route/method and TLS rejection checks pass; native Basic
+auth shows the exact loopback origin, Back dismisses stock IME and two Down
+presses reach Cancel. Cancellation/permission/certificate acceptance is pending.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized
