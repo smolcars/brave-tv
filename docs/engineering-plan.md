@@ -3227,6 +3227,33 @@ timed out before changes; a shell-quoting error in command-line setup was
 corrected with an explicit emulator push. No shared service restart or wipe.
 Count remains32/54; complete composition/security/recovery acceptance pending.
 
+Latest QR review correction: bind the phone CDP endpoint to the verified phone
+serial by checking its exact ADB forward before any capture/navigation. Catch
+private snapshot/capture/decode subprocess failures and emit a fixed message
+without captured pairing credentials. Acceptance: missing-forward rejection
+and a secret-bearing subprocess failure produce no capture or credential log;
+fresh actual QR pairing still passes. Source APK is unchanged; no rebuild.
+
+Correction evidence: missing phone-forward rejection and secret-bearing failed
+subprocess checks PASS, with no screenshot or credential output. Use raw JSON
+native nodes to prove the visible QR ImageView belongs beneath Compose; compact
+snapshot containers/heading visibility can differ after focus scrolling. Malformed
+secret-bearing JSON and a webpage QR-label spoof are rejected before capture.
+Actual fresh QR r11 passes over direct shared virtual Wi-Fi, with separate
+visible native Approve phone confirmed by D-pad/OK. Earlier r8–r10 preconditions
+rejected capture while the textual/raw snapshot guard was being corrected; no
+screenshots or pairing acceptance are claimed for those attempts. Count32/54.
+
+Minimized stock-TV-IME probe r68 reproduces the earlier r66 failure in5s with
+event counts only: compositionstart/end both advance1→2 during the composing
+replacement, before the later finish. That later equal-text replacement advances
+native input2→3 and remains ready with unchanged field revision8. A new end
+event is not expected after the keyboard has already ended composition. Do not
+infer a native text failure from that assertion or weaken identity/acknowledgement
+checks. Keep full strict composition/selection/replacement-version coverage on
+the quiet-IME fixture distinct from stock-keyboard behavior; verify actual phone
+composition and security before accepting3.5.
+
 ## Previous feature: phone remote (10 October)
 
 The user selected a **local-only, same-network phone remote** and authorized

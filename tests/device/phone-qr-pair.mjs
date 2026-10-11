@@ -27,19 +27,56 @@ function verifyAvd(serial, expected) {
 }
 verifyAvd(tvSerial, tvAvd);
 verifyAvd(phoneSerial, phoneAvd);
+const forwards = execFileSync("adb", ["-s", phoneSerial, "forward", "--list"], {
+  encoding: "utf8",
+  timeout: 15000,
+});
+assert.ok(
+  forwards.split(/\r?\n/).includes(
+    phoneSerial + " tcp:9223 localabstract:chrome_devtools_remote",
+  ),
+  "Phone CDP forward must belong to the verified emulator",
+);
+function privateOutput(command, args, options) {
+  try {
+    return execFileSync(command, args, options);
+  } catch {
+    throw new Error("Private QR capture or decode failed");
+  }
+}
 const { chromium } = createRequire(resolve(modulePath, "package.json"))(
   "playwright-core",
 );
 const adb = (...args) =>
-  execFileSync("adb", ["-s", tvSerial, ...args], { timeout: 15000 });
-const snapshot = execFileSync("python3", [driver, "snapshot"], {
+  privateOutput("adb", ["-s", tvSerial, ...args], { timeout: 15000 });
+const snapshot = privateOutput("python3", [driver, "snapshot", "--json", "--raw"], {
   encoding: "utf8",
   timeout: 15000,
 });
-assert.ok(snapshot.includes("App: com.brave.browser_default"));
+let data;
+try {
+  data = JSON.parse(snapshot).data;
+} catch {
+  throw new Error("Private QR capture or decode failed");
+}
+assert.equal(data?.appBundleId, "com.brave.browser_default");
+const nodes = data.nodes;
+const qr = nodes.find((node) =>
+  node.type === "android.widget.ImageView" && node.visibleToUser &&
+  node.bundleId === data.appBundleId &&
+  node.label === "Pairing QR code; manual address and code above",
+);
+const byIndex = new Map(nodes.map((node) => [node.index, node]));
+let nativeQr = false;
+for (let node = qr, depth = 0; node && depth < nodes.length; depth++) {
+  if (node.type === "androidx.compose.ui.platform.ComposeView") {
+    nativeQr = true;
+    break;
+  }
+  node = byIndex.get(node.parentIndex);
+}
 assert.ok(
-  snapshot.includes('"Use your phone"') &&
-    snapshot.includes("Pairing QR code; manual address and code above"),
+  nativeQr,
   "Open the native pairing QR panel before capture",
 );
 assert.ok(
@@ -51,7 +88,7 @@ writeFileSync(screenshot, adb("exec-out", "screencap", "-p"), {
   mode: 0o600,
   flag: "wx",
 });
-const invitation = execFileSync(
+const invitation = privateOutput(
   "java",
   ["--class-path", jar, "tests/device/PhoneQr.java", screenshot],
   { encoding: "utf8", timeout: 15000 },
