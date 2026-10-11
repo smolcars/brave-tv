@@ -38,7 +38,7 @@ try {
     assert.ok(!nodes.some(n => n.label === 'Private browsing'), 'Private owner rejected');
     assert.ok(nodes.some(n => n.label === url), 'Exact native fixture owner required');
     assert.ok(nodes.some(n => n.focused && ['Address or search', 'Page cursor',
-      'Go back', 'Go forward', 'Reload', 'Stop loading', 'Tabs', 'Bookmarks',
+      'Go back', 'Go forward', 'Reload page', 'Stop loading', 'Tabs', 'Bookmarks',
       'More controls'].includes(n.label)), 'Focused compact native controls required');
   };
   const uniqueTarget = async () => {

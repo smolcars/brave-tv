@@ -739,6 +739,9 @@ isolate the optional list while ads remain blocked. Existing `up`/`down` also
 require the historical temporary cosmetic/scriptlet fixture rules, which must
 never be shipped. Native D-pad Shields/filter actions are separate prerequisites.
 The Compose standard-mode replay starts with compact controls at Address and
-Aggressive selected. Keep profiles and restore original site/list preferences.
+Aggressive selected. Changes reload the page and return to compact Controls;
+reenter Site protection to capture the current document before the next change.
+The replay changes Standard then restores Aggressive. Keep profiles and restore
+original site/list preferences.
 Fixture-server checks and counters alone cannot establish native enforcement,
 signed-update validation, hardware or LAN acceptance.

@@ -2958,9 +2958,38 @@ native scoped deletion, provider restoration, Back and both owned callback cases
 Canonical5.3 accepted; count30/54. Proceed with planned5.4 actual native Shields/
 filter enforcement and signed-update controls; no repeated unaffected suites.
 
-Latest root acceptance review: Spec0; Standards P3 finds the top Stage5 subtotal
+Latest root acceptance review: Standards1 / Spec1, both P3, find the top Stage5 subtotal
 still3/7 after5.3 acceptance. Correct it to4/7 and remove the stale general
 library-pending summary. Total30/54 and the scoped runtime evidence remain valid.
+
+Shields5.4 runtime r1 on production0bd137: controlled site-on blocks both ad and
+cookie-list resources with ERR_BLOCKED_BY_CLIENT; native D-pad site-off loads both
+and the control script, with exactly one fresh request each. Host four-route
+fixture GET/HEAD/type/404/405 checks pass. Reopening Site protection restores
+working native actions and allows original Aggressive mode restoration. Changing
+a setting within its reload-created panel leaves later actions inert: the panel
+captures a lease before navigation finishes, which the session correctly rejects
+as stale. Input/focus failure and native preference failure are ruled out by the
+same D-pad action succeeding after Back/reentry; the reload lease is the cause.
+
+Before the source correction: retain strict native document revalidation, then
+return through existing compact Controls after applying/reloading either Shields
+setting. Controls already refresh against authoritative browser state. Reentry
+captures the new page; do not immediately recreate a stale settings panel or add
+an asynchronous reload retargeting framework. Acceptance: a D-pad Standard→
+Controls→reentry→Aggressive→Controls sequence plus actual site-on/off resources,
+optional cookie-list isolation, native update-status navigation and ordinary
+persistence. Consolidate one cached production build; TEST code is unchanged.
+The standard replay's obsolete Reload label is corrected to Reload page. The
+prior subtotal review is accurately recorded as Standards1 / Spec1 P3.
+
+The revised D-pad standard replay reproduces the old recovery failure at the
+post-change compact Controls focus assertion: Standard is applied but the stale
+Site protection panel remains. Prior stale-panel Aggressive activation likewise
+leaves Standard selected; Back/reentry makes the same native action succeed.
+Change both setting paths to the existing returnToControls after native reload,
+with all original strict context/private/lifecycle guards retained. No changes
+to filtering rules, storage, session identity, engine navigation or phone guards.
 
 ## Previous feature: phone remote (10 October)
 

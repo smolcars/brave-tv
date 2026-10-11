@@ -2,7 +2,7 @@
 # Protection is on and Aggressive selected. No profile reset or restart.
 wait "text=\"Address or search\" focused=true" 3000
 tv-remote down
-wait "text=\"Reload\" focused=true" 3000
+wait "text=\"Reload page\" focused=true" 3000
 tv-remote right
 wait "text=\"Tabs\" focused=true" 3000
 tv-remote right
@@ -20,6 +20,17 @@ wait "text=\"Protection on · Turn off for this site\" focused=true" 3000
 tv-remote down
 wait "text=\"Standard blocking\" focused=true" 3000
 tv-remote select
+wait "text=\"More controls\" focused=true" 3000
+tv-remote select
+wait "text=\"History\" focused=true" 3000
+tv-remote right
+tv-remote right
+wait "text=\"Site protection\" focused=true" 3000
+tv-remote select
 wait "text=\"Protection on · Turn off for this site\" focused=true" 3000
 tv-remote down
+wait "text=\"Standard blocking\" focused=true" 3000
+tv-remote right
 wait "text=\"Aggressive blocking\" focused=true" 3000
+tv-remote select
+wait "text=\"More controls\" focused=true" 3000
