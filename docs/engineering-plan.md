@@ -15,7 +15,7 @@ presentation/model ownership, design work, integration proof, migration and
 acceptance gates. The next implementation slice covers native entry retirement
 and exceptional/loading recovery.
 Stages0–2 have passed their scoped design/source/emulator checks; the working
-UI checklist is37/54. Retain Chromium and native browser storage. The older
+UI checklist is38/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -84,6 +84,49 @@ the actual restoration state before changing policy or weakening private/data
 checks. Preserve both red logs and four passing cases; rebuild TEST only and
 rerun these two affected cases after latest-commit reviews. No todo is checked
 from the partially passing run, and no screenshot/security flags are changed.
+Source27ae/latest root63f reviews both report Standards0, Spec0, and both
+pushes succeed. TEST-only cached buildr32 passes in20.49seconds/14 executed
+steps with blocking analysis;12 samples record9,066,688,512 bytes peak
+(8.44GiB). Verified TEST artifact
+`compose-routing-tests-27ae332ff-x64-debug-20261011` is876,391,975 bytes,
+SHA256 `e065e86d5a73505e4f89f288909a3db0cfef184eb3001303940a4c6e55d9388e`.
+Production r70 remains unchanged. The owned KVM r4 emulator stops with success,
+preserving userdata. Subsequent r5 startup fails before guest boot: the named
+nitesh ACL on `/dev/kvm` has disappeared again, and noninteractive sudo cannot
+restore it. No host reboot occurred. udev marks KVM `seat:uaccess`, and the
+only active graphical seat belongs to gdm-greeter; this identifies managed
+seat permissions, but the exact reset trigger is unproved. A renewed temporary
+ACL was requested; no broader host permission, group or service is changed.
+The two-case r47 diagnostics remain unrun while access is absent. Keep prior
+four native passes, both red logs, APKs/profiles and compile caches intact.
+Host check restores access long enough to boot owned KVM r6 in16,258ms;
+T3 verifies the same nonphysical AVD, and TEST-only install/hash verification
+completes in14.699seconds with production r70 unchanged. The named KVM ACL
+disappears again while the emulator remains active through its open handle;
+keep this emulator running. User unlocks signing, and the no-prompt GPG probe
+now succeeds. Native r47 menu/window/model/focus rejection passes in21.615s,
+completing Stage4.8 when combined with the three unchanged r46 routing passes.
+Private recreation remains red at8.887s: native diagnostic selects normal ID0
+with one normal and zero private tabs, instead of private ID1. No leak is
+established by that result. Next falsifiable hypothesis: a newly created
+private native Home has no restorable document state/cipher yet. Change only
+that fixture to a committed private Chromium webpage, retain exact private tab
+ID/URL/model assertions, and require the recreated Address editor to contain
+only its native URL, never the unsubmitted draft. Preserve the native storage,
+encryption and security policy; if it still loses the tab, investigate native
+saving/cipher lifecycle. Remove the tagged diagnostic only after the cause is
+proved. Runtime and private-cache/failed-write acceptance remain distinct.
+12 October resumption: the user reports signing/KVM repaired. The current
+process now belongs to the kvm group, and read/write checks on /dev/kvm pass
+without a named user ACL. A no-prompt signing probe also succeeds. All AVDs
+are stopped, with27GiB host memory available and swap0. Source85e786 latest
+reviews report Standards0, Spec0; the source push succeeded before the user
+requested a pause. Pin this test-only correction, reuse the cached TEST build
+with the established four-worker18/22GiB limits and blocking analysis, then
+boot only the launch-followup AVD. Rerun only the affected private recreation
+case; carry the five unchanged native routing/recovery passes forward. No
+private runtime acceptance is inferred from repaired host access.
+
 
 Outside-host continuation: KVM still lacks this user's access, and the user
 cannot authenticate while away. A bounded no-prompt signing probe using the

@@ -865,7 +865,8 @@ Address retains the current URL; Search starts empty without changing contents.
 
 `privateAddressDraftIsDiscardedAcrossActivityRecreation` types an unsubmitted
 synthetic draft through the actual editor accessibility action, recreates the
-Activity and requires a fresh empty private editor plus the unchanged normal
+Activity and requires a private editor initialized from its retained native
+webpage URL, with no draft, plus the unchanged normal
 Home with no draft. Run it separately with source provenance and require
 `OK (1 test)`. This is not a process-death, disk-thumbnail or failed-write test.
 

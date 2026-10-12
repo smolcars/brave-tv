@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **37/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:4/5, Stage 4:7/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
+Current acceptance: **38/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:4/5, Stage 4:8/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
@@ -433,8 +433,16 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   Home regains Address focus. Controls/security/private reasons and D-pad actions
   while paired pass on emulator. Actual manual/expiry and physical-client checks
   remain in final V4 verification, not claimed by QR acceptance.
-- [ ] **4.8** Retire replaced mobile toolbar/tab/home entry routes per slice so
+- [x] **4.8** Retire replaced mobile toolbar/tab/home entry routes per slice so
   old and new UI never compete for focus or dispatch the same action twice.
+  Source64e2 production/27ae TEST native r46/r47 passes eight normal menu routes
+  with one Activity/one TV panel and unchanged tab/contents/model, remembered
+  Settings focus and second-entry rejection. Address/Search from Home and a real
+  document, both tab-search IDs, direct native adblock entry/Settings return and
+  private history/download/clear-data rejection pass without native-owner or
+  unlock bypass. Unknown commands and required native security/input/error and
+  phone infrastructure retain their trusted owners. Private recreation remains
+  under6.3; these routes do not claim it or hardware acceptance.
 
 **Gate: usable redesigned core.** Remote-only search, link/form/scroll, tabs,
 video/fullscreen and return home work in the actual APK. Phone parity and
