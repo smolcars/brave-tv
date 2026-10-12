@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **41/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:3/7, final V checks:0/8.
+Current acceptance: **42/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:4/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
@@ -573,8 +573,8 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   drafts and no duplicate browser storage. Existing fresh/default and native
   provider-persistence checks carry forward. The
   [migration contract](tv-ui-migration.md) records the no-migration decision and
-  compatible same-engine/package/signer rollback; full baseline-upgrade/private/
-  failed-write tests remain unchecked under6.1/6.3.
+  compatible same-engine/package/signer rollback. Subsequent baseline upgrade
+  and scoped private/failed-write acceptance are recorded under6.1/6.3.
 - [x] **6.3** Verify private state is never restored into normal UI or persisted
   through saved-state/thumbnail caches. Test clear data, interrupted operations,
   process death, low storage and failed writes without silent data loss.
