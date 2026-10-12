@@ -48,6 +48,9 @@ against the existing Stage0 relative budgets; keep network/renderer/media load
 separate from shell measurements. Exercise real native Home/address/settings/
 tabs/library/focus, fullscreen/cursor/group recovery and sustained ordinary video.
 Injected D-pad and visible pixels are not human physical-button/audible-A/V proof.
+Preflight/authorized all-profile removal and the matched physical measurement
+contract are in [hardware evidence](tv-ui-hardware.md). Initial baseline Home/
+controls pass; current ARM build and hardware performance acceptance are pending.
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing
 hardware metrics; do not infer real-phone/Safari/second-TV or public release.
