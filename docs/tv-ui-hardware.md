@@ -92,3 +92,54 @@ temporary baseline and install1c fresh, then recreate the same one-normal-Home
 configuration. This comparison is fresh-install performance; it does not accept
 hardware upgrade persistence or erase the failure. Emulator migration evidence
 remains separately attributed. Never remove unrelated apps or host caches.
+
+## Current build and matched panel investigation
+
+Fresh installation of source1c succeeds in 73.302s; installed bytes match the
+preserved ARM artifact. Home and Address focus render through native Compose.
+Initial measurements give cold median1151ms/p951236ms, warm174ms/555ms,
+whole-package idle PSS239387KiB and APK growth565281 bytes (0.539MiB).
+Startup median/tail, idle PSS and APK growth pass the declared relative budgets.
+Both Android TV Storage used reports round to402MB; this is not an exact OAT
+directory measurement. In-place hardware upgrade persistence remains unverified.
+
+The initial panel comparison is red: current median269.873ms/p95552.564ms versus
+baseline350.963ms/436.286ms. The25% tail limit is missed by7.207ms in a10ms
+input-shell clock bracket. Keep `initial-budget-red.json.log` and both raw runs.
+The interrupted baseline probe had already opened an untimed controls popup;
+the current first popup was timed. This is unequal warm-up, not a source fix.
+
+A compatible streamed rollback also fails INSTALL_FAILED_INSUFFICIENT_STORAGE
+without changing the installed current APK. Failed installer sessions are
+destroyed and their staging directories absent. APK native libraries are
+uncompressed with extractNativeLibs=false. No unrelated app/cache deletion,
+storage-threshold change, permission workaround or TV reboot is used. Recreate
+only the task-owned empty one-Home test installation for each candidate under
+the existing browser-data cleanup authorization. Baseline restore64.977s and
+current restore67.277s succeed; these are fresh installs, not upgrade acceptance.
+
+For both versions, perform one fresh process, two-second idle and one untimed
+controls opening before ten timed openings with equal directional focus cycles.
+`baseline-warm-r5` fails on a driver snapshot before any timed sample; a separate
+snapshot succeeds, and `baseline-warm-r6` completes. Current `current-warm-r2`
+completes the same method. Retain startup/PSS phases from the original accepted
+runs; do not relabel them as new panel-run samples.
+
+| Physical metric | Baseline5829 | Current1c |
+| --- | ---: | ---: |
+| Ten panel samples, shell-start/frame median |339.033ms|261.026ms|
+| Panel p95 (ten samples; nearest-rank maximum) |823.701ms|286.730ms|
+| Completed new-panel frame median/p95 |39.199/111.474ms|19.831/41.605ms|
+| Completed new-panel frames |444|1185|
+| Package gfxinfo deadline jank / rendered frames |307/823 (37.30%)|118/1185 (9.96%)|
+| Controls Back returns native Home |0/10|10/10|
+
+The red-capable budget checker now reports zero relative-budget misses with
+explicit warm-up parity. Baseline tail variability and the original current
+first-popup552.564ms remain recorded; no first-use source optimization is claimed.
+Package jank counts include all reported windows; new-panel duration samples
+filter skipped/surface-only/unfinished rows. Display period is16.683ms. Frame
+completion duration exceeding one period is not itself an Android deadline-jank
+count. This improves the measured shell while leaving noticeable deadline misses;
+it is not a60fps or physical-button latency promise. Sustained hardware media,
+native input and phone recovery remain pending before V8 acceptance.

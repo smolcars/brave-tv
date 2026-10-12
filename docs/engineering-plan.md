@@ -56,6 +56,46 @@ Android denies release OAT du, so use the trusted OS storage report. In-place
 installation fails for storage; the existing cleanup authorization permits
 removing the temporary baseline and fresh installation with the same one-Home
 configuration. Preserve this failure and distinguish fresh comparison from upgrade.
+Current fresh install succeeds73.302s and matches the verified ARM APK. Native
+Compose Home/Address focus pass. Initial hardware cold/warm/PSS/median panel
+and frame comparisons pass relative limits; first-panel p95 misses25% by7.207ms
+in a10ms shell bracket. Baseline had an untimed first-popup warmup after its
+interrupted probe; current first popup was timed. Preserve both raw runs; verify
+warmup parity and native clock uncertainty before accepting V8. Use documented
+same-engine/package/signer/version compatible presentation rollback to5829 via
+explicit streamed install without data clearing, perform one untimed popup after
+a fresh process and ten timed panel samples for both variants, then restore1c.
+This bounded panel-only investigation also tests whether streaming avoids SDK
+installation staging pressure. Startup/PSS phases remain retained, not rerun.
+No private tabs or schema change exist in this one-normal-Home synthetic profile.
+Explicit streaming rollback also fails storage; current1c stays installed.
+Owned failed sessions are historical/destroyed and their stage directories are
+already absent. Native libraries are uncompressed and extractNativeLibs=false;
+no permission, global-cache or disk-threshold workaround is justified. For the
+necessary warmup-parity investigation, tear down only the task-owned one-Home
+test installation and use the authorized fresh browser install workflow for
+each candidate. Seed the same empty normal Home, one fresh process plus one
+untimed controls popup, then10 panel samples. Preserve initial startup/PSS and
+all failures; do not claim this proves hardware updating or fixes first-use cost.
+
+Actual first-use Compose cost remains the third falsifiable hypothesis if matched
+warmup/precision cannot explain the miss. New controls Back returns Home10/10.
+
+Matched warm-up completes baseline-r6/current-r2 and the red-capable relative
+budget checker turns green without source changes. Physical panel median
+339.033→261.026ms/p95823.701→286.730ms; new-panel frame median/p95
+39.199/111.474→19.831/41.605ms. Package deadline jank37.30→9.96% remains
+distinct from frame duration/cadence. Original first-use miss and hardware
+update/storage failures are retained in [hardware evidence](tv-ui-hardware.md).
+Next acceptance slice uses source1c on owner0: native Home/settings/About/tabs/
+library/address focus recovery, actual nonalphabetic USB D-pad held-OK/cursor
+wake and fullscreen/Back; existing loopback media fixtures via explicit TV
+reverse18088/18083;30-minute playing-document/frame/PSS/CPU observations with
+one explicitly approved LAN companion. Native or OS modal/private/password
+boundaries stay enforced. Human physical-button/audio/DRM, real phone/Safari and
+second-TV checks remain separate. Preserve synthetic profile after setup;
+revoke the controller and remove only owned fixture processes/ports on closeout.
+
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing
 hardware metrics; do not infer real-phone/Safari/second-TV or public release.
