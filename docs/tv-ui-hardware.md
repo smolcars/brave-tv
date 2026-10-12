@@ -339,3 +339,32 @@ The test requires a node that still exists natively while ignored, avoiding a
 false pass on a deleted node. Review/build/red runtime remain pending. Native
 accessibility must be preserved; disabling the service/assertion or removing
 video controls does not fix this defect.6.5/V8 stay unchecked.
+
+
+## Focused reproduction and native correction
+
+Both source106 generic-button cases fail in setup before reaching either info
+request; their ignored-but-existing-node condition is not achieved. Retain r83
+logs as invalid reproductions. Sourcef6faefd31a07fe868e409c27ee537312aaa65854
+uses actual ordinary video/mute-control fading. Latest source/root reviews0/0.
+Cached r84 passes blocking analysis in16.74s Siso14steps, memory8.673GiB peak
+and20.764GiB minimum available. Its production APK remains byte-identical to92;
+TEST SHA256`8c495b0512cd56606feaf713255e92e62a6418b36e644e2a9817bfa1929703d9`,
+876469503 bytes, is installed in place on the preserved API36 AVD.
+
+`native-accessibility-red-r84.py` now reaches the actual ignored-but-existing
+native node. Fresh-info crashes the process in7.987s; cached-info incorrectly
+returns success and fails its rejection assertion in7.168s. The fresh-info
+repeat also crashes in8.464s. No native fatal line is recovered from its crash/
+filtered main buffers; the detailed AX assertion/stack is the separately
+retained actual TV crash, not a fabricated emulator log. Retain r84/repeat
+method logs and `native-accessibility-red-r84{,-repeat}.json`.
+
+Correction source090fa9c733cc80681f3fc6db71df16244d74dda6 adds two one-line
+patch hooks and one small chromium_src guard before fresh/cached native builders
+traverse ignored nodes. Upstream traversal/assertions and exposed-node behavior
+remain. Generated JNI entry points make broad method-renaming wrappers unsafe;
+this uses the established owned-patch/override pattern. The test revalidates
+node existence/ignored identity immediately before each request on the same UI
+thread. Review/build/green native runtime and repeated TV endurance are pending.
+No production correction pass or6.5/V8 completion is claimed yet.

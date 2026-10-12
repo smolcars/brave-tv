@@ -27,6 +27,22 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Sourcef6/root5f latest reviews are0/0. Cached r84 passes blocking analysis in
+16.74s Siso14steps, peak8.673GiB/minimumhost20.764GiB. Production bytes still
+match92. The exact video-control loop now goes red in seconds: fresh native
+info crashes the process in7.987s through the stale-node request; cached
+info incorrectly returns success and fails its rejection assertion in7.168s.
+Both reach the real ignored-but-existing mute-control node after playback/fade.
+Implement the scoped fix now: two one-line Chromium patch hooks and a small
+chromium_src override using native IsIgnored validation before both builders.
+Keep all upstream traversal, assertions and exposed-node behavior. Revalidate
+the ignored/existing test identity within the same UI-thread callback as each
+request, closing the setup-to-request race. Review only the correction commits,
+then build once per ABI under existing limits and rerun those two cases plus
+actual native video/fullscreen and private-window protection. Preserve source92
+TV synthetic data using the proven -k code-replacement workflow, and rerun the
+original physical fullscreen/30-minute media/phone/AX-observation acceptance.
+
 Source106/root9f latest reviews are0/0. Cached r83 passes blocking analysis in
 30.34s GNU/26.75s Siso15steps, peak12.526GiB, hostminimum20.419GiB. Production
 APK bytes exactly match92; TEST updates in place on the preserved AVD. Both
