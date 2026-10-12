@@ -687,7 +687,7 @@ Investigate failures separately and retain partial results honestly. OS picker
 D-pad limitations, real phones, hardware codec/audio/performance and physical
 LAN acceptance remain unverified. No wipe, private capture or release claim.
 
-Final-copyr77 passes GNU1m32.67s/15 Siso steps/blocking analysis,49 memory
+Final-copyr77 passes GNU1m36.13s (Siso1m32.67s/15 steps)/blocking analysis,49 memory
 samples,12.485GiB peak/16.510GiB minimum host available, no OOM/guard. Verified
 production852,770,267B SHA256bac5b4dd6cda8c68e86c34bee1eb0ef051c84649057ac62280c1103f63140926
 and TEST876,451,107B SHA25604ad60f01b3ec05f5b390356083a15585b66a06644d1ef59635e353a219583be
