@@ -68,6 +68,22 @@ brave_tv_launch_followup_api36 AVD with KVM explicitly on and SwiftShader render
 guest Vulkan disabled, no snapshot load/save and5G high/6G max/swap0. Verify guest identity,
 open its T3 panel and update both packages in place before six isolated native
 cases. Build/artifact acceptance does not check runtime todos or migration.
+KVM boot completes in16,162ms; T3 opens the verified nonphysical AVD. Agent
+`install` updates both packages in place in10.066/10.383seconds, and installed
+SHA256 values match r70 artifacts. The stock TV IME remains selected. Native
+r46 runs each affected case in its own process: Address/Search, direct adblock,
+private-library rejection and genuine-D-pad renderer crash/Reload pass. The
+eight normal menu routes each reach a single TV panel and preserve browser
+owners, but their final Settings-focus assertion fails: direct About/clear-data
+entries intentionally update the remembered Settings action, so the last
+clear-data entry should restore that focus, not Search. Correct that test
+expectation without changing presentation policy. The private-draft case types
+successfully but fails its post-recreation selected-private-ID/native-Home
+condition; add only bounded native ID/model/page-kind diagnostics to identify
+the actual restoration state before changing policy or weakening private/data
+checks. Preserve both red logs and four passing cases; rebuild TEST only and
+rerun these two affected cases after latest-commit reviews. No todo is checked
+from the partially passing run, and no screenshot/security flags are changed.
 
 Outside-host continuation: KVM still lacks this user's access, and the user
 cannot authenticate while away. A bounded no-prompt signing probe using the
