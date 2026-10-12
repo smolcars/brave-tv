@@ -1,8 +1,11 @@
 import copy
+import hashlib
+from pathlib import Path
+import tempfile
 import unittest
 from typing import Any
 
-from device.tv_upgrade_check import compare_preserved, read_snapshot
+from device.tv_upgrade_check import compare_preserved, read_snapshot, verify_artifact
 
 
 class UpgradeComparisonTests(unittest.TestCase):
@@ -41,10 +44,25 @@ class UpgradeComparisonTests(unittest.TestCase):
                     compare_preserved(self.baseline, changed)
 
     def test_physical_serial_is_rejected_before_device_access(self) -> None:
-        from pathlib import Path
-
         with self.assertRaisesRegex(ValueError, "nonphysical"):
             read_snapshot("192.0.2.1:5555", Path("unused"), Path("unused"))
+
+    def test_artifact_bytes_are_bound_to_recorded_source_hash_and_size(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            apk = Path(directory) / "BraveMonox64.apk"
+            apk.write_bytes(b"owned host artifact fixture")
+            record = {"sha256": hashlib.sha256(apk.read_bytes()).hexdigest(), "bytes": apk.stat().st_size}
+            manifests: list[dict[str, Any]] = [{"source": "fixture-source", **record}, {"source": "fixture-source", "artifacts": {apk.name: record}}]
+            for manifest in manifests:
+                with self.subTest(schema=manifest):
+                    self.assertEqual(verify_artifact(manifest, apk, "fixture-source"), record["sha256"])
+                    with self.assertRaisesRegex(ValueError, "source"):
+                        verify_artifact(manifest, apk, "other-source")
+                    for field, value in (("sha256", "wrong-hash"), ("bytes", 0)):
+                        bad = copy.deepcopy(manifest)
+                        bad.get("artifacts", {}).get(apk.name, bad)[field] = value
+                        with self.assertRaisesRegex(ValueError, "hash or size"):
+                            verify_artifact(bad, apk, "fixture-source")
 
 
 if __name__ == "__main__":

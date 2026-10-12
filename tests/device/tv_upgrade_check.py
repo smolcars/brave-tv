@@ -19,6 +19,18 @@ AVD = "brave_tv_onboarding_api36"
 COOKIE_LIST = "AC023D22-AE88-4060-A978-4FEEEC4221693"
 
 
+def verify_artifact(provenance: dict[str, Any], apk: Path, source: str) -> str:
+    """Bind local bytes to the source's preserved artifact manifest."""
+    if provenance.get("source") != source:
+        raise ValueError("Artifact provenance source mismatch")
+    record = provenance.get("artifacts", {}).get(apk.name, provenance)
+    with apk.open("rb") as stream:
+        digest = hashlib.file_digest(stream, "sha256").hexdigest()
+    if record.get("sha256") != digest or record.get("bytes") != apk.stat().st_size:
+        raise ValueError("Artifact provenance hash or size mismatch")
+    return digest
+
+
 def compare_preserved(before: dict[str, Any], after: dict[str, Any]) -> None:
     """Compare only the seeded native data; artifact versions intentionally differ."""
     for field in ("normalTabs", "group", "bookmarks", "search", "shields", "filter"):
@@ -138,10 +150,7 @@ def main() -> None:
     if identity != [AVD, "OK"]:
         raise ValueError("Preserved baseline AVD required")
     provenance = json.loads(args.apk.with_name("provenance.json").read_text())
-    if provenance.get("source") != args.source:
-        raise ValueError("Artifact provenance source mismatch")
-    with args.apk.open("rb") as apk:
-        apk_sha = hashlib.file_digest(apk, "sha256").hexdigest()
+    apk_sha = verify_artifact(provenance, args.apk, args.source)
     paths = subprocess.check_output(adb + ["shell", "pm", "path", "--user", "0", PACKAGE], timeout=20).decode().splitlines()
     if len(paths) != 1 or not paths[0].startswith("package:/data/app/"):
         raise ValueError("One installed native APK required")

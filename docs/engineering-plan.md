@@ -424,6 +424,13 @@ passes. Evidence is upgrade-baseline-metadata-r2.json, its selfcheck and
 upgrade-reader-negative-r2.json. These checks do not accept the actual upgrade.
 Stop only the baseline-seed r2 emulator before the consolidated r71 build,
 preserving userdata and all caches. Keep the stock IME restored after T3 opens.
+Rootb0aa latest review reports Standards0, Spec1: installed/local APK equality
+must also bind to the provenance manifest's recorded hash and size. Add that
+binding for the retained flat baseline and multi-artifact schemas, with host
+wrong-source/hash/size tests, before using the checker for migration acceptance.
+The source3088 cached r71 full/TEST build starts with no emulator, four workers,
+blocking analysis and established18/22GiB/swap0 plus6GiB host guard. Root helper
+changes do not alter the committed source pin or active build checkout.
 
 Next independent6.1 preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
