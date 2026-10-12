@@ -162,6 +162,25 @@ already-fullscreen page has missed the earlier fullscreen notification. Capture
 the validated document lease in the shared attachment path too, and exercise
 native first attachment inside existing fullscreen plus actual phone activation
 there. Review the correction before building; the earlier4dde red remains.
+Both latest sourcec737 and root31 reviews now pass Standards0/Spec0. The cached
+x64 build runs first, with no emulator and the original memory/concurrency guard.
+For the next hardware artifact, preserve the newly seeded synthetic profile:
+record native selected-page/tab and bookmark state, then use Android's documented
+browser-only `pm uninstall -k` followed by the compatible signed installation.
+This frees old browser code while retaining data/cache and Android users. It is
+a data-preserving code-replacement fallback, not an accepted in-place update.
+Verify retained native state afterward; if installation fails, restore the prior
+compatible APK with the retained data. Do not clear data again to hide failure.
+Cached r81 passes blocking analysis in3m35.70s/31 steps; actual generic fullscreen,
+first attachment inside fullscreen, held-OK, lifecycle disposal and protected
+private-window cases pass. The video case fails before Back because its MP4
+embedded in a data URL reports MEDIA_ELEMENT_ERROR/Format error. Preserve that
+failure rather than weakening playback assertions. Use the existing controlled
+HTTP media fixture with an explicit native-cursor query variant: a fixed dark
+fullscreen target, native click starts video/fullscreen, same background/pixel and
+document/coordinate assertions. Keep ordinary media rendering unchanged. Commit
+the source test and root fixture/procedure together, review latest corrections,
+then use the retained cached GN target for its focused runtime check.
 
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing

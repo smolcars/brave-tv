@@ -809,8 +809,9 @@ The server listens only on loopback and exposes only its two fixture routes.
 ## Ordinary video fixture
 
 `TvHomePageTest#nativeVideoFullscreenExitPreservesDocumentAndCursor` requires
-the same bounded media range server and explicit emulator reverse18083. Pass
-`-e tv_video_fixture_url http://127.0.0.1:18083/bbb-320x240-2video-2audio.mp4`.
+the same bounded media range server, the page server, and explicit emulator
+reverses18083/18088. Pass
+`-e tv_video_cursor_fixture_url http://127.0.0.1:18088/media.html?native-cursor`.
 The native D-pad click starts the real video and requests video fullscreen;
 Back must retain the document while invalidating old coordinate leases. Both
 this and the document-fullscreen case require a dark cursor-absent precondition

@@ -10,8 +10,13 @@
   button { font: inherit; padding: 16px; }
   output { display: block; text-align: center; }
   #mediaDetails { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; }
+  body.native-cursor video { width: 80px; height: 60px; }
+  body.native-cursor #fullscreen {
+    position: fixed; inset: 0; background: #202124; color: white;
+    display: flex; align-items: flex-start;
+  }
 </style>
-<video controls loop preload="metadata" src="http://127.0.0.1:18083/bbb-320x240-2video-2audio.mp4">
+<video id="video" controls loop preload="metadata" src="http://127.0.0.1:18083/bbb-320x240-2video-2audio.mp4">
   <track kind="captions" src="media.vtt" srclang="en" label="Test captions">
 </video>
 <nav aria-label="Video checks">
@@ -26,10 +31,15 @@
   const video = document.querySelector('video');
   const output = document.querySelector('output');
   const captions = document.querySelector('#captions');
+  const nativeCursor = new URLSearchParams(location.search).has('native-cursor');
+  document.body.classList.toggle('native-cursor', nativeCursor);
   const failure = error => { output.textContent = error.message; };
   document.querySelector('#play').onclick = () => video.play().catch(failure);
   document.querySelector('#pause').onclick = () => video.pause();
-  document.querySelector('#fullscreen').onclick = () => video.requestFullscreen().catch(failure);
+  document.querySelector('#fullscreen').onclick = () => {
+    if (nativeCursor) video.play().catch(failure);
+    video.requestFullscreen().catch(failure);
+  };
   captions.onclick = () => {
     const track = video.textTracks[0];
     track.mode = track.mode === 'showing' ? 'disabled' : 'showing';
