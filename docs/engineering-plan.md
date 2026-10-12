@@ -157,6 +157,11 @@ before entering Page cursor; it opens controls before waiting for the native
 viewport to settle, making its captured coordinate lease stale. Synchronize the
 viewport before opening controls and preserve the failed runs. Review these
 focused corrections and build once per ABI; no arbitrary delay or relaxed guard.
+Sourcef3d review is Standards0/Spec1: first phone cursor attachment during an
+already-fullscreen page has missed the earlier fullscreen notification. Capture
+the validated document lease in the shared attachment path too, and exercise
+native first attachment inside existing fullscreen plus actual phone activation
+there. Review the correction before building; the earlier4dde red remains.
 
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing

@@ -816,6 +816,11 @@ Back must retain the document while invalidating old coordinate leases. Both
 this and the document-fullscreen case require a dark cursor-absent precondition
 and normal cursor pixels after recovery. Run separately without failure
 screenshots. Emulator passes do not accept physical video-overlay recovery.
+`#nativeCursorFirstAttachedDuringFullscreenRestoresAfterExit` enters real
+fullscreen through native touch before any cursor exists, then attaches through
+the actual TV control and requires the same identity/coordinate/pixel recovery.
+First authenticated phone activation during existing video fullscreen is a
+separate physical companion check.
 
 Alongside the existing page server on 18081, serve the pinned Chromium checkout's
 `src/media/test/data` on loopback port 18083 and reverse that port through ADB.

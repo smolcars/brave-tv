@@ -215,3 +215,7 @@ regressions and synchronizes held-OK viewport setup. Review/build/runtime are
 pending; no physical cursor or sustained-media acceptance is claimed. The source1c
 performance comparison remains separately attributed. The controller is revoked
 and only the owned emulator stopped before the next single cached build.
+Its latest review reports Standards0/Spec1: a cursor first attached during existing
+fullscreen also needs the native document lease. Correction
+`c7373b453e0e06fa33ef8ab7e578605dd0919f52` captures it in the shared TV/phone
+attachment path and adds native first-attachment coverage; review/runtime pending.
