@@ -18,20 +18,23 @@ for (const [serial, avd] of [[tvSerial, tvAvd], [phoneSerial, phoneAvd]]) {
 assert.ok(execFileSync("adb", ["-s", phoneSerial, "forward", "--list"], {
   encoding: "utf8", timeout: 15000,
 }).split(/\r?\n/).includes(`${phoneSerial} tcp:9223 localabstract:chrome_devtools_remote`));
-let native;
-try {
-  native = JSON.parse(execFileSync("python3", [resolve(driver), "snapshot", "--json"], {
-    encoding: "utf8", timeout: 15000,
-  }));
-} catch {
-  throw new Error("Native invitation snapshot unavailable");
+function nativeSnapshot() {
+  let native;
+  try {
+    native = JSON.parse(execFileSync("python3", [resolve(driver), "snapshot", "--json"], {
+      encoding: "utf8", timeout: 15000,
+    }));
+  } catch {
+    throw new Error("Native invitation snapshot unavailable");
+  }
+  assert.ok(native.success && !native.data.truncated);
+  assert.equal(native.data.appBundleId, "com.brave.browser_default");
+  return native.data.nodes;
 }
-assert.ok(native.success && !native.data.truncated);
-assert.equal(native.data.appBundleId, "com.brave.browser_default");
-const nodes = native.data.nodes;
+const nodes = nativeSnapshot();
 const qr = nodes.find(n => n.label === "Pairing QR code; manual address and code above"
   && n.visibleToUser && n.type === "android.widget.ImageView"
-  && n.bundleId === native.data.appBundleId);
+  && n.bundleId === "com.brave.browser_default");
 const byIndex = new Map(nodes.map(n => [n.index, n]));
 let trusted = false;
 for (let n = qr, depth = 0; n && depth < nodes.length; depth++) {
@@ -61,19 +64,23 @@ try {
     .includes("Waiting for approval"));
   assert.equal(await page.locator("#pairForm").isVisible(), false);
   assert.equal(await page.locator("#approval").isVisible(), true);
-  assert.equal(await page.locator("#code").inputValue(), "");
-  assert.equal(new URL(page.url()).hash, "");
+  assert.ok((await page.locator("#code").inputValue()) === "", "Manual code must be cleared");
+  assert.ok(new URL(page.url()).hash === "", "Manual navigation must have no invitation fragment");
   console.log("PASS: manual request clears/hides code form and requires native TV approval");
   if (mode === "expire") {
     const started = Date.now();
     await page.waitForFunction(() => !token && !connected
       && document.querySelector("#approval").hidden
       && !document.querySelector("#pair").hidden
-      && document.querySelector("#status").textContent.includes("expired"),
+      && document.querySelector("#status").textContent
+        .includes("Session unavailable. Start a new invitation on the TV."),
     undefined, { timeout: 130000 });
     assert.equal(await page.locator("#pairForm").isVisible(), true);
-    assert.equal(await page.locator("#code").inputValue(), "");
+    assert.ok((await page.locator("#code").inputValue()) === "", "Expired code must be cleared");
     assert.ok(Date.now() - started >= 100000, "Early disconnect is not invitation expiry");
+    const after = nativeSnapshot();
+    assert.ok(!after.some(n => n.label === "Pairing QR code; manual address and code above"
+      || n.label === "Approve phone"), "Native pending invitation must close after expiry");
     console.log(JSON.stringify({ result: "PASS", unapprovedExpiry: true,
       elapsedMs: Date.now() - started, freshInvitationRequired: true }));
   }

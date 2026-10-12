@@ -776,6 +776,13 @@ AVDs/owned phone diagnostic forward and native Compose QR owner. Keep the old
 approved session intact until the30-minute run finishes. Stock-phone Gboard
 smoke follows on the normal native input fixture; full Unicode/native composition
 and no-replay/password/private/security checks retain their independent evidence.
+Manual-probedf5 review reports Standards1/Spec2 before any runtime: failed
+equality assertions could print a code/fragment, and the expiry wait expected
+"expired" rather than the page's actual revoked-session guidance. Replace all
+secret-bearing equality assertions with booleans/fixed messages; wait for the
+real session-unavailable/new-invitation UI, require elapsed>=100s and native
+pending QR/approval closure. Keep the130s bound and profile/security ownership.
+The corrected probe still has no actual manual/expiry acceptance yet.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
