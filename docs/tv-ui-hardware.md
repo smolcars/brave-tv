@@ -219,3 +219,49 @@ Its latest review reports Standards0/Spec1: a cursor first attached during exist
 fullscreen also needs the native document lease. Correction
 `c7373b453e0e06fa33ef8ab7e578605dd0919f52` captures it in the shared TV/phone
 attachment path and adds native first-attachment coverage; review/runtime pending.
+
+## Authoritative exit validation and current artifacts
+
+Sourcec737 and root31 latest-only reviews pass Standards0/Spec0. Cached x64 r81
+passes blocking analysis in3m35.70s (Siso31 steps/3m32.28s), memory peak14.451GiB
+and sampled host minimum13.375GiB. Its installed production APK is
+852768447 bytes, SHA-256`9a57b1e8d90fc29e8544cf4f1513f7ee5b141ee957daa5d8dc15961b4ac7b76f`.
+Five separate actual-engine cases pass: document fullscreen with native document/
+coordinate leases and cursor pixels, first cursor attachment during fullscreen,
+held-OK/idle wake, file-picker navigation/pause disposal and protected private
+Home/controls. The held-OK viewport-before-controls synchronization succeeds.
+
+The new video case fails before Back: MP4 embedded in its data URL reports
+MEDIA_ELEMENT_ERROR/Format error and never plays. This is not a video-recovery
+pass or an established engine regression. Source92af7fd43c5e1a0e9d214b8679514b444055bc27
+and rootec6 latest reviews pass0/0 for a test-only correction using the controlled
+HTTP fixture `media.html?native-cursor`, preserving ordinary fixture rendering.
+No production cursor code changes in that correction. Cached r82 passes blocking
+analysis in44.15s (Siso14 steps/40.47s), peak10.479GiB/minimum host20.182GiB.
+Its production bytes are identical to r81 and are reused on the preserved AVD;
+only TEST updates. The corrected actual video/fullscreen/Back/playing-document/
+coordinate/pixel case passes in8.219s. The five other cases carry from c737,
+without being relabeled as reruns on92. Logs/provenance remain under the cache.
+
+Current ARM r3 passes blocking analysis in3m55.01s (Siso15 steps/3m51.63s),
+four workers,18/22GiB limits and no swap/OOM/guard interruption.110 samples record
+peak19329417216 bytes (18.002GiB) and minimum host9902829568 bytes (9.223GiB).
+Artifact `compose-cursor-92af7fd43-arm-nodebug-20261012/BraveMonoarm.apk` is
+368050408 bytes, SHA-256`d2d740800bc8bf907ab7cf91b410a383fccb979295ef74a5e4eb827d6b40fe14`.
+Signer, ARM32 ABI, development package/version and nondebuggable flag verify.
+GN/build/memory provenance is preserved; hardware runtime acceptance remains
+pending. This is optimized local development, not public release.
+
+Before code replacement, source4dde native Bookmarks saves the selected normal
+media fixture in Mobile bookmarks; Tabs shows that same selected page. Retain
+`hardware-retained-profile-before-r3.json`. First bookmark Back correctly returns
+its Mobile folder to the bookmark root; a probe expecting controls prematurely
+fails, and the next Back returns controls. TV owner0 UID10136 and942772KiB free
+are observed. Use documented `pm uninstall -k` then the compatible signed APK to
+retain this synthetic data/cache while freeing old browser code. Installation
+succeeds70.148s with verified bytes and unchanged UID10136. Native controls show
+the exact retained selected media URL; Mobile bookmarks still contains its saved
+title. Retain `install-cursor-tv-kept-r3.json` and
+`hardware-retained-profile-{selected,after}-r3.json`. This accepts those normal
+synthetic data points across code replacement, not an in-place update or complete
+settings/group/history/all-profile equivalence. No data/cache clearing occurred.
