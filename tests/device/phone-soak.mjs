@@ -70,7 +70,7 @@ try {
       return result;
     }, originalEpoch);
     assert.ok(
-      sample.connected && sample.sameSession,
+      sample.connected && sample.sameSession && !sample.paused,
       "The approved foreground session was lost",
     );
     if (sample.commandMs !== undefined) roundTrips.push(sample.commandMs);
@@ -88,6 +88,7 @@ try {
       assert.ok(Number.isSafeInteger(media.frames) && media.frames > 0);
       assert.ok(Number.isSafeInteger(media.droppedFrames) && media.droppedFrames >= 0
         && media.droppedFrames <= media.frames);
+      assert.ok(media.frames - media.droppedFrames > 0, "Native video must present frames");
       assert.ok(!media.paused && media.ready >= 2 && media.error === null,
         "Native video must keep playing without a media error");
       assert.equal(media.width, 320);
@@ -95,6 +96,9 @@ try {
       if (previousMedia) {
         assert.equal(media.documentTime, previousMedia.documentTime, "Media document was replaced");
         assert.ok(media.frames > previousMedia.frames, "Native video stopped producing frames");
+        assert.ok(media.frames - media.droppedFrames
+          > previousMedia.frames - previousMedia.droppedFrames,
+        "Native video stopped presenting frames");
       }
       previousMedia = media;
       const adb = (...args) =>

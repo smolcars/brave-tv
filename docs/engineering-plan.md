@@ -737,6 +737,10 @@ transaction13 and connect existing AndroidWifi. TV10.0.2.16 and phone10.0.2.18
 now have direct shared simulated Wi-Fi addresses; no remote-traffic forward.
 The phone uses bundled Chrome133.0.6943.137. Physical LAN/current phones/Safari
 are unverified. Fixture/loopback-media routing remains separate from the remote.
+Latest root59 reviews report Standards1/Spec0: decoding can continue while all
+new frames are dropped. Require positive and increasing frames-minus-dropped
+as well as decoded frames, and reject unexpected paused phone ownership during
+the steady session. This corrects test validity; no runtime acceptance follows.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
