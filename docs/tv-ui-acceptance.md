@@ -9,7 +9,8 @@ authorization permits the [physical follow-up](tv-ui-hardware.md); source090
 actual-engine and complete native TV acceptance now close6.5/V8. Human A/V,
 button/overscan, real-phone/Safari/second-TV and standard in-place storage limits remain. This index
 distinguishes retained native results from the current artifact; it does not
-claim every test was rerun together or accept physical performance/release.
+claim every test was rerun together, human A/V/button/overscan acceptance,
+standard in-place update success or broader release readiness.
 
 ## Later native hardware corrections — 12 October
 
