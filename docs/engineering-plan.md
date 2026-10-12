@@ -601,6 +601,19 @@ launch-followup emulator and fixture server stop after saving normal state;
 remain preserved. No Stage5.6 acceptance follows from reviews or compilation;
 actual native cases and original Android picker/result integration remain pending.
 
+
+Root173 latest review is Standards0/Spec0 and both repositories push. Cached
+checkout advances only through tools/checkout.py. Incremental patch apply changes
+only the two intended UiBase files; verify their full post-apply hashes. Generated
+metadata differs only by final newline; restore exactly committed metadata bytes
+before compilation, retaining clean source/cache state.
+Buildr75 fails after1m25.12s at Chrome Java compilation: the new guide/test used
+nonexistent R.string.brave_tv_cancel. Correct both callers to the existing
+localized R.string.cancel already used by TV confirmations. No new resource or
+picker policy is needed. Preserve the failed log/timing and completed objects;
+41 samples record10.58GiB peak, no OOM/guard. Review only this resource correction,
+pin/push it, then retry the same cache/limits as r76. Native cases remain unrun.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
