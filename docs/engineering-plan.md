@@ -741,6 +741,13 @@ Latest root59 reviews report Standards1/Spec0: decoding can continue while all
 new frames are dropped. Require positive and increasing frames-minus-dropped
 as well as decoded frames, and reject unexpected paused phone ownership during
 the steady session. This corrects test validity; no runtime acceptance follows.
+Rootcc8 latest corrections review0/0 and push. Actual native media setup reaches
+ready4/error-null and reports427x240 (anamorphic default track despite the
+320x240 filename). The title has no standalone native AX node; the report and
+four fixture buttons have genuine identifiers. Replace assumed title/dimensions
+with the authenticated native normal fixture URL, exact native app/controls,
+positive actual dimensions and stable dimensions/document identity. Retain the
+same presented-frame checks. Syntax and native setup are not a30-minute pass.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,

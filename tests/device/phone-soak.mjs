@@ -59,6 +59,8 @@ try {
         connected,
         sameSession: epoch === expectedEpoch,
         paused: !!state?.paused,
+        normalMediaPage: state?.page === true
+          && state.url === "http://10.0.2.2:18088/media.html",
       };
       if (connected && state?.page && !state.paused && !busy) {
         const before = performance.now(),
@@ -70,7 +72,7 @@ try {
       return result;
     }, originalEpoch);
     assert.ok(
-      sample.connected && sample.sameSession && !sample.paused,
+      sample.connected && sample.sameSession && !sample.paused && sample.normalMediaPage,
       "The approved foreground session was lost",
     );
     if (sample.commandMs !== undefined) roundTrips.push(sample.commandMs);
@@ -80,7 +82,9 @@ try {
       }));
       assert.ok(native.success && !native.data.truncated, "Complete native media snapshot required");
       const nodes = native.data.nodes;
-      assert.ok(nodes.some(n => n.label === "TV ordinary media checks"), "Normal media fixture required");
+      assert.equal(native.data.appBundleId, "com.brave.browser_default");
+      assert.ok(["play", "pause", "fullscreen", "captions"].every(id =>
+        nodes.some(n => n.identifier === id)), "Native media fixture controls required");
       const details = nodes.find(n => n.identifier === "mediaDetails")?.label;
       assert.ok(details && details.length <= 1024, "Bounded native media report required");
       const media = JSON.parse(details);
@@ -91,10 +95,12 @@ try {
       assert.ok(media.frames - media.droppedFrames > 0, "Native video must present frames");
       assert.ok(!media.paused && media.ready >= 2 && media.error === null,
         "Native video must keep playing without a media error");
-      assert.equal(media.width, 320);
-      assert.equal(media.height, 240);
+      assert.ok(Number.isSafeInteger(media.width) && media.width > 0);
+      assert.ok(Number.isSafeInteger(media.height) && media.height > 0);
       if (previousMedia) {
         assert.equal(media.documentTime, previousMedia.documentTime, "Media document was replaced");
+        assert.equal(media.width, previousMedia.width);
+        assert.equal(media.height, previousMedia.height);
         assert.ok(media.frames > previousMedia.frames, "Native video stopped producing frames");
         assert.ok(media.frames - media.droppedFrames
           > previousMedia.frames - previousMedia.droppedFrames,
