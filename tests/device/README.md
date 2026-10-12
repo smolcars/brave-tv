@@ -409,6 +409,14 @@ one-core percentage from live process counters; process churn makes that sample
 unavailable. PSS includes every browser package process reported by Android.
 Neither emulator latency nor CPU is a physical-TV performance claim.
 
+`phone-manual-pair.mjs PW TV_SERIAL TV_AVD PHONE_SERIAL PHONE_AVD TV_DRIVER
+request|expire` reads one visible native Compose invitation in memory and submits
+its manual code through the bundled page. It never logs credentials. `request`
+stops at pending approval; activate the focused native Approve separately.
+`expire` leaves the request unapproved, waits for the real120-second session
+expiry and requires an empty, usable fresh-code form. An early disconnect is
+rejected as expiry evidence. Start each mode with a fresh native invitation.
+
 For HTTP rejection/timeout probes, use the phone emulator's netcat against the
 TV's exact numeric Host. The listener binds only its private address, so an ADB
 TCP forward to guest loopback cannot reach it:

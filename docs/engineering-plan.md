@@ -767,6 +767,16 @@ forward/artifact provenance and is still partial. All166 strings/AAR hashes pass
 the final source audit. The acceptance index records installed compiler build.txt
 2.4.20 separately from its old README version label; no dependency pin changes.
 
+Final V4 slice after the uninterrupted run: request a fresh manual invitation
+through the actual bundled page, prove pending approval hides/clears the code
+form, activate native approval separately, then test a separate real120-second
+unapproved invitation expiry and safe return. Read the visible synthetic code
+only in memory; never log credentials or relax Host/Origin/security. Verify both
+AVDs/owned phone diagnostic forward and native Compose QR owner. Keep the old
+approved session intact until the30-minute run finishes. Stock-phone Gboard
+smoke follows on the normal native input fixture; full Unicode/native composition
+and no-replay/password/private/security checks retain their independent evidence.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
