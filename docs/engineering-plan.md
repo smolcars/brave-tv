@@ -614,6 +614,14 @@ picker policy is needed. Preserve the failed log/timing and completed objects;
 41 samples record10.58GiB peak, no OOM/guard. Review only this resource correction,
 pin/push it, then retry the same cache/limits as r76. Native cases remain unrun.
 
+
+While the reviewed APK builds, reconcile the migration contract with actual
+accepted6.1/6.3 evidence. Preserve its source-audit date and native schema/rollback
+constraints; replace stale pending wording with links to the canonical scoped
+outcomes. Record private task-restoration versus explicit force-stop policy,
+controlled LOW versus ENOSPC, and source6802 cache protection. This documentation
+slice changes no APK/source/cache and does not accept Stage6.7 final closeout.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed

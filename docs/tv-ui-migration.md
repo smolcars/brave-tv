@@ -1,8 +1,10 @@
 # TV presentation persistence and upgrade contract
 
 Source audit at `e08856652395ea20214e391e5d3533c6b6d1387f`, 11 October 2026.
-This records the Stage6.2 schema/rollback decision. In-place baseline upgrade,
-private-cache/process-death and failed-write tests remain pending under6.1/6.3.
+This records the Stage6.2 schema/rollback decision. Subsequent source6802
+in-place upgrade and scoped private/cache/process acceptance are recorded under
+6.1/6.3 in the [canonical checklist](tv-ui-rebuild-plan.md) and
+[engineering evidence](engineering-plan.md). Hardware remains deferred.
 
 ## Presentation schema
 
@@ -64,7 +66,7 @@ an update work, clear application data, copy private session files into a normal
 profile or add a replacement Room store. No actual rollback of the current
 profile is claimed by this source audit.
 
-## Remaining native migration acceptance
+## Native migration acceptance and preserved evidence
 
 Preserve a source5829 baseline AVD with synthetic normal tabs and a real stored
 group, a uniquely named favorite/history visit, a nondefault search provider,
@@ -80,3 +82,25 @@ fill the host or unrelated AVD disks to manufacture low storage, alter security
 flags for failure screenshots or claim a host/mock check proves native data
 integrity. Physical optimized performance, second TV and real-phone acceptance
 remain deferred.
+
+The preserved onboarding AVD now passes the source5829→6802 in-place upgrade,
+all six seeded metadata fields, actual native library/settings routes, History
+Open and normal process relaunch. The original cookie was session-only; its
+restoration is not accepted. A separately seeded persistent cookie and local
+storage survive normal process restart under Android's forced LOW signal.
+The monitor is reset afterward; this does not prove real full-disk ENOSPC.
+
+On the separate retained launch-followup AVD, actual background process death
+with the Android task retained restores the committed document in the secure
+private model and discards the unsaved Address draft. Closing only that owned
+private tab restores the original normal page, IDs and selection. Explicit
+force-stop follows Chromium's existing cipher policy: Android supplies no saved
+key Bundle, and private tabs are not restored. No private payload is decoded
+by diagnostics or copied into normal storage.
+
+Native source6802 cache tests require real normal JPEGs as positive controls,
+reject private Home/web JPEG/ETC persistence, drain interrupted compression and
+recover after actual write failures. Existing native encryption remains owned
+by Chromium. These outcomes complete scoped6.3 emulator acceptance together
+with the retained scoped clear-data checks; hardware and genuine ENOSPC remain
+unverified. Stage6.7 final artifact/session closeout remains pending.
