@@ -47,6 +47,27 @@ review reports Standards0, Spec0. Source and root now pin the corrected routing
 and native recovery cases before one cached r70 build, with blocking Android
 analysis, four Siso workers and18G high/22G max/swap0. All native cases remain
 pending until the verified new TEST APK runs on the explicitly owned TV AVD.
+Rootad60 latest review is Standards0, Spec0. HTTPS push fails because the existing
+GitHub CLI credential is invalid; the already-running SSH agent successfully
+authenticates to both exact public forks with strict known-host checking. Use
+SSH only as a per-command origin push URL, preserving stored remote URLs and
+credentials. Source64e2 push succeeds; rootad60 push follows its review. Cached
+checkout advances through tools/checkout.py only, remaining clean at64e2. Build
+r70 starts with no emulator and the established limits;88 steps complete with
+11.4GiB current memory. Active-unit Result=success is not build acceptance.
+Buildr70 succeeds: GNU Time4m05.10s/exit0, Siso139 executed steps, blocking
+Android analysis.124 retained memory samples record17,398,509,568 bytes peak
+(16.20GiB), below the18G high limit. Preserved source64e2/rootad60 artifact
+`compose-routing-64e2eeebc-x64-debug-20261011` verifies x86_64/package/signing
+lineage and unchanged native patch fingerprints. Production APK852,743,209 bytes,
+SHA256 `080c380a6ad16fc9f5b05cb8bfc1adb272dc957059dd9b4bac2ecbee74df9d32`;
+TEST APK876,392,383 bytes,
+SHA256 `66d02ce5d102c96f73ba2cafaf52165746fb7844b2a10cdf66aa1b45604f9bed`.
+Rootad60 push also succeeds. Only after compilation stops, launch the exact
+brave_tv_launch_followup_api36 AVD with KVM explicitly on and SwiftShader rendering,
+guest Vulkan disabled, no snapshot load/save and5G high/6G max/swap0. Verify guest identity,
+open its T3 panel and update both packages in place before six isolated native
+cases. Build/artifact acceptance does not check runtime todos or migration.
 
 Outside-host continuation: KVM still lacks this user's access, and the user
 cannot authenticate while away. A bounded no-prompt signing probe using the
