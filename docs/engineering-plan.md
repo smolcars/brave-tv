@@ -126,6 +126,35 @@ with the established four-worker18/22GiB limits and blocking analysis, then
 boot only the launch-followup AVD. Rerun only the affected private recreation
 case; carry the five unchanged native routing/recovery passes forward. No
 private runtime acceptance is inferred from repaired host access.
+Source85e/root37f reviews pass0/0 and both are pushed. Cached TEST r33
+passes in24.24s/14 executed steps with blocking analysis;14 memory samples
+record14,058,405,888 bytes peak (13.09GiB). Preserved x64/signer-verified
+TEST artifact `compose-routing-tests-85e786aaf-x64-debug-20261012` is
+876,391,351 bytes, SHA256
+`c7384c0eeaa4d4ab523295624ceaf62e08a3e57ad4c153be53f1fa83d96c3776`.
+KVM r7 boots the same owned AVD; TEST-only install/hash checks pass in12.966s
+with production r70 unchanged. Native r48 remains red in12.225s, but exact
+private tab/URL/model restoration, fresh native URL in the editor, draft
+exclusion and original normal tab identity all pass. Its final generic
+no-EditText assertion fails after normal Home gains Address focus. The
+committed-document fixture separates this from the earlier empty-private-Home
+loss; it does not establish the underlying cipher cause or full6.3 acceptance.
+Next test-only slice removes the now-resolved restoration diagnostic and uses
+a bounded absence check identifying only editor package/resource/focus, never
+text or private URLs, to distinguish a remaining native owner from stale
+accessibility teardown. Retain strict draft and normal/private isolation.
+Latest source de57f review: Spec0, Standards1 (TA-003). Accessibility
+teardown can make the diagnostic node stale between lookup and metadata reads;
+catch only StaleObjectException and retry a fresh lookup, without treating
+staleness itself as proof of absence. Review this correction before building.
+Keep the current emulator for this short TEST-only build and sample host
+MemAvailable; interrupt only the owned build if available memory falls below
+6GiB, while retaining the four-worker18/22GiB caps and all compile caches.
+Correction source791f7 latest review reports Standards0, Spec0; source
+push succeeds. Pin both test-only corrections before cached r34.
+
+
+
 
 
 Outside-host continuation: KVM still lacks this user's access, and the user
