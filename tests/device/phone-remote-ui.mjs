@@ -247,17 +247,35 @@ try {
   const originalEditable = initial.editable;
   initial.editable = null;
   await page.waitForFunction(() => !state.editable);
-  const movesBefore = commands.filter((c) => c.op === "move").length;
+  const nextMove = () =>
+    page.waitForResponse(
+      (response) =>
+        response.request().method() === "POST" &&
+        response.request().postDataJSON().op === "move",
+      { timeout: 3000 },
+    );
+  const firstNoFieldMove = nextMove();
   await page.mouse.move(pad.x + 40, pad.y + 40);
   await page.mouse.down();
   await page.mouse.move(pad.x + 80, pad.y + 40);
-  await page.waitForTimeout(550);
+  await (await firstNoFieldMove).finished();
+  const heldPoll = await page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      response.request().postDataJSON().op === "state",
+    { timeout: 3000 },
+  );
+  await heldPoll.finished();
+  await page.waitForFunction(() => !busy && !polling);
+  const movesAfterPoll = commands.filter((c) => c.op === "move").length;
+  const secondNoFieldMove = nextMove();
   await page.mouse.move(pad.x + 120, pad.y + 40);
+  await (await secondNoFieldMove).finished();
   await page.mouse.up();
   await page.waitForFunction(() => !busy);
   assert.ok(
-    commands.filter((c) => c.op === "move").length > movesBefore,
-    "Polling with no editable field must preserve dragging",
+    commands.filter((c) => c.op === "move").length > movesAfterPoll,
+    "Movement after a completed no-field poll must still be delivered",
   );
   initial.editable = originalEditable;
   await page.waitForFunction(
