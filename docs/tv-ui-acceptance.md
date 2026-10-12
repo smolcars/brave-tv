@@ -2,7 +2,9 @@
 
 Source `1c9f71646ab5fa50ac91b50b304756435dd8ea13`, 12 October 2026.
 The [canonical checklist](tv-ui-rebuild-plan.md) accepts52/54: all independent emulator scope, with physical6.5/V8 deferred.
-Final sustained/manual/stock-phone reconciliation is complete. This index
+Final sustained/manual/stock-phone reconciliation is complete. Later12 October
+authorization starts the [physical follow-up](tv-ui-hardware.md); those gates
+remain pending until its actual evidence passes. This index
 distinguishes retained native results from the current artifact; it does not
 claim every test was rerun together or accept physical performance/release.
 
@@ -100,7 +102,8 @@ Debug emulator budgets and this sustained run do not substitute for hardware.
 Recheck physical overscan/font/remote repeat and group confirmations, fullscreen
 cursor, cold/resume/media/YouTube timing, codec/DRM and audible A/V behavior.
 Second TV, real phone camera/IME/gestures/LAN and Safari remain unverified.
-The physical Chromecast is untouched throughout this rebuild.
+The physical Chromecast was untouched during the recorded emulator rebuild;
+the later authorized hardware follow-up is tracked separately.
 
 OS photo selection/Done currently need touch or a mouse; some generic Android
 TV handlers are empty stubs. The UI explains empty/mouse-dependent pickers and

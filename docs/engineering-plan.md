@@ -50,7 +50,12 @@ tabs/library/focus, fullscreen/cursor/group recovery and sustained ordinary vide
 Injected D-pad and visible pixels are not human physical-button/audible-A/V proof.
 Preflight/authorized all-profile removal and the matched physical measurement
 contract are in [hardware evidence](tv-ui-hardware.md). Initial baseline Home/
-controls pass; current ARM build and hardware performance acceptance are pending.
+controls pass; ARM build now passes with verified source1c artifact. Hardware
+performance acceptance remains pending. Baseline timings/PSS/panels are retained;
+Android denies release OAT du, so use the trusted OS storage report. In-place
+installation fails for storage; the existing cleanup authorization permits
+removing the temporary baseline and fresh installation with the same one-Home
+configuration. Preserve this failure and distinguish fresh comparison from upgrade.
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing
 hardware metrics; do not infer real-phone/Safari/second-TV or public release.

@@ -28,13 +28,21 @@ Source1c9f71646/root-at-start7dac07d use the retained android_Static_arm cache,
 Nix, Static ARM production target, non-debuggable manifest, symbol_level0 and
 blocking Android analysis. Siso local4, memory18GiB high/22GiB maximum/swap0 and
 6GiB host-available guard apply. No cache/dependency reset or emulator boot.
-Build completion, final hashes/install and hardware acceptance are still pending.
+Build passes GNU10m23.05s/Siso10m19.59s/1912 steps.312 cgroup samples
+record18.001GiB peak and10.737GiB minimum host available, no guard/OOM.
+The preserved ARM APK is368050408 bytes, SHA256
+`5b0db5c61d5b24e69cdb1a837e4fbe65196147f856cfe1228ba513e2a8552a2e`,
+with matching development signer, ARM ABI and non-debuggable manifest. Artifact:
+`~/.cache/brave-tv/artifacts/compose-tv-1c9f71646-arm-nodebug-20261012`.
+Hardware acceptance remains pending.
 
 After the build is idle, compare baseline/current on this same TV/configuration
 and normal owner0 profile: seven cold Activity display and seven same-process
 warm task returns, three whole-package PSS sums, ten native controls openings
 with equal directional focus cycles, completed frame durations, APK bytes and
-installed code allocation. Initial install/startup setup is excluded from the
+APK file allocation and native Android TV Storage used report. The non-debuggable
+OAT directory rejects shell traversal; no permission/debugging workaround or
+partial du total is accepted as full footprint. Initial install/startup setup is excluded from the
 matched samples. Activity display is distinct from webpage readiness.
 
 Panel timing brackets input in one device-side shell, then reads the first
@@ -62,3 +70,25 @@ retained under `~/.cache/brave-tv/probes/hardware-ui-r1`. The optimized build us
 normal fixture snapshots are distinct from private data; no old private payload
 is inspected. Controllers must be revoked and only task-owned helpers/ports
 stopped on closeout. Profiles, host caches/artifacts and shared ADB/T3 remain.
+
+
+## Baseline measurements and installation recovery
+
+Baseline startup/PSS phases from r2 are retained when du fails, rather than
+rerun; r4 completes only the panel phase. Old baseline injected controls Back
+exits to the launcher in10/10 samples; each next sample restores native Home
+outside timing. The new UI must be tested separately for that behavior.
+Seven cold Activity samples: median1128ms/p951562ms; seven warm task returns:
+median159ms/p95482ms. Three whole-package PSS sums: median254162KiB. Ten panel
+shell-start/first-completed-frame samples: median350.963ms/p95436.286ms;
+458 native panel frames: median38.213ms/p95105.565ms. Native semantics host
+median1437.758ms includes query overhead and is not display latency. OS Storage
+used reports402MB; APK allocation367534080 bytes. These are physical baseline
+measurements under the declared method, not current-UI acceptance.
+
+The current1c in-place attempt fails with INSTALL_FAILED_INSUFFICIENT_STORAGE.
+Use the user's existing old-app/all-profile cleanup authorization to remove the
+temporary baseline and install1c fresh, then recreate the same one-normal-Home
+configuration. This comparison is fresh-install performance; it does not accept
+hardware upgrade persistence or erase the failure. Emulator migration evidence
+remains separately attributed. Never remove unrelated apps or host caches.
