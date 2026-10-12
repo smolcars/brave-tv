@@ -1,13 +1,18 @@
 // Read a visible synthetic invitation in memory; never log its code or token.
-// Usage: node phone-manual-pair.mjs PW TV_SERIAL TV_AVD PHONE_SERIAL PHONE_AVD TV_DRIVER request|expire
+// Usage: node phone-manual-pair.mjs PW TV_SERIAL TV_AVD PHONE_SERIAL PHONE_AVD TV_DRIVER request|expire [INVITATION_STARTED_MS]
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
-const [modulePath, tvSerial, tvAvd, phoneSerial, phoneAvd, driver, mode] = process.argv.slice(2);
+const [modulePath, tvSerial, tvAvd, phoneSerial, phoneAvd, driver, mode, invitationStarted] = process.argv.slice(2);
 assert.ok(["request", "expire"].includes(mode));
 assert.ok(driver && tvAvd && phoneAvd);
+const started = Number(invitationStarted);
+if (mode === "expire") {
+  assert.ok(Number.isSafeInteger(started) && Date.now() >= started
+    && Date.now() - started <= 30000, "Fresh native invitation timestamp required");
+}
 assert.notEqual(tvSerial, phoneSerial);
 for (const [serial, avd] of [[tvSerial, tvAvd], [phoneSerial, phoneAvd]]) {
   assert.match(serial, /^emulator-\d+$/);
@@ -68,16 +73,16 @@ try {
   assert.ok(new URL(page.url()).hash === "", "Manual navigation must have no invitation fragment");
   console.log("PASS: manual request clears/hides code form and requires native TV approval");
   if (mode === "expire") {
-    const started = Date.now();
     await page.waitForFunction(() => !token && !connected
       && document.querySelector("#approval").hidden
       && !document.querySelector("#pair").hidden
       && document.querySelector("#status").textContent
         .includes("Session unavailable. Start a new invitation on the TV."),
-    undefined, { timeout: 130000 });
+    undefined, { timeout: Math.max(1000, 140000 - (Date.now() - started)) });
     assert.equal(await page.locator("#pairForm").isVisible(), true);
     assert.ok((await page.locator("#code").inputValue()) === "", "Expired code must be cleared");
-    assert.ok(Date.now() - started >= 100000, "Early disconnect is not invitation expiry");
+    assert.ok(Date.now() - started >= 115000 && Date.now() - started <= 140000,
+      "Terminal recovery must match the native invitation lifetime");
     const after = nativeSnapshot();
     assert.ok(!after.some(n => n.label === "Pairing QR code; manual address and code above"
       || n.label === "Approve phone"), "Native pending invitation must close after expiry");

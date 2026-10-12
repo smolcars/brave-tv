@@ -784,6 +784,40 @@ real session-unavailable/new-invitation UI, require elapsed>=100s and native
 pending QR/approval closure. Keep the130s bound and profile/security ownership.
 The corrected probe still has no actual manual/expiry acceptance yet.
 
+Currentr59 sustained run PASSES30m00.456s/181 commands/p95 7.6ms,31 PSS/CPU
+samples:646.629MiB start/634.588MiB end,633.391–653.471MiB range. Same normal
+document/session throughout,427x240, decoded frames11504→64559, dropped3→3;
+presented counts advance, no media error. Whole-package one-core CPU median
+143.102% is software-emulator workload, not main-thread UI or hardware audio.
+Postr60 actual D-pad fullscreen + approved phone move/Back retains the playing
+document and cursor928/800; PID4309 remains. The separate manual request clears/
+hides its form, then actual D-pad approval and native address navigation pass.
+Stock phone Gboard touches type two letters/space and delete into the genuine
+TV plain input, with matching phone/native text and completed composition.
+
+Final V4 correction slice: a direct Disconnect diagnostic times out on stale
+connected state. Source confirms token/input are cleared but connected/state and
+remote visibility remain; pending poll/command replies can repaint afterward.
+Add a focused real-bundled-JS regression, restore existing revoked-session/fresh-
+invitation UI on Disconnect and fence authenticated success/failure handling by
+the captured controller credential. Keep native revocation, parser/queue/security
+unchanged. Acceptance: red→green host test, latest reviews, pinned cached APK
+and actual emulator Disconnect/no-stale-reply/fresh invitation checks. The30-minute
+approved-session/native core evidence carries; do not rerun it for termination-
+only UI changes. Real invitation expiry remains pending until separately run.
+
+Expiry prober62 observes terminal recovery but fails its elapsed check: it times
+from manual submission, while native expiry starts when the invitation is made.
+Record the timestamp immediately before the native Start experiment action,
+require a fresh bounded timestamp, and measure the120s lifetime from that origin.
+Acceptance still requires actual terminal UI, cleared credentials and native
+pending QR/approval closure. No native timeout or authorization change. Bound
+the Disconnect host-test request barrier and clean its server on launch failure.
+Source1c9 latest review: Standards0/Spec0; signed and pushed. The four host
+Disconnect success/failure cases fail on8c and pass on1c (r61/r63), and the
+existing bundled-page input/approval/layout suite passesr61. Source1c packaging
+and native Disconnect/re-pair acceptance remain pending. Expiry r63 is in progress.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
