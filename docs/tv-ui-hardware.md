@@ -307,3 +307,35 @@ document remains. The30-minute source92 run is now in progress with31 minute-
 spaced native playback/PSS/CPU samples and authenticated zero-move commands
 every10 seconds through the real bundled companion. No sustained pass or
 6.5/V8 completion follows until the run and post-run recovery finish.
+
+
+## Endurance failure — native Android accessibility
+
+The source92 run is not accepted: the browser crashes around27 minutes, before
+its31st sample. Retain `hardware-media-soak-92af-r3.json`/log (27 native samples;
+last at1561.334s) and `hardware-phone-soak-failed-92af-r3.json` (163 accepted,
+4 rejected after disconnection, elapsed1663.524s). Before failure, the same
+427×240 document1791831470211.9 advances5563→51516 frames, dropped60→150.
+Whole-package PSS is240.443MiB initially,221.299MiB at the last sample, range
+214.613–242.988MiB. Command p95 before disconnection is43.6ms; these partial
+observations do not satisfy30-minute acceptance. No secret/epoch is retained.
+
+At15:31:43 local time, mainPID24756 aborts withSIGABRT. Android remains awake
+and returns to the prior App Management task; background media service then
+starts newPID27172. This is a native crash, not proof of TV use or sleep. Current
+crash BuildIdf9ebaf42edbe802f66078e2b4a5c463c3314ab5d matches the retained
+optimized libchrome symbol table. The stack is PopulateAccessibilityNodeInfo→
+PopulateAccessibilityNodeInfoChildIds→PlatformChildren→IsLeaf→
+AXNode::GetUnignoredChildCount. Its DCHECK atax_node.cc:90 reports buttonid24
+IGNORED/INVISIBLE with child29. Retain `hardware-crash-current-92af-r3.log`,
+`hardware-soak-interruption-92af-r3.json` and sanitized process events.
+The separately retained10October fullscreen crash is historical and unrelated;
+only the12October accessibility crash is used for this investigation.
+
+Source106bdcf5ef487f300e7db834215f911e51b9e31d adds two focused actual-engine
+stale accessibility-ID cases before production changes. Native IsNodeValid
+already rejects ignored nodes; fresh/cached node-info builders omit that guard.
+The test requires a node that still exists natively while ignored, avoiding a
+false pass on a deleted node. Review/build/red runtime remain pending. Native
+accessibility must be preserved; disabling the service/assertion or removing
+video controls does not fix this defect.6.5/V8 stay unchecked.

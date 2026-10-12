@@ -27,6 +27,26 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Source92 endurance run fails at approximately27 minutes: main browserPID24756
+aborts with SIGABRT/DCHECK at ui/accessibility/ax_node.cc:90 on an ignored,
+invisible video-control button. Retain27 native samples,163 accepted commands
+and4 rejected after disconnection; do not accept30 minutes or6.5/V8. Symbol
+addresses match retained libchrome BuildIdf9ebaf42 and resolve through Android
+PopulateAccessibilityNodeInfoChildIds→PlatformChildren→IsLeaf→unignored child
+count. The TV returns to its previously open Android App Management task; this
+is not proved human interference or sleep. Native IsNodeValid already rejects
+ignored nodes, but fresh/cached node-info entry points only reject missing nodes.
+Before changing production, add a focused real-engine stale-node-ID regression:
+retain an existing native button ID, hide it, require that the same node still
+exists but is ignored, then exercise fresh/cached Android node-info requests.
+Build TEST against unchanged source92 production and preserve the actual red.
+If confirmed, add minimal source-fork-owned hooks to use native ignored-node
+validation in both entry points, leaving exposed nodes and assertions intact.
+JNI generated wrappers make wholesale method-renaming overrides unsafe; prefer
+two one-line patch hooks plus one small chromium_src policy macro over duplicating
+those functions. Review latest source/root commits and reuse both cached outputs
+for corrected native runtime and the repeated actual hardware acceptance.
+
 Current source92 physical cursor checks pass at1280,720 for first phone attachment
 inside already-playing fullscreen and at960,800 after phone movement/Back. Mixed
 phone/native input passes at928,800 during sustained left/right pulses, distinct
