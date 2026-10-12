@@ -27,6 +27,34 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
+### Phone companion redesign — touchpad browsing first
+
+Design proposals are concrete inert390x844 source-owned HTML sketches, with a
+T3 inline comparison and visual chooser. User confirmed touchpad/quick controls;
+visual direction selection is pending. Source resources/protocol remain unchanged.
+Current companion synthetic preview measures pad top466px/height260px and page
+height1105px on390x844, confirming the long-stack problem. Product truth is scoped
+to the web companion; no dedicated phone playback command is invented. Operational
+question state, downloaded references and review captures are development-only/
+ignored. The chooser closed unanswered; its structured-tool fallback carries
+After hours/Soft charcoal/Clear blue/Night wayfinding/re-roll/category-standard.
+Do not treat confirmation of the main task as an aesthetic selection or claim
+that these sketches are production/native-device acceptance.
+
+The user invokes Impeccable redesign and confirms touchpad browsing/quick controls
+as primary. Replace the companion visual world and long control stack with a
+compact identity, dominant thumb-reachable pad, clear navigation/click/scroll
+controls and separate typing/tabs tasks. Preserve bundled/offline assets, existing
+native command/editing identity, QR waiting/manual/approval/paused/expired recovery,
+no private/password/native-security access and HTTP experiment warning. Confirm a
+concrete visual direction, inspect incumbent in the product-native preview, build
+all states and test the actual companion handlers. Two batched visual inspections
+maximum, targeted host/protocol/IME regressions, independent finish review and
+source-owned product/design records. Source/root signed incremental master commits,
+latest-only Standards/Spec reviews and cached Nix GN packaging remain required;
+no browser data wipe or unrelated cache deletion. Record browser preview versus
+actual APK/native integration evidence distinctly.
+
 ### Authorized physical UI acceptance — 12 October
 
 Source090 final normal Home/Address focus and phone badge absence pass; ordinary
