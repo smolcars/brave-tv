@@ -27,6 +27,19 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Source106/root9f latest reviews are0/0. Cached r83 passes blocking analysis in
+30.34s GNU/26.75s Siso15steps, peak12.526GiB, hostminimum20.419GiB. Production
+APK bytes exactly match92; TEST updates in place on the preserved AVD. Both
+simple hidden-button cases fail in setup: the required still-existing ignored
+node condition is not reached. These are invalid reproductions, not the desired
+native red. Replace that synthetic visibility change with the actual ordinary
+HTTP video fixture: capture its exposed native mute-control ID while paused,
+start real playback, wait boundedly for fading controls to retain that same
+native ID while ignored, then exercise both info entry points. Require the
+identity precondition and exposed-root positive control; do not test a deleted
+node or disable accessibility. Review the test correction and rebuild TEST
+against unchanged production before applying the native guard.
+
 Source92 endurance run fails at approximately27 minutes: main browserPID24756
 aborts with SIGABRT/DCHECK at ui/accessibility/ax_node.cc:90 on an ignored,
 invisible video-control button. Retain27 native samples,163 accepted commands
