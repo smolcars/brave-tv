@@ -373,7 +373,13 @@ renderer results, including live composing state before and after acknowledgemen
 composition commit without duplication, selection, deletion, textarea,
 contenteditable and password/focus rejection. It resamples coordinates when the
 native keyboard pans or resizes the visual viewport. DevTools is automation only; it never assigns the TV field's
-value. `phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
+value. `phone-remote-ui.mjs` also checks Remote/Type/Tabs keyboard navigation,
+native tab-row focus restoration and Home/no-field recovery. Its optional fourth
+argument saves settled full-page screenshots of the synthetic states for design
+review; pass the bundled raw asset directory as the third argument. These captures
+are host evidence, not native-device acceptance.
+
+`phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
 server and does not count as device evidence.
 
 `phone-qr-pair.mjs PLAYWRIGHT_CORE ZXING_JAR SCREENSHOT_PATH` decodes the TV

@@ -1,12 +1,22 @@
 // Host-only companion regression. Pass an existing playwright-core package directory.
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
+import { readFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 const require = createRequire(resolve(process.argv[2], "package.json"));
 const { chromium } = require("playwright-core");
 const assets = resolve(process.argv[3] || "brave/android/java/brave-res/raw");
+const captureDirectory = process.argv[4];
+if (captureDirectory) await mkdir(captureDirectory, { recursive: true });
+async function capture(page, name) {
+  if (!captureDirectory) return;
+  await page.evaluate(() => new Promise((r) => setTimeout(r, 200)));
+  await page.screenshot({
+    path: resolve(captureDirectory, `${name}.png`),
+    fullPage: true,
+  });
+}
 const commands = [];
 let approved = false;
 let nativePaused = false;
@@ -165,6 +175,7 @@ try {
     "A scanned invitation waiting for TV approval must not ask for a pairing code",
   );
   assert.equal(await page.locator("#approval").isVisible(), true);
+  await capture(page, "approval-mobile");
   approved = true;
   await page.getByText("Connected to your TV", { exact: true }).waitFor();
   assert.equal(await page.locator("#approval").isVisible(), false);
@@ -178,7 +189,7 @@ try {
       response.request().method() === "POST" &&
       response.request().postDataJSON().op === "back",
   );
-  await page.getByRole("button", { name: "← Back", exact: true }).click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
   assert.equal(
     commands.length,
     0,
@@ -233,6 +244,25 @@ try {
   await clickResponse;
   await page.waitForFunction(() => !busy);
   assert.equal(commands.filter((c) => c.op === "click").length, 2);
+  const originalEditable = initial.editable;
+  initial.editable = null;
+  await page.waitForFunction(() => !state.editable);
+  const movesBefore = commands.filter((c) => c.op === "move").length;
+  await page.mouse.move(pad.x + 40, pad.y + 40);
+  await page.mouse.down();
+  await page.mouse.move(pad.x + 80, pad.y + 40);
+  await page.waitForTimeout(550);
+  await page.mouse.move(pad.x + 120, pad.y + 40);
+  await page.mouse.up();
+  await page.waitForFunction(() => !busy);
+  assert.ok(
+    commands.filter((c) => c.op === "move").length > movesBefore,
+    "Polling with no editable field must preserve dragging",
+  );
+  initial.editable = originalEditable;
+  await page.waitForFunction(
+    () => state.editable?.ready && field === state.editable.revision,
+  );
   await page.locator("#showKeyboard").click();
   const selected = new Promise((r) => {
     selectionStarted = r;
@@ -345,6 +375,57 @@ try {
     ),
     false,
   );
+  // Task changes and native tab updates preserve keyboard ownership.
+  await page.locator("#showKeyboard").focus();
+  await page.keyboard.press("ArrowRight");
+  assert.equal(
+    await page.locator("#tabsTab").getAttribute("aria-selected"),
+    "true",
+  );
+  assert.equal(await page.locator("#typeView").isVisible(), false);
+  await page.locator(".tab-select").focus();
+  initial.tabs[0].title = "Renamed on TV";
+  await page
+    .getByRole("button", { name: "Renamed on TV", exact: true })
+    .waitFor();
+  assert.equal(
+    await page
+      .locator(".tab-select")
+      .evaluate((e) => e === document.activeElement),
+    true,
+  );
+  initial.tabs = [];
+  await page.locator("#tabsEmpty").waitFor();
+  assert.equal(
+    await page
+      .locator('[data-op="new"]')
+      .evaluate((e) => e === document.activeElement),
+    true,
+  );
+  initial.tabs = [
+    { id: "tab-one", title: "Phone remote fixture", selected: true },
+  ];
+  const editableBeforeHome = initial.editable;
+  initial.editable = null;
+  initial.page = false;
+  await page.locator("#remoteTab").click();
+  await page.locator("#homeState").waitFor();
+  assert.equal(await page.locator("#pointer").isVisible(), false);
+  await capture(page, "home-mobile");
+  await page
+    .getByRole("button", { name: "Enter address", exact: true })
+    .click();
+  assert.equal(
+    await page
+      .locator("#address")
+      .evaluate((e) => e === document.activeElement),
+    true,
+  );
+  assert.equal(await page.locator("#editor").isDisabled(), true);
+  assert.equal(await page.locator("#editor").inputValue(), "");
+  initial.page = true;
+  initial.editable = editableBeforeHome;
+  await page.waitForFunction(() => state?.editable?.ready && state?.page);
   await page.setViewportSize({ width: 320, height: 700 });
   assert.equal(
     await page.evaluate(
@@ -361,24 +442,60 @@ try {
     false,
   );
   await page.setViewportSize({ width: 390, height: 844 });
+  for (const [id, name] of [
+    ["remoteTab", "remote"],
+    ["showKeyboard", "type"],
+    ["tabsTab", "tabs"],
+  ]) {
+    await page.locator(`#${id}`).click();
+    await capture(page, `${name}-mobile`);
+  }
+  await page.locator("#remoteTab").click();
+  for (const [width, height, name] of [
+    [320, 700, "small"],
+    [844, 390, "landscape"],
+    [1440, 900, "desktop"],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await capture(page, `remote-${name}`);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("#showKeyboard").click();
   await page.locator("#editor").scrollIntoViewIfNeeded();
   nativePaused = true;
   await page.getByText("Control paused", { exact: true }).waitFor();
-  await page.waitForFunction(() => {
-    const r = document.querySelector("#status").getBoundingClientRect();
-    return r.top >= visualViewport.offsetTop &&
-      r.bottom <= visualViewport.offsetTop + visualViewport.height;
-  }, undefined, { timeout: 1000 });
+  await page.waitForFunction(
+    () => {
+      const r = document.querySelector("#status").getBoundingClientRect();
+      return (
+        r.top >= visualViewport.offsetTop &&
+        r.bottom <= visualViewport.offsetTop + visualViewport.height
+      );
+    },
+    undefined,
+    { timeout: 1000 },
+  );
   assert.equal(await page.locator("#tabs .tab").count(), 0);
+  await capture(page, "paused-mobile");
   for (const [reason, guidance] of [
     ["controls", "Paused — close the browser controls on the TV to continue."],
-    ["tv", "Paused — continue on the TV. Phone control is unavailable on this screen."],
-    ["unknown", "Paused — continue on the TV. Phone control is unavailable on this screen."],
+    [
+      "tv",
+      "Paused — continue on the TV. Phone control is unavailable on this screen.",
+    ],
+    [
+      "unknown",
+      "Paused — continue on the TV. Phone control is unavailable on this screen.",
+    ],
   ]) {
     pauseReason = reason;
     await page.getByText(guidance, { exact: true }).waitFor();
     assert.equal(await page.locator("#url").textContent(), "");
     assert.equal(await page.locator("#editor").inputValue(), "");
+    assert.equal(
+      await page.locator("#fieldHint").textContent(),
+      "Phone typing is unavailable. Continue on your TV.",
+    );
     assert.equal(await page.locator("#back").isDisabled(), true);
     assert.equal(await page.locator("#disconnect").isEnabled(), true);
   }
@@ -398,6 +515,7 @@ try {
     })
     .waitFor();
   assert.equal(await page.locator("#pairForm").isVisible(), true);
+  await capture(page, "expired-mobile");
   assert.equal(await page.locator("#approval").isVisible(), false);
   // TV rejection/expiry closes the listener rather than returning a JSON error.
   approvalError = "approval";

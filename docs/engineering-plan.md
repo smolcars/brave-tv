@@ -31,15 +31,26 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 Design proposals are concrete inert390x844 source-owned HTML sketches, with a
 T3 inline comparison and visual chooser. User confirmed touchpad/quick controls;
-visual direction selection is pending. Source resources/protocol remain unchanged.
+user selected After hours (deep blue/soft teal). Implementation acceptance below
+replaces the proposal-only status; native protocol/security ownership stays intact.
 Current companion synthetic preview measures pad top466px/height260px and page
 height1105px on390x844, confirming the long-stack problem. Product truth is scoped
 to the web companion; no dedicated phone playback command is invented. Operational
 question state, downloaded references and review captures are development-only/
 ignored. The chooser closed unanswered; its structured-tool fallback carries
 After hours/Soft charcoal/Clear blue/Night wayfinding/re-roll/category-standard.
-Do not treat confirmation of the main task as an aesthetic selection or claim
-that these sketches are production/native-device acceptance.
+The explicit visual answer now authorizes the After hours implementation. Sketches
+remain synthetic design evidence, not production/native-device acceptance.
+
+Implementation slice: rebuild bundled HTML/CSS and add local Remote/Type/Tabs
+navigation with keyboard focus; keep native commands/edit epochs unchanged.
+Acceptance: QR waiting/manual recovery, gestures and button alternatives, native
+editing races, tab focus restoration, sensitive-state clearing and responsive
+320/390/landscape/desktop views; latest-only reviews, finish review/design records,
+cached x64 GN APK packaging and native emulator companion smoke. No data wiping.
+Host regressions and two bounded visual rounds pass; finish reviewer scored the
+paused-copy correction resolved/ship. Packaging/native acceptance remain pending;
+see [phone redesign evidence](phone-remote-redesign.md).
 
 The user invokes Impeccable redesign and confirms touchpad browsing/quick controls
 as primary. Replace the companion visual world and long control stack with a
