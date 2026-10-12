@@ -15,7 +15,7 @@ presentation/model ownership, design work, integration proof, migration and
 acceptance gates. The next implementation slice covers native entry retirement
 and exceptional/loading recovery.
 Stages0–2 have passed their scoped design/source/emulator checks; the working
-UI checklist is38/54. Retain Chromium and native browser storage. The older
+UI checklist is39/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -178,6 +178,54 @@ reviews and cached TEST build. No emulator result proves physical remote input.
 Sourcef481de latest reviews both0; source push succeeds. The changed host
 fixture passes fixed route, HEAD/method, two-slot streaming and cancellation
 checks. Pin the source/fixture before TEST-only r35 and one native r50 case.
+Sourcef481/root6e233 latest reviews both0/0 and pushes succeed. TEST r35
+passes in22.63s/14 steps with blocking analysis;13 samples record
+9,886,904,320 bytes peak (9.21GiB), minimum host available17.28GiB and no
+guard interruption. Signed x64 TEST artifact
+`compose-routing-tests-f481de602-x64-debug-20261012` is876,419,403 bytes,
+SHA256 `4cb0b5898adcbb57408770894cd7ac06f213e7c9cd0bac41fe8af8e04dffce34`.
+In-place TEST/hash checks pass in14.262s, production r70 unchanged. Native
+r50 first loading activation passes in11.863s: retained tab/contents, native
+window/content focus, controls dismissed, visible cursor, zero entry clicks,
+one centered SOURCE_DPAD click while still loading, native Stop and Back
+return. Combined with unchanged r40 held/idle/keyboard/coordinate acceptance
+and native phone touch/wheel/viewport checks, this completes emulator3.3 and
+Stage3 (5/5), total39/54. Physical remote acceptance remains deferred.
+
+Private cache slice6.3: native audit finds ChromeActivity pause calls the
+existing TabContentManager capture path, including native-page view draw;
+FLAG_SECURE is not an internal-thumbnail guard. Add actual TEST cases for
+private Home and a committed private webpage. Prove the native backend writes
+a normal synthetic JPEG as a positive control, then request the same native
+cache path for the private tab without returning a bitmap or changing secure
+flags. Wait for its native callback and capture completion, require absent
+private JPEG/ETC1 files, then background/resume the actual Activity and repeat
+file/identity/security checks. Observe only existence/IDs/flags; request no OS screenshot and never
+decode/export a private bitmap. Internal native caching itself is the tested
+operation; any persisted private file makes the case red. Do not assume the audit proves a leak; run this red-
+capable integration gate before choosing any production correction. Preserve
+Chromium storage/encryption/model ownership and all production profiles.
+Source0f986 latest review reports Standards1/Spec1 for the same completion
+gap: the existing capture tracker covers JPEG, while ETC1 work runs separately.
+Correct this diagnostic slice to explicit JPEG-only methods/claims before
+its cached TEST run. Keep ETC1 acceptance pending, not passed or removed from
+6.3 scope. If JPEG proves a native private-cache failure, investigate the
+smallest TV-only capture guard and a metadata-only ETC1 queue completion
+barrier together, preserving normal/native caches and browser models. This
+separates a fast red-capable probe from the complete required cache acceptance;
+no sleep, private bitmap read or unsupported disk-absence claim is added.
+JPEG-scoping correctiond3e77 latest reviews both0. Review also identifies
+a fixture eligibility risk: hidden/unmeasured native pages skip capture. Add
+metadata-only readiness for the private tab view (attached, shown, measured,
+selected and Activity focus) before its request, so a skipped hidden view
+cannot supply misleading absence evidence. No security flags are changed.
+Readiness correctiona86cb latest reviews both0, and source push succeeds.
+Pin this JPEG-only probe and completed loading-input evidence before TEST r36;
+run only the two new cache cases on the verified current AVD.
+
+
+
+
 
 
 

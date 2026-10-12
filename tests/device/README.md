@@ -894,3 +894,16 @@ while Chromium remains loading. Genuine SOURCE_DPAD OK then produces exactly
 one centered native click, with no click from entering Page cursor. Cursor
 bitmaps are transient normal-fixture observations, guarded by native identity
 and secure-window exclusion; no private screenshot flags are changed.
+
+`TvHomePageTest#privateHomeNativeJpegCacheDoesNotPersistPixels` and
+`#privateWebNativeJpegCacheDoesNotPersistPixels` verify native internal
+cache requests and actual Activity pause/resume. Each first requires a normal
+synthetic JPEG to exist as a positive control, then checks private JPEG
+absence after native callback/capture completion. ETC1 completion is not
+covered by that native tracker and remains a separate mandatory cache gate.
+They retain FLAG_SECURE and
+never request an OS screenshot or return/decode/export a private bitmap.
+The internal native cache operation itself is exercised; a private file makes
+the test fail. Run separately without the upstream failure-screenshot argument; file existence and native
+identity are the observations. This is distinct from draft recreation and
+process death or failed-write acceptance.

@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **38/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:4/5, Stage 4:8/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
+Current acceptance: **39/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
@@ -349,9 +349,15 @@ no emulator result checks that hardware gate or establishes release acceptance.
   and errors; leave model/JNI implementations in their existing language.
 - [x] **3.2** Implement explicit shell/panel state and stable focus restoration.
   Test input-owner transitions and cancellation through the shared interface.
-- [ ] **3.3** Preserve physical `TvRemoteInput` behavior, held-OK exactly-one-click,
+- [x] **3.3** Preserve physical `TvRemoteInput` behavior, held-OK exactly-one-click,
   pointer idle/wake and scoped touch/wheel delivery. Phone gestures are not
   repeated D-pad events. Match coordinates to the actual content viewport.
+  Emulator acceptance: sourcef481 TEST/unchanged64e2 production r50 proves
+  first activation while loading, native content focus, visible cursor, no
+  entry click and one centered genuine-D-pad click. Native Stop/Back returns
+  controls. Unchanged r40 held/idle/keyboard/coordinates and native phone
+  positional/viewport checks carry forward. Physical remote remains deferred.
+
 - [x] **3.4** Connect lifecycle-aware observations without poll-driven whole-UI
   redraws. Test stale async results, destroyed activities and tab replacement.
 - [x] **3.5** Route phone actions through the extracted browser behavior while
