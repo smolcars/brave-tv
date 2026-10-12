@@ -813,8 +813,8 @@ require a fresh bounded timestamp, and measure the120s lifetime from that origin
 Acceptance still requires actual terminal UI, cleared credentials and native
 pending QR/approval closure. No native timeout or authorization change. Bound
 the Disconnect host-test request barrier and clean its server on launch failure.
-Source1c9 latest review: Standards0/Spec0; signed and pushed. The four host
-Disconnect success/failure cases fail on8c and pass on1c (r61/r63), and the
+Source1c9 latest review: Standards0/Spec0; signed and pushed. The host Disconnect
+regression fails on8c; all four success/failure cases pass on1c (r61/r63), and the
 existing bundled-page input/approval/layout suite passesr61. Source1c packaging
 and native Disconnect/re-pair acceptance remain pending. Expiry r63 is in progress.
 
