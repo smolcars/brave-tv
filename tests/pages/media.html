@@ -9,6 +9,7 @@
   nav { display: flex; justify-content: center; gap: 12px; margin: 20px; }
   button { font: inherit; padding: 16px; }
   output { display: block; text-align: center; }
+  #mediaDetails { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; }
 </style>
 <video controls loop preload="metadata" src="http://127.0.0.1:18083/bbb-320x240-2video-2audio.mp4">
   <track kind="captions" src="media.vtt" srclang="en" label="Test captions">
@@ -20,6 +21,7 @@
   <button id="captions">Show captions</button>
 </nav>
 <output aria-live="polite">Loading media</output>
+<pre id="mediaDetails" aria-live="off"></pre>
 <script>
   const video = document.querySelector('video');
   const output = document.querySelector('output');
@@ -39,5 +41,23 @@
         : `${video.paused ? 'Paused' : 'Playing'} — ${video.videoWidth}×${video.videoHeight}`;
     });
   }
+  const report = () => {
+    const quality = video.getVideoPlaybackQuality();
+    document.querySelector('#mediaDetails').textContent = JSON.stringify({
+      documentTime: performance.timeOrigin,
+      time: video.currentTime, duration: Number.isFinite(video.duration) ? video.duration : null,
+      paused: video.paused, ready: video.readyState, error: video.error?.code ?? null,
+      frames: quality.totalVideoFrames, droppedFrames: quality.droppedVideoFrames,
+      width: video.videoWidth, height: video.videoHeight,
+      fullscreen: !!document.fullscreenElement, captions: video.textTracks[0]?.mode,
+    });
+  };
+  let reportTimer;
+  window.addEventListener('pageshow', () => {
+    clearInterval(reportTimer);
+    report();
+    reportTimer = setInterval(report, 1000);
+  });
+  window.addEventListener('pagehide', () => clearInterval(reportTimer));
 </script>
 </html>

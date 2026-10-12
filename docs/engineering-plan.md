@@ -675,6 +675,40 @@ only owned r12 emulator/server, then run one same-cache r77 packaging build with
 established limits. Retain four native source033 code-path passes and actual
 allowed result; recheck new-copy native layout/recovery before accepting5.6.
 
+Next6.6 consolidated slice: retain unchanged native input/security/model passes,
+check the final picker at normal and720p/font1.6/RTL configurations, and restore
+every changed display setting. Add a bounded, non-live normal media-fixture report
+from actual HTMLMediaElement time/frame/error/fullscreen state so native snapshots
+can observe sustained playback without changing the TV's debug policy. Run one
+30-minute foreground playback/approved-phone session on explicitly verified TV
+and phone AVDs after disruptive checks. Sample whole-package PSS/CPU, command
+continuity and media progress; check native focus/cursor recovery before/after.
+Investigate failures separately and retain partial results honestly. OS picker
+D-pad limitations, real phones, hardware codec/audio/performance and physical
+LAN acceptance remain unverified. No wipe, private capture or release claim.
+
+Final-copyr77 passes GNU1m32.67s/15 Siso steps/blocking analysis,49 memory
+samples,12.485GiB peak/16.510GiB minimum host available, no OOM/guard. Verified
+production852,770,267B SHA256bac5b4dd6cda8c68e86c34bee1eb0ef051c84649057ac62280c1103f63140926
+and TEST876,451,107B SHA25604ad60f01b3ec05f5b390356083a15585b66a06644d1ef59635e353a219583be
+are retained in compose-picker-16c2b2dd2-x64-debug-20261012; in-place updates
+take10.953/10.622s. Native1080p new-copy Cancel/Back/Continue+OS Back preserves
+the same document and fires exactly one cancel each(1/2/3), picker-final-copy-r58.json.
+Actual720p/font1.6/ar screenshot catches the long explanation partly scrolled
+away by initial Cancel focus. Do not accept5.6/6.6 from AX full text alone.
+Shorten only the informational description, retaining empty-picker/mouse/Back
+guidance. Restore all seven recorded display settings, save/stop owned AVDs,
+review/pin/push the resource correction, then package from the same cache and
+recheck the affected narrow layout. Native security/file-result tests carry.
+Source8c4e31c95 concise description passes latest Standards0/Spec0 and pushes.
+All seven display/input/accessibility values restore after releasing the SDK
+lease (the helper had changed accessibility_enabled); normal IDs1/2 and selected1
+remain unchanged. Owned r13 TV/phone AVDs and fixture services stop normally,
+profiles preserved. The phone connects to shared AndroidWifi10.0.2.18; TV r13
+has no Wi-Fi address yet, so no paired session is claimed. Both mistakenly
+added VirtWifi configurations are removed; existing AndroidWifi is retained.
+Media-fixture script syntax and actual loopback HTTP/range/server checks pass.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
