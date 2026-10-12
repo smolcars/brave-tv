@@ -11,6 +11,13 @@ Equality covers normal IDs/URLs/selection, group membership, bookmark IDs/conten
 search provider and owned Shields/filter settings. Native History, cookie/storage,
 UI and process-relaunch acceptance remain separate.
 
+`NativeUpgradeMetadata` also has two bounded lifecycle diagnostics: `normal-ids`
+rejects private metadata and prints only normal IDs/selection; `counts` accepts
+exactly the20-byte native header and prints normal/private counts without reading
+any tab payload. Read only20bytes from the device for `counts`. These modes do
+not accept private contents, URLs or screenshots and do not change the normal
+upgrade checker's private-metadata rejection.
+
 ```sh
 python3 tests/device/tv_upgrade_check.py emulator-5554 \
   --workspace /home/nitesh/.cache/brave-tv/workspace \

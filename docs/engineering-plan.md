@@ -528,6 +528,22 @@ native browser input, verify normal cookie/local storage before background,
 then replace the actual process and compare native browser data again. Test
 bounded forced Android low-storage state separately from genuine failed writes;
 do not fill disks or claim forced state is ENOSPC. Preserve all profiles.
+Native persistent-cookie/low-state r4 passes on source6802: real browser seed,
+D-pad native Reload, Android storage monitor forced LOW broadcast (with4.3GB
+actually free), real browser PID replacement and new document, Address focus,
+persistent cookie/local storage and all seeded browser metadata survive. The
+forced monitor state resets to UNKNOWN/actual values in finally. Evidence:
+storage-process-acceptance-r4.json, before/after persistent-storage and storage
+monitor records. This proves the controlled LOW signal journey, not filesystem
+ENOSPC. Genuine JPEG/ETC failed writes are independently covered by native r54.
+Next6.3 private process-death test stays off the preserved upgrade profile:
+stop its owned AVD after saving, reopen launch-followup, create a private real
+document and unsubmitted Address draft, background and replace the actual
+process. Require no private draft/URL in normal UI; any restored private content
+must stay in the private model with secure windows. Use a20-byte metadata-header
+diagnostic for counts only, never private URLs, stored contents or pixels.
+Keep normal tab IDs/page count and restore normal selection; do not invoke phone
+unlock, wipe profiles or disable secure flags. Broader6.3 remains pending.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
@@ -5956,3 +5972,8 @@ preserves the original group; Delete returns to usable TV home. Ordinary site
 dialogs also pass on the emulator. Root test review strengthened the Cancel
 postcondition to reject replacement-home false passes. Evidence records the
 authorized storage fallback/fresh installation and exact hardware limitations.
+The bounded reader compiles against the retained pinned JDK/native jars. Five
+actual host checks pass: counts-only private header, overlong body rejection,
+invalid counts, and private rejection for both active/normal-ids modes. The
+upgrade checker retains its original strict private rejection. No private
+payload is decoded by the counts diagnostic; no APK code changes in this slice.
