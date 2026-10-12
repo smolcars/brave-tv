@@ -265,3 +265,45 @@ title. Retain `install-cursor-tv-kept-r3.json` and
 `hardware-retained-profile-{selected,after}-r3.json`. This accepts those normal
 synthetic data points across code replacement, not an in-place update or complete
 settings/group/history/all-profile equivalence. No data/cache clearing occurred.
+
+
+## Corrected physical cursor — source92
+
+The same verified source92 ARM APK now passes the actual hardware red-capable
+loop. On ordinary media document1791831470211.9, native touch starts playback
+and video fullscreen before any page cursor or phone-pointer activation. The
+approved direct-LAN companion first moves to1280,720 inside fullscreen; phone
+Back returns the same playing document. Normal/private-security ownership is
+checked before screenshot, and white-center/black-ring pixels pass at1280,720.
+The next phone move to960,800, real click/fullscreen and phone Back also passes
+with growing presented frames. Bounded authenticated zero-move pulses keep the
+cursor awake:24/24 and37/37 accepted, no rejection.
+
+Native USB Left10 establishes a different older physical coordinate. Phone
+move0 returns to the current shared960,800 point, enters fullscreen, and native
+USB Back exits. Sustained alternating native Left/Right yields the cursor at
+928,800, one of the two expected pulse positions, rather than the stale608/640
+coordinates. The other allowed960,800 position is absent in that same capture;
+this is pulse phase, not a failed product case. Retain:
+
+- `phone-first-fullscreen-{before,after}-r3.json`,
+  `phone-first-cursor-92af-r3.png`/pixel log;
+- `phone-moved-fullscreen-after-92af-r3.json`,
+  `phone-moved-cursor-92af-r3.png`/pixel log;
+- `media-awake-cursor-92af-r3.png`,
+  `media-awake-activity-92af-r3.txt`,
+  `mixed-native-cursor-92af-r3-pixels.json`.
+
+An initial native touch Play attempt does not start playback and is excluded;
+retry with a fresh native snapshot succeeds. An immediate post-Back media-report
+assertion reads its one-second fixture timer before refresh and is excluded too;
+the corrected bounded assertion waits for actual fullscreen=false, unchanged
+document and playing frames. Neither invalid probe is counted as a product pass
+or a new browser defect. Earlier source1c/4dde cursor failures remain recorded.
+
+The controller is then revoked and re-approved from a fresh invitation to keep
+its35-minute maximum lifetime beyond the endurance run. Same native playing
+document remains. The30-minute source92 run is now in progress with31 minute-
+spaced native playback/PSS/CPU samples and authenticated zero-move commands
+every10 seconds through the real bundled companion. No sustained pass or
+6.5/V8 completion follows until the run and post-run recovery finish.

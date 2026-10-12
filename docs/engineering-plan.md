@@ -27,6 +27,17 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Current source92 physical cursor checks pass at1280,720 for first phone attachment
+inside already-playing fullscreen and at960,800 after phone movement/Back. Mixed
+phone/native input passes at928,800 during sustained left/right pulses, distinct
+from the stale physical coordinate. All retain document1791831470211.9 and actual
+video presentation. Renew the explicitly approved direct-LAN controller, then run
+31 minute-spaced native playback/PSS/CPU samples across30 minutes plus bounded
+authenticated zero-move commands every10 seconds. Require unchanged document,
+increasing presented frames, no paused/revoked/stale command, and post-soak
+fullscreen/Back cursor pixels. Keep source1c matched performance attribution,
+standard in-place storage failure and real-phone/audio/DRM limitations explicit.
+
 The user now says the TV is on/free, leaves it available for unattended work,
 and explicitly permits uninstalling the old browser and clearing its storage
 across all TV profiles. This supersedes the previous no-Chromecast restriction
