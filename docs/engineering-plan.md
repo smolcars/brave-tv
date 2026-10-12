@@ -231,6 +231,13 @@ waitForCallback(0) API, review and rebuild the affected TEST target; leave
 production, security, timeout bounds and caches intact.
 Callback correctionfe7b4 latest reviews both0 and source push succeeds.
 Pin before TEST r37; rerun only the two cache probes after verified packaging.
+Shared-host resource adjustment: unrelated GitHub runner Java jobs reduce
+host available memory to13GiB. Current process still has KVM read/write access
+through its kvm group. Stop only the verified owned r7 AVD before compilation
+to release its roughly3.6GiB resident memory, retaining userdata and caches;
+restart it after the TEST build. Do not stop other runners or shared services.
+Keep the host6GiB guard, four workers and18/22GiB/swap0 build limits.
+
 
 
 
