@@ -504,6 +504,13 @@ the complete feature set or a public release.
 - [ ] **5.6** Cover JS dialogs, renderer crash/network errors, new windows/popups,
   file chooser and external-app results. Every allowed flow has a return path;
   unsupported actions explain the limitation rather than opening a dead screen.
+  Current64e2 production checks cover native popup child closure and return to
+  the same document, generic file cancellation, image-result delivery and
+  connection-refused/native Reload recovery. Real image selection uses a touch
+  diagnostic plus D-pad Done; both installed OS pickers fail D-pad photo reachability,
+  and generic chooser OK invokes an OS stub despite focused Photos & videos.
+  Keep5.6 unchecked while this limitation/explanation and final integration remain open.
+
 - [x] **5.7** Audit first run, About, source/licenses and hidden feature routes.
   Preserve direct startup and disabled analytics/optional services. Recheck that
   upstream UI dependencies have not restored mobile onboarding/promotions.
@@ -545,6 +552,14 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   successor with synthetic normal tabs/groups, bookmarks, history, search choice,
   Shields exceptions and filter settings. Preserve app ID/signing lineage during
   development; distribution identity is a separate decision.
+  Source5829 baseline is prepared on brave_tv_onboarding_api36: normal IDs
+  3,5,6,8, stored group token B7DD0EC3CC2E598E11127809416C4605 (member6),
+  bookmarks5/7, native DuckDuckGo501, loopback Shields exception and cookie-list
+  disabled preference. Native History Open and normal cookie/localStorage seed
+  pass. The exact read-only cache manifest is upgrade-baseline-metadata-r2.json under
+  probes/engine-lifecycle-r1. Preparation does not accept an in-place upgrade;
+  install the corrected final APK and compare native identities/values/relaunch.
+
 - [x] **6.2** Version any new TV presentation preference changes; make migration
   idempotent and tolerate missing/old values. Define rollback to the compatible
   browser baseline without attempting to downgrade incompatible profile formats.

@@ -1,5 +1,30 @@
 # TV device regressions
 
+`tv_upgrade_check.py` reads only the preserved normal synthetic profile on
+`brave_tv_onboarding_api36`. Pass an explicit emulator serial, retained workspace,
+verified APK/source SHA, baseline JSON and a different output path. It verifies
+installed APK bytes against provenance, uses the cached compiled Chromium readers
+and rejects private metadata before reading per-tab files. Record the baseline
+once with `--record-baseline`; later omit that flag and use the recorded output
+as `--baseline`. No package install, profile mutation or browser action occurs.
+Equality covers normal IDs/URLs/selection, group membership, bookmark IDs/content,
+search provider and owned Shields/filter settings. Native History, cookie/storage,
+UI and process-relaunch acceptance remain separate.
+
+```sh
+python3 tests/device/tv_upgrade_check.py emulator-5554 \
+  --workspace /home/nitesh/.cache/brave-tv/workspace \
+  --apk /absolute/preserved/artifact/BraveMonox64.apk --source COMMITTED_SHA \
+  --baseline /absolute/evidence/upgrade-baseline-metadata-r2.json \
+  --output /absolute/evidence/upgrade-after-metadata.json
+```
+
+`TvThumbnailCacheTest#nativeWriteFailuresPreserveDocumentAndAllowRecapture`
+uses only a normal TEST tab. Empty directories at that tab's JPEG/ETC1 paths
+force actual native write failures; the queue fence and absent targets prove
+native cleanup completed. The same document remains usable and a fresh native
+JPEG must decode after recovery. This does not simulate full-disk ENOSPC.
+
 `tv-native-dialog-return.mjs EMULATOR_SERIAL AGENT_DRIVER.py NORMAL_SCREENSHOT.png`
 runs one actual-engine alert/confirm/prompt return sequence on the normal
 `http://10.0.2.2:18088/dialogs.html` fixture. Start with Browser controls' Page
@@ -895,15 +920,26 @@ one centered native click, with no click from entering Page cursor. Cursor
 bitmaps are transient normal-fixture observations, guarded by native identity
 and secure-window exclusion; no private screenshot flags are changed.
 
-`TvHomePageTest#privateHomeNativeJpegCacheDoesNotPersistPixels` and
-`#privateWebNativeJpegCacheDoesNotPersistPixels` verify native internal
+`TvHomePageTest#privateHomeNativeThumbnailCacheDoesNotPersistPixels` and
+`#privateWebNativeThumbnailCacheDoesNotPersistPixels` verify native internal
 cache requests and actual Activity pause/resume. Each first requires a normal
-synthetic JPEG to exist as a positive control, then checks private JPEG
-absence after native callback/capture completion. ETC1 completion is not
-covered by that native tracker and remains a separate mandatory cache gate.
-They retain FLAG_SECURE and
+synthetic JPEG to exist as a positive control, then seeds only empty owned
+private JPEG/ETC1 entries and requires their removal after native callback,
+per-tab JPEG capture and cache-wide JPEG/ETC1 compression/write completion. Native
+asynchronous removal must finish before file absence is accepted. The earlier
+JPEG-only r52 failed on both private Home and webpage; it did not accept ETC1.
+These full cache cases remain pending until the corrected APK runs. They retain
+FLAG_SECURE and
 never request an OS screenshot or return/decode/export a private bitmap.
 The internal native cache operation itself is exercised; a private file makes
 the test fail. Run separately without the upstream failure-screenshot argument; file existence and native
 identity are the observations. This is distinct from draft recreation and
 process death or failed-write acceptance.
+
+`TvHomePageTest#removedNativeCaptureDrainsCompressionAndDoesNotReappear`
+posts native removal from readback's callback onto the same UI task queue before
+compression replies. It requires active work even after the per-tab tracker
+is removed, then waits for the queue fence, absent cache files and successful
+normal recapture. Native tab/URL identity stays intact. Run it in its own
+instrumentation process with the corrected production/TEST artifact. This
+does not substitute for process-death, low-storage or failed-write tests.

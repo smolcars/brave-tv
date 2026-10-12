@@ -12,9 +12,9 @@ The user requested an in-depth plan for a beautiful, convenient TV-first UI
 using Kotlin/Compose while retaining Chromium. Follow the
 [TV UI rebuild plan and ordered todo](tv-ui-rebuild-plan.md) for scope,
 presentation/model ownership, design work, integration proof, migration and
-acceptance gates. The next implementation slice covers native entry retirement
-and exceptional/loading recovery.
-Stages0–2 have passed their scoped design/source/emulator checks; the working
+acceptance gates. The next implementation slices cover private-cache privacy,
+exceptional flows and migration.
+Stages0–4 have passed their scoped design/source/emulator checks; the working
 UI checklist is39/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
@@ -237,6 +237,243 @@ through its kvm group. Stop only the verified owned r7 AVD before compilation
 to release its roughly3.6GiB resident memory, retaining userdata and caches;
 restart it after the TEST build. Do not stop other runners or shared services.
 Keep the host6GiB guard, four workers and18/22GiB/swap0 build limits.
+Sourcefe7b/root9813 latest reviews0/0; both pushes succeed and r7 stops
+with Result=success. Cached TEST r37 passes in25.45s/14 steps with blocking
+analysis. Fifteen samples record13,094,535,168 bytes peak (12.20GiB), minimum
+host available20.27GiB and no guard interruption. Verified signed x64 TEST
+`compose-routing-tests-fe7b4d530-x64-debug-20261012` is876,412,387 bytes,
+SHA256 `179457f8fd2ebce44fee24e07868139a5096dc380fd779d9b6c18ae4d328902a`.
+Owned KVM r8 boots; T3 verifies the nonphysical AVD and TEST-only update/hash
+checks pass in15.475s, production r70 unchanged. Native r52 is red for both
+private Home (6.712s) and webpage (4.989s): fresh normal JPEG positive control,
+visible private view, secure flags and native completion pass, but private
+JPEG existence fails at the shared assertion. This proves native private
+thumbnail persistence on the synthetic TEST profile; it does not prove draft
+leakage or any physical-device result. Preserve both red logs.
+
+Private-cache correction: guard the single shared Java capture entry before
+native-page drawing or compositor readback for TV incognito tabs. Remove that
+tab's existing cache through the native manager, complete callers with null,
+and retain ordinary/mobile capture, native tab/model/storage/encryption and
+window security. One minimal private-method patch avoids a new Java subclass/
+bytecode target bundle for this branch. Add a metadata-only C++ wrapper around
+the existing test completion query to include shared ETC1 compression/write
+counters, keeping ChromiumImpl for its existing per-tab JPEG tracking. Use
+small chromium_src headers and a one-line definition rename patch so generated
+JNI still calls the wrapped method; add no bitmap/state exposure or new JNI API.
+Extend both probes to require JPEG/ETC1 absence after that queue fence, seed
+only empty owned TEST cache entries to verify cleanup of prior entries, and
+wait for native asynchronous removal. Then actual pause/resume must keep both
+absent and preserve the normal JPEG and exact private tab/secure flags.
+Acceptance: latest-commit reviews, verify exact tracked patch fingerprints in
+the retained checkout, one cached full x64 production/TEST build, in-place hash-
+verified updates and the two full cache cases plus private draft recreation.
+Stop only the owned AVD before full compilation, retain all profiles/caches,
+use four workers18/22GiBswap0/blocking analysis/host6GiB guard, and restart
+only the same nonphysical AVD. Broader6.3 gates remain separate and unchecked.
+Source2e99 review: Standards2 (PATCH-006, DOC-004), Spec1 (queued JPEG
+compression is missing from the completion fence after removal clears the
+per-tab tracker). Move TV-private policy into a small Brave-owned hook compiled
+in the existing Tab UI Java target through its ordinary source-list include;
+leave one invocation in the patch and add no dependency module/cycle. The hook
+uses a synchronous caller-owned removal action and never invokes private unlock.
+Document UI-sequence ownership and the exact observed work. Count JPEG
+compression separately from the existing ETC1 queue limit, decrement when its
+completion arrives, and include it in the metadata fence. After native cache
+removal erases metadata, discard later JPEG/ETC1 compression completions before
+they enqueue new writes; already queued writes and deletions use the same
+sequenced file runner. Retain normal capture and callback failure semantics.
+Use chromium_src wrappers and minimal macro hooks, not copied Chromium methods.
+Raw patch blank-context prefixes are normalized, and their checksum/dry-run
+checks pass without changing the retained Chromium targets. Full corrected
+cache runtime and interrupted-write acceptance remain pending.
+Add one deterministic native normal-cache interruption case: from Chromium
+readback's callback, post to the same native UI queue before compression
+replies are enqueued. Require work active before and after native removal,
+then wait for the complete queue fence and absent JPEG/ETC1 files. A fresh
+normal recapture must succeed afterward. This exercises late-write rejection
+and the removed-tracker fence with actual Chromium, without sleeps, private
+pixel export, pool-wide blocking or new testing JNI. Consolidate this new case
+with both private caches and draft recreation in the same corrected APK.
+Correction source commit is blocked by signing again: the system GPG
+no-prompt probe reports No pinentry, while KVM group read/write access still
+passes. The complete corrected source is staged; patch dry runs, checksums and
+source/index whitespace checks pass. The user is asked to sign this concrete
+staged commit interactively; no signing setting, key or shared agent is changed.
+Do not advance the build checkout or claim an APK for uncommitted code.
+Continue independent5.6 production-native popup/file-picker checks on the
+unchanged verified64e2 APK and owned normal loopback fixtures; their results
+do not accept the pending private-cache correction. Use only the verified
+nonphysical r8 AVD, exact agent launcher/config/session and targeted platform
+commands. Preserve browser data, stock IME and native security owners.
+Independent production popup check opens the actual child via SOURCE_DPAD
+cursor/OK and closes it through D-pad Tabs/More/Close. Original CDP target1,
+document epoch1791780829729.3 and visible document survive. Undo temporarily
+exposes native toolbar/968px viewport; once its native owner expires, viewport
+returns1080px and Back reaches TV controls. Retain the initial viewport check
+failure rather than infer stable recovery from the first transition frame.
+Generic file input reaches actual Android ChooserActivityLauncher; D-pad
+reaches the Photos & videos tile, excluding the two Activity Stub tiles, and Back produces File choice canceled on that same document with
+full viewport, then Back reaches Page cursor focus in controls. Agent-device
+open temporarily selects its own IME; restore and verify the stock TV LatinIME
+before further checks. No typing/IME acceptance is inferred from those D-pad
+flows. Component discovery later identifies the Activity Stub tiles as OS
+framework stubs (com.android.tv.frameworkpackagestubs), not the TEST APK;
+the actual GET_CONTENT handlers also include Google and system photo pickers.
+An unlabeled focused chooser group was initially mistaken for the Photos &
+videos tile. Actual last-started component proves that OK invoked the OS
+DocumentsStub, which immediately cancels. No real picker selection is accepted.
+Use focused-node descendant labels/rectangles and verify the started component
+in the next attempt; opaque group refs alone do not prove the chosen provider.
+The owned PNG is indexed in native MediaStore as ID24. Continue bounded
+real-handler diagnosis without altering native security or installing a picker. Seed one uniquely named public Brave source PNG in this AVD's Pictures
+folder and native media scanner for real-picker selection, preserving unrelated
+files and all app profiles. The file is owned synthetic data, not a screenshot
+or private browser content. Full5.6/6.3 acceptance remains pending.
+
+Real image-specific picker diagnostic reaches Google PhotopickerGetContentActivity.
+Touch selects only the owned indexed PNG; D-pad reaches Preview → Done, and
+Chromium receives image/png,1617bytes as24.png in the original image input.
+The original target/document epoch/full viewport survive. This proves native
+result delivery, not D-pad-only photo selection. A bounded10-second generic
+chooser attempt confirms that the focused Photos & videos tile's D-pad OK
+still invokes DocumentsStub and cancels. Keep that OS-image limitation red;
+instant post-input snapshots cannot prove the started component. Further
+network recovery uses only the owned loopback server: stop it, native Reload
+must show the genuine connection error, then restart the same service and
+native Reload must recover the fixture on the same tab/target. Carry unchanged
+native JS-dialog, renderer-crash and external-link checks instead of repeating
+those suites. No new source/production artifact is accepted while signing is blocked.
+The first network observation correctly reaches ERR_CONNECTION_REFUSED on the
+same target, but its1080px assertion fails at968px. Source audit shows this is
+the deliberate native error-page visibility guard, shared with dangerous/
+unresponsive/editable content; do not relax that trusted-owner policy. Correct
+only this normal-error observation to the native guarded968px viewport, then
+require1080px after the real fixture recovers. Back already reaches the TV
+controls with Reload focused. Preserve the initial assertion failure.
+Network recovery passes on the unchanged production APK: owned fixture r8 stops,
+ERR_CONNECTION_REFUSED is visible on original target1, Back focuses native TV
+Reload, and restarted loopback fixture plus D-pad Reload returns target1 to
+visible normal document epoch1791783507372.7/full1920×1080. The transient r9
+server restart failed because systemd's default directory lacked flake.nix;
+record that helper failure, then r10 with explicit project WorkingDirectory
+and absolute fixture directory passes HTTP readiness before browser input.
+Do not count failed helper startup as browser recovery or repeat unchanged cases.
+Existing system PhotoPickerGetContentActivity diagnostic also fails to move
+D-pad focus from its Recent list into the owned photo. This is a bounded OS
+compatibility result, not browser selection acceptance; Back returns to the
+normal browser. No picker package, permissions or trusted owner is replaced.
+While source signing is pending, begin6.6 display checks on the verified64e2
+production build: retain normal fixture/tab identity, sample compact controls,
+Settings and Address with font scale1.3 and forced RTL, then720p at240dpi.
+Record focus reachability and actual visible layout, restoring exact initial
+size/density/font/RTL/IME settings in finally. No screenshots of private/native
+security UI, profile reset or full accessibility/sustained acceptance claimed.
+Current64e2/font1.3 controls → More → Settings → About-focus → Back passes
+with readable normal screenshots and usable remembered invoker. Restore1.0;
+app locales[]/unset force-RTL/1920×1080/320dpi/stock LatinIME remain unchanged.
+Avoid repeating earlier720p/font1.6/Arabic/spoken journeys wholesale: source1ed
+has actual focus-edge/confirmation/Settings evidence, while later panel changes
+concern bounded state/restoration/private protection. Reconcile affected checks
+with the final artifact before6.6 acceptance; sustained session remains pending.
+Next6.3 test slice while signing is repaired: add a separate native thumbnail
+failed-write class and its existing GN test-source entry without changing the
+14-file staged correction. On a normal owned TEST tab, first prove a valid native
+JPEG capture, then replace only that tab's now-absent JPEG/ETC1 targets with
+empty directories. Real native write calls must fail and finish their native
+cleanup; the selected tab/WebContents/document remain usable. Remove only
+owned empty directories in finally, recapture and decode a valid normal JPEG.
+Use callbacks plus the corrected queue fence; no sleep, full disk filling,
+production/profile permission changes or private bitmap inspection. This is
+filesystem write-failure acceptance, not an ENOSPC/low-storage claim. Keep the
+new class/GN entry unstaged until the user's correction commit is captured and
+reviewed; consolidate both test slices into the next reviewed APK where possible.
+The new native failed-write class compiles against the1246 retained GN interface/
+SDK jars using pinned JDK25; formatter and whitespace checks pass. This is a
+source/type check, not APK static analysis or native runtime acceptance. The
+14-file staged tree remains exactly0c18f1ee5057b81d2bc6a7686d3ef8809d1dec66.
+Add a root read-only upgrade comparator plus one small Java diagnostic using the
+cached compiled Chromium metadata readers, not a duplicated storage parser.
+It must verify explicit baseline AVD/installed artifact, reject private metadata,
+compare normal IDs/URLs/selection, group token/membership, bookmark IDs/contents,
+provider and exact owned Shields/filter settings. Tests must reject changed or
+missing data and private input. Native History/site-storage/UI/relaunch checks
+remain separate; metadata equality alone cannot accept6.1. No APK install,
+profile copy/write, physical device action or fresh build checkout is performed.
+The user signs the exact14-file correction as source9b4f16d2; its committed tree
+matches0c18f1ee5057b81d2bc6a7686d3ef8809d1dec66 and signature verifies. Latest-only
+review reports Standards1 (CSRC-017, missing cancellation-order comment), Spec0.
+Add the concise comment preserving the compression-after-removal rationale;
+review that correction separately. Sourceff6b77868 commits the independent
+native failed-write test, whose latest-only reviews are pending. Consolidate all
+reviewed source changes into one retained-cache full/TEST build. Runtime privacy,
+failed-write and baseline-upgrade acceptance remain pending.
+Both failed-write reviewers catch a fixture expectation error: native JPEG/ETC
+failure cleanup uses DeleteFile, which removes the empty obstruction directories.
+Correct the test to require both targets absent after the full queue fence;
+finally removes only a still-existing owned empty obstruction. Preserve the
+normal document/recapture checks and production cleanup. Review this test-only
+correction before the consolidated build; no failed-write runtime pass is claimed.
+Latest source correction rounds c9ac16445 and3088b5676 both pass Standards0/Spec0;
+all source commits through3088b5676 push to master. The root upgrade checker
+records four actual normal tabs on the preserved source5829 AVD, including exact
+owned10.0.2.2 URL for ID3. Repeated read-only comparison passes; cached native
+reader negative probes reject private count, unsupported version and excessive
+input before emitting metadata. Four host comparator tests pass and strict mypy
+passes. Evidence is upgrade-baseline-metadata-r2.json, its selfcheck and
+upgrade-reader-negative-r2.json. These checks do not accept the actual upgrade.
+Stop only the baseline-seed r2 emulator before the consolidated r71 build,
+preserving userdata and all caches. Keep the stock IME restored after T3 opens.
+
+Next independent6.1 preparation: stop only owned launch-followup r8 after
+verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
+and inspect its preserved baseline package/profile first. Require the installed
+source5829 APK hash/signer/ABI before seeding unique normal groups/bookmarks/
+history/search/Shields/filter fixtures through actual native UI. No downgrade,
+clear data or profile copying. Seed acceptance is distinct from the subsequent
+in-place updated-APK migration/relaunch;6.1 remains unchecked until both pass.
+Baseline preparation passes against installed source5829 SHA256
+80d0649ca66dafa19374a10aa7c7bdb767ef0b2e911b35044ff7ca8cb49f9605.
+The existing original tabs/favorite survive. Final seed has active normal IDs
+3,5,6,8 (selected8), no private tabs; stored group token
+B7DD0EC3CC2E598E11127809416C4605 has active member6. During preparation,
+old native Back closes only the newly created popup child7; preserve the final
+single-member group and add the normal privacy fixture8 before fingerprinting.
+Bookmark IDs5/7, native DuckDuckGo501, loopback Shields setting2 and cookie-list
+UUID AC023D22-AE88-4060-A978-4FEEEC4221693 enabled=false are recorded. Native
+History Open returns to the exact privacy upgrade query, and genuine Chromium
+navigation reads tv_privacy=seeded plus localStorage seeded. No profile is copied,
+rewritten, wiped or downgraded. Read-only diagnostics reuse the cached generated
+FlatBuffer class, compiled native metadata reader and pinned JDK25; they reject
+private metadata and exclude orphan files from active-tab comparisons. Initial
+helper classpath/tri-state/URL-label assumptions are corrected from pinned
+sources, not accepted as browser failures. The complete before-upgrade manifest
+is probes/engine-lifecycle-r1/upgrade-baseline-manifest-r1.json in the cache.
+No new APK/build/source commit exists while signing remains unavailable; source
+2e99 is committed but unpushed, its14-file review correction is staged, and the
+root/cache remain pinned to fe7b. Remaining private-cache acceptance, complete
+upgrade, retirement/final-artifact review and sustained V checks require that
+reviewed/pushed correction and packaged APK. Preserve both AVDs and all caches;
+stop only owned baseline emulator/static fixture and remove its owned18088 reverse
+before yielding this concrete signing blocker. KVM group access still works.
+Closeout confirms both owned units inactive with Result=success; baseline
+reverse18088 removed and its automation lease closed. Stock LatinIME is restored.
+Host has26GiB available/swap0/295GiB free; no Chromium build or emulator is active.
+Both master branches and staged correction remain intact. Canonical39/54 is
+unchanged; source/build/runtime/private/hardware gates are not checked from
+fixture preparation or restored KVM access. Chromecast remains untouched.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
