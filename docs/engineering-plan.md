@@ -444,6 +444,45 @@ Sourcec29748cde and rootcd7e708 latest correction reviews both report0/0.
 Five focused upgrade host tests and strict mypy pass. Retained r71 samples
 record9.53GiB peak and no guard interruption; retry r72 uses the same cached
 objects, committed corrected pin and established resource/analysis limits.
+The first r72 retry was launched before checking checkout.py's failure, so it
+repeated the unchanged header error; it is stopped and its logs remain intact.
+The helper refused four generated patchinfo final-newline differences. Verify
+each file equals its recorded bytes except that final newline, restore only
+those bytes, then rerun checkout.py successfully to sourcec297. No reset or
+cache deletion occurs. Guard r73 launch on exact source SHA and clean checkout.
+Root5f6 latest reviews0/0 and push pass. The guarded r73 build uses sourcec297
+and root5f6. Actual cgroup sampling reaches18.01GiB with soft MemoryHigh pressure,
+but zero max/OOM events and no host guard interruption; native linking and
+blocking Java/lint work continue. This is observed build progress, not success.
+Next independent6.4 audit while this build runs: reconcile sourcec297 callers,
+resource/build targets and accepted routing tests. Confirm previous programmatic
+TV layouts and competing mobile entry routes are already removed per slice;
+retain lifecycle/model/security/input controllers still called by the Compose
+presentation. Do not delete shared phone/native owners, launcher assets or
+active strings merely to make a retirement commit. Record the audit and accept
+only retired presentation paths whose replacements have actual prior passes.
+Buildr73 passes GNU Time7m02.00s/exit0, Siso168 steps, blocking Android analysis.
+205 samples record18.017GiB peak, minimum host available9.418GiB and no guard
+interruption. Verified sourcec297/root5f6 artifact compose-cache-c29748cde-x64-debug-20261012
+contains production852,742,257 bytes SHA2566a1fd7c11a824468576c3b65a52804b129ca2d90ef07be1d038446d1b58e2452
+and TEST876,432,347 bytes SHA256bac0c4705a90494ceaa41cddda011029f52c340288fe6bb1de755fe4c8918e2b.
+Signature/package/x86_64 verify; owned launch-followup KVM r9 boots and both
+in-place install/hash checks pass (10.847/10.422s). Native r53 private draft
+recreation passes13.848s, but private Home/web cache and interruption/failed-write
+cases fail on file absence/removal, not a timeout hidden by shell exit0.
+Root cause: the retained Java removeTabThumbnail(id) deliberately refuses
+deletion when TabWindowManager still owns that live tab. Use the existing
+forceRemoval=true overload only for known private TV cache protection and owned
+TEST removal fixtures; preserve all ordinary/archived deletion policy. Keep
+full fence/absence/recapture assertions, update tracked patch fingerprints,
+review, then consolidate a focused cached retry. No gate is accepted from r53.
+Source6802 latest reviews pass Standards0/Spec0 and the failed-write class still
+compiles against the retained GN interfaces. Stop only owned KVM r9 (success),
+preserving profiles, before full/TEST r74. Keep the r53 private-draft pass; rerun
+only the four affected cache cases after verified APK installation. Retirement
+audit is recorded separately in tv-ui-retirement.md; no new source deletion is
+needed because earlier accepted slices removed layout construction and competing
+routes. Cache/upgrade/file-picker/hardware gates remain independent.
 
 Next independent6.1 preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
