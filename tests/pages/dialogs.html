@@ -7,6 +7,7 @@
   body { background: #111820; color: white; font: 24px sans-serif; padding: 32px; }
   button { font: inherit; padding: 18px; margin: 12px; }
   output { display: block; margin: 24px 12px; }
+  #fileDetails { white-space: pre-wrap; overflow-wrap: anywhere; }
 </style>
 <h1>TV native dialog checks</h1>
 <button id="alert">Alert</button>
@@ -18,10 +19,29 @@
 <label>Choose an image <input id="imageFile" type="file" accept="image/*"></label>
 <a id="external" href="bravetv-unavailable://fixture">Open an unavailable external app</a>
 <output id="result" aria-live="polite">No action yet</output>
+<output id="fileDetails" aria-live="off"></output>
 <script>
   const result = document.querySelector('#result');
-  document.querySelector('#file').oncancel = () => { result.textContent = 'File choice canceled'; };
-  document.querySelector('#imageFile').oncancel = () => { result.textContent = 'Image choice canceled'; };
+  const cancels = {file: 0, imageFile: 0};
+  const reportFiles = () => {
+    document.querySelector('#fileDetails').textContent = 'File details: ' + JSON.stringify({
+      documentTime: performance.timeOrigin,
+      cancels,
+      files: Object.fromEntries(['file', 'imageFile'].map(id => [id,
+        Array.from(document.getElementById(id).files).slice(0, 2).map(file => ({
+          name: file.name.slice(0, 128), size: file.size, type: file.type.slice(0, 128)
+        }))]))
+    });
+  };
+  for (const id of ['file', 'imageFile']) {
+    document.getElementById(id).oncancel = () => {
+      result.textContent = id === 'file' ? 'File choice canceled' : 'Image choice canceled';
+      cancels[id]++;
+      reportFiles();
+    };
+    document.getElementById(id).onchange = reportFiles;
+  }
+  reportFiles();
   document.querySelector('#alert').onclick = () => {
     alert('TV alert: close this dialog with the remote.');
     result.textContent = 'Alert closed';

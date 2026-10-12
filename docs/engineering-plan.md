@@ -622,6 +622,59 @@ outcomes. Record private task-restoration versus explicit force-stop policy,
 controlled LOW versus ENOSPC, and source6802 cache protection. This documentation
 slice changes no APK/source/cache and does not accept Stage6.7 final closeout.
 
+
+Buildr76 passes source033/root-at-start e9c in9m19.31s:1386 Siso steps and
+blocking Android analysis.277 retained samples record16.38GiB peak and13.59GiB
+minimum host available, no guard/OOM. Preserve verified x86_64/package/signer
+artifacts at compose-picker-03378e56b-x64-debug-20261012: production852,770,267B,
+SHA2563557c81e84f81378d78a98172cd9880419f6dba254bfeb3179695feaeb50e64d;
+TEST876,451,107B, SHA25665a5f1f967582806b967ad0fb0ed72b7435086ef4a5cb24215fd317fcf6414cf.
+Rootc04 migration reconciliation reviews0/0 and pushes; its documentation changed
+while the frozen source build ran, so artifact rootAtBuildStart remains e9c.
+After compilation stops, boot only launch-followup AVD as owned picker r12 with
+KVM/SwiftShader/guest-Vulkan-off and5/6GiB/swap0. T3 discovery/open verifies
+nonphysical emulator-5554 identity. Update both verified packages in place,
+close only the SDK automation lease, then run four isolated native guidance
+cases without failure screenshots. Actual picker/result integration follows;
+no Stage5.6 acceptance from the build or installation.
+
+
+Native r55 passes all four source033 guidance cases: real file Cancel/Back with
+unchanged document/owners(9.100s), once-only continuation/navigation/pause(8.919s),
+real JS-modal takeover/focus(7.032s), private guide protection/owner(6.660s).
+Production r56 reaches guidance via genuine USB D-pad cursor/OK, with Cancel
+initially focused, then native Continue reaches Android's actual resolver and
+Back returns. Image Continue reaches com.google.android.photopicker; Back also
+returns safely. One earlier webpage entry used touch diagnosis and is recorded
+separately. The local fixture initially needs native Reload after its server
+restart; no first-cursor success is claimed from the incomplete entry attempt.
+The existing DevTools socket is absent on this cold process, so the read-only
+CDP helper fails with UND_ERR_SOCKET. Do not change product debugging policy to
+satisfy a diagnostic. Add a visible bounded normal-fixture report of genuine
+performance.timeOrigin, file-cancel counts and selected File metadata, updated
+only by actual cancel/change events. Require an unchanged token through picker
+return and exact owned PNG size/MIME. No injected field value, private payload or new
+companion endpoint is involved. Keep existing result labels for older cases.
+Clarify guide copy to cover an empty/unavailable Android picker as well as one
+requiring a mouse. This is a resource-only correction; native permission/result
+ownership and four accepted code-path checks carry forward. Actual current-copy
+layout/recovery and image-result integration remain pending under5.6.
+
+
+The normal fixture's native r57 report passes: unchanged genuine document token,
+selected image24.png/1617B/image/png from owned MediaStore24, then one real file
+Cancel increments only its counter and preserves the selected image/document.
+Photo selection and Done use touch diagnosis. Done's text ref is rejected by
+SDK (no parent-owned touch point); coordinates from its current normal snapshot
+activate the real OS action. No D-pad photo/Done acceptance is claimed. Reports:
+picker-report-before-r57.json, picker-image-result-r57.json and picker-report-
+cancel-r57.json. Fixture script syntax passes; no browser debugging setting
+changes. Remove the unused owned9222 forward. Source16c copy review is0/0.
+Pin/push this resource-only clarification and tested fixture report, stop/save
+only owned r12 emulator/server, then run one same-cache r77 packaging build with
+established limits. Retain four native source033 code-path passes and actual
+allowed result; recheck new-copy native layout/recovery before accepting5.6.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
