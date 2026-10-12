@@ -431,6 +431,19 @@ wrong-source/hash/size tests, before using the checker for migration acceptance.
 The source3088 cached r71 full/TEST build starts with no emulator, four workers,
 blocking analysis and established18/22GiB/swap0 plus6GiB host guard. Root helper
 changes do not alter the committed source pin or active build checkout.
+Buildr71 fails at19.56s/30 completed steps, with retained logs and no emulator.
+Clang rejects an extra semicolon after the inline getter expansion under
+-Wextra-semi/-Werror; this is a source error, not memory pressure. Preserve all
+outputs. Reorder the minimal header override so the upstream declaration's
+semicolon terminates the ChromiumImpl declaration rather than a function body.
+Retain the exact fence behavior; validate the expansion with the pinned compiler,
+review the correction and advance only committed pins before cached r72 retry.
+The pinned Clang expansion probe reproduces the old header error (exit1) and
+passes the corrected expansion (exit0), without changing warning settings.
+Sourcec29748cde and rootcd7e708 latest correction reviews both report0/0.
+Five focused upgrade host tests and strict mypy pass. Retained r71 samples
+record9.53GiB peak and no guard interruption; retry r72 uses the same cached
+objects, committed corrected pin and established resource/analysis limits.
 
 Next independent6.1 preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
