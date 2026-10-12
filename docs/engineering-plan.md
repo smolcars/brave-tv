@@ -27,6 +27,17 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Source090/root0465 latest reviews are Standards0/Spec0. Corrected r85 blocking
+analysis/build passes53.29s Siso19steps, peak18.040GiB/minimumhost15.406GiB,
+no guard interruption/OOM. Both actual native stale-node cases now pass7.406s/
+7.069s, including exposed-root positive controls; video/fullscreen passes7.481s
+and private-window protection7.346s. Production/TEST update in place on the
+preserved launch-followup AVD. Stop only its owned emulator, reuse Static ARM
+cache for the same reviewed native correction, preserve verified non-debuggable
+artifact/provenance, retain TV data with compatible -k code replacement, then
+repeat physical cursor and a fresh complete30-minute native media/phone/AX run.
+The failed27-minute source92 run remains failed;52/54 and6.5/V8 stay pending.
+
 Sourcef6/root5f latest reviews are0/0. Cached r84 passes blocking analysis in
 16.74s Siso14steps, peak8.673GiB/minimumhost20.764GiB. Production bytes still
 match92. The exact video-control loop now goes red in seconds: fresh native

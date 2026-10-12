@@ -368,3 +368,27 @@ this uses the established owned-patch/override pattern. The test revalidates
 node existence/ignored identity immediately before each request on the same UI
 thread. Review/build/green native runtime and repeated TV endurance are pending.
 No production correction pass or6.5/V8 completion is claimed yet.
+
+
+## Corrected native acceptance — source090
+
+Latest source090/root0465 reviews are Standards0/Spec0. Cached x64 r85 build
+passes53.29s Siso19steps with blocking Android analysis;30 memory samples show
+18.040GiB peak,15.406GiB minimum host available, no guard interruption/OOM.
+Production852768447 bytes SHA256
+`dd80801d5ec72240a3b499dd650182716778b0afeb52e650a2a9a8d6104c1607`;
+TEST876469427 bytes SHA256
+`9e07dcb69bb41a31b003d57936e960758e95a4eaeff578b433b9375777665f30`.
+Both are installed in place on the preserved launch-followup API36 AVD, with
+existing certificate/app-op unchanged and no failure/private screenshot capture.
+
+Actual ignored-existing native fresh/cached cases pass7.406s/7.069s, including
+exposed-root positive controls. Actual HTTP-video fullscreen/document/cursor
+passes7.481s; private Home/controls native window protection passes7.346s.
+Retain `native-accessibility-r85.json`, `native-cursor-r85.json` and method logs
+under the existing hardware probe folder. Artifacts/signature/GN/native patch
+checksums are retained in
+`~/.cache/brave-tv/artifacts/compose-accessibility-090fa9c73-x64-debug-20261012`.
+These are native emulator passes, not repaired physical endurance acceptance.
+Build the same source in retained Static ARM output, preserve the new TV profile
+and repeat the physical cursor and complete30-minute acceptance;6.5/V8 remain open.
