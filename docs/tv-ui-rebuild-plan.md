@@ -575,13 +575,20 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   [migration contract](tv-ui-migration.md) records the no-migration decision and
   compatible same-engine/package/signer rollback; full baseline-upgrade/private/
   failed-write tests remain unchecked under6.1/6.3.
-- [ ] **6.3** Verify private state is never restored into normal UI or persisted
+- [x] **6.3** Verify private state is never restored into normal UI or persisted
   through saved-state/thumbnail caches. Test clear data, interrupted operations,
   process death, low storage and failed writes without silent data loss.
   Source6802/native r54 passes actual private Home/web JPEG+ETC cleanup with
   protected pause/resume, compression removal/recapture and real failed-write
   cleanup/normal-document recovery. R53 private draft recreation passes.
-  Process-death and low-storage acceptance remain pending; no full6.3 pass.
+  Actual r6 task-preserving process death restores the private document only in
+  the secure private panel, discards its Address draft and preserves normal IDs/
+  selection through final-private closure. Force-stop follows native cipher
+  policy and restores no private tabs. R4 controlled Android LOW-state restart
+  preserves persistent cookie/storage and all seeded normal metadata, then resets
+  the forced signal. Existing scoped clear-data effects/cancellation carry forward.
+  This is scoped emulator acceptance; genuine full-disk ENOSPC and hardware remain
+  unverified. No private payload/pixels are exported or protection flags relaxed.
 - [x] **6.4** Remove replaced layouts, controllers, routing hooks and temporary
   migration switches after their replacements pass. Keep necessary native bridges;
   remove dead code only after searching callers/resources/build targets.

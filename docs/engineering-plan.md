@@ -15,7 +15,7 @@ presentation/model ownership, design work, integration proof, migration and
 acceptance gates. The next implementation slices cover private-cache privacy,
 exceptional flows and migration.
 Stages0–4 have passed their scoped design/source/emulator checks; the working
-UI checklist is41/54. Retain Chromium and native browser storage. The older
+UI checklist is42/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -544,6 +544,44 @@ must stay in the private model with secure windows. Use a20-byte metadata-header
 diagnostic for counts only, never private URLs, stored contents or pixels.
 Keep normal tab IDs/page count and restore normal selection; do not invoke phone
 unlock, wipe profiles or disable secure flags. Broader6.3 remains pending.
+
+
+Root98d3 latest-only review passes Standards0/Spec0 and pushes successfully.
+Private process acceptance r6 passes on source6802: a real background process
+kill preserves Android's task and restores the committed document directly into
+private browsing. The native private tab panel retains FLAG_SECURE, its counts
+are normal2/private1, and the unsubmitted Address draft is absent. D-pad closure
+of the owned final private tab restores the original normal page with identical
+normal IDs/selection and no private fixture/draft in normal UI. Evidence:
+private-process-{relaunch,acceptance}-r6.json, private-force-stop-acceptance-r5.json.
+The initial controls locator expected an automatic panel after task restoration;
+the actual retained task returns directly to the private webpage. Native Back
+reaches controls and proves the private heading/model; no product fix was needed.
+The separate force-stop path deliberately receives no saved cipher Bundle;
+pinned CipherFactory.restoreFromBundle and ChromeTabbedActivity.initializeState
+ignore private files without the key. It restores no private tabs and preserves
+normal IDs/selection. Do not confuse explicit session termination with task-
+preserving process death. Native storage/encryption ownership stays unchanged.
+Stage6.3 scoped emulator acceptance now combines these actual process paths,
+private draft recreation, native cache/interruption/failed-write checks, forced
+LOW-state recovery and carried-forward scoped clear-data effects/cancellation.
+The canonical count is42/54. Real full-disk ENOSPC/hardware are unverified.
+
+Next5.6 picker slice: explain Android TV picker limitations before transferring
+to the retained native picker, with Cancel initially focused and Back returning
+to the same page. Continue opens the original permission/intent/media path.
+Use a small UiBase host seam after SelectFileDialog's existing initialization;
+keep Brave presentation, document identity, once-only callbacks and disposal in
+its TV controller. Guard the native pointer before continuation/cancellation;
+cancel on tab/document/security/lifecycle changes, protect private guidance and
+never grant storage/camera permissions or imitate OS approval. The Java hook
+cannot use a C++ chromium_src override; keep it minimal and own the helper/GN
+source list in Brave. Re-enter the initialized native method only during the
+synchronous continuation, avoiding an extracted copy of its large picker body.
+Acceptance: actual-engine D-pad Cancel/Back/Continue, safe native picker return,
+unchanged document/normal models, private protection, stale navigation and pause
+cancellation; native allowed image delivery remains separately verified. Do not
+claim unsupported OS D-pad photo selection is repaired by browser guidance.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
