@@ -808,6 +808,15 @@ The server listens only on loopback and exposes only its two fixture routes.
 
 ## Ordinary video fixture
 
+`TvHomePageTest#nativeVideoFullscreenExitPreservesDocumentAndCursor` requires
+the same bounded media range server and explicit emulator reverse18083. Pass
+`-e tv_video_fixture_url http://127.0.0.1:18083/bbb-320x240-2video-2audio.mp4`.
+The native D-pad click starts the real video and requests video fullscreen;
+Back must retain the document while invalidating old coordinate leases. Both
+this and the document-fullscreen case require a dark cursor-absent precondition
+and normal cursor pixels after recovery. Run separately without failure
+screenshots. Emulator passes do not accept physical video-overlay recovery.
+
 Alongside the existing page server on 18081, serve the pinned Chromium checkout's
 `src/media/test/data` on loopback port 18083 and reverse that port through ADB.
 Use `nix develop --command node tests/device/media-fixture-server.mjs

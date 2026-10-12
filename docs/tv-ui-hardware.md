@@ -143,3 +143,75 @@ completion duration exceeding one period is not itself an Android deadline-jank
 count. This improves the measured shell while leaving noticeable deadline misses;
 it is not a60fps or physical-button latency promise. Sustained hardware media,
 native input and phone recovery remain pending before V8 acceptance.
+
+## Native recovery and cursor correction
+
+Source1c physical native Home/settings/About/library/tabs routes pass, including
+final normal-tab closure returning Home with Address focused. The stock Google
+TV keyboard opens, native USB OK types uppercaseQ, Clear empties/reopens the
+keyboard and Back then Cancel returns Home. Actual nonalphabetic USB held OK
+produces one fixture click; an idle held wake produces none; the next held click
+increments exactly once and directional wake restores cursor pixels. These are
+injected native-input results, not human physical-button acceptance.
+
+Video Play/fullscreen/Back retains the same playing native document and growing
+presentation-frame counts, but source1c loses cursor pixels after video exit.
+Sustained USB pulses keep its View visible with a63ms recent frame; reselecting
+Page cursor restores the pixels. Retained red evidence is
+`media-awake-cursor-r3.png`/`media-awake-activity-r3.txt`; positive reselect control
+is `media-after-reselect-green-r1.png`. Earlier malformed bare-uinput and immediate
+transition assertions are invalid diagnostic attempts, not accepted input.
+Android14 uinput requires a file argument and has no API36-style sync command.
+Later native-input runs use explicit stdin/file arguments and observed native
+postconditions. Matched panel measurements above used the earlier SDK-key driver;
+later USB-input probes are distinct and do not relabel those timings.
+
+The first correction and shared phone pointer state are source4dde2cbb296e81a2e396532fc5a839eee78b845d,
+reviewed Standards0/Spec0. Cached ARM r2 and production/TEST x64 r80 pass blocking
+analysis with four Siso workers and18/22GiB limits, no swap/OOM. GNU wall times
+are4m08.38s ARM and4m09.15s x64; Siso52/136 steps take4m04.86s/4m05.56s.
+ARM memory peak18.002GiB, sampled host minimum9.619GiB; x64 peak16.393GiB,
+host minimum13.100GiB. No compile cache or output is deleted.
+
+| Source4dde artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `compose-cursor-4dde2cbb2-arm-nodebug-20261012/BraveMonoarm.apk` |368050408|`8b9f45b00bd54aa79b9c13b27864b093d5ac9d6fbf7e68db11f33af8969d3aac`|
+| `compose-cursor-4dde2cbb2-x64-debug-20261012/BraveMonox64.apk` |852768519|`8a9462ca4caf05194ac36f9e098a1787e4b6101b482f61e5cf9ee69efab7df11`|
+| `compose-cursor-4dde2cbb2-x64-debug-20261012/BravePublicTest.apk` |876445459|`6f7bccf3360f4ba0f2f039841c276c4ccd10c71bdf3f2524ccdc3723a1f81e23`|
+
+Folders are under the retained artifacts cache, with signer/ABI/package/GN and
+source provenance. ARM is optimized, nondebuggable, local nonofficial development;
+this is not a public-release remote. All have the existing compatible signer.
+The explicit TV streamed internal-flash update (`-r -f --user0`) also fails
+INSTALL_FAILED_INSUFFICIENT_STORAGE after61.648s. The authorized browser-only
+fresh install succeeds67.954s with verified bytes; only task-owned synthetic
+browser media state is lost. Android users0/10/11/12 and unrelated apps remain.
+Physical in-place upgrade persistence remains unverified.
+
+The emulator production and TEST packages update in place with matching bytes.
+Default T3 GPU launches disconnect twice before instrumentation returns a result;
+those attempts are unaccepted. The documented cold boot with guest Vulkan disabled
+preserves the AVD/profile and runs native tests: document-fullscreen cursor recovery,
+file-picker navigation/pause disposal and private Home/control window protection
+pass individually. Held-OK fails twice before entering Page cursor because its
+controls lease precedes viewport settling; retained logs are
+`native-dedicatedDpadFromVirtualKeyboardClicksOnce-r80{,-followup}.log`.
+
+Actual direct-LAN HTTP companion on192.168.4.50 pairs with explicit native TV
+approval, navigates to the normal media fixture, plays it and retains control in
+video fullscreen. This is a host390×844 viewport, not a real phone/Safari test.
+Source4dde phone Back keeps the playing document but cursor pixels fail despite29
+accepted awake commands. Native Back and sustained USB pulses fail too, with
+the View visible and a78ms recent frame. Retain
+`phone-only-fullscreen-cursor-r2.json`, `phone-only-cursor-r2.png` and
+`media-awake-cursor-4dde-r2.png`/`media-awake-activity-4dde-r2.txt`.
+No private/password/native-security control is granted; invitation/controller
+secrets are not logged. This is an actual failing physical acceptance gate.
+
+Follow-up sourcef3d8516512078ca2871082b61a1569e46ff2d776 moves restoration to
+the existing authoritative WebContents notification and retains document identity
+while invalidating fullscreen coordinates. It adds actual video/native-session
+regressions and synchronizes held-OK viewport setup. Review/build/runtime are
+pending; no physical cursor or sustained-media acceptance is claimed. The source1c
+performance comparison remains separately attributed. The controller is revoked
+and only the owned emulator stopped before the next single cached build.

@@ -125,6 +125,39 @@ held OK. The focused input contract test is red before this interface exists;
 require its green result plus actual phone-moved and phone-only fullscreen/Back
 pixel checks. Review only the new correction commit before the cached build.
 
+Correction source4dde and its root pin pass latest-only Standards/Spec review
+with zero findings. Both bounded cached builds pass blocking analysis: ARM52
+steps and x64136 steps, each about four minutes. Preserve both artifacts before
+runtime checks. The TV package manager documents `-f` as internal-flash placement;
+try one explicit streamed `-r -f --user0` update after stopping only our browser
+media process. This is a bounded placement investigation, not a storage-check
+bypass. If Android again rejects the update, retain the failure and use the
+already authorized browser-only fresh installation, explicitly recording lost
+synthetic fixture state and unverified physical upgrade persistence. Update the
+preserved launch-followup emulator profile in place and run separate focused
+fullscreen, held-OK and protected/lifecycle instrumentation processes without
+failure screenshots. Seed hardware fixtures through native entry afterward.
+
+Source4dde installs fresh on the physical TV after the bounded internal-placement
+update also fails for storage. Its actual phone-only video/fullscreen/Back loop
+preserves the playing document but fails cursor pixels despite29 accepted awake
+commands; native Back plus sustained USB pulses also fails with the cursor View
+VISIBLE and a78ms recent frame. Do not accept the earlier generic document-
+fullscreen emulator pass as this video path. The pinned HTML fullscreen manager
+notifies exit while its native exit/layout work is still in progress, whereas
+the session's actual WebContents fullscreen notification is authoritative. Also,
+the shared session currently increments document identity on fullscreen changes,
+although no document was replaced. Use that existing native state notification
+for one retained-cursor restoration, keep a real document lease through the
+transition, and invalidate coordinate leases without invalidating the document.
+Cancel the pending lease on detach/pause/destruction/navigation; retain all
+native/private/security guards. Extend actual-engine fullscreen coverage to
+video and add the native session identity contract. The held-OK test twice fails
+before entering Page cursor; it opens controls before waiting for the native
+viewport to settle, making its captured coordinate lease stale. Synchronize the
+viewport before opening controls and preserve the failed runs. Review these
+focused corrections and build once per ABI; no arbitrary delay or relaxed guard.
+
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing
 hardware metrics; do not infer real-phone/Safari/second-TV or public release.
