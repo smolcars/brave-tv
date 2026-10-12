@@ -418,3 +418,30 @@ All-profile/settings/group equivalence and standard in-place updates are not
 accepted by this workaround. Repeated physical cursor/endurance remain pending.
 Retain `install-accessibility-tv-kept-r4{,-retry}.json`, cache-only timeout record
 and `hardware-retained-profile-before-r4.json` in the hardware probe folder.
+
+
+## Corrected physical cursor and endurance repeat — source090
+
+Native Home returns with Address focus. A new explicit invitation/approval uses
+the direct private-LAN companion in a390x844 host viewport. Ordinary fixture
+`media.html?hardware-cursor-r4` retains document1791836482137.7 across native
+playing fullscreen entered before first phone-pointer attachment. Phone move
+and Back restore cursor1280,720; phone movement/click/fullscreen/Back restore
+960,800. Awake zero-move pulses pass21/21 and41/41. Mixed native left input,
+phone move/click and actual fullscreen followed by native USB Back/pulses show
+cursor928,800, with stale608/640 absent. Media frames grow with no error.
+
+Retain first/moved PNG+pixel logs+same-document reports and
+`mixed-native-cursor-090fa-r4-pixels.json`/awake activity evidence. Initial missing
+@ref prefix and premature fullscreen-transition assertions are invalid diagnostic
+probes; corrected probes use fresh native refs and bounded actual transition
+observation. No replacement screenshot is taken over private/security UI.
+
+Renew the native invitation and explicit approval before31 minute-spaced native
+media/PSS/recent-CPU samples across30 minutes, plus authenticated zero moves every
+10seconds and the existing500ms state poll. Require unchanged normal document/
+epoch, increasing presented frames, no rejection/disconnect and post-run native
+fullscreen/Back/cursor recovery. `brave-tv-hardware-soak-r4.service` checkpoints
+source090 evidence without overwriting the failed source92 run. Physical acceptance
+remains pending until that complete run and recovery pass. Captured video remains
+black; native presentation counters do not establish viewed/audible A/V or DRM.

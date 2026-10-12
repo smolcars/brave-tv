@@ -8,6 +8,29 @@ remain pending until its actual evidence passes. This index
 distinguishes retained native results from the current artifact; it does not
 claim every test was rerun together or accept physical performance/release.
 
+## Later native hardware corrections — 12 October
+
+The original emulator closeout below remains attributed to source1c. Authorized
+hardware checks exposed a fullscreen cursor defect and an Android accessibility
+crash on fading video controls. Corrected source090fa9c733cc80681f3fc6db71df16244d74dda6
+is now signed/pushed and installed on the TV with retained normal URL/bookmark.
+Source090 latest implementation review is Standards0/Spec0; exact build, failed/
+successful installation, native test and physical cursor evidence is recorded in
+[hardware follow-up](tv-ui-hardware.md). The source fork also owns two one-line
+native accessibility patch hooks, a small chromium_src ignored-node guard and
+actual native fresh/cached-node regression tests. Upstream accessibility traversal,
+exposed nodes and assertions remain enabled.
+
+X64 r85 passes blocking analysis and all four affected native checks: ignored-
+existing fresh/cached info rejection, actual HTTP-video fullscreen/document/cursor
+and private Home/controls native window protection. Earlier checks carry only
+where unchanged, rather than being relabeled as this APK's reruns. Optimized ARM
+r4 shares that source/guard; both cached output trees and their artifacts remain.
+Physical first-attachment/phone-moved/mixed-input cursor checks pass. The failed
+source92 approximately27-minute AX crash run remains failed; a complete fresh
+source09030-minute playback/phone/native-AX repeat is in progress.6.5/V8 remain
+unchecked until full sustained acceptance and final recovery are complete.
+
 ## Final artifact and integration
 
 `~/.cache/brave-tv/artifacts/compose-remote-1c9f71646-x64-debug-20261012`

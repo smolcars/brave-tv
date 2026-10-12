@@ -27,6 +27,18 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Source090 physical cursor now passes1280,720 first phone attachment inside
+already-playing fullscreen,960,800 phone movement/Back,928,800 mixed native USB
+Back/pulses (stale608/640 absent). Same document1791836482137.7, growing frames
+and no media error; awake phone pulses21/21 and41/41 accepted. Correct invalid
+SDK ref prefix and immediate-transition diagnostic probes using fresh @refs and
+bounded observed fullscreen before Back; those invalid probes are not defects.
+Renew native invitation/approval before a fresh uninterrupted30-minute session:
+31 minute-spaced native media/PSS/recent-CPU samples, phone zero moves every10s,
+existing500ms polling, same epoch/document, no disconnect/reject, increasing
+presented frames and post-run fullscreen/native Back/cursor recovery. Keep the
+source92 AX crash run failed and captured-video-black A/V limitation explicit.
+
 Source090 data-keeping retry succeeds74.651s after three5-second code-removal
 waits; installed SHA208bdcb6 matches verified artifact, UID10136 retained.
 The first insufficient-storage attempt and successful source92 rollback remain

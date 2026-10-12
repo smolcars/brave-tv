@@ -2,7 +2,9 @@
 
 Inspected source baseline `5829c55f0` and first Compose candidates, 10 October
 2026. This is a source inventory; runtime acceptance is tracked separately.
-All physical acceptance is pending and the Chromecast must remain untouched.
+That inventory used the then-current busy-TV restriction. The12 October user
+authorization permits the separate [physical follow-up](tv-ui-hardware.md);
+its pending gates and evidence supersede that historical restriction.
 
 | Route / entry | Trusted owner and storage | Migration / focus / return |
 | --- | --- | --- |
