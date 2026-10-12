@@ -1,6 +1,6 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **emulator scope complete; physical acceptance deferred**, 12 October 2026. Requested by the user
+Status: **emulator scope complete; authorized physical acceptance in progress**, 12 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
@@ -10,7 +10,7 @@ Current acceptance: **52/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
 Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:6/7, final V checks:7/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
-remains deferred. Native site information, permission denial, authentication
+remains pending until the authorized hardware run passes. Native site information, permission denial, authentication
 cancellation, certificate recovery and scoped exceptional flows pass.
 Custom phone IME/native composition and stock Gboard typing/deletion smoke pass;
 physical phone IME compatibility remains unverified. Carry
@@ -40,12 +40,16 @@ performance acceptance are deferred; actual-engine emulator integration,
 security and data integrity remain mandatory. Complete independent emulator
 scope while physical gates remain explicitly pending.
 
-The Chromecast is busy and must not be operated, opened, connected, installed,
-queried or tested. Discovery is allowed; all device actions must explicitly
-target a verified nonphysical emulator. Historical hardware permissions in
-other documents are superseded. No ARM build for idle hardware. Preserve caches,
-profiles and artifacts; handoff cleanup is complete and does not authorize
-repeated application-data resets.
+Updated12 October: the user says the TV is on and free and explicitly authorizes
+physical testing, removal of the old browser and its storage from every TV
+profile, and installation/testing of the optimized build. This supersedes the
+earlier busy-TV restriction for this hardware run. Discover the already-paired
+endpoint and verify its Chromecast identity before every operation; use explicit
+serial/session/config, retain Android users and unrelated apps. The authorized
+browser cleanup does not permit host cache/output/dependency deletion or
+emulator profile wipes. Preserve compile caches and baseline/final artifacts.
+Physical6.5/V8 remain unchecked until actual matched hardware evidence passes;
+real-phone/second-TV and broader release checks remain independent.
 
 ## 1. Outcome and boundaries
 

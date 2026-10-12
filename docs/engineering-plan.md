@@ -25,6 +25,33 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Current scope and latest implementation evidence
 
+### Authorized physical UI acceptance — 12 October
+
+The user now says the TV is on/free, leaves it available for unattended work,
+and explicitly permits uninstalling the old browser and clearing its storage
+across all TV profiles. This supersedes the previous no-Chromecast restriction
+for this run. Verify the discovered paired endpoint/model/ABI/users/storage,
+remove only com.brave.browser_default and its data (retain Android users and
+other apps), and use the preserved source5829 optimized non-debuggable ARM APK
+to seed a small normal synthetic baseline when feasible. Measure uncontended
+startup/panel/input/frame/PSS/installed footprint on the same physical TV and
+configuration, then update to current source1c using the existing ARM cache.
+Keep baseline fixtures/profile constant for comparison rather than clearing
+between candidates. Record fresh-install behavior separately from upgrade data.
+
+Build only one optimized Static ARM production APK in Nix with SISO_LIMITS=local=4,
+MemoryHigh18GiB/MemoryMax22GiB/swap0, blocking Android analysis, symbol_level0,
+debuggable_apks=false and the6GiB host-available guard. Current cached source1c
+already matches the signed/pushed source pin; no checkout reset/sync is needed.
+Preserve final artifacts/signatures/GN/log/memory provenance. Compare hardware
+against the existing Stage0 relative budgets; keep network/renderer/media load
+separate from shell measurements. Exercise real native Home/address/settings/
+tabs/library/focus, fullscreen/cursor/group recovery and sustained ordinary video.
+Injected D-pad and visible pixels are not human physical-button/audible-A/V proof.
+Investigate actual regressions with bounded red-capable probes, review latest
+commits and push incremental evidence. Mark6.5/V8 only with actual passing
+hardware metrics; do not infer real-phone/Safari/second-TV or public release.
+
 Host prerequisites restored: the user grants `nitesh:rw` on `/dev/kvm` and
 signs the staged routing change as source
 `73233a4ac4d7c811d2989b3ff9e6e8132003bee2`. The exact named ACL and Git
