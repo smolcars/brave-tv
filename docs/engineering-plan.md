@@ -222,6 +222,17 @@ cannot supply misleading absence evidence. No security flags are changed.
 Readiness correctiona86cb latest reviews both0, and source push succeeds.
 Pin this JPEG-only probe and completed loading-input evidence before TEST r36;
 run only the two new cache cases on the verified current AVD.
+Sourcea86cb/root5d3ea latest reviews both0/0 and pushes succeed. TEST r36
+fails blocking Java analysis because pinned CallbackHelper has no waitForFirst
+method; native cache cases remain unrun and no artifact is preserved as passed.
+Fifteen memory samples record8,724,160,512 bytes peak (8.13GiB), with no
+host-memory guard interruption. Correct only that test call to the existing
+waitForCallback(0) API, review and rebuild the affected TEST target; leave
+production, security, timeout bounds and caches intact.
+Callback correctionfe7b4 latest reviews both0 and source push succeeds.
+Pin before TEST r37; rerun only the two cache probes after verified packaging.
+
+
 
 
 
