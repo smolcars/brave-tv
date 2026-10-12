@@ -753,3 +753,23 @@ The test reverse and fixture service were removed/stopped. The app is left open
 on native TV home. Owned emulator/build units are inactive; shared ADB/T3
 services, AVD data and compile/artifact caches remain intact. This verifies the
 grouped-tab popup fix, not the unrelated hardware loading/fullscreen concerns.
+
+
+## TV UI rebuild emulator closeout — 12 October 2026
+
+[Final acceptance](tv-ui-acceptance.md) records source1c9f71646/current signed x64
+APK, retained native input/security/no-replay checks and actual simulated-LAN
+manual pairing/expiry/Disconnect/re-pair. Source8c sustained30-minute media/phone
+run passes181 commands with stable document/session, advancing presented frames
+and31 PSS/CPU samples; native fullscreen/phone Back retain cursor before/after.
+Stock Gboard native taps type/delete into the genuine normal Chromium input.
+Final1c corrects Disconnect's fresh-invitation UI and fences old controller
+replies; host four-case and installed APK checks pass. Only the changed cases
+are rerun. Controllers are revoked and task-owned emulators/fixtures are stopped;
+profiles/caches/shared services are retained. No Chromecast operation occurs.
+
+These results do not accept optimized hardware performance, real phone camera/
+IME/LAN, Safari/iOS, codec/DRM or audible A/V. HTTP remains opt-in, unencrypted,
+build/switch-gated development experimentation with the same native approval,
+Host/Origin/authentication/expiry/parser/rate/queue/revocation boundaries. No
+capture/live view/relay/remote-execution endpoint or external asset was added.

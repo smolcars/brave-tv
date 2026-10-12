@@ -1,19 +1,19 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **implementation in progress**, 12 October 2026. Requested by the user
+Status: **emulator scope complete; physical acceptance deferred**, 12 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **43/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:4/7, final V checks:0/8.
+Current acceptance: **52/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:6/7, final V checks:7/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
 cancellation, certificate recovery and scoped exceptional flows pass.
-Custom phone IME/native composition passes; stock-phone and physical
-phone IME compatibility remain unverified. Carry
+Custom phone IME/native composition and stock Gboard typing/deletion smoke pass;
+physical phone IME compatibility remains unverified. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
 Build a beautiful, convenient TV browser in Kotlin with Compose for TV, while
@@ -27,7 +27,8 @@ Related: [engineering log](engineering-plan.md), [existing TV acceptance](tv-nat
 [release backlog](mvp-todo.md), [build procedure](build.md),
 [source workflow](source-workflow.md), [device regressions](../tests/device/README.md).
 Final provenance and retained/current checks are indexed in
-[emulator acceptance](tv-ui-acceptance.md); pending rows are not acceptance.
+[emulator acceptance](tv-ui-acceptance.md). This accepts independent emulator
+scope, with unchanged native checks carried forward rather than rerun together.
 
 ## Current execution authorization (supersedes historical gates)
 
@@ -607,12 +608,20 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
 - [ ] **6.5** Repeat controlled performance measurements on optimized hardware
   builds. Profile observed regressions, including observer churn, thumbnail work,
   composition invalidations, excessive layers and main-thread native queries.
-- [ ] **6.6** Complete accessibility/localization/display checks and a sustained
+- [x] **6.6** Complete accessibility/localization/display checks and a sustained
   browsing/video/phone session. Investigate memory growth, frozen focus, cursor
   loss, stale state, dropped input and A/V issues separately.
-- [ ] **6.7** Record final replaced/retained surfaces, dependency/upstream touch
+  Actual30m00.456s native media/phone run passes181 commands,31 PSS/CPU samples,
+  same playing document and increasing presented frames; no cursor loss after
+  D-pad fullscreen/phone Back. Native scaling/RTL/TalkBack checks and stock-phone
+  Gboard smoke pass separately. Final source1c Disconnect/re-pair and panel focus
+  pass. Software-emulator CPU and no-audio runs do not accept hardware A/V.
+- [x] **6.7** Record final replaced/retained surfaces, dependency/upstream touch
   points, build provenance and limitations. Leave second-device/release checks
   unchecked until separately authorized and executed.
+  Final source1c9f71646, cached r79 APK/provenance,166-message/dependency audit,
+  carried/current native results, profile preservation and owned cleanup are
+  recorded in [acceptance](tv-ui-acceptance.md) and the engineering log.
 
 **Gate:** agreed TV feature set complete, no known data-loss/security/focus trap,
 and measured performance within Stage 0 budgets. Failure to fit storage or
@@ -629,26 +638,32 @@ IME, LAN reachability or real-remote behavior.
 
 Required regression groups:
 
-- [ ] **V1 — Remote:** D-pad traversal, key repeat/release, exactly one held-OK
+- [x] **V1 — Remote:** D-pad traversal, key repeat/release, exactly one held-OK
   click, idle cursor wake, nested scroll and return from every panel/dialog.
-- [ ] **V2 — Recovery:** final normal/private/grouped tab, Cancel/confirm,
+- [x] **V2 — Recovery:** final normal/private/grouped tab, Cancel/confirm,
   empty/restoring tab model, delayed callbacks and restored focus after deletion.
-- [ ] **V3 — Native input/media:** Unicode, selection/deletion/composition,
+- [x] **V3 — Native input/media:** Unicode, selection/deletion/composition,
   IME dismissal, page dialogs, fullscreen enter/exit, pointer visibility and
   media keys. Include real YouTube sampling separately from deterministic video.
-- [ ] **V4 — Phone:** QR/manual/pending approval, rejection/expiry/disconnect,
+- [x] **V4 — Phone:** QR/manual/pending approval, rejection/expiry/disconnect,
   tab/navigation races, fullscreen continuity, password/private/native-modal
   rejection, reconnect with no replay and network/background revocation.
-- [ ] **V5 — Security/data:** origin visibility, permission denial, certificate
+- [x] **V5 — Security/data:** origin visibility, permission denial, certificate
   Back to safety, Shields effects, private isolation, upgrade persistence,
   scoped clearing and asynchronous operations after profile changes.
-- [ ] **V6 — Lifecycle:** Home/app switch, sleep/wake when authorized, process
+- [x] **V6 — Lifecycle:** Home/app switch, sleep/wake when authorized, process
   death, network loss, renderer failure, resource pressure and recovery.
-- [ ] **V7 — Accessibility:** focus visibility/order/restoration, target sizes,
+- [x] **V7 — Accessibility:** focus visibility/order/restoration, target sizes,
   text scaling, RTL/long strings, contrast, semantics and available screen reader.
 - [ ] **V8 — Performance:** repeatable startup/panel/input/frame/memory/footprint
   samples, sustained ordinary video and comparison with the same device/build
   configuration. Do not compare x64 Debug and ARM optimized as equivalent runs.
+
+V1–V7 use the exact retained/current evidence in the acceptance index. V6 excludes
+unauthorized physical sleep/wake; full-disk ENOSPC, arbitrary OEM handlers and
+real-phone/Safari checks remain unverified. The only unchecked canonical items
+are6.5/V8, both deferred physical performance acceptance. No hardware pass,
+full MVP completion or public-release security claim follows from52/54.
 
 Set numeric budgets after the baseline and before expanding implementation.
 Aim for display-cadence UI animation (60 Hz where supported); record frame

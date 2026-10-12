@@ -1,6 +1,6 @@
 # TV presentation retirement audit
 
-Source `8c4e31c95eb580db4624a884202e81df82be344e`, 12 October 2026.
+Source `1c9f71646ab5fa50ac91b50b304756435dd8ea13`, 12 October 2026.
 This records source ownership and prior replacement acceptance for Stage6.4.
 Native cache and file-picker checks now have separate accepted emulator evidence;
 this ownership audit does not substitute for runtime or hardware acceptance.
@@ -43,4 +43,9 @@ and permissions remain unchanged. TV private-thumbnail eligibility belongs to
 the existing native tab-UI module and cache, with no presentation database.
 
 The final source/166-message/AAR audit is retained in
-`~/.cache/brave-tv/probes/engine-lifecycle-r1/retirement-final-r59.json`.
+`~/.cache/brave-tv/probes/engine-lifecycle-r1/retirement-final-r64.json`.
+
+Final source1c changes only companion Disconnect/reply handling. The current
+audit verifies every retained message caller and exact AAR hashes; native module
+ownership is unchanged. Final artifact/session/cleanup evidence is indexed in
+[emulator acceptance](tv-ui-acceptance.md).

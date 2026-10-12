@@ -103,4 +103,6 @@ reject private Home/web JPEG/ETC persistence, drain interrupted compression and
 recover after actual write failures. Existing native encryption remains owned
 by Chromium. These outcomes complete scoped6.3 emulator acceptance together
 with the retained scoped clear-data checks; hardware and genuine ENOSPC remain
-unverified. Stage6.7 final artifact/session closeout remains pending.
+unverified. Stage6.7 final artifact/session closeout is recorded in the
+[acceptance index](tv-ui-acceptance.md); final1c preserves normal IDs1/2 and
+selection1 after in-place packaging, Disconnect and fresh pairing.

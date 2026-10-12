@@ -12,10 +12,10 @@ The user requested an in-depth plan for a beautiful, convenient TV-first UI
 using Kotlin/Compose while retaining Chromium. Follow the
 [TV UI rebuild plan and ordered todo](tv-ui-rebuild-plan.md) for scope,
 presentation/model ownership, design work, integration proof, migration and
-acceptance gates. The next implementation slices cover private-cache privacy,
-exceptional flows and migration.
-Stages0–4 have passed their scoped design/source/emulator checks; the working
-UI checklist is43/54. Retain Chromium and native browser storage. The older
+acceptance gates. Independent emulator implementation and closeout are complete.
+Stages0–5 have passed their scoped design/source/emulator checks; the working
+UI checklist is52/54, with6.5/V8 physical performance acceptance deferred.
+Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -817,6 +817,38 @@ Source1c9 latest review: Standards0/Spec0; signed and pushed. The host Disconnec
 regression fails on8c; all four success/failure cases pass on1c (r61/r63), and the
 existing bundled-page input/approval/layout suite passesr61. Source1c packaging
 and native Disconnect/re-pair acceptance remain pending. Expiry r63 is in progress.
+
+Final closeout: source1c9f71646 and root-at-build86a9f98 pass retained-cache r79
+packaging with blocking analysis: GNU1m42.53s/Siso1m38.98s/61 steps,53 memory
+samples,13.420GiB peak and16.580GiB minimum host available, no guard/OOM.
+Production/TEST hashes and signed artifact provenance are in the acceptance
+index. Actual in-place installs take12.863/11.394s and match preserved bytes.
+Manual invitation r63 expires at122450ms from native creation, clears phone
+credentials/form and native QR/approval. This carries to1c's unchanged native
+timer; r62 failed a post-submission timing assumption and is not a pass.
+
+On actual source1c APK, r64 manual request hides/clears the code form; real USB
+D-pad native approval dismisses its trusted panel. Disconnect immediately
+restores fresh-pair guidance, disables old control and remains revoked beyond
+the4s reply timeout. Native Start experiment creates a fresh invitation; manual
+re-pair, D-pad approval and normal movement pass without replay. About returns
+to its Settings invoker; Settings returns to focused compact More controls;
+Page cursor restores the same normal document and phone control resumes.
+Initial probe labels incorrectly expected "About" and an expanded Settings
+button; corrected observed labels/compact-parent assertions pass. These were
+probe assumptions, not production fixes. Normal IDs1/2 and selection1 remain
+identical before/after. Actual legacy group/private/model/security/input checks
+carry only where native implementation is unchanged.
+
+All166 TV messages and both AAR hashes verify against final source1c. Update
+6.6/6.7/V1–V7 to scoped acceptance52/54; leave6.5/V8 unchecked. The final
+acceptance index records artifacts, retained/current tests and honest hardware,
+real-phone, HTTP experiment, OS picker and ENOSPC limits. This closes emulator
+scope rather than the older release/MVP backlog. Revoke the final phone session,
+close owned SDK leases, restore Ethernet/Wi-Fi, remove only owned fixture/CDP
+ports and stop only owned AVD/fixture units. Cleanup r65 passes; all profiles,
+compile caches, dependencies, APK artifacts and shared ADB/T3 remain intact.
+No physical Chromecast operation or ARM build occurred.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,

@@ -119,6 +119,9 @@ metadata. All seven accessibility settings and the saved font, display size,
 density, app locale and existing synthetic IME match their before values after
 the automation lease closes. No profile or cache was cleared.
 
-Stage1 is6/6 for the authorized emulator scope. Physical overscan, hardware
-screen-reader behavior and the broader sustained accessibility/localization
-matrix in Stage6 remain pending. This does not accept all feature stages.
+Stage1 is6/6 for the authorized emulator scope. Stage6.6 now carries these actual
+native scaling/RTL/long-string/TalkBack checks alongside the completed sustained
+session and final1c panel focus/stock-phone smoke. Source8c picker guidance also
+passes actual1080p and720p/font1.6/ar visibility and conservative focus, with all
+seven settings restored. Physical overscan and hardware screen-reader behavior
+remain unverified. See the [final acceptance index](tv-ui-acceptance.md).
