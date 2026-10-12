@@ -15,7 +15,7 @@ presentation/model ownership, design work, integration proof, migration and
 acceptance gates. The next implementation slices cover private-cache privacy,
 exceptional flows and migration.
 Stages0–4 have passed their scoped design/source/emulator checks; the working
-UI checklist is39/54. Retain Chromium and native browser storage. The older
+UI checklist is41/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -483,8 +483,53 @@ only the four affected cache cases after verified APK installation. Retirement
 audit is recorded separately in tv-ui-retirement.md; no new source deletion is
 needed because earlier accepted slices removed layout construction and competing
 routes. Cache/upgrade/file-picker/hardware gates remain independent.
+Buildr74 passes GNU Time4m44.53s/exit0, Siso192 steps, blocking analysis.
+143 samples record15.834GiB peak and minimum host available13.285GiB, no guard
+interruption. Verified source6802/rootbbc artifact compose-cache-6802a08dc-x64-debug-20261012:
+production852,742,693 bytes SHA2563d78dea37abed05da71c0fbae11a06c3ec66ca99f78d8d4850c29611be63e92a;
+TEST876,432,735 bytes SHA25660d262a2dfd94febe567244c3df2dc3c09b49285f7d531065bdcf44038d38427.
+Owned KVM r10 boot/install/hash passes, production/TEST updates12.297/10.235s.
+Native r54 passes private Home6.001s, private webpage5.569s, actual compression
+removal/recapture4.791s and native failed-write cleanup/document/recapture4.868s.
+Both private cases require null callback, full queue drainage, JPEG/ETC absence,
+secure flags and retained private tab across genuine pause/resume; normal cache
+survives. Carry unchanged r53 draft recreation pass. No private pixels captured
+or security flags relaxed. Broader6.3 process-death/low-storage remains pending.
+Next6.1 actual upgrade: stop owned r10 preserving profiles, boot the preserved
+onboarding AVD, verify installed5829 manifest again, install the verified6802
+production APK in place, and require actual native TV routes plus normal metadata,
+History/site storage and process relaunch. Do not wipe, downgrade or substitute
+metadata equality for runtime acceptance. The baseline source/data stays intact.
+Actual6.1 upgrade on preserved onboarding AVD passes source5829 →6802 in place.
+Native D-pad Tabs shows the four retained rows/current page; Mobile bookmarks
+contains both seeded favorites. Native History Open loads the exact privacy query,
+Search shows DuckDuckGo selected, controls show Shields off and Filters shows
+cookie blocker Off. The read-only native comparator matches all six seeded
+fields before install, after actual UI use and after verified process replacement
+and relaunch; Address initially regains focus. Normal local storage stays seeded.
+Evidence: upgrade-native-acceptance-r3.json and upgrade-{before-install,
+after-native-ui,after-relaunch-metadata,after-relaunch-storage}-r3 records.
+The first cookie assertion is red, and its viewport assumption is also wrong:
+the old fixture lacks a viewport declaration and its cookie lacks an expiry.
+Pinned ProfileImpl uses Android's default startup type; Brave's existing override
+also prevents session-cookie restoration. This is retained session policy, not
+an accepted cookie migration result. Keep the original baseline evidence and
+do not claim that cookie survives process death. The old literal-label waits
+also missed origin-bearing History rows/actual button capitalization; fresh
+native snapshots corrected locators without changing product policy.
+Stage6.1 and the reviewed6.4 retirement audit are accepted, bringing the canonical
+UI count to41/54. Source6802 cache protection/native failed-write checks pass;
+broader6.3 and native picker explanation/6.6/final verification remain open.
+Next6.3 process/storage fixture: add a separate persistent-cookie seed control
+to the owned normal privacy page, with explicit one-day expiry. Keep its original
+session-cookie control. Declare its viewport and wrap JSON output so content
+overflow does not distort diagnostic coordinate assumptions. Seed through real
+native browser input, verify normal cookie/local storage before background,
+then replace the actual process and compare native browser data again. Test
+bounded forced Android low-storage state separately from genuine failed writes;
+do not fill disks or claim forced state is ENOSPC. Preserve all profiles.
 
-Next independent6.1 preparation: stop only owned launch-followup r8 after
+Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
 source5829 APK hash/signer/ABI before seeding unique normal groups/bookmarks/

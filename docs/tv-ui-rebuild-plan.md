@@ -1,13 +1,13 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **implementation in progress**, 11 October 2026. Requested by the user
+Status: **implementation in progress**, 12 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **39/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
+Current acceptance: **41/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:3/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
@@ -548,7 +548,7 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
 
 ### Stage 6 — migration, performance and retirement
 
-- [ ] **6.1** Test an in-place upgrade from source `5829c55f0` or its documented
+- [x] **6.1** Test an in-place upgrade from source `5829c55f0` or its documented
   successor with synthetic normal tabs/groups, bookmarks, history, search choice,
   Shields exceptions and filter settings. Preserve app ID/signing lineage during
   development; distribution identity is a separate decision.
@@ -557,8 +557,14 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   bookmarks5/7, native DuckDuckGo501, loopback Shields exception and cookie-list
   disabled preference. Native History Open and normal cookie/localStorage seed
   pass. The exact read-only cache manifest is upgrade-baseline-metadata-r2.json under
-  probes/engine-lifecycle-r1. Preparation does not accept an in-place upgrade;
-  install the corrected final APK and compare native identities/values/relaunch.
+  probes/engine-lifecycle-r1. Source5829 →6802 in-place update passes native TV
+  Tabs/bookmarks/History Open, selected DuckDuckGo, Shields off and cookie-list
+  off. Exact normal IDs/URLs/selection, group token/membership, bookmark IDs and
+  native preferences match after UI use and real process replacement/relaunch.
+  Local storage survives. The original cookie was session-only and Android's
+  native policy does not restore it; persistent-cookie checks remain separate.
+  Evidence: upgrade-native-acceptance-r3.json and before/after/relaunch metadata
+  under the same cache directory. No profile wipe/copy or format downgrade.
 
 - [x] **6.2** Version any new TV presentation preference changes; make migration
   idempotent and tolerate missing/old values. Define rollback to the compatible
@@ -572,9 +578,18 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
 - [ ] **6.3** Verify private state is never restored into normal UI or persisted
   through saved-state/thumbnail caches. Test clear data, interrupted operations,
   process death, low storage and failed writes without silent data loss.
-- [ ] **6.4** Remove replaced layouts, controllers, routing hooks and temporary
+  Source6802/native r54 passes actual private Home/web JPEG+ETC cleanup with
+  protected pause/resume, compression removal/recapture and real failed-write
+  cleanup/normal-document recovery. R53 private draft recreation passes.
+  Process-death and low-storage acceptance remain pending; no full6.3 pass.
+- [x] **6.4** Remove replaced layouts, controllers, routing hooks and temporary
   migration switches after their replacements pass. Keep necessary native bridges;
   remove dead code only after searching callers/resources/build targets.
+  The [retirement audit](tv-ui-retirement.md) reconciles sourcec297 callers,
+  live resources/GN targets and prior accepted native routes. Programmatic TV
+  layouts and competing mobile entry routes were removed in earlier slices;
+  remaining controllers own native state/lifecycle/security. No dead TV resource
+  or temporary toolkit switch remains. Latest root audit review passes0/0.
 - [ ] **6.5** Repeat controlled performance measurements on optimized hardware
   builds. Profile observed regressions, including observer churn, thumbnail work,
   composition invalidations, excessive layers and main-thread native queries.

@@ -928,7 +928,8 @@ private JPEG/ETC1 entries and requires their removal after native callback,
 per-tab JPEG capture and cache-wide JPEG/ETC1 compression/write completion. Native
 asynchronous removal must finish before file absence is accepted. The earlier
 JPEG-only r52 failed on both private Home and webpage; it did not accept ETC1.
-These full cache cases remain pending until the corrected APK runs. They retain
+Full native r54 passes on source6802, including protected pause/resume and retained
+normal cache. Process-death and low-storage acceptance remain separate. They retain
 FLAG_SECURE and
 never request an OS screenshot or return/decode/export a private bitmap.
 The internal native cache operation itself is exercised; a private file makes

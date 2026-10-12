@@ -1,10 +1,12 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TV privacy isolation fixture</title>
-<style>body{background:#12151b;color:#fff;font:24px sans-serif;padding:48px}button{font:inherit;padding:16px;margin:8px}</style>
+<style>body{background:#12151b;color:#fff;font:24px sans-serif;padding:48px}button{font:inherit;padding:16px;margin:8px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
 <h1>TV privacy isolation fixture</h1>
 <p>Use only in the disposable Android privacy test user.</p>
 <button id="seed">Seed site storage</button>
+<button id="persist">Seed persistent cookie</button>
 <button id="read">Read site storage</button>
 <button id="cache">Fetch cached file</button>
 <pre id="result"></pre>
@@ -19,6 +21,10 @@ document.querySelector('#seed').onclick = () => {
   read();
 };
 document.querySelector('#read').onclick = read;
+document.querySelector('#persist').onclick = () => {
+  document.cookie = 'tv_upgrade_persistent=seeded; Max-Age=86400; Path=/; SameSite=Lax';
+  read();
+};
 document.querySelector('#cache').onclick = async () => {
   result.textContent = await (await fetch('/cached.txt', {cache: 'force-cache'})).text();
 };
