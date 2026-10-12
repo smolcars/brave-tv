@@ -51,6 +51,9 @@ cached x64 GN APK packaging and native emulator companion smoke. No data wiping.
 Host regressions and two bounded visual rounds pass; finish reviewer scored the
 paused-copy correction resolved/ship. Packaging/native acceptance remain pending;
 see [phone redesign evidence](phone-remote-redesign.md).
+Latest source Standards review found one punctuation issue in the new Network
+summary. Change it to “Network and safety”; verify the bounded text-only correction
+and review the latest correction commit before packaging.
 
 The user invokes Impeccable redesign and confirms touchpad browsing/quick controls
 as primary. Replace the companion visual world and long control stack with a
