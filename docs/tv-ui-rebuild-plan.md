@@ -1,16 +1,19 @@
 # TV browser UI rebuild: engineering plan
 
-Status: **emulator scope complete; authorized physical acceptance in progress**, 12 October 2026. Requested by the user
+Status: **scoped UI implementation and performance acceptance complete**, 12 October 2026. Requested by the user
 after testing the existing TV browser and local phone remote. This is the
 canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **52/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:6/7, final V checks:7/8.
-These are completed design/source checks or native checks with linked emulator
-evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
-remains pending until the authorized hardware run passes. Native site information, permission denial, authentication
+Current acceptance: **54/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:7/7, final V checks:8/8.
+These are completed design/source, native emulator and scoped actual-TV checks
+with linked evidence; Stage6.2 is the audited schema/rollback decision. The [authorized hardware follow-up](tv-ui-hardware.md) completes matched shell
+budgets and corrected source09030-minute native media/phone/accessibility
+acceptance. Captured black video does not establish viewed/audible A/V, codec/DRM
+or human remote/overscan acceptance; those and release checks remain separate.
+Native site information, permission denial, authentication
 cancellation, certificate recovery and scoped exceptional flows pass.
 Custom phone IME/native composition and stock Gboard typing/deletion smoke pass;
 physical phone IME compatibility remains unverified. Carry
@@ -48,8 +51,9 @@ endpoint and verify its Chromecast identity before every operation; use explicit
 serial/session/config, retain Android users and unrelated apps. The authorized
 browser cleanup does not permit host cache/output/dependency deletion or
 emulator profile wipes. Preserve compile caches and baseline/final artifacts.
-Physical6.5/V8 remain unchecked until actual matched hardware evidence passes;
-real-phone/second-TV and broader release checks remain independent.
+Physical6.5/V8 now pass their scoped matched-measurement/native-counter contract
+with linked actual TV evidence. Human A/V/remote/overscan, real-phone/second-TV
+and broader release checks remain independent.
 
 ## 1. Outcome and boundaries
 
@@ -609,9 +613,15 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   layouts and competing mobile entry routes were removed in earlier slices;
   remaining controllers own native state/lifecycle/security. No dead TV resource
   or temporary toolkit switch remains. Latest root audit review passes0/0.
-- [ ] **6.5** Repeat controlled performance measurements on optimized hardware
+- [x] **6.5** Repeat controlled performance measurements on optimized hardware
   builds. Profile observed regressions, including observer churn, thumbnail work,
   composition invalidations, excessive layers and main-thread native queries.
+  Matched same-TV ARM baseline5829/source1c startup/panel/frame/idle-PSS/APK
+  comparisons pass the Stage0 relative budgets with equal warm-up. Investigated
+  physical cursor loss and ignored-node AX crash are fixed; current source090
+  affected native checks and complete hardware run pass. Unchanged Home/controls
+  metrics retain source1c attribution. Storage workaround, exact OAT footprint,
+  capture/A/V and human-button limitations remain explicit in [hardware evidence](tv-ui-hardware.md).
 - [x] **6.6** Complete accessibility/localization/display checks and a sustained
   browsing/video/phone session. Investigate memory growth, frozen focus, cursor
   loss, stale state, dropped input and A/V issues separately.
@@ -659,15 +669,22 @@ Required regression groups:
   death, network loss, renderer failure, resource pressure and recovery.
 - [x] **V7 — Accessibility:** focus visibility/order/restoration, target sizes,
   text scaling, RTL/long strings, contrast, semantics and available screen reader.
-- [ ] **V8 — Performance:** repeatable startup/panel/input/frame/memory/footprint
+- [x] **V8 — Performance:** repeatable startup/panel/input/frame/memory/footprint
   samples, sustained ordinary video and comparison with the same device/build
   configuration. Do not compare x64 Debug and ARM optimized as equivalent runs.
+  Actual same-TV optimized ARM measurements and source09030m01.385s native run
+  pass31 samples/181 commands, no reject/disconnect, same playing document and
+  post-run fullscreen/native Back/cursor pixels. PSS266.835→270.383MiB; captured
+  video is black, so native counters do not accept viewed/audible A/V or DRM.
 
 V1–V7 use the exact retained/current evidence in the acceptance index. V6 excludes
 unauthorized physical sleep/wake; full-disk ENOSPC, arbitrary OEM handlers and
-real-phone/Safari checks remain unverified. The only unchecked canonical items
-are6.5/V8, both deferred physical performance acceptance. No hardware pass,
-full MVP completion or public-release security claim follows from52/54.
+real-phone/Safari checks remain unverified. All54 canonical UI items now have scoped design/source/native-emulator or
+actual-TV measurement evidence. V8 accepts the declared native-counter and shell
+contract; human A/V, button/overscan, real-phone/Safari, second-TV and exact OAT
+checks remain unverified. Hardware standard in-place installation remains a
+known storage limitation; the data-keeping workaround is not update acceptance.
+No full MVP or public-release security claim follows from54/54.
 
 Set numeric budgets after the baseline and before expanding implementation.
 Aim for display-cadence UI animation (60 Hz where supported); record frame

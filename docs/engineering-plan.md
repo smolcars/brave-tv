@@ -14,18 +14,47 @@ using Kotlin/Compose while retaining Chromium. Follow the
 presentation/model ownership, design work, integration proof, migration and
 acceptance gates. Independent emulator implementation and closeout are complete.
 Stages0–5 have passed their scoped design/source/emulator checks; the working
-UI checklist is52/54, with6.5/V8 physical performance acceptance deferred.
+UI checklist is54/54, including the authorized scoped6.5/V8 physical performance
+and native-counter acceptance. Human A/V/remote/overscan, real phone/Safari,
+second TV, standard in-place storage behavior and broader release remain limited.
 Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
 Time-specific device restrictions/permissions describe those earlier tasks;
-follow the user's current authorization for future device work. This planning
-task does not operate the Chromecast or reopen the deferred release backlog.
+follow the user's current authorization for future device work. The12 October
+hardware follow-up is separately authorized and does not reopen the release backlog.
 
 ### Current scope and latest implementation evidence
 
 ### Authorized physical UI acceptance — 12 October
+
+Source090 final normal Home/Address focus and phone badge absence pass; ordinary
+Home screenshot is retained. Controller is revoked, next client command rejected,
+old44009 listener connection refused. Owned companion tab/SDK lease, fixture
+reverses18083/18088 and fixture services are closed/stopped; completed r4 unit is
+already auto-unloaded (combined stop reports that, then running-unit check is0).
+All task-owned emulators are stopped. Synthetic profile, all build/dependency/
+artifact caches, shared ADB/T3 and Android users/unrelated apps are preserved.
+Review only this final root closeout commit against its exact parent, then push
+and verify clean synchronized source/root masters. No new source change/build
+is needed after the reviewed source090 actual native and physical acceptance.
+
+Current source090 completes actual TV30m01.385s/31 native samples and181 accepted
+phone commands, zero rejection/disconnect and same document1791836482137.7.
+Frames5875→58950/dropped65→139, total-minus-dropped delta53001; whole-package
+PSS266.835→270.383MiB, range266.835–283.824MiB. Move HTTP ack median/p95/max
+26.4/39.8/166.1ms (outer26.4/40/166.3). Post-run actual fullscreen/phone move/
+native USB Back returns the same playing document and cursor1248,720 while
+alternating left/right; stale928/960,800 absent. Disconnect rejects a subsequent
+client command and gives fresh-invitation guidance. Original failed92 run stays
+failed. Carry matched source1c shell metrics only where Home/controls are unchanged;
+source090APK growth0.539MiB remains within Stage0 budget. Record54/54 for the
+scoped UI contract, with human viewed/audible A/V, codec/DRM, physical-button/
+overscan, realphone/Safari/secondTV and standard in-place storage limits explicit.
+Finish native Home/Address focus, stop only owned fixture/watchers/AVDs/ports,
+retain synthetic profile and all build/dependency/artifact caches, then review
+only the final root evidence commit and push synchronized clean masters.
 
 Source090 physical cursor now passes1280,720 first phone attachment inside
 already-playing fullscreen,960,800 phone movement/Back,928,800 mixed native USB

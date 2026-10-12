@@ -1,9 +1,11 @@
-# TV UI physical acceptance — in progress
+# TV UI physical acceptance — scoped closeout
 
 12 October 2026. The user explicitly made the Chromecast available and permitted
 removing the old browser and its storage from every TV profile. This supersedes
-the earlier busy-TV restriction for this run. Canonical acceptance remains52/54;
-6.5/V8 are pending actual matched measurements and sustained hardware results.
+the earlier busy-TV restriction for this run. Canonical acceptance is54/54 after the matched shell budgets and source090
+complete native media/phone/AX run with post-run recovery. This accepts the scoped
+measurement/native-counter contract; viewed/audible A/V, human buttons/overscan,
+real phone/Safari/second-TV, standard in-place storage and release limits remain.
 
 ## Preflight and authorized cleanup
 
@@ -445,3 +447,59 @@ fullscreen/Back/cursor recovery. `brave-tv-hardware-soak-r4.service` checkpoints
 source090 evidence without overwriting the failed source92 run. Physical acceptance
 remains pending until that complete run and recovery pass. Captured video remains
 black; native presentation counters do not establish viewed/audible A/V or DRM.
+
+
+## Completed source090 sustained native acceptance
+
+R4 completes30m01.385s with31 native samples and181 accepted controller moves
+across its own complete30-minute timer, zero rejects/disconnects/problems and
+unchanged session/document1791836482137.7. Native total frames5875→58950,
+dropped65→139; total-minus-dropped increases53001 across the run. Whole-package
+PSS starts266.835MiB/ends270.383MiB (growth3.548MiB), range266.835–283.824MiB.
+The limited Android recent-window CPU report has median121.1%, maximum121.2%;
+first new-process markers report0%. These are reported windows, not per-minute
+CPU deltas or evidence attributing media CPU to Compose. Controller command
+outer median/p95/max26.4/40.0/166.3ms; actual move HTTP acknowledgement
+26.4/39.8/166.1ms,181 samples. No timing headers/payload/token/epoch is logged.
+
+Afterward, actual phone-click fullscreen is observed before moving the phone
+point to1280,720 and sending native USB Back. Same playing normal document
+returns, frame62005/errornull/fullscreenfalse. Sustained native left/right pulses
+show cursor1248,720 (1280,720 background#111820; stale928/960,800 absent), outside
+the video/button text. This checks mixed-input position and idle visibility
+without reselecting Page cursor or recreating the document. Controller Disconnect
+returns fresh-invitation guidance and rejects a subsequent client command.
+
+Retain `hardware-media-soak-090fa-r4.json`/log, frozen
+`hardware-phone-soak-090fa-r4.json`, `hardware-soak-summary-090fa-r4.json`,
+`post-soak-media-090fa-r4.json`, PNG/activity evidence and
+`post-soak-cursor-090fa-r4-pixels.json`. Phone duration is read after its1805s
+completion timer; its final telemetry is frozen before post-run moves, keeping
+those actions out of the181 latency samples. The failed source92 run remains
+separate and failed. Chrome-owned surface names are recorded as a diagnostic;
+names alone do not explain black captured video or prove physical A/V.
+
+The optimized matched shell budgets retain their explicit source1c attribution:
+Home/controls presentation is unchanged by the later page/fullscreen pointer
+and native accessibility corrections. Current source090 repeats the affected
+actual-engine/private/fullscreen checks and the full physical native run. The
+ARM APK byte growth remains0.539MiB against5829. No source1c startup/panel/PSS
+sample is relabeled as a source090 rerun. Standard in-place updates, exact OAT
+footprint, human button/overscan, viewed/audible A/V/codec/DRM, second TV and real
+phone/Safari remain unverified or limited as documented. This completes the
+scoped UI performance/native-counter acceptance, not broader MVP/release acceptance.
+
+
+## Final owned cleanup and TV state
+
+`final-home-090fa-r4.json` verifies normal Home, Address focused, phone badge
+absent and the retained synthetic profile; `final-home-090fa-r4.png` captures
+that ordinary UI after revocation. The old44009 listener refuses a fresh socket
+connection; no authentication payload is sent. Owned companion tab/SDK lease
+are closed, TV fixture reverses18083/18088 removed, both fixture services stopped
+and the completed r4 unit auto-unloaded. A combined stop initially reports that
+already-unloaded unit, then the explicit running-unit check confirms zero owned
+Brave-TV services remain. `cleanup-final-090fa-r4.json` records the result.
+Task-owned emulators were stopped before the ARM build. No shared ADB/T3 service,
+TV Android user, unrelated app or compile/dependency/artifact/profile cache is
+removed. The current verified optimized source090 APK remains installed on owner0.

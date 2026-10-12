@@ -1,10 +1,13 @@
 # TV UI emulator acceptance index
 
 Source `1c9f71646ab5fa50ac91b50b304756435dd8ea13`, 12 October 2026.
-The [canonical checklist](tv-ui-rebuild-plan.md) accepts52/54: all independent emulator scope, with physical6.5/V8 deferred.
+The original emulator closeout accepted52/54. The [canonical checklist](tv-ui-rebuild-plan.md)
+now accepts54/54 after the separately authorized scoped physical performance/native-counter
+follow-up; source1c results below remain historically attributed.
 Final sustained/manual/stock-phone reconciliation is complete. Later12 October
-authorization starts the [physical follow-up](tv-ui-hardware.md); those gates
-remain pending until its actual evidence passes. This index
+authorization permits the [physical follow-up](tv-ui-hardware.md); source090
+actual-engine and complete native TV acceptance now close6.5/V8. Human A/V,
+button/overscan, real-phone/Safari/second-TV and standard in-place storage limits remain. This index
 distinguishes retained native results from the current artifact; it does not
 claim every test was rerun together or accept physical performance/release.
 
@@ -28,8 +31,16 @@ where unchanged, rather than being relabeled as this APK's reruns. Optimized ARM
 r4 shares that source/guard; both cached output trees and their artifacts remain.
 Physical first-attachment/phone-moved/mixed-input cursor checks pass. The failed
 source92 approximately27-minute AX crash run remains failed; a complete fresh
-source09030-minute playback/phone/native-AX repeat is in progress.6.5/V8 remain
-unchecked until full sustained acceptance and final recovery are complete.
+source090 repeat now passes30m01.385s/31 native samples/181 commands, no reject/
+disconnect, unchanged playing document and post-run fullscreen/native Back/cursor
+pixels. Scoped6.5/V8 now pass; capture-black viewed/audible A/V and the separately
+listed release checks remain unverified.
+
+Final source090 native Home/Address/phone-badge and ordinary screenshot checks
+pass; controller and owned helpers/ports/AVDs are stopped while the new synthetic
+normal profile and all compile/dependency/APK caches remain. Final hardware
+[cleanup evidence](tv-ui-hardware.md) names the exact records. The old physical
+listener refuses connection; shared ADB/T3 and unrelated apps/users are retained.
 
 ## Final artifact and integration
 
@@ -117,13 +128,13 @@ stopped/removed with network/lease settings restored. Profiles, build outputs,
 artifacts, dependencies and shared ADB/T3 services are preserved. Initial setup
 touch diagnostics remain distinct from genuine D-pad and measured cursor pixels.
 
-## Deferred physical and release work
+## Remaining physical and release work
 
-Stage6.5/V8 require an authorized optimized hardware build and matched startup,
-panel/input/frame/PSS/installed-footprint measurements. Earlier matched x64
-Debug emulator budgets and this sustained run do not substitute for hardware.
-Recheck physical overscan/font/remote repeat and group confirmations, fullscreen
-cursor, cold/resume/media/YouTube timing, codec/DRM and audible A/V behavior.
+Scoped6.5/V8 now have actual optimized same-TV measurements and the corrected
+source090 complete native run in [hardware evidence](tv-ui-hardware.md). Earlier
+x64 Debug budgets remain separate. Human physical overscan/font/remote repeat
+and group confirmations, viewed/audible media/YouTube and codec/DRM need their
+own evidence; counter/frame timing does not establish those outcomes.
 Second TV, real phone camera/IME/gestures/LAN and Safari remain unverified.
 The physical Chromecast was untouched during the recorded emulator rebuild;
 the later authorized hardware follow-up is tracked separately.
