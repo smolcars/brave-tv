@@ -6,9 +6,10 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **36/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:4/5, Stage 4:7/8, Stage 5:6/7, Stage 6:0/7, final V checks:0/8.
-These are completed checklist items with emulator evidence. Physical acceptance
+Current acceptance: **37/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:4/5, Stage 4:7/8, Stage 5:6/7, Stage 6:1/7, final V checks:0/8.
+These are completed design/source checks or native checks with linked emulator
+evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
 cancellation and certificate recovery pass; broader exceptional flows remain
 pending. Custom phone IME/native composition passes; stock-phone and physical
@@ -530,9 +531,15 @@ to an unusable mobile screen; retained OS/security surfaces remain accessible.
   successor with synthetic normal tabs/groups, bookmarks, history, search choice,
   Shields exceptions and filter settings. Preserve app ID/signing lineage during
   development; distribution identity is a separate decision.
-- [ ] **6.2** Version any new TV presentation preference changes; make migration
+- [x] **6.2** Version any new TV presentation preference changes; make migration
   idempotent and tolerate missing/old values. Define rollback to the compatible
   browser baseline without attempting to downgrade incompatible profile formats.
+  Sourcee088 audit finds no new persisted TV schema/preferences, no saved Compose
+  drafts and no duplicate browser storage. Existing fresh/default and native
+  provider-persistence checks carry forward. The
+  [migration contract](tv-ui-migration.md) records the no-migration decision and
+  compatible same-engine/package/signer rollback; full baseline-upgrade/private/
+  failed-write tests remain unchecked under6.1/6.3.
 - [ ] **6.3** Verify private state is never restored into normal UI or persisted
   through saved-state/thumbnail caches. Test clear data, interrupted operations,
   process death, low storage and failed writes without silent data loss.

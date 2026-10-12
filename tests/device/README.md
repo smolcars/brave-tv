@@ -839,3 +839,49 @@ The replay changes Standard then restores Aggressive. Keep profiles and restore
 original site/list preferences.
 Fixture-server checks and counters alone cannot establish native enforcement,
 signed-update validation, hardware or LAN acceptance.
+
+## TV native entry and loading checks
+
+For profile-preserving Android updates use the established `agent-device install`
+path (verified native `adb install -r`) or explicit targeted `adb -s SERIAL
+install -r`. Agent-device0.21.24 `reinstall` performs `adb uninstall` first and
+deletes the profile; never use it for upgrade/persistence acceptance. A client
+timeout requires inspecting the actual package/artifact before retrying and
+does not prove installation succeeded. Preserve every other AVD and all caches.
+
+The focused `TvHomePageTest` cases
+`nativeMenuRoutesUseSingleTvPanelAndRetainBrowserOwners`,
+`nativeSearchAndTabCommandsUseTvHomeAndAddress`,
+`nativeAdblockUrlUsesTvFiltersAndReturnsToSettings` and
+`privateNativeLibraryCommandsAreConsumedWithoutChangingOwners` exercise the
+real menu/keyboard dispatch and native `chrome://adblock/` interception. Run
+each separately with the existing native-JUnit workflow; require `OK (1 test)`
+and the installed source provenance. A written case is not runtime acceptance.
+The first case checks actual tab/contents/model identity and one Activity plus
+one TV window, then rejects a second entry while Settings owns focus. Do not
+enable upstream failure screenshots, which can remove private window protection.
+The Address/Search case checks both native commands on Home and a real web tab:
+Address retains the current URL; Search starts empty without changing contents.
+
+`privateAddressDraftIsDiscardedAcrossActivityRecreation` types an unsubmitted
+synthetic draft through the actual editor accessibility action, recreates the
+Activity and requires a fresh empty private editor plus the unchanged normal
+Home with no draft. Run it separately with source provenance and require
+`OK (1 test)`. This is not a process-death, disk-thumbnail or failed-write test.
+
+The renderer-crash case injects genuine `InputDevice.SOURCE_DPAD` Down/Up through
+Android UiAutomation. The pinned UIAutomator `pressDPad*` implementation emits
+`SOURCE_KEYBOARD` from the alphabetic virtual keyboard and therefore bypasses
+the physical TV adapter intentionally. Preserve that keyboard/IME guard;
+successful key injection alone is not recovery acceptance.
+
+The existing loopback `security-fixture-server.mjs` `/slow.html` route now
+streams a centered `Native loading click` target and zeroed `#clicks` counter
+before holding completion for15seconds. Retain two-request bounds and cleanup
+on Stop/disconnection. Its host `security-server-check.mjs` verifies the
+streamed target, counter, method/HEAD behavior and released slots. For Stage3.3,
+use the verified TV emulator and explicit18084 reverse, navigate with native
+Chromium, require it still loading, open controls and activate Page cursor
+exactly once. Check controls dismissal, actual content focus, fresh viewport
+cursor coordinates and one real click separately. Do not retry a failed initial
+activation into a passing claim or substitute DOM assignment for native input.

@@ -12,16 +12,207 @@ The user requested an in-depth plan for a beautiful, convenient TV-first UI
 using Kotlin/Compose while retaining Chromium. Follow the
 [TV UI rebuild plan and ordered todo](tv-ui-rebuild-plan.md) for scope,
 presentation/model ownership, design work, integration proof, migration and
-acceptance gates. Implementation is starting. The next implementation
-slice begins with the surface inventory and pinned Compose dependency audit;
-do not rewrite browser storage or replace Chromium with a WebView.
+acceptance gates. The next implementation slice covers native entry retirement
+and exceptional/loading recovery.
+Stages0–2 have passed their scoped design/source/emulator checks; the working
+UI checklist is37/54. Retain Chromium and native browser storage. The older
+broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
 Time-specific device restrictions/permissions describe those earlier tasks;
 follow the user's current authorization for future device work. This planning
 task does not operate the Chromecast or reopen the deferred release backlog.
 
-### Current scoped overrides and first slice
+### Current scope and latest implementation evidence
+
+Host prerequisites restored: the user grants `nitesh:rw` on `/dev/kvm` and
+signs the staged routing change as source
+`73233a4ac4d7c811d2989b3ff9e6e8132003bee2`. The exact named ACL and Git
+signature verify; both repositories remain on master. Resume only this latest
+commit's Standards/Spec review, synchronized pushes/pins and the cached build.
+All emulators/builds are stopped; host has26GiB available, swap0 and283GiB free.
+Keep the genuine-D-pad correction/private-draft case as a separate source
+slice, then consolidate their affected native cases into one updated artifact.
+No new native acceptance follows from restored host access or a signed commit.
+Latest source73233 review: Standards1 (TA-003), Spec0. The native-entry Back
+helper can send another Back before the previous window yields input. Fix it
+by capturing the actual focused native window and IME state, then waiting for
+window detachment/focus transfer or IME dismissal after each press. Retain the
+four-press bound and final Activity focus assertion. Mark the affected native
+window-inspection cases API29+, then review this correction with the already
+prepared genuine-D-pad/private-draft cases before building. Do not mask a
+timeout or send another Back into page history.
+The correction is source64e2eeebce222d4c3692f279e1e7f12e80332fde; its latest-only
+review reports Standards0, Spec0. Source and root now pin the corrected routing
+and native recovery cases before one cached r70 build, with blocking Android
+analysis, four Siso workers and18G high/22G max/swap0. All native cases remain
+pending until the verified new TEST APK runs on the explicitly owned TV AVD.
+
+Outside-host continuation: KVM still lacks this user's access, and the user
+cannot authenticate while away. A bounded no-prompt signing probe using the
+matching system GPG2.4.8 also reports `No pinentry`; this is not just the Nix
+GPG/agent version mismatch. No credentials, signing settings or privileged host
+permissions are changed. Continue independent source work: preserve the native
+Search command's empty editor semantics separately from Address's current URL,
+and extend the existing routing case on a real web tab to assert both values
+and unchanged tab/contents. Audit private presentation cleanup and replaced
+surface callers while native acceptance remains blocked. Keep routing staged
+separately from the genuine-D-pad test correction; no new commit/build/runtime
+pass is claimed until its prerequisites are satisfied.
+
+Private-draft acceptance preparation (Stage6.3): add one actual Activity
+recreation case with an unsubmitted synthetic private Address draft. Require
+the recreated native tab identity, a fresh empty editor, and no draft/private
+Home in the original normal model. Use the real Compose accessibility text
+action, retain native window security and avoid failure screenshots. Existing
+clear-data/private-library/secure-window checks carry forward; this new case
+does not prove process-death, thumbnail-disk protection or failed-write behavior.
+Audit confirms the TV UI adds no thumbnail requests, but Chromium's existing
+TabContentManager still captures native pages/content on pause/model changes.
+FLAG_SECURE protects OS capture, not that internal cache; keep its private-cache
+runtime gate pending rather than infer it from secure-window checks.
+Pinned UIAutomator bytecode also confirms `UiObject2.getText()` may return null
+for a textless accessibility node. The new cases require an actual editor and
+accept null/empty for an empty field, while requiring exact current URL text for
+Address. Pinned Java formatting and source/index/root whitespace checks pass.
+No production engine change is made for private persistence without a failure.
+
+Device-tool recovery incident: software CPU boot completes in106,408ms and the
+verified nonphysical AVD opens in T3 with agent-device0.21.24. The attempted
+`reinstall` was a workflow error: inspecting runtime3.js afterward proves its
+replaceExisting branch calls plain `adb uninstall` before install. The client
+times out, and scoped `pm path` confirms the production package is absent while
+the TEST package remains. Consequently this AVD's production synthetic profile
+is lost; it was not a successful profile-preserving update. User was informed.
+Other AVDs, TEST profile, SDK/build/artifact caches and physical TV are untouched.
+Restore the production package using verified `install -r` semantics only;
+never use agent-device reinstall for a preserved profile. Keep all prior runtime
+evidence historical, do not claim this installation proves upgrade persistence,
+and use the separately preserved source5829 baseline for Stage6.1. Guard the
+task-owned driver against reinstall and document the native tool behavior.
+Recovery uses explicit verified-emulator `adb install -r`, reports real Android
+Success and matches installed production SHA256
+`a8e521bda0cb598e1a99eea578b66db5d30814babaa3ec5c688d6eca8131ebd6`
+for sourcee088. Combined installation/device-hash time191.116seconds under
+software CPU. `installed-toolbar-r69.json` explicitly records
+`profilePreserved:false` and the incident; TEST remains its previously installed
+sourceff6d build. Subsequent production checks use a newly created synthetic
+fixture profile and cannot prove migration or comparable performance.
+The launcher reports Opened, but actual native inspection finds the TV launcher
+and no browser PID. Bounded native crash logs prove production browser SIGABRT
+at14:52:42, with `Timed out waiting for GPU channel` in
+`content/browser/gpu/browser_gpu_channel_host_factory.cc:53`. The T3 snapshot
+helper also rejects incomplete accessibility capture after500ms. Platform
+uiautomator inspection changes no screenshot/security flags. This software-CPU
+fallback therefore supplies no usable engine/UI acceptance. The pinned Android
+factory explicitly has no software fallback for its GPU-channel timeout; do not
+disable native watchdog/security ownership to manufacture a pass. KVM access
+and the configured Git signing session remain real host prerequisites, with
+interactive commands already requested. Stop only owned idle fixtures and this
+verified software AVD to release memory, preserving every disk/profile/cache
+that remains. Continue the staged routing review/build and corrected genuine-
+D-pad crash test once those prerequisites are restored. No current implementation
+commit or push is claimed while signing fails.
+The two owned fixture units are stopped and the exact verified emulator receives
+`emu kill`; its unit ends with Result=core-dump during shutdown, which is
+retained rather than reported as a clean emulator pass. No QEMU/emulator process
+remains. Host memory returns to2.8GiB used/27GiB available. Shared ADB/T3 services,
+other AVDs and all compile/artifact caches remain intact. Root/source changes
+remain owned working changes (routing staged, genuine-D-pad correction unstaged)
+pending the configured interactive signing prerequisite.
+
+Bounded emulator fallback: the pinned binary's `-help-accel` explicitly supports
+`off`. Try one task-owned software-CPU boot of the preserved
+brave_tv_launch_followup_api36 AVD with SwiftShader/Vulkan disabled, exact port
+5554 and the existing 5G high/6G max/swap0 limits. Verify guest boot/AVD identity
+before opening the T3 panel or input. This avoids any privileged host change;
+it does not restore KVM, authorize physical access or supply comparable
+performance measurements. Stop the attempt if it cannot reach a usable guest
+within a bounded investigation, retaining userdata and logs.
+
+Loading-entry fixture preparation: extend the existing bounded loopback slow
+document with one native-click counter and a stable centered target. Keep its
+15-second streamed response, two-slot limit, HEAD/method bounds and cancellation
+cleanup. This will let the pending Stage3.3 first-activation case distinguish
+closed controls, native content focus, cursor visibility and exactly one real
+click while Chromium is loading. Run only the affected host fixture checks now;
+do not change input validation or claim the emulator retry fixed before a native
+reproduction is available.
+Affected real-HTTP checks pass after explicit readiness. The initial connection
+was refused while Nix startup was throttled by the fixture's128M high limit;
+raising only both task-owned fixture units to512M high/768M max lets startup
+finish. Observed startup peaks236,244,992/235,749,376 bytes, steady security
+fixture25,456,640 bytes and static fixture11,997,184 bytes. Chromium build
+limits are unchanged. The response check accumulates bounded chunks until the
+counter arrives instead of assuming one TCP read contains the full markup.
+
+Native crash-test input correction: decompiling the pinned UIAutomator
+InteractionController proves `sendKeys` constructs source257 (`SOURCE_KEYBOARD`)
+with virtual keyboard device -1. The new renderer-recovery case must inject
+`SOURCE_DPAD` Down/Up through Android UiAutomation to exercise the actual TV
+adapter; do not weaken alphabetic-keyboard/IME guards. Preserve its genuine
+renderer crash, native Reload and exact tab/contents/model assertions. This is
+a separate test correction after the staged routing slice; native runtime
+remains pending KVM access.
+
+Presentation persistence audit (Stage6.2): inspect the actual TV presentation,
+activity saved-state hooks and existing native preference writers. Record the
+schema decision and compatible rollback procedure without inventing a new
+preference store or copying browser data. Acceptance uses the source audit plus
+already-passed fresh-profile/default and provider-persistence engine checks;
+baseline upgrade and interrupted-write/private-cache acceptance remain separate.
+The reboot also removed the GPG signing session: the staged routing commit fails
+at signing because interactive pinentry is unavailable. Requested an interactive
+host commit to unlock the user's key; signing was not disabled and no push or
+build was claimed for the uncommitted slice.
+
+Native-entry retirement slice: route existing native menu/keyboard Address,
+search, bookmarks, history, downloads, tab-search, Settings, About and clear-data
+commands through the TV controller's existing actions. Consume recognized
+commands while native security, IME, background or locked-private owners prevent
+opening; never fall through to a competing mobile panel. Retain unknown native
+commands and phone presentation. Route `chrome://adblock/` through its delegate's
+actual selected activity/contents into the existing TV filter panel, preserving
+native enforcement and signed updates. Acceptance: actual menu dispatch from
+both web and Home, one TV window, unchanged native tab/contents/model, Back focus
+restoration, direct native adblock URL and private/native-owner rejection.
+Write focused native cases, review latest source/root commits and reuse cached
+blocking analysis. Runtime acceptance remains pending the host KVM prerequisite;
+do not check Stage4.8 from compilation alone.
+
+Host interruption recovery (11 October): host boot journal confirms reboot at
+14:13 EDT. TV AVD previously exited with SIGSEGV at14:05; no kernel OOM entry
+was found in the retained previous-boot log, which does not establish a cause.
+Build r68 stopped after19.68s/10 completed steps and lacks successful GNU Time
+completion; fresh-boot systemd success defaults are not acceptance. Its38 saved
+samples observe14,691,209,216 bytes peak while still active. Both repositories
+remain clean at root `bf76535`/source `e08856652`, and cached objects/SDK/APKs
+are intact. Resume the same build as r69 with all emulators stopped, unchanged
+four-worker/18G high/22G max/swap0/blocking-analysis limits, then reopen only the
+explicit TV AVD without wiping data. The r67 production address/notice check
+was interrupted by device-offline and remains unverified; its three isolated
+native cases had already passed. Preserve failed logs and fresh device/config
+ownership; do not restart shared ADB or operate the Chromecast.
+The pinned emulator advertises `swiftshader` as a supported GLES renderer.
+Use that explicit renderer with guest Vulkan still disabled for the next owned
+TV boot, preserving the existing AVD disk/profile. The prior `auto` renderer's
+QEMU process exited with SIGSEGV; this fallback is a bounded host-graphics
+recovery, not proof of the cause. Record the changed renderer when collecting
+new evidence and do not compare its timings to the earlier performance budget.
+Resumed r69 completes blocking analysis in3m29.75s;93 saved memory samples
+observe19,330,367,488 bytes peak (18.00GiB), with measured memory.events
+high1419/max0/oom0/oom_kill0. The preserved sourcee088 artifacts are production
+852,744,653 bytes SHA256
+`a8e521bda0cb598e1a99eea578b66db5d30814babaa3ec5c688d6eca8131ebd6`
+and TEST876,382,231 bytes SHA256
+`13a9f5b3933f7a3d644a36a23b201210979649ea306f4deb739cb916c899df35`
+in `~/.cache/brave-tv/artifacts/compose-crash-e08856652-x64-debug-20261011`.
+The SwiftShader TV launch exits before guest boot: `/dev/kvm` lacks nitesh's
+read/write ACL after reboot (only gdm-greeter has a named user ACL), and nitesh
+is not in kvm. `sudo -n` requires interactive authentication. Requested the
+temporary per-user `sudo setfacl -m u:nitesh:rw /dev/kvm` prerequisite; no guest,
+profile or physical action occurred. Continue independent routing work while
+native runtime acceptance remains pending.
 
 Renderer recovery slice: production source6d actual `Page.crash` reaches native
 Aw, Snap. D-pad Down focuses `sad_tab_message`; subsequent Down/Right stay in

@@ -38,7 +38,15 @@ const server = createServer((request, response) => {
   let body;
   const headers = {'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store'};
   if (request.url === '/slow.html') {
-    const start = '<!doctype html><title>TV slow document</title><main><h1>Controlled slow document</h1>';
+    const start = `<!doctype html><meta charset="utf-8"><title>TV slow document</title>
+<style>
+body { margin: 0; background: #202124; color: #f1f0eb; font: 28px sans-serif; }
+main { position: fixed; inset: 0; display: grid; place-content: center; gap: 24px; }
+button { font: inherit; padding: 32px; }
+</style><main><h1>Controlled slow document</h1>
+<button id="click" onclick="document.querySelector('#clicks').textContent =
+  String(Number(document.querySelector('#clicks').textContent) + 1)">Native loading click</button>
+<output id="clicks">0</output>`;
     const end = '</main>';
     if (request.method === 'HEAD') {
       response.writeHead(200, {...headers, 'Content-Length': Buffer.byteLength(start + end)}).end();

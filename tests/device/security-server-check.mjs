@@ -27,9 +27,17 @@ try {
     assert.equal(response.status, 200);
     const reader = response.body.getReader();
     readers.push(reader);
-    const {value, done} = await reader.read();
-    assert.equal(done, false);
-    assert.match(new TextDecoder().decode(value), /Controlled slow document/);
+    let document = '';
+    const decoder = new TextDecoder();
+    while (!document.includes('</output>')) {
+      const {value, done} = await reader.read();
+      assert.equal(done, false, 'Loading controls must arrive before response completion');
+      document += decoder.decode(value, {stream: true});
+      assert.ok(document.length < 4096, 'Bounded loading fixture');
+    }
+    assert.match(document, /Controlled slow document/);
+    assert.match(document, /<button id="click"/);
+    assert.match(document, /<output id="clicks">0<\/output>/);
   }
   const bounded = await request('/slow.html');
   assert.equal(bounded.status, 503);

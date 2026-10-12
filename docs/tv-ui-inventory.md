@@ -42,6 +42,29 @@ use a separate native dialog window; they pause page/phone input while open.
 IME/root insets, scrim, Find, permission/modal owners and native Back handlers
 take precedence over physical pointer policy. Fullscreen alone is not a modal.
 
+### Current retirement boundaries (11 October)
+
+The native Home factory, toolbar visibility policy and Activity input adapters
+remain needed bridges. `brave_java_sources.gni` retains the Java TV model/input
+controllers; the presentation target owns the two Compose Kotlin files.
+`TvNativePageClassAdapter`, `TvImeAdapterClassAdapter` and the tabbed-Activity
+menu interception preserve native page creation, genuine Chromium text input
+and commands. Launcher manifest references still require `brave_tv_icon` and
+`brave_tv_banner`; these are not obsolete browser layouts.
+
+The prepared routing slice maps native Address/Search, menu, libraries, tabs,
+Settings, About and clear-data commands to existing TV panels. Address retains
+the current URL and Search opens an empty draft. Direct native adblock navigation
+uses the delegate's actual Activity/selected contents. Phone routes and unknown
+native commands retain their original owners. Stage4.8 remains unchecked until
+the new native routing cases run; source inspection is not retirement acceptance.
+
+No replaced standalone TV XML layout was found: the predecessor TV shell built
+views programmatically. Mobile toolbar/menu code remains shared by phone and
+native security/error/input infrastructure, so hiding its TV presentation does
+not authorize deleting that infrastructure. Final dead-code/build-resource
+cleanup and the final replaced/retained report remain under Stage6.4/6.7.
+
 ## Focus and Back contract
 
 | Input owner / context | D-pad / OK | Back and restoration |
