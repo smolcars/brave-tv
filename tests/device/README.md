@@ -886,3 +886,11 @@ Chromium, require it still loading, open controls and activate Page cursor
 exactly once. Check controls dismissal, actual content focus, fresh viewport
 cursor coordinates and one real click separately. Do not retry a failed initial
 activation into a passing claim or substitute DOM assignment for native input.
+
+`TvHomePageTest#firstPageCursorActivationWhileLoadingClicksOnce` uses that
+owned slow route with explicit18084 reverse. It requires the first activation
+to dismiss controls, focus the retained native content and reveal the cursor
+while Chromium remains loading. Genuine SOURCE_DPAD OK then produces exactly
+one centered native click, with no click from entering Page cursor. Cursor
+bitmaps are transient normal-fixture observations, guarded by native identity
+and secure-window exclusion; no private screenshot flags are changed.

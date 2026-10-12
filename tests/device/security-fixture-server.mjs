@@ -42,10 +42,15 @@ const server = createServer((request, response) => {
 <style>
 body { margin: 0; background: #202124; color: #f1f0eb; font: 28px sans-serif; }
 main { position: fixed; inset: 0; display: grid; place-content: center; gap: 24px; }
-button { font: inherit; padding: 32px; }
+button { font: inherit; padding: 32px; position: fixed; left: 50%; top: 50%;
+  transform: translate(-50%, -50%); width: 70vw; height: 40vh; background: #202124;
+  color: #f1f0eb; text-align: left; display: flex; align-items: flex-start; }
+h1 { position: fixed; top: 16px; left: 32px; }
+output { position: fixed; bottom: 24px; left: 32px; }
 </style><main><h1>Controlled slow document</h1>
 <button id="click" onclick="document.querySelector('#clicks').textContent =
-  String(Number(document.querySelector('#clicks').textContent) + 1)">Native loading click</button>
+  String(Number(document.querySelector('#clicks').textContent) + 1);
+  window.point = [event.clientX,event.clientY,innerWidth,innerHeight]">Native loading click</button>
 <output id="clicks">0</output>`;
     const end = '</main>';
     if (request.method === 'HEAD') {

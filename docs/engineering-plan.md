@@ -152,6 +152,34 @@ MemAvailable; interrupt only the owned build if available memory falls below
 6GiB, while retaining the four-worker18/22GiB caps and all compile caches.
 Correction source791f7 latest review reports Standards0, Spec0; source
 push succeeds. Pin both test-only corrections before cached r34.
+Source791f7/root1e245 reviews both0/0 and pushes succeed. Cached TEST r34
+passes in22.11s/14 steps with blocking analysis;13 samples record
+10,350,223,360 bytes peak (9.64GiB), minimum host available17.85GiB and no
+guard interruption. Verified TEST artifact
+`compose-routing-tests-791f7b382-x64-debug-20261012` is876,407,371 bytes,
+SHA256 `15c93487768eff35f7e42d2dc1e77759b0da2fc8889e7c41f6da56b5a1be1cba`.
+TEST-only in-place install/hash checks pass in15.968s, production r70 unchanged.
+Native r49 private recreation passes in14.583s: exact private tab/URL/privacy,
+fresh native URL without draft, original normal Home identity and no remaining
+editor/private Home. The bounded absence check resolves the immediate teardown
+assertion; empty-private-Home persistence policy/cipher cause is not proved.
+Broader6.3 process-death/cache/interrupted-write acceptance remains unchecked.
+
+Stage3.3 loading-entry slice: add one native case on the existing15-second
+slow document, with first controls-to-Page-cursor activation only. Require
+still-loading native document, unchanged tab/contents, no control-window
+competition, actual native content focus, visible cursor and zero accidental
+clicks; genuine SOURCE_DPAD OK must deliver one centered native click. Make
+the existing fixture target cover the exact viewport center with dark pixels
+and record only synthetic click coordinates. Use explicit18084 reverse;
+retain streamed bounds and cancellation. Carry unchanged held-repeat/idle-wake
+and loaded-page checks forward; rerun only this new loading case after latest
+reviews and cached TEST build. No emulator result proves physical remote input.
+Sourcef481de latest reviews both0; source push succeeds. The changed host
+fixture passes fixed route, HEAD/method, two-slot streaming and cancellation
+checks. Pin the source/fixture before TEST-only r35 and one native r50 case.
+
+
 
 
 
