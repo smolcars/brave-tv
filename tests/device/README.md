@@ -32,6 +32,21 @@ force actual native write failures; the queue fence and absent targets prove
 native cleanup completed. The same document remains usable and a fresh native
 JPEG must decode after recovery. This does not simulate full-disk ENOSPC.
 
+The TV file-picker guide leaves Chromium's native picker/permission/result path
+intact. `TvHomePageTest#nativeFilePickerGuideCancelAndBackPreserveDocument`
+clicks a real file input, checks initial Cancel focus, then verifies native cancel
+events, identical document/contents and tab counts for OK and Back.
+`#filePickerGuideCompletesOnceAndCancelsOnNavigationAndPause` checks the host
+continuation once and cancellation on real navigation/background.
+`#nativeModalCancelsFilePickerGuideAndOwnsFocus` opens a real renderer JavaScript
+alert while guidance is visible and requires cancellation, no continuation and
+trusted dialog focus/recovery.
+`#nativePrivateFilePickerGuideKeepsProtectionAndPrivateOwner` exercises the real
+private file input and protected guide without a screenshot. Run each case in
+its own instrumentation process without failure screenshots. Actual Android
+picker Continue/Back and allowed image delivery require separate integration;
+these tests do not establish OS picker D-pad photo reachability.
+
 `tv-native-dialog-return.mjs EMULATOR_SERIAL AGENT_DRIVER.py NORMAL_SCREENSHOT.png`
 runs one actual-engine alert/confirm/prompt return sequence on the normal
 `http://10.0.2.2:18088/dialogs.html` fixture. Start with Browser controls' Page

@@ -583,6 +583,24 @@ unchanged document/normal models, private protection, stale navigation and pause
 cancellation; native allowed image delivery remains separately verified. Do not
 claim unsupported OS D-pad photo selection is repaired by browser guidance.
 
+
+Source244 latest review reports Standards0/Spec1: native modal/scrim ownership
+can begin without document invalidation, leaving picker guidance visible. Before
+building, cancel pending guidance explicitly from the existing modal observer
+and a disposed synchronous scrim observer. Add an actual native JS alert while
+guidance is open; require exactly one cancellation, no continuation, guidance
+dismissal and focused trusted-owner recovery. Keep all previously accepted
+private/process/cache evidence, since this correction changes only guidance.
+
+
+Source97f correction review passes Standards0/Spec0. Pin the reviewed native
+picker guide and four focused cases before one cached production+TEST r75 build
+with blocking Android analysis, four Siso workers and18/22GiB/swap0. The owned
+launch-followup emulator and fixture server stop after saving normal state;
+26.5GiB host memory is available before compilation. Cache/GN/dependencies/APKs
+remain preserved. No Stage5.6 acceptance follows from reviews or compilation;
+actual native cases and original Android picker/result integration remain pending.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed
