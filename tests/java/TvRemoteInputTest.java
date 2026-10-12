@@ -138,5 +138,20 @@ public final class TvRemoteInputTest {
         input.cancelPress();
         input.onKey(TvRemoteInput.Key.SELECT, false, 0, false);
         assert page.clicks == 2 : "Losing window focus cancels a pending click";
+        page.height = 80;
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false);
+        assert input.positionPointer(75, 60);
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false);
+        assert page.clicks == 2 : "Phone movement cancels a held physical OK";
+        assert input.resume();
+        assert page.x == 75 && page.y == 60 : "Resume retains the phone's pointer position";
+        input.onKey(TvRemoteInput.Key.LEFT, true, 0, false);
+        assert page.x == 65 && page.y == 60 : "Physical movement continues from the phone position";
+        input.back();
+        assert input.positionPointer(500, -20);
+        assert input.resume() && page.x == 99 && page.y == 0
+                : "A phone-only pointer activates and clamps before fullscreen recovery";
+        page.width = 0;
+        assert !input.positionPointer(1, 1) : "A missing viewport rejects phone positioning";
     }
 }

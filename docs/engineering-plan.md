@@ -96,6 +96,35 @@ boundaries stay enforced. Human physical-button/audio/DRM, real phone/Safari and
 second-TV checks remain separate. Preserve synthetic profile after setup;
 revoke the controller and remove only owned fixture processes/ports on closeout.
 
+Physical cursor follow-up exposes an actual source1c regression: video fullscreen
+and Back keep the same playing document, but the retained native cursor layer
+does not render after exit. Sustained native left/right keeps its View visible
+with a recent frame and still yields no cursor pixels; reselecting Page cursor
+restores the pixels at the expected location. Preserve failed calibration and
+capture attempts separately. The initial atomic command omitted uinput's file
+argument and is explicitly invalid; later commands use explicit file arguments,
+set-e and device-file capture while D-pad pulses keep the idle timer awake.
+Before expanding hardware acceptance, reproduce this narrow exit/capture loop
+and repair the retained overlay at the native fullscreen-exit lifecycle seam.
+Reattach only the existing cursor View to the same current Chromium ContentView
+after native layout, preserving position/scroll mode and canceling held OK. Fence
+the callback by actual tab/document/view identity, activity/input/security/private
+ownership; dispose pending callbacks and the fullscreen observer. Reuse this
+attachment path from real TV/phone callers without creating browser contents.
+Validate the actual hardware red pixel loop after the signed/pinned cached ARM
+correction and focused actual-engine emulator lifecycle/private-security/input
+checks; do not add a shallow test that merely asserts the callback was invoked.
+The original matched performance evidence carries separately; V8 remains pending.
+Latest source d8b review reports Standards1/Spec2: center text could satisfy the
+new pixel check, and fullscreen resume could redraw old physical coordinates
+after phone movement (or leave a phone-only cursor in Controls mode). Correct
+the fixture's dark sampled region and verify its cursor-absent background.
+Route real phone positioning through the existing TvRemoteInput state so resume
+and the next physical movement share current clamped coordinates and canceled
+held OK. The focused input contract test is red before this interface exists;
+require its green result plus actual phone-moved and phone-only fullscreen/Back
+pixel checks. Review only the new correction commit before the cached build.
+
 Investigate actual regressions with bounded red-capable probes, review latest
 commits and push incremental evidence. Mark6.5/V8 only with actual passing
 hardware metrics; do not infer real-phone/Safari/second-TV or public release.
