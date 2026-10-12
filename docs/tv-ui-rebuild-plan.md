@@ -11,8 +11,8 @@ Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:4/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
-cancellation and certificate recovery pass; broader exceptional flows remain
-pending. Custom phone IME/native composition passes; stock-phone and physical
+cancellation, certificate recovery and scoped exceptional flows pass.
+Custom phone IME/native composition passes; stock-phone and physical
 phone IME compatibility remain unverified. Carry
 forward unchanged passing checks and consolidate only affected checks per slice.
 
@@ -26,6 +26,8 @@ Related: [engineering log](engineering-plan.md), [existing TV acceptance](tv-nat
 [phone remote plan](phone-remote-plan.md), [phone evidence](phone-remote-evidence.md),
 [release backlog](mvp-todo.md), [build procedure](build.md),
 [source workflow](source-workflow.md), [device regressions](../tests/device/README.md).
+Final provenance and retained/current checks are indexed in
+[emulator acceptance](tv-ui-acceptance.md); pending rows are not acceptance.
 
 ## Current execution authorization (supersedes historical gates)
 
@@ -334,7 +336,7 @@ known inaccessible core action. A polished home alone does not satisfy this stag
 and measured feasibility. Independent design/model work may continue while
 hardware is unavailable; hardware-dependent claims remain unchecked.
 
-Emulator Stage2 is7/7; canonical acceptance is26/54. Matched uncontended
+Emulator Stage2 is7/7; the checklist reached26/54 at that milestone. Matched uncontended
 baseline/current Debug measurements pass the provisional startup, panel,
 PSS and footprint regression budgets. [Performance/hosting evidence](tv-ui-inventory.md)
 records actual samples and overhead, including local page/video timing variance.
@@ -399,8 +401,8 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   native Shields updates retaining Address focus. The narrow updated panel's
   focus/Back case passes. Production r63 shows the same native status and returns
   to the settled fixture with one Page cursor selection. Native idle/held-click
-  coverage passes on source3915; the earlier startup/loading retry remains
-  unresolved in the input/route integration work, not claimed fixed here.
+  coverage passes on source3915; the earlier startup/loading retry is resolved
+  by sourcef481's actual initial-loading/content-focus/click checks under3.3.
   See [engineering evidence](engineering-plan.md); hardware remains pending.
 - [x] **4.4** Replace tab presentation: create/select/close, large lists, discarded
   tab restoration, selection after removal and last-normal/private-tab behavior.
@@ -447,8 +449,8 @@ surfaces. A fake adapter is useful for UI tests, not proof of native behavior.
   document, both tab-search IDs, direct native adblock entry/Settings return and
   private history/download/clear-data rejection pass without native-owner or
   unlock bypass. Unknown commands and required native security/input/error and
-  phone infrastructure retain their trusted owners. Private recreation remains
-  under6.3; these routes do not claim it or hardware acceptance.
+  phone infrastructure retain their trusted owners. Private recreation has
+  separate6.3 evidence; these routing checks do not claim hardware acceptance.
 
 **Gate: usable redesigned core.** Remote-only search, link/form/scroll, tabs,
 video/fullscreen and return home work in the actual APK. Phone parity and

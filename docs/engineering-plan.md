@@ -749,6 +749,24 @@ with the authenticated native normal fixture URL, exact native app/controls,
 positive actual dimensions and stable dimensions/document identity. Retain the
 same presented-frame checks. Syntax and native setup are not a30-minute pass.
 
+Final6.7 evidence slice: audit current source8c4 surface owners,166 live TV
+messages, pinned toolkit/licensing and Chromium integration touch points.
+Create a concise acceptance index that links retained actual native results
+separately from the current artifact and pending sustained/manual/stock-phone
+checks. Reconcile historical Stage2 totals and resolved route/cache wording in
+active plans without changing historical engineering logs. Acceptance requires
+exact artifact/build/runtime provenance and honest remaining physical/release
+limits;6.6/6.7 and V checks stay unchecked until their final evidence is complete.
+Currentr59 setup passes real D-pad fullscreen/Back in the same playing document,
+with cursor pixels at928/800. An initial immediate media-report read catches its
+one-second stale fullscreen value; bounded fresh-state waiting passes, with the
+original helper retained. Fresh native unencrypted warning/QR/D-pad approval
+passes TV-only assets, fragment removal and hidden manual form on the direct
+simulated LAN. The30-minute run starts on rootc748/source8c4 with explicit AVD/
+forward/artifact provenance and is still partial. All166 strings/AAR hashes pass
+the final source audit. The acceptance index records installed compiler build.txt
+2.4.20 separately from its old README version label; no dependency pin changes.
+
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
 and inspect its preserved baseline package/profile first. Require the installed

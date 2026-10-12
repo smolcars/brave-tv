@@ -1,8 +1,9 @@
 # TV presentation retirement audit
 
-Source `c29748cde4e68883068d94fe12b12ac8cfaa252d`, 12 October 2026.
+Source `8c4e31c95eb580db4624a884202e81df82be344e`, 12 October 2026.
 This records source ownership and prior replacement acceptance for Stage6.4.
-It does not accept the current cache fix, file-picker compatibility or hardware.
+Native cache and file-picker checks now have separate accepted emulator evidence;
+this ownership audit does not substitute for runtime or hardware acceptance.
 
 | Retired presentation | Current owner and retained boundary | Acceptance |
 | --- | --- | --- |
@@ -26,7 +27,7 @@ results remain necessary native bridges. `TvHistoryPanel`, `TvFilterPanel` and
 `TvBrowserControls` retain their class names because callers still require their
 model/lifecycle responsibilities; deleting them would break working boundaries.
 
-All163 TV messages have callers in Java/Kotlin except the launcher label, which
+All166 TV messages have callers in Java/Kotlin except the launcher label, which
 is referenced by the Android manifest. Launcher banner/icon resources and shared
 mobile layouts remain live. No unreferenced TV resource, temporary toolkit
 switch or duplicate browser store was found in this scoped audit. Dependencies
@@ -35,4 +36,11 @@ remain pinned in the source fork and compiled through GN.
 No new source deletion is needed: replaced layout construction and competing
 routes were removed in the accepted vertical slices. File pickers and security
 surfaces remain with Chromium/Android owners; their remaining compatibility
-checks are tracked under5.6, not concealed by retirement.
+limits are documented under5.6, not concealed by retirement. The new
+`TvFilePickerGuide` belongs to UiBase; its activity host supplies TV guidance
+without a reverse UiBase-to-Chrome dependency. Original Android chooser results
+and permissions remain unchanged. TV private-thumbnail eligibility belongs to
+the existing native tab-UI module and cache, with no presentation database.
+
+The final source/166-message/AAR audit is retained in
+`~/.cache/brave-tv/probes/engine-lifecycle-r1/retirement-final-r59.json`.
