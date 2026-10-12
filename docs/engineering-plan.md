@@ -27,6 +27,24 @@ task does not operate the Chromecast or reopen the deferred release backlog.
 
 ### Authorized physical UI acceptance — 12 October
 
+Source090 data-keeping retry succeeds74.651s after three5-second code-removal
+waits; installed SHA208bdcb6 matches verified artifact, UID10136 retained.
+The first insufficient-storage attempt and successful source92 rollback remain
+recorded. Browser-only cache request times out30s; no cache clear success claimed.
+No profile reset. Reopen the explicitly targeted device driver after its owned
+lease was closed for replacement; require native post-install normal URL/bookmark
+retention, then fresh Home→approved phone→ordinary native video/fullscreen/cursor
+and full30-minute AX-observed playback/controller acceptance on source090.
+
+Source090 ARM r4 passes41.00s Siso5steps/44.50s GNU, memory14.268GiB peak/
+17.972GiB minimum host available, no guard/OOM. First data-keeping replacement
+fails INSTALL_FAILED_INSUFFICIENT_STORAGE after65.917s; compatible source92
+restore succeeds without data clearing. Device exposes package clear --cache-only
+on Android14; inspect retained native URL/bookmark after restoration, clear only
+this browser's owner0 cache (retain profile/data/other apps), measure free space
+and retry the reviewed corrected APK once with verified fallback. Do not count
+the failed install or standard in-place migration as acceptance.
+
 Source090/root0465 latest reviews are Standards0/Spec0. Corrected r85 blocking
 analysis/build passes53.29s Siso19steps, peak18.040GiB/minimumhost15.406GiB,
 no guard interruption/OOM. Both actual native stale-node cases now pass7.406s/

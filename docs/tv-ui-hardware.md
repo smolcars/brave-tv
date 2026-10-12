@@ -392,3 +392,29 @@ checksums are retained in
 These are native emulator passes, not repaired physical endurance acceptance.
 Build the same source in retained Static ARM output, preserve the new TV profile
 and repeat the physical cursor and complete30-minute acceptance;6.5/V8 remain open.
+
+
+## Corrected optimized ARM installation — source090
+
+Cached Static ARM r4 passes41.00s Siso5steps/44.50s GNU with blocking Android
+analysis.24 memory samples show14.268GiB peak/17.972GiB minimum host available,
+no guard interruption/OOM. Verified non-debuggable ARM32 APK368050408 bytes:
+SHA256`208bdcb6abe6b1ffaeec8244123374954c83d6c8f5678e98294d270d392e3a37`,
+matching existing development signer. Retained artifact/GN/native-patch metadata:
+`~/.cache/brave-tv/artifacts/compose-accessibility-090fa9c73-arm-nodebug-20261012`.
+Root-at-startdbe7f8f71e6919235a10e84169514be538ddd1ef; source090.
+
+Native controls URL and Mobile bookmarks entry are present before replacement.
+First data-keeping code replacement fails insufficient-storage in65.917s; the
+compatible source92 restore succeeds. Browser-only owner0 --cache-only request
+times out after30s; no successful clear is claimed. One bounded -k retry allows
+three5-second waits after code removal (942004/942028/942028KiB available), then
+succeeds in74.651s. Installed APK checksum matches source090; UID10136 is retained,
+with no browser profile reset or unrelated app/storage operation. This is the
+same-signer data-keeping workaround, not a standard in-place update. Native
+post-install retention passes for the same selected normal URL and bookmark;
+`hardware-retained-profile-after-r4.json` records UID10136 and the scoped check.
+All-profile/settings/group equivalence and standard in-place updates are not
+accepted by this workaround. Repeated physical cursor/endurance remain pending.
+Retain `install-accessibility-tv-kept-r4{,-retry}.json`, cache-only timeout record
+and `hardware-retained-profile-before-r4.json` in the hardware probe folder.
