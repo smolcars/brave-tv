@@ -107,6 +107,7 @@ try {
 const browser = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
   const page = browser.contexts()[0].pages().at(-1);
+  await page.bringToFront();
   const assets = new Set();
   let externalRequest = false;
   await page.route("**/*", (route) => {

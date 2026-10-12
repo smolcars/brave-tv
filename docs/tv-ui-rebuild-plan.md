@@ -6,8 +6,8 @@ canonical implementation checklist for the new UI; checked items require
 linked evidence, not just code. Source inspected at
 `5829c55f006d1bb10aa9dd4a2ac434e6bf08f0ac`; root planning baseline `48d014f`.
 
-Current acceptance: **42/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
-Stage 3:5/5, Stage 4:8/8, Stage 5:6/7, Stage 6:4/7, final V checks:0/8.
+Current acceptance: **43/54**. Stage 0:6/6, Stage 1:6/6, Stage 2:7/7,
+Stage 3:5/5, Stage 4:8/8, Stage 5:7/7, Stage 6:4/7, final V checks:0/8.
 These are completed design/source checks or native checks with linked emulator
 evidence; Stage6.2 is the audited schema/rollback decision. Physical acceptance
 remains deferred. Native site information, permission denial, authentication
@@ -501,15 +501,20 @@ the complete feature set or a public release.
   on the isolated TEST app; production reports authority-invalid on unchanged
   trust, not an expiry-specific pass. No physical or OS permission grant claimed.
   See [engineering evidence](engineering-plan.md).
-- [ ] **5.6** Cover JS dialogs, renderer crash/network errors, new windows/popups,
+- [x] **5.6** Cover JS dialogs, renderer crash/network errors, new windows/popups,
   file chooser and external-app results. Every allowed flow has a return path;
   unsupported actions explain the limitation rather than opening a dead screen.
-  Current64e2 production checks cover native popup child closure and return to
-  the same document, generic file cancellation, image-result delivery and
-  connection-refused/native Reload recovery. Real image selection uses a touch
-  diagnostic plus D-pad Done; both installed OS pickers fail D-pad photo reachability,
-  and generic chooser OK invokes an OS stub despite focused Photos & videos.
-  Keep5.6 unchecked while this limitation/explanation and final integration remain open.
+  Prior native JS/modal/crash/popup/external/network recovery passes carry.
+  Four actual source033 picker tests pass cancellation/document preservation,
+  once-only continuation/navigation/pause, native-modal focus takeover and private
+  protection. Actual image selection returns24.png/1617B/image/png to the same
+  document; photo selection and Done use touch diagnostics, not D-pad acceptance.
+  Source8c4's final native warning is fully visible at1080p and720p/font1.6/RTL,
+  starts on Cancel, traverses both ways and returns with one native cancel.
+  Source16's D-pad Continue/OS Back preserves the document. Empty OS stubs and
+  mouse-dependent photo selection are explained before the native handoff;
+  Chromium/Android retain file access and permission ownership. Scoped emulator
+  acceptance does not claim functional D-pad photo selection on those OS pickers.
 
 - [x] **5.7** Audit first run, About, source/licenses and hidden feature routes.
   Preserve direct startup and disabled analytics/optional services. Recheck that

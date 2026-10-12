@@ -399,7 +399,11 @@ in a finally block.
 `phone-controls-probe.mjs` uses real phone touch events and current tab rows to
 check gestures/navigation/tabs and stale/duplicate rejection. It takes the same
 Playwright directory argument. `phone-soak.mjs PLAYWRIGHT_CORE emulator-5554 9223
-OUTPUT_JSON` samples an approved foreground session for 30 minutes; start a new
+OUTPUT_JSON TV_AVD emulator-5556 PHONE_AVD TV_AGENT_DRIVER` samples an approved
+foreground session and playing `media.html` for 30 minutes. Both AVD identities
+and the phone diagnostic forward are verified before sampling. The native
+fixture report checks unchanged document identity, continuing frame production
+and absent media errors without a TV debugging endpoint. Start a new
 pairing immediately before it because sessions expire after 35 minutes. CPU is
 one-core percentage from live process counters; process churn makes that sample
 unavailable. PSS includes every browser package process reported by Android.

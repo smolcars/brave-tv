@@ -1,13 +1,28 @@
 // Thirty-minute foreground session; DevTools is test instrumentation only.
 // Usage: node phone-soak.mjs PLAYWRIGHT_CORE TV_EMULATOR PHONE_CDP_PORT OUTPUT_JSON
+//        TV_AVD PHONE_EMULATOR PHONE_AVD TV_AGENT_DRIVER
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { writeFile } from "node:fs/promises";
-const [modulePath, serial, port, output] = process.argv.slice(2);
+const [modulePath, serial, port, output, tvAvd, phoneSerial, phoneAvd, driver] =
+  process.argv.slice(2);
 assert.match(serial, /^emulator-\d+$/);
 assert.match(port, /^\d+$/);
+assert.match(phoneSerial, /^emulator-\d+$/);
+assert.notEqual(serial, phoneSerial);
+assert.ok(tvAvd && phoneAvd && driver, "Provide verified AVDs and the TV agent driver");
+for (const [device, avd] of [[serial, tvAvd], [phoneSerial, phoneAvd]]) {
+  assert.equal(execFileSync("adb", ["-s", device, "emu", "avd", "name"], {
+    encoding: "utf8", timeout: 15000,
+  }).replace(/\r/g, "").trim(), avd + "\nOK", "Emulator identity changed");
+}
+assert.ok(execFileSync("adb", ["-s", phoneSerial, "forward", "--list"], {
+  encoding: "utf8", timeout: 15000,
+}).split(/\r?\n/).includes(
+  `${phoneSerial} tcp:${port} localabstract:chrome_devtools_remote`,
+), "Phone diagnostic forward must belong to the verified emulator");
 const { chromium } = createRequire(resolve(modulePath, "package.json"))(
   "playwright-core",
 );
@@ -16,7 +31,7 @@ const samples = [],
   roundTrips = [];
 const started = Date.now();
 let previousCounters = new Map(),
-  previousSampleAt;
+  previousSampleAt, previousMedia;
 const ticksPerSecond = Number(
   execFileSync("adb", ["-s", serial, "shell", "getconf", "CLK_TCK"], {
     encoding: "utf8",
@@ -28,7 +43,7 @@ try {
   const page = browser
     .contexts()[0]
     .pages()
-    .find((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
+    .filter((p) => /^http:\/\/10\.0\.2\./.test(p.url())).at(-1);
   assert.ok(page, "Pair a companion page first");
   await page.waitForFunction(() => connected && !busy && !state.paused);
   const originalEpoch = await page.evaluate(() => epoch);
@@ -60,6 +75,28 @@ try {
     );
     if (sample.commandMs !== undefined) roundTrips.push(sample.commandMs);
     if (tick % 6 === 0) {
+      const native = JSON.parse(execFileSync("python3", [resolve(driver), "snapshot", "--json"], {
+        encoding: "utf8", timeout: 20000,
+      }));
+      assert.ok(native.success && !native.data.truncated, "Complete native media snapshot required");
+      const nodes = native.data.nodes;
+      assert.ok(nodes.some(n => n.label === "TV ordinary media checks"), "Normal media fixture required");
+      const details = nodes.find(n => n.identifier === "mediaDetails")?.label;
+      assert.ok(details && details.length <= 1024, "Bounded native media report required");
+      const media = JSON.parse(details);
+      assert.ok(Number.isFinite(media.documentTime) && Number.isFinite(media.time));
+      assert.ok(Number.isSafeInteger(media.frames) && media.frames > 0);
+      assert.ok(Number.isSafeInteger(media.droppedFrames) && media.droppedFrames >= 0
+        && media.droppedFrames <= media.frames);
+      assert.ok(!media.paused && media.ready >= 2 && media.error === null,
+        "Native video must keep playing without a media error");
+      assert.equal(media.width, 320);
+      assert.equal(media.height, 240);
+      if (previousMedia) {
+        assert.equal(media.documentTime, previousMedia.documentTime, "Media document was replaced");
+        assert.ok(media.frames > previousMedia.frames, "Native video stopped producing frames");
+      }
+      previousMedia = media;
       const adb = (...args) =>
         execFileSync("adb", ["-s", serial, "shell", ...args], {
           encoding: "utf8",
@@ -111,6 +148,7 @@ try {
         pssKiB: pss.reduce((a, b) => a + b, 0),
         processes: pss.length,
         cpuPercent,
+        media,
         ...sample,
       });
       console.log(JSON.stringify(samples.at(-1)));

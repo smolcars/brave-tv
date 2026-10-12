@@ -15,7 +15,7 @@ presentation/model ownership, design work, integration proof, migration and
 acceptance gates. The next implementation slices cover private-cache privacy,
 exceptional flows and migration.
 Stages0–4 have passed their scoped design/source/emulator checks; the working
-UI checklist is42/54. Retain Chromium and native browser storage. The older
+UI checklist is43/54. Retain Chromium and native browser storage. The older
 broad MVP/release backlog remains separate from this UI implementation.
 
 The sections below record earlier implementation decisions and evidence.
@@ -708,6 +708,35 @@ profiles preserved. The phone connects to shared AndroidWifi10.0.2.18; TV r13
 has no Wi-Fi address yet, so no paired session is claimed. Both mistakenly
 added VirtWifi configurations are removed; existing AndroidWifi is retained.
 Media-fixture script syntax and actual loopback HTTP/range/server checks pass.
+
+Source8c4/root-at-build-start3761909 finalr78 passes GNU1m41.40s (Siso1m37.95s,
+15 steps) with blocking analysis,52 samples/11.749GiB peak/16.894GiB minimum
+host available and no OOM/guard. Verified compose-picker-8c4e31c95-x64-debug-20261012
+retains production852,770,267B SHA256a4243f98c36899bbb536eae8966575971c85137c82b8eb0b7bedc0803e5a14c6
+and TEST876,451,107B SHA2560cc406d154c5788faf990c240e9065c908f07a8246f7be82e981dc089f6b030b.
+Owned r14 KVM TV/phone boot; in-place TV/TEST updates12.331/13.607s, no wipe.
+Final picker native1080p Right/Left/Cancel and720p/font1.6/ar Left/Right/Back
+pass initial conservative focus and one native cancel. Actual screenshots show
+the entire short warning immediately; Arabic title/Cancel coexist with English
+warning/button fallback. Seven recorded display/input/accessibility settings
+restore exactly. One first post-scroll fixture touch misses before animation
+settles; a fresh-ref retry opens the guide. It is not a product failure or pass.
+Evidence picker-final-copy-r59.json, picker-display-r59.json and restored record.
+Four unchanged native source033 checks, actual image-result r57 and same-document
+Continue/OS Back r58 carry. Accept5.6 scoped emulator; canonical count43/54.
+
+Sustained harness extends the existing30-minute phone test with exact TV/phone
+AVD identity and diagnostic-forward checks plus native normal media-report
+sampling. Require continuing decoded frames, unchanged genuine document identity
+and no media error each minute; retain whole-package PSS/CPU and10s approved
+command continuity. Bring the QR target to the foreground and choose the same
+last remote target during the soak, avoiding older synthetic phone tabs. Script
+syntax passes; actual sustained acceptance remains pending. Save TV Ethernet/
+Wi-Fi state, disable only its Ethernet through the previously verified Android16
+transaction13 and connect existing AndroidWifi. TV10.0.2.16 and phone10.0.2.18
+now have direct shared simulated Wi-Fi addresses; no remote-traffic forward.
+The phone uses bundled Chrome133.0.6943.137. Physical LAN/current phones/Safari
+are unverified. Fixture/loopback-media routing remains separate from the remote.
 
 Earlier6.1 baseline preparation: stop only owned launch-followup r8 after
 verifying/restoring its settings, boot only brave_tv_onboarding_api36 with KVM,
