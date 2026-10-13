@@ -7104,3 +7104,14 @@ preserves the existing bookmark and adds each service once; D-pad traversal and
 native captures at 1.0/1.3 text scale pass. See
 [starter favorites evidence](tv-starter-favorites-evidence.md) for artifacts,
 official asset provenance and physical-TV/playback acceptance limits.
+
+### Ambient Home footer
+
+Restore a compact bottom footer with the product description, explicit Brave
+and Chromium credit, and a D-pad-accessible GitHub action using the canonical
+project URL. Relabel the photograph credit in English while retaining Luca
+Bravo and Unsplash. Keep the footer outside the scrollable Home content so
+large text cannot overlap saved/recent cards. Reuse native URL loading and
+the existing Shields/private-tab features; this slice changes presentation.
+Verify the GitHub destination/tab ownership, focus traversal, baseline and
+1.3 text scale, then build and preserve the x64/ARM artifacts.
