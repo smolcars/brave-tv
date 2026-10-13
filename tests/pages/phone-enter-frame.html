@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Native cross-origin Enter fixture</title>
+<style>body{font:24px system-ui}input,button{font:inherit;padding:12px}</style>
+<form><input id="frameSearch" type="search" enterkeyhint="search"><button>Search frame</button></form>
+<script>
+  let trusted = false;
+  frameSearch.onkeydown = event => { if (event.key === 'Enter') trusted = event.isTrusted; };
+  document.forms[0].onsubmit = event => {
+    event.preventDefault();
+    parent.postMessage({ fixture: 'enter', text: frameSearch.value, trusted }, 'http://10.0.2.2:18088');
+  };
+</script>
+</html>

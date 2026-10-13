@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native phone Enter fixture</title>
+<style>
+  body { margin: 24px; background: #f4f1e9; color: #202722; font: 24px system-ui; }
+  h1 { font-size: 30px; margin: 0 0 16px; }
+  input, textarea, [contenteditable], button { font: inherit; padding: 12px; }
+  input, textarea, [contenteditable] { display: block; width: 70%; margin: 12px 0; }
+  [contenteditable] { min-height: 56px; background: white; border: 1px solid; }
+  iframe { width: 90%; height: 240px; border: 1px solid; }
+  [hidden] { display: none !important; }
+</style>
+<h1>Native phone Enter fixture</h1>
+<p id="caseName">Search</p>
+<section id="searchCase">
+  <form><input id="search" type="search" enterkeyhint="search"><button>Search</button></form>
+</section>
+<section id="plainCase" hidden>
+  <form><input id="plain"><input id="next"><button>Submit form</button></form>
+</section>
+<section id="validationCase" hidden>
+  <form><input id="validation"><input id="required" required><button>Validate form</button></form>
+</section>
+<section id="canceledCase" hidden>
+  <form><input id="canceled"><button>Submit canceled key</button></form>
+</section>
+<section id="jsCase" hidden><input id="js"></section>
+<section id="linesCase" hidden><textarea id="lines" rows="3"></textarea></section>
+<section id="editableCase" hidden><div id="editable" contenteditable="true" role="textbox"></div></section>
+<section id="textareaSearchCase" hidden><textarea id="textareaSearch" enterkeyhint="search" rows="3"></textarea></section>
+<section id="frameCase" hidden><iframe id="frame" title="Cross-origin search" src="http://127.0.0.1:18088/phone-enter-frame.html"></iframe></section>
+<section id="passwordCase" hidden><input id="password" type="password"></section>
+<output id="result">No action yet</output>
+<script>
+  window.events = [];
+  window.submissions = [];
+  window.invalids = 0;
+  for (const element of document.querySelectorAll('input,textarea,[contenteditable]')) {
+    element.addEventListener('keydown', event => {
+      if (event.key !== 'Enter') return;
+      events.push({ id: element.id, trusted: event.isTrusted, composing: event.isComposing });
+      if (['canceled', 'js', 'textareaSearch'].includes(element.id)) {
+        event.preventDefault();
+        if (element.id !== 'canceled') {
+          submissions.push({ id: element.id, text: element.value });
+          result.value = element.value;
+        }
+      }
+    });
+    element.addEventListener('invalid', () => invalids++);
+  }
+  for (const form of document.forms) {
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const field = form.querySelector('input');
+      submissions.push({ id: field.id, text: field.value });
+      result.value = field.value;
+    });
+  }
+  window.showCase = name => {
+    for (const section of document.querySelectorAll('section')) section.hidden = section.id !== name + 'Case';
+    caseName.textContent = name;
+    scrollTo(0, 0);
+  };
+  addEventListener('message', event => {
+    if (event.origin === 'http://127.0.0.1:18088' && event.source === frame.contentWindow && event.data?.fixture === 'enter')
+      submissions.push({ id: 'frame', text: event.data.text, trusted: event.data.trusted });
+  });
+</script>
+</html>
