@@ -1,5 +1,43 @@
 # First input increment review
 
+## Phone Enter review — 13 October 2026
+
+Independent read-only Standards and Spec reviewers compare each committed slice
+with its exact parent; later corrections do not erase earlier findings.
+Native `fa99073b3` needs metadata refresh when an oversized field becomes eligible
+and an explicit adapter-validity guard. `b008d47a8` addresses both with native
+coverage. Client `1798a9f9d` is followed by caret/held-action guards in
+`2c1e19077`, bounded sent acknowledgement in `76c27f502` and truthful persistent
+sent-timeout feedback in `d96086b76`. Native diagnostic/caret corrections retain
+the actual newline assertion and acknowledge composition/selection before Enter.
+
+Typing lease `ab10a8268` needs equal-metadata focus recovery and explicit hook
+return-type checks. `1a7ea2f45` schedules Chromium's original next-state connection
+restart on focus loss and checks signatures; both axes report zero findings.
+Client handoff `c7c56c106` needs session cleanup during pending requests and
+field-bound preparation gestures. `6aff41322` resolves both (both axes0).
+`c3917b866` waits for cleanup before re-entry, but older normal replies can still
+restore a leased snapshot; `f7bf53a11` guards command and poll replies against
+cleanup/visibility/sequence boundaries (Standards0, Spec0). Test-only overload
+and formatting corrections `7c35dde78` and `3f84d8d42` also pass both axes.
+
+Root fixture reviews require fresh per-run/field results, UTF-8 body handling
+and settled exact counts rather than an intermediate successful report. Later
+checks use actual keyboard window visibility, fresh native bounds after toolbar
+changes and exact native URL ownership when Gboard pans the heading away.
+Final focus/ownership slices `3f6587d` and `4578a8f` each report Standards0, Spec0.
+Real background acceptance detaches debugger connections that enable focus
+emulation; no product behavior is changed to satisfy a masked visibility probe.
+
+Impeccable's final fresh finish reviewer returns `ship` on six actual phone/host
+captures after the native handoff correction. Its fresh documenter finds no
+design-system drift requiring writes. Two bounded visual rounds are complete.
+Native, paired stock-keyboard, Japanese composition, lifecycle/modal and live
+query-URL checks pass at the final APK as scoped in
+[device-tests.md](device-tests.md#phone-enter-and-native-typing-handoff--13-october-2026).
+These reviews and emulator results do not establish physical-device or Safari
+compatibility, rendered search results or real-device performance.
+
 ## Compact loading review — 12 October 2026
 
 Latest-only source reviews compared each committed slice with its exact parent.

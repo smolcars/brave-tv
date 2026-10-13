@@ -1,5 +1,98 @@
 # Device and website test matrix
 
+## Phone Enter and native typing handoff — 13 October 2026
+
+Final source `3f84d8d42b59fe8aa48f50b0ed86187c9d4bab6c` passes scoped
+emulator acceptance. The phone action follows Chromium's native
+Search/Go/Send/Done metadata; otherwise it sends Enter, preserving native form
+validation, site handlers and multiline newline behavior. Explicit phone editing
+leases the current field and detaches its TV InputConnection before typing.
+Composition, field/version ownership and native-owner guards remain enforced.
+The user has deferred all physical-device work; none occurs in this slice.
+
+Final testing uses isolated API36 TV `brave_tv_launch_followup_api36`
+(emulator5560) and phone `brave_phone_enter_20261013_api36` (5562). Other sessions'
+claimed devices remain intact. Evidence is retained outside Git in
+`~/.cache/brave-tv/evidence/phone-enter-20261012/`:
+
+- `native-handoff-r11-stock.log`: `phoneEnterUsesNativeFieldActionsAndMultiline`
+  reports `OK (1 test)` in10.625s with the stock TV IME. This covers native action
+  metadata, one Search, unchanged renderer focus/text during handoff, detached
+  connection, same-metadata field-focus recovery and acknowledged multiline caret.
+- `native-bytecode-handoff-r11.log`: hook signatures/restart field pass one test.
+  `native-loading-handoff-r11-reverse.log`: first-page loading/cursor regression
+  passes one test on this combined APK, in addition to the five loading cases below.
+- `paired-handoff-r11-stock-r4.json`: all ten paired cases pass with both stock
+  IMEs: search, ordinary form, JavaScript handler, textarea Search hint, textarea
+  newline, contenteditable newline, cross-origin frame, required validation,
+  canceled keydown and password exclusion. Fresh run/field identities and settled
+  trusted key/submission counts prevent retained or intermediate false passes.
+- `paired-handoff-r11-phone-ime.json`: genuine phone InputConnection Japanese
+  composition rejects an actually sent native Enter; commit submits nothing;
+  the phone keyboard's Search produces exactly one trusted key/submission.
+  Only the phone selects the deterministic fixture IME; the stock TV connection
+  remains detached. This is separate from the ten-case stock-keyboard run.
+- `native-lease-guards-r11-detached-roundtrip.json`: physical TV input releases
+  ownership; explicit phone editing reclaims it. Type exit/re-entry and actual
+  Android Home/foreground require a fresh gesture, without text change or Enter.
+  Playwright CDP connections are detached before Home: their automatic focus
+  emulation otherwise masks genuine page visibility.
+- `native-owner-enter-guards-r11-r2.json`: a real JavaScript alert clears field
+  metadata and rejects Enter. Native Back recovers; stale field/document and
+  wrong-action requests reject with zero replay. Protected windows are uncaptured.
+
+Live public-site checks use native phone actions, without forced submission or
+DOM key injection. YouTube's Go produces `m.youtube.com/results` with
+`search_query=nature+music` (`public-search-handoff-r11-r{2,3,4}.json`). Google's
+Search from its ready fullscreen search field produces `google.com/search` with
+`q=Android+TV+browser` (`google-current-field-search-r11.json`). Google is still
+loading at observation. Neither check verifies rendered results. Earlier Google
+home-to-field automation misses/premature readiness assertions remain failed
+attempts; a later diagnostic shows metadata already ready before a selected-tab
+refresh, so no speculative product refresh fix is made.
+
+Host UI checks (`host-ui-handoff-r7.log`, `host-ui-handoff-captures.log`) pass
+latest-text acknowledgement, duplicate/caret prevention, composition/candidate
+guards, pasted newlines, honest sent-timeout feedback, conflict/pause/rejection,
+read-only preparation, field-bound gestures and reordered cleanup responses.
+Small, portrait, landscape and desktop layouts pass. Impeccable's second and
+final bounded review returns `ship` on six phone/host captures; documentation
+review requires no system changes. The one web-detector run exits2 because the
+raw HTML's `/remote.css` link cannot resolve to the raw asset filename; incomplete
+color/token rules are advisory, with actual CSS/screens supplying visual checks.
+Final repository checks pass20 host tests, strict mypy over15 source files,
+native-probe JavaScript syntax and patch whitespace. Source formatting is clean.
+
+Cached final x64 main/test builds pass in6.64s/36.28s with blocking Android
+analysis, two Siso workers,18/22GiB limits, no swap and the6GiB host-availability
+guard. Sampled peak is8,803,995,648B. Preserve all attempts: r1 rejects the hook
+stack maximum; r6–r8 stop at the availability guard; r9 main passes but test Java
+compilation rejects an ambiguous overload; r10 is stopped after an unfinished
+formatter/checkout precondition. Corrections retain caches and analysis. Final
+signed artifacts, GN arguments and immutable build provenance are in
+`~/.cache/brave-tv/artifacts/phone-enter-3f84d8d42-x64-debug-20261012/`:
+
+- `BraveMonox64.apk`:852,792,565bytes; SHA-256
+  `f56d2023a6881ec69523c49c7e2bdf5c8bdf24bbcbb5634bf783e0d6260881e1`.
+- `BravePublicTest.apk`:876,521,503bytes; SHA-256
+  `db55f1b07b2e3897fab82deefe774b2002a7a3cade3b2d04f818b98acf150d0e`.
+
+V2 signature/package/ABI and installed-byte checks pass; profile-preserving
+updates install main on both emulators and tests on TV. Runtime acceptance is
+recorded separately from immutable build-time provenance. Initial missing
+reverse, keyboard configuration-flag, shifted-bound and background-debugger
+failures remain failed attempts, not acceptance evidence.
+
+Closeout (`handoff-cleanup.json`) verifies session/controller closure, original
+selected IMEs, TV command-line bytes/Ethernet, unchanged debug-app/Wi-Fi settings
+and removal of owned forwards/reverses. The newly installed phone fixture is
+disabled and retained under the no-delete rule; the existing TV fixture remains.
+Both isolated emulator services and the owned Enter fixture service stop. Other
+sessions' emulator/controllers and shared loading fixture services remain intact.
+AVDs, profiles, APKs, dependencies and build caches are preserved. Physical-TV
+installation/performance, real phone/Safari IMEs and broader website coverage
+remain deferred.
+
 ## Compact TV loading feedback — 12 October 2026
 
 Source `1807ad16588077c889aa7d886ec7d0a5c9043503` passes five native

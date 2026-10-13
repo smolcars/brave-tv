@@ -549,6 +549,15 @@ cannot submit, and restores selected IMEs in `finally`. This deterministic
 composition check is separate from the ten-case stock-keyboard run. The TV
 connection remains detached while the phone owns typing.
 
+For a genuine Home/foreground typing-lease check, disconnect all Playwright CDP
+connections before sending Android Home. Playwright enables focus emulation when
+attaching pages, which can conceal the real visibility transition. Require the
+native launcher foreground, then resume the browser and reconnect only afterward;
+assert that the editor is unavailable until another explicit editing gesture.
+Command completion or a synthetic visibility event alone is not this acceptance.
+The final combined APK, stock-keyboard/composition runs and cleanup limits are
+recorded in [device-tests.md](../../docs/device-tests.md#phone-enter-and-native-typing-handoff--13-october-2026).
+
 ## Cursor and click
 
 ### Deliberate edge scrolling

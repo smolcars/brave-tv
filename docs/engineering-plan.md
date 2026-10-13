@@ -32,7 +32,19 @@ Finish both loading feedback and phone Enter/submission using emulators for
 device testing. Do not contact, install on or test physical TVs/phones in this
 work. Real-device installation and acceptance are explicitly deferred.
 
-### Next: phone webpage field submission
+### Phone webpage field submission — complete on emulators
+
+Loading feedback and phone Enter/native typing handoff are implemented and pass
+their scoped emulator acceptance as of13 October. Final combined source is
+`3f84d8d42`; [device evidence](device-tests.md#phone-enter-and-native-typing-handoff--13-october-2026)
+records stock-keyboard cases, genuine phone composition, native ownership and
+background guards, live Google/YouTube query URLs and retained build attempts.
+[Review closeout](input-review.md#phone-enter-review--13-october-2026) records
+resolved source findings and the final visual `ship` decision. Google acceptance
+starts from its ready fullscreen search field; results content is unverified.
+No product refresh workaround is added for premature field-readiness probes.
+Real-device installation/testing and Safari remain deferred. The following
+roadmap and corrections preserve the decisions leading to this implementation.
 
 The user requests this after TV loading feedback: let a phone submit the active
 webpage field using the same action as the TV keyboard's Enter/Search/Go, without
@@ -122,7 +134,9 @@ Keep this separate from stock-keyboard acceptance. Require an actual sent native
 Enter request to reject while composition is active, no submission from commit,
 and exactly one trusted native Search from the phone keyboard's editor action.
 Restore both selected IMEs even if one restoration fails; preserve the existing
-TV fixture APK/signature and remove only the newly installed phone fixture later.
+TV fixture APK/signature. Closeout follows the repository's no-delete rule:
+disable and retain the newly installed phone fixture, restoring the original
+selected IMEs. This supersedes the earlier removal wording above.
 Add a controlled normal-fixture JavaScript alert case to verify actual native
 modal ownership rejects an Enter API request and clears page/editable metadata.
 Dismiss through Back without capturing a protected/private window, then require
