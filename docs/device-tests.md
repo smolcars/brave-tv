@@ -14,7 +14,7 @@ Evidence is retained in `~/.cache/brave-tv/evidence/loading-enter-chromecast-202
 - `badge-bounds-red.json` records the original physical overlap: loading panel
   y64–214, connected badge y120–198. `badge-bounds-green.json` proves final
   separation: badge y246–324, below the measured loading bottom.
-  `loading-final.png` captures the actual corrected TV. Completion restores badge
+  `loading-final.png` captures the actual TV after resource completion. Completion restores badge
   y120 (`loading-final-complete.json`); native Browser controls suppress the
   overlay while offering Stop loading (`loading-final-controls.json`).
 - `physical-search-final.json` proves exactly one trusted, non-composing native

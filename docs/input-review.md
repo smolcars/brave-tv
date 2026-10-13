@@ -12,6 +12,9 @@ APK, including restoration after completion. Search and newline delivery remain
 unchanged and pass the scoped physical-TV/host-companion checks recorded in
 [device tests](device-tests.md#chromecast-loading-and-enter-follow-up--13-october-2026).
 
+Root hardware closeout `efd05d1` against `a5ea2d6`: Standards0, Spec0.
+Reviewers match the scoped claims to the retained build/install/runtime evidence.
+
 ## Phone Enter review — 13 October 2026
 
 Independent read-only Standards and Spec reviewers compare each committed slice
