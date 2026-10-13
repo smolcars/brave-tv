@@ -81,6 +81,55 @@ fixture services and task-owned emulator. No edge-task service remains running;
 AVD/profile data, SDK, dependency/build/artifact caches and the shared ADB/T3
 services are preserved. The unrelated physical-device forward is untouched.
 
+### Chromecast delivery follow-up — 12 October 2026
+
+The user subsequently authorizes installing the same source on the physical
+Chromecast, including a global Brave uninstall only if the update reports
+insufficient storage. Wireless reachability passes throughout delivery.
+The retained ARM Static cache builds in4m10.02s with blocking Android checks,
+four workers,18/22GiB memory limits and no swap. Generated GN arguments confirm
+ARM, optimized/non-official, symbol_level0 and debuggable_apks=false.
+The observed cgroup peak is19,328,995,328B. The6GiB host-availability guard
+starts during compilation; its72 samples cover the remaining run without an
+interruption, and do not establish availability before sampling began.
+Logs/time use `~/.cache/brave-tv/logs/build-edge-arm-r1.{log,time}`.
+
+Preserved artifact:
+`~/.cache/brave-tv/artifacts/edge-scroll-f76523e5a-arm-nodebug-20261012/BraveMonoarm.apk`,
+368,054,503bytes, SHA-256
+`c069a338a17ea9c3daa8f80e5383f4cbf305bc597d6ae2a242eb5452064928b1`.
+V2 signature verification, retained development-certificate identity,
+`com.brave.browser_default`, armeabi-v7a and non-debuggable packaging pass.
+The directory retains both GN argument files, signature, badging and provenance.
+
+The profile-preserving update fails after76.57s with
+`INSTALL_FAILED_INSUFFICIENT_STORAGE`. Only then, as explicitly authorized,
+global uninstall removes Brave and its browsing data from users0/10/11/12.
+Package absence is verified for all four users; the Android users remain.
+Storage reclamation settles to1,300,940KiB free. Fresh user0 installation passes
+in81.02s. The installed APK hash matches the preserved artifact; package flags
+exclude DEBUGGABLE, user0 is installed and users10/11/12 are not installed.
+An in-place upgrade is not established by this delivery.
+
+The pinned agent-device session refuses `open` with DEVICE_IN_USE because a
+different retained T3 session owns the TV. That session is preserved. Native
+startup uses Android's resolved Main activity and T3 screenshots. The first
+launch is interrupted by Google TV's DispatchActivity taking the foreground;
+no Brave process-exit/crash record is observed. A diagnostic leanback intent
+does not resolve and is not a pass. Retrying Main opens ChromeTabbedActivity
+(`Status: ok`, warm TotalTime1157ms). T3 images confirm normal Home Address
+focus, native Down to Browser controls and OK opening controls with Address
+focused and Browse page correctly disabled on native Home. ADB D-pad input
+establishes only native focus/controls, not physical pointer or hold timing.
+Back/Up returns Home; the original stock IME remains unchanged.
+
+Evidence is outside Git at
+`~/.cache/brave-tv/evidence/edge-scroll-chromecast-20261012/`: package/storage
+preflight, install/uninstall records, installed-package/native-smoke JSON,
+startup logs and normal Home/controls screenshots. Prior APKs, caches,
+unrelated apps, Android users and other T3 sessions remain intact. Physical
+remote450ms calibration and broader site/performance acceptance remain open.
+
 Status: emulator input regressions pass as recorded below. The initial debuggable Chromecast APK repeatedly froze; the current non-debuggable test APK installs and passes initial startup and physical-remote input checks. See [build evidence](build.md) and [prototype status](tv-prototype.md). Broad website, sustained-video and performance coverage remain open.
 
 ## What hardware is needed

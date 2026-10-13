@@ -79,6 +79,17 @@ The user also asks to be notified if the TV is unreachable so they can turn it
 on. Reachability preflight passes; report any disconnect that prevents delivery
 instead of treating a connection failure as insufficient-storage authorization.
 
+Delivery outcome: optimized ARM build and signature/ABI/non-debuggable checks
+pass; installed bytes match source `f76523e5a`'s preserved artifact. The update
+fails with insufficient storage, so the authorized global uninstall removes
+Brave data from all four users; fresh user0 installation succeeds. Android
+users and unrelated apps remain intact. Native Home and controls pass after a
+Google TV launcher interruption and normal relaunch. Another T3 session owns
+agent-device, so it is preserved; Android native input and T3 images establish
+the bounded startup/controls check. Stock IME is unchanged. Physical remote
+hold calibration remains open. Exact build/install/evidence limits are in
+[device-tests.md](device-tests.md#chromecast-delivery-follow-up--12-october-2026).
+
 ### Phone companion redesign — touchpad browsing first
 
 Final phone redesign outcome: source87b is deployed on the available TV after
