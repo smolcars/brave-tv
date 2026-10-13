@@ -63,6 +63,19 @@ anchors the previously retained X1632 and checks actual cursor pixels, not stale
 renderer hover. Native alert/confirm/prompt ownership and cursor/document return
 also pass on the final APK. Scope and failed-attempt evidence are in device-tests.md.
 
+### Authorized Chromecast delivery — unified browsing
+
+The user now authorizes installing source `f76523e5a` on the Chromecast. Build
+the optimized ARM Static APK using the retained cache, four workers,18/22GiB
+limits, blocking Android analysis, symbol_level0 and debuggable_apks=false.
+Verify signature/package/ABI and preserve source/artifact provenance. First
+attempt an update that retains the existing profile. Only if installation
+reports insufficient storage, the user explicitly authorizes uninstalling
+this Brave package globally from all profiles and installing it again. Keep
+unrelated apps, Android users, SDK/build caches and previous APKs intact.
+Verify installed APK bytes/non-debuggable configuration and bounded native
+startup/controls; record whether the authorized storage fallback was needed.
+
 ### Phone companion redesign — touchpad browsing first
 
 Final phone redesign outcome: source87b is deployed on the available TV after
