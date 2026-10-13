@@ -475,6 +475,27 @@ command. No test clears browser data.
 
 ## Cursor and click
 
+### Deliberate edge scrolling
+
+`edge-scroll-probe.mjs EMULATOR_SERIAL AGENT_DRIVER.py NORMAL_SCREENSHOT.png`
+uses the normal `http://127.0.0.1:18089/edge-scroll.html` fixture. Serve
+`tests/pages` on loopback18089 and reverse that port only from the selected
+`brave_tv_clean_api36` emulator. Use1920×1080/density320 and the stock keyboard.
+Forward9222 from that emulator's `chrome_devtools_remote`. Open Browser controls
+for this exact fixture with Browse page focused. The driver must retain the
+exact launcher/config/session returned by T3 `device_open`.
+
+The probe uses a temporary non-alphabetic uinput remote for every page/menu
+interaction; CDP only reads synthetic state. It checks stationary edge arrival,
+idle and brief holds, one held-OK click on fixed top/bottom buttons, scrolling
+while held, release/reversal, document boundaries, nested vertical/horizontal
+Scroll here, fullscreen and Back recovery. Exact450ms timing, canceled input,
+native-owner interruption and viewport changes are covered by the JVM policy
+checks; actual native-dialog ownership is a separate regression. A successful
+syntax check or completed input command is not native acceptance. Store normal
+screenshots/logs outside Git, preserve the profile and remove only task-owned
+fixture/forward/reverse mappings on completion.
+
 `tv-context-probe.mjs PLAYWRIGHT_CORE EMULATOR_SERIAL` requires a normal
 `remote-input.html` document with the native pointer positioned over its counter
 button, and the emulator's diagnostic DevTools forward on9222. It verifies a real

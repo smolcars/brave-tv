@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TV edge scrolling checks</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 20px system-ui; color: #eee; background: #13252c; }
+  main { padding: 60px; min-height: 2800px; }
+  button { font: inherit; color: #13252c; background: #b8d8c5; border: 0; }
+  #top, #bottom { position: fixed; left: 0; width: 100%; height: 44px; z-index: 2; }
+  #top { top: 0; }
+  #bottom { bottom: 0; }
+  #fullscreen { position: fixed; top: 60px; right: 60px; padding: 12px; z-index: 2; }
+  #nested { position: absolute; top: 180px; left: 60px; right: 60px;
+            height: 160px; overflow: auto; border: 3px solid #b8d8c5; }
+  #nested p { margin: 0; padding: 24px; height: 650px; width: 1500px; }
+  #marker { margin-top: 300px; }
+</style>
+<button id="top">Top edge clicks: 0</button>
+<main>
+  <h1>TV edge scrolling checks</h1>
+  <p>Arriving at an edge must keep this page still. Continue holding to scroll.</p>
+  <div id="nested" tabindex="0"><p>Nested content: use Scroll here under the pointer.</p></div>
+  <p id="marker">Main page scroll marker</p>
+</main>
+<button id="fullscreen">Enter fullscreen</button>
+<button id="bottom">Bottom edge clicks: 0</button>
+<script>
+  const checks = { topClicks: 0, bottomClicks: 0, hover: null, wheels: 0 };
+  for (const id of ['top', 'bottom']) {
+    document.getElementById(id).onclick = () => {
+      const key = `${id}Clicks`;
+      document.getElementById(id).textContent =
+        `${id === 'top' ? 'Top' : 'Bottom'} edge clicks: ${++checks[key]}`;
+    };
+  }
+  document.addEventListener('mousemove', e => {
+    checks.hover = { x: e.clientX, y: e.clientY };
+  });
+  document.addEventListener('wheel', () => ++checks.wheels, { passive: true });
+  document.getElementById('fullscreen').onclick = () => document.documentElement.requestFullscreen();
+</script>
+</html>
