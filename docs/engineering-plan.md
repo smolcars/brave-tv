@@ -34,6 +34,21 @@ work. Real-device installation and acceptance are explicitly deferred.
 
 ### Phone webpage field submission — complete on emulators
 
+#### Chromecast verification follow-up — 13 October
+
+The user now authorizes TV checks. Verify the existing Chromecast's wireless
+connection/ARM ABI, then build final source `3f84d8d42` in the retained Static ARM
+cache with blocking analysis and `debuggable_apks=false`. Use one worker and
+the existing memory/host guards while other sessions' emulators remain active.
+Try a profile-preserving update first; the earlier explicit authorization permits
+global Brave removal/reinstallation only if insufficient storage prevents it.
+Verify signature, installed bytes and normal startup before checking compact
+loading, completion/native-control suppression and native Enter/Search/newline
+through the bundled companion. Use owned synthetic pages and public searches,
+preserve native validation/composition/security guards, and distinguish a host
+companion connected to the physical TV from actual phone/Safari acceptance.
+Restore owned forwards/settings and record hardware evidence separately below.
+
 Loading feedback and phone Enter/native typing handoff are implemented and pass
 their scoped emulator acceptance as of13 October. Final combined source is
 `3f84d8d42`; [device evidence](device-tests.md#phone-enter-and-native-typing-handoff--13-october-2026)
