@@ -183,7 +183,9 @@ try {
   report('fullscreen edge scrolling', value);
   const capture = agent('screenshot', resolve(screenshot));
   assert.ok(capture.success, 'Normal fullscreen fixture screenshot required');
-  tap(158); await sync(); await focus('Browse page');
+  tap(158); await sync(); await state(s => !s.fullscreen);
+  tap(158); await sync();
+  assert.ok(snapshot().some(n => n.label === 'Browser controls'), 'Back returns to controls');
   report('Back returns to controls', { passed: true });
 } finally {
   key(103, false); key(108, false); key(106, false); key(353, false);
