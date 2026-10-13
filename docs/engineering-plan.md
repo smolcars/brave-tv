@@ -87,6 +87,10 @@ Reuse the verified d960 APK and existing SDK/build caches. Record the failed
 shared-device attempts without attributing their assertion failure to interference
 until isolated testing supplies evidence. Restore only owned test settings and
 stop only controllers/emulators still exclusively owned by this task.
+The final native textarea check also fails on the isolated TV: Enter is accepted
+but expected text/readiness is not observed. Add guarded synthetic-fixture state
+and native key diagnostics to this case, then rerun before changing input delivery.
+Keep the initial passing run and both subsequent failures distinct.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
