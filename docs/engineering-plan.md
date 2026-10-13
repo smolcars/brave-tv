@@ -7054,3 +7054,14 @@ the independent HTTPS research is not silently included in this UI work.
 
 Planning is complete. No native implementation, APK build, or device acceptance
 for this Ambient/promotion slice is recorded yet.
+
+
+### Ambient implementation started
+
+13 October: implement the approved Ambient Home and root controls in native
+Compose, add stable Home Phone state/focus restoration, remove experimental
+availability gates and retain explicit local HTTP disclosure. Use a fresh
+isolated TV AVD after the authorized emulator cleanup, retained build caches,
+and blocking Android analysis. Preserve normal/private data and native owners.
+The five implementation slices and acceptance criteria remain in
+[ambient-implementation-plan.md](ambient-implementation-plan.md).

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brave TV — design options</title>
+<style>
+:root{color-scheme:dark;--ink:var(--foreground,#f1f4f1);--quiet:var(--muted-foreground,#a9b7b5);--rule:var(--border,#34413e);--page:var(--background,#101817);--ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{background:var(--background,#101817)}body{margin:0;color:var(--ink);font-family:var(--ui);background:transparent}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:default}button:focus-visible,a:focus-visible{outline:3px solid #8bc8e1;outline-offset:4px}::selection{background:#bddedf;color:#102b30}a{color:inherit;text-underline-offset:3px}svg{width:26px;height:26px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.icon-defs{position:absolute;width:0;height:0;overflow:hidden}
+.intro{font-size:15px;line-height:1.6;margin:0 0 22px;max-width:65ch;color:var(--quiet)}.option{margin:0 0 32px}.option-header{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:12px}.option-name{display:flex;gap:10px;align-items:center}.option h2{font-size:24px;letter-spacing:-.025em;font-weight:650;margin:0}.recommendation{font-size:11px;background:var(--accent-surface,#23423d);color:var(--accent-surface-foreground,#ceeee5);border-radius:6px;padding:5px 8px}.view-switch{display:flex;gap:3px;background:var(--secondary,#202c29);padding:4px;border-radius:10px}.view-switch button{border:0;background:none;color:var(--quiet);padding:8px 14px;border-radius:7px;font-size:13px;min-height:36px}.view-switch button[aria-pressed=true]{background:var(--card,#3b4d46);color:var(--ink)}.view-switch button:hover{color:var(--ink)}.description{margin:0 0 14px;color:var(--quiet);font-size:14px;line-height:1.6}.tv-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius,12px);background:#132524;container-type:inline-size}.tv-canvas{position:absolute;width:1280px;height:720px;transform-origin:top left;transform:scale(var(--scale,.56875));overflow:hidden;isolation:isolate;color:#f6f8f4;font-family:var(--ui);--tv-ink:#f6f8f4;--tv-muted:#d0dfd8;--tv-panel:#142726;--tv-tile:#28413e;--tv-focus:#dcebdc;--tv-focus-ink:#19362e}.screen{position:absolute;inset:0}.wallpaper{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}.shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,30,28,.3) 0%,rgba(9,28,27,.18) 24%,rgba(7,25,24,.82) 58%,#102825 100%)}.tv-top{display:flex;align-items:center;justify-content:space-between;position:absolute;top:36px;left:64px;right:64px}.brand{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:650;letter-spacing:-.025em}.brand-mark{height:35px;width:35px;stroke-width:1.7}.top-links{display:flex;align-items:center;gap:15px}.top-links .control{padding:12px 19px;min-width:64px;font-size:20px}.top-links .selected{background:rgba(243,248,243,.18);border-radius:30px}.top-links .icon-only{padding:15px;min-width:64px;min-height:64px}.clock{font-size:25px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-left:18px}.control{border:0;color:inherit;background:transparent;text-align:left;transition:background 160ms ease-out,transform 160ms ease-out,color 160ms ease-out,outline-color 160ms ease-out;border-radius:14px}.control:hover{background:rgba(235,248,238,.14)}.control:active{transform:scale(.98)}.control:disabled{color:#a1b0ac;background:#213331;opacity:1}.control.focused,.control:focus-visible{outline:3px solid var(--tv-focus);outline-offset:4px;background:var(--tv-focus);color:var(--tv-focus-ink)}.search{display:flex;align-items:center;gap:18px;height:78px;border-radius:42px;padding:0 25px;background:#f4f7f3;color:#33483d;width:790px;font-size:27px;font-weight:450;box-shadow:0 8px 24px rgba(7,23,21,.18)}.search svg{width:30px;height:30px}.search .enter-hint{margin-left:auto;border-left:1px solid #cdd7cd;padding-left:19px;display:flex;align-items:center;gap:10px;color:#536356;font-size:16px}.search .enter-hint svg{width:23px;height:23px}.search.control.focused{background:#f6f9f4;outline-color:#e6f0e5;color:#33483d}.section-title{display:flex;align-items:center;justify-content:space-between;font-size:23px;font-weight:550;margin:0 0 14px}.section-title .more-link{font-size:18px;font-weight:400;padding:6px 12px}.favorites{display:flex;gap:14px}.favorite{display:flex;flex:1;align-items:center;gap:15px;min-height:80px;background:#25403a;padding:15px 19px;font-size:22px}.site-logo{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;flex-shrink:0;background:#f4f5f0;color:#27352d;font-size:23px;font-weight:650;letter-spacing:-.03em}.site-logo svg{width:28px;height:28px}.youtube{background:#faf5f1;color:#d71d30}.youtube svg{fill:currentColor;stroke:none}.netflix{background:#231a1d;color:#fa3444}.wikipedia{font-family:Georgia,serif;background:#eeeae2;color:#33382e}.reddit{background:#f8e5d5;color:#be4814}.twitch{background:#e3d7ff;color:#634193}.favorite small{display:none}.recent-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.recent{background:#203a35;padding:17px 20px;display:flex;align-items:center;gap:15px;min-height:83px}.recent .site-logo{width:42px;height:42px}.recent-text{display:flex;flex-direction:column;gap:4px;min-width:0}.recent strong{font-size:22px;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.recent small{font-size:17px;color:var(--tv-muted)}.recent>svg{margin-left:auto;width:23px;height:23px}.ambient .hero{position:absolute;left:64px;top:134px}.hero h1{font-size:52px;line-height:1.12;font-weight:500;letter-spacing:-.035em;margin:0 0 25px}.ambient .home-lower{position:absolute;left:64px;right:64px;top:357px}.recent-section{margin-top:25px}.credit{position:absolute;bottom:25px;right:64px;font-size:16px;color:#d0dfd8}.home-hint{position:absolute;left:64px;bottom:25px;display:flex;align-items:center;gap:10px;color:var(--tv-muted);font-size:17px}.key{padding:2px 7px;border:1px solid currentColor;border-radius:5px;font-size:.82em}.home-hint .key{opacity:.85}.credit a{text-decoration:none}.credit a:hover{text-decoration:underline}
+.gallery{background:#edeee5;--tv-ink:#2c382c;--tv-muted:#586350;--tv-panel:#edeee5;--tv-tile:#e0e5d7;--tv-focus:#56694b;--tv-focus-ink:#fff;color:var(--tv-ink)}.gallery .tv-top{left:50px;right:48px;top:31px}.gallery .top-links{gap:8px}.gallery .top-links .selected{background:#dce3d6}.gallery .control:hover{background:#d8e0cf}.gallery .hero{position:absolute;top:140px;left:50px;width:587px}.gallery .hero h1{font-size:49px;max-width:440px;line-height:1.12;margin-bottom:26px;letter-spacing:-.035em}.gallery .search{width:568px;height:73px;font-size:24px;box-shadow:none;background:#fafbf6}.gallery .search.focused{outline-color:#647658;color:#2b382a;background:#fafbf6}.gallery .home-lower{position:absolute;top:348px;left:50px;width:567px}.gallery .section-title{font-size:21px;margin-bottom:16px}.gallery .favorites{gap:10px;justify-content:space-between}.gallery .favorite{background:transparent;padding:0 3px;min-height:94px;flex-direction:column;justify-content:center;gap:9px;font-size:17px;flex:0;width:102px;border-radius:12px}.gallery .site-logo{width:48px;height:48px}.gallery .recent-section{margin-top:25px}.gallery .recent-grid{display:flex;flex-direction:column;gap:8px}.gallery .recent{background:transparent;padding:10px 0;min-height:64px;border-radius:10px;border-bottom:1px solid #d2d9c9}.gallery .recent strong{font-size:20px}.gallery .recent small{font-size:16px}.gallery .recent .site-logo{width:37px;height:37px}.gallery .art-area{position:absolute;top:0;right:0;width:590px;height:720px;background:#bfcbd1;z-index:-1}.gallery .art-area img{position:absolute;top:161px;left:47px;width:498px;height:392px;object-fit:contain;box-shadow:0 12px 25px rgba(31,53,54,.18)}.gallery .art-title{position:absolute;top:583px;left:49px;font-size:22px;font-weight:550;color:#273a3a}.gallery .art-title span{display:block;font-size:17px;font-weight:400;margin-top:7px;color:#42575a}.gallery .art-credit{position:absolute;bottom:35px;left:49px;font-size:15px;color:#405458}.gallery .art-credit a{text-decoration:none}.gallery .home-hint{left:50px;bottom:26px;color:#586350}.gallery .clock{color:#273a3a}.gallery .brand{font-weight:600}.gallery .top-links .control{color:#2b3e39}.gallery .top-links{margin-left:auto}
+.coast{background:#122d3b;--tv-ink:#f5f9fc;--tv-muted:#bed2df;--tv-panel:#132c3b;--tv-tile:#244454;--tv-focus:#c7e8f0;--tv-focus-ink:#173541}.coast .coast-photo{position:absolute;top:0;right:0;width:1010px;height:450px;object-fit:cover;z-index:-2}.coast .shade{left:104px;background:linear-gradient(90deg,#122d3b 0%,rgba(18,45,59,.86) 26%,rgba(18,45,59,.3) 66%,rgba(18,45,59,.1) 100%)}.coast .shade-bottom{position:absolute;left:104px;right:0;top:0;height:720px;background:linear-gradient(180deg,rgba(18,45,59,0) 10%,rgba(18,45,59,.24) 35%,#122d3b 65%);z-index:-1}.rail{position:absolute;inset:0 auto 0 0;width:104px;background:#0d222e;display:flex;flex-direction:column;align-items:center;padding-top:39px;gap:14px}.rail .brand-mark{width:35px;height:35px;margin-bottom:25px;color:#d5eaf0}.rail .control{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:76px;height:77px;text-align:center;font-size:14px;color:#c4d6df}.rail .selected{background:#284955;color:#edf8fc}.rail .control svg{width:28px;height:28px}.rail .rail-bottom{margin-top:auto;margin-bottom:27px}.coast .tv-top{left:155px;top:39px;right:52px}.coast .brand{font-size:23px}.coast .hero{position:absolute;top:126px;left:155px}.coast .hero h1{font-size:49px;margin-bottom:26px;letter-spacing:-.035em}.coast .search{width:839px;font-size:26px;background:#f1f8fa;color:#28424f}.coast .search.control.focused{outline-color:#b3dfe8;background:#f1f8fa;color:#28424f}.coast .home-lower{position:absolute;top:346px;left:155px;right:52px}.coast .favorite{height:111px;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:17px 20px;background:#294b5c;font-size:21px;gap:7px}.coast .favorite .site-logo{width:38px;height:38px;font-size:21px}.coast .favorite.youtube-card{background:#524147}.coast .favorite.netflix-card{background:#3c3b50}.coast .favorite.wiki-card{background:#40545b}.coast .favorite.reddit-card{background:#54504a}.coast .favorite.twitch-card{background:#48455c}.coast .recent-section{margin-top:24px}.coast .recent{background:#254353;min-height:82px}.coast .home-hint{left:155px}.coast .credit{right:52px}.coast .control:hover{background:#355866}
+.menu-layer{position:absolute;inset:0;z-index:4}.scrim{position:absolute;inset:0;background:rgba(4,14,15,.62)}.menu-panel{position:absolute;right:0;top:0;width:610px;height:720px;padding:28px 30px;background:var(--tv-panel);box-shadow:-12px 0 36px rgba(7,16,20,.2);color:var(--tv-ink)}.menu-head{display:flex;align-items:center;justify-content:space-between;height:46px;margin-bottom:3px}.menu-head h2{font-size:30px;letter-spacing:-.025em;font-weight:550;margin:0}.dismiss{width:50px;height:50px;display:flex;align-items:center;justify-content:center}.site-context{display:flex;align-items:center;gap:8px;font-size:18px;color:var(--tv-muted);height:30px;margin-bottom:19px}.site-context svg{width:19px;height:19px}.menu-search{height:59px;border-radius:32px;background:#dcebdc;color:#254135;font-size:23px;padding:0 20px;display:flex;align-items:center;gap:12px;width:100%;margin-bottom:17px}.menu-search svg{width:26px;height:26px}.navigation-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:21px}.nav-action{height:62px;background:var(--tv-tile);display:flex;align-items:center;justify-content:center;gap:8px;font-size:18px}.nav-action svg{height:22px;width:22px}.nav-action:disabled{color:#94a8a4;background:#203633}.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px}.menu-action{height:88px;background:var(--tv-tile);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;font-size:20px;font-weight:450;text-align:center}.menu-action svg{height:26px;width:26px}.utility-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.utility-action{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;font-size:18px;background:var(--tv-tile)}.utility-action svg{height:21px;width:21px}.utility-action[data-action="Close tab"]{color:#edc3ae}.menu-foot{display:flex;align-items:center;gap:10px;font-size:17px;color:var(--tv-muted);margin-top:25px}.menu-foot svg{height:20px;width:20px}.menu-foot .control{padding:6px 12px;font-size:17px}.gallery .menu-panel{left:0;right:auto;width:650px;background:#eeefe7;box-shadow:12px 0 36px rgba(27,39,24,.18)}.gallery .scrim{background:rgba(28,43,39,.39)}.gallery .menu-search{background:#dde6d5;color:#334a2e}.gallery .menu-search.focused{background:#56694b;color:#fff}.gallery .nav-action:disabled{background:#e0e4d9;color:#6f7968}.gallery .utility-action[data-action="Close tab"]{color:#7b4435}.gallery .menu-action:hover,.gallery .utility-action:hover,.gallery .nav-action:hover{background:#d3ddca}.coast .menu-panel{top:203px;left:144px;right:42px;bottom:24px;width:auto;height:auto;padding:25px 30px;border-radius:20px;box-shadow:0 -12px 36px rgba(4,19,27,.24);background:#183745}.coast .menu-head{height:38px;margin-bottom:0}.coast .menu-head h2{font-size:28px}.coast .site-context{position:absolute;left:290px;top:31px;font-size:17px;margin:0;height:25px}.coast .menu-search{width:49%;margin-top:20px;height:57px;margin-bottom:20px;background:#c7e8f0;color:#173541}.coast .navigation-row{position:absolute;right:30px;top:82px;width:44%;margin:0}.coast .nav-action{height:57px}.coast .menu-grid{grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.coast .menu-action{height:79px;flex-direction:row;gap:10px;font-size:20px}.coast .menu-action:last-child{grid-column:auto}.coast .utility-row{position:absolute;left:30px;right:30px;bottom:65px;grid-template-columns:repeat(3,1fr);gap:12px}.coast .utility-action{height:45px;background:transparent;font-size:19px}.coast .menu-foot{position:absolute;left:30px;bottom:22px;margin:0;font-size:17px}.coast .nav-action:disabled{background:#203d48;color:#a0b8c1}
+.screen{isolation:isolate}.ambient .shade{background:linear-gradient(180deg,rgba(8,30,28,.68) 0%,rgba(9,28,27,.44) 36%,rgba(7,25,24,.82) 60%,#102825 100%)}.ambient .top-links .selected{background:#31534b}.gallery .hero{top:124px}.gallery .home-lower{top:352px}.gallery .recent-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.gallery .recent{min-height:83px;min-width:0;background:#e0e5d7;border:0;padding:13px}.gallery .recent strong{font-size:18px}.gallery .recent small{font-size:15px}.gallery .recent .site-logo{width:33px;height:33px}.gallery .recent>svg{display:none}.coast .home-lower{top:330px}.editor-row input::placeholder{color:var(--tv-muted);opacity:1}
+.editor-layer{position:absolute;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:rgba(8,20,22,.8)}.editor-panel{width:800px;padding:38px;background:var(--tv-panel);color:var(--tv-ink);border-radius:20px}.editor-panel h2{font-size:32px;font-weight:550;margin:0 0 12px}.editor-panel p{font-size:21px;color:var(--tv-muted);margin:0 0 25px}.editor-row{display:flex;gap:14px}.editor-row input{background:var(--tv-tile);border:2px solid var(--tv-focus);border-radius:12px;height:67px;padding:0 20px;flex:1;min-width:0;color:var(--tv-ink);font-size:25px;caret-color:var(--tv-focus)}.editor-row button{height:67px;padding:0 25px;background:var(--tv-focus);color:var(--tv-focus-ink);font-size:23px}.editor-panel .cancel{padding:14px;margin-top:16px;font-size:21px}.toast{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);padding:16px 24px;max-width:900px;border-radius:12px;background:#f0f5ef;color:#253c33;z-index:20;font-size:23px;box-shadow:0 8px 28px rgba(0,0,0,.22)}[hidden]{display:none!important}.option-footer{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-top:10px;font-size:12px;line-height:1.5;color:var(--quiet)}.enlarge{background:none;color:var(--ink);border:0;padding:6px 0;text-decoration:underline;text-underline-offset:3px;font-size:12px;white-space:nowrap}.note{font-size:13px;line-height:1.65;color:var(--quiet);margin:0;max-width:66ch}.note strong{color:var(--ink);font-weight:550}.solo .intro,.solo .note,.solo .option-header,.solo .description,.solo .option-footer{display:none}.solo .option{margin:0}.solo .tv-frame{border-radius:0}.solo .option:not(.solo-active){display:none}.fullscreen.tv-frame{border-radius:0;width:100%;height:100%;aspect-ratio:auto}.fullscreen{background:#102825}.fullscreen .tv-canvas{top:50%;left:50%;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center}
+@media(max-width:440px){.intro{font-size:13px;margin-bottom:18px}.option-header{gap:8px}.option h2{font-size:21px}.recommendation{font-size:10px;padding:4px 6px}.view-switch button{padding:8px 11px;font-size:12px}.description{font-size:13px;margin-bottom:11px}.option{margin-bottom:27px}.option-footer{font-size:11px}.option-name{gap:7px}.enlarge{font-size:11px}.note{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg class="icon-defs" aria-hidden="true"><defs>
+<symbol id="i-brand" viewBox="0 0 32 32"><path d="M16 3 27 8v10c0 6-11 11-11 11S5 24 5 18V8Z"/><path d="m11 12 5-3 5 3-1 7-4 4-4-4Z"/><path d="m11 12 5 4 5-4m-5 4v7"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></symbol>
+<symbol id="i-tabs" viewBox="0 0 24 24"><rect x="7" y="7" width="14" height="14" rx="3"/><path d="M16 3H6a3 3 0 0 0-3 3v10"/></symbol>
+<symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4Z"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="m10 3-1 3-3 1-3 3 2 2-2 3 3 3 3 1 1 2h4l1-2 3-1 3-3-2-3 2-2-3-3-3-1-1-3Z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-enter" viewBox="0 0 24 24"><path d="M19 5v10H5m5-5-5 5 5 5"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H4m7-7-7 7 7 7"/></symbol>
+<symbol id="i-forward" viewBox="0 0 24 24"><path d="M4 12h16m-7-7 7 7-7 7"/></symbol>
+<symbol id="i-reload" viewBox="0 0 24 24"><path d="M20 10a8 8 0 1 0-2 8M20 3v7h-7"/></symbol>
+<symbol id="i-history" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2 7M3 4v7h7m2-5v7l4 2"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 4v6c0 5-8 8-8 8s-8-3-8-8V7Z"/><path d="m8 12 3 3 5-6"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.2"/></symbol>
+<symbol id="i-cursor" viewBox="0 0 24 24"><path d="m5 3 14 11-7 1-3 6Z"/></symbol>
+<symbol id="i-scroll" viewBox="0 0 24 24"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4Z"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="i-youtube" viewBox="0 0 28 28"><path d="M25 8c-.5-2-2-3-4-3H7C3 5 2 7 2 14s1 9 5 9h14c4 0 5-2 5-9 0-2-.3-4-1-6ZM12 18V10l7 4Z" fill-rule="evenodd"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18"/></symbol>
+</defs></svg>
+<p class="intro">Three directions for your TV browser. Switch each preview between <strong>Home</strong> and <strong>Menu</strong>, or enlarge it to try the remote focus.</p>
+<main id="options"></main>
+<p class="note"><strong>Same browser, a new look.</strong> Search keeps your selected provider. All existing browser controls stay available; focus and Back follow the current TV behavior. These are interactive design previews with sample favorites and tabs. Native implementation starts after you choose.</p>
+<template id="ambient-home">
+<div class="screen ambient">
+<img class="wallpaper" src="tv-redesign-assets/dolomites.jpg" alt=""><div class="shade"></div>
+<header class="tv-top"><div class="brand"><svg class="brand-mark"><use href="#i-brand"/></svg>Brave TV</div><nav class="top-links" aria-label="Browser destinations"><button class="control selected" data-action="Home">Home</button><button class="control" data-action="Tabs">Tabs</button><button class="control" data-action="Favorites">Favorites</button><button class="control icon-only" aria-label="Settings" data-action="Settings"><svg><use href="#i-settings"/></svg></button><time class="clock">8:41</time></nav></header>
+<div class="hero"><h1>Where to next?</h1><button class="search control focused" data-action="Search"><svg><use href="#i-search"/></svg><span>Search or enter a website</span><span class="enter-hint"><span>OK</span><svg><use href="#i-enter"/></svg></span></button></div>
+<div class="home-lower"><section><div class="section-title">Favorites<button class="control more-link" data-action="Favorites">View all<svg style="width:17px;height:17px;vertical-align:middle;margin-left:7px"><use href="#i-forward"/></svg></button></div><div class="favorites">
+<button class="favorite control" data-action="YouTube"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span>YouTube</button>
+<button class="favorite control" data-action="Netflix"><span class="site-logo netflix">N</span>Netflix</button>
+<button class="favorite control" data-action="Wikipedia"><span class="site-logo wikipedia">W</span>Wikipedia</button>
+<button class="favorite control" data-action="Reddit"><span class="site-logo reddit">r</span>Reddit</button>
+<button class="favorite control" data-action="Twitch"><span class="site-logo twitch">t</span>Twitch</button>
+</div></section><section class="recent-section"><div class="section-title">Continue browsing<button class="control more-link" data-action="Tabs">All tabs<svg style="width:17px;height:17px;vertical-align:middle;margin-left:7px"><use href="#i-forward"/></svg></button></div><div class="recent-grid">
+<button class="recent control" data-action="YouTube tab"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span><span class="recent-text"><strong>YouTube</strong><small>youtube.com</small></span><svg><use href="#i-forward"/></svg></button>
+<button class="recent control" data-action="Wikipedia tab"><span class="site-logo wikipedia">W</span><span class="recent-text"><strong>James Webb Space Telescope</strong><small>wikipedia.org</small></span><svg><use href="#i-forward"/></svg></button>
+</div></section></div>
+<div class="home-hint"><span class="key">Back</span> Browser menu</div><div class="credit"><a href="https://unsplash.com/photos/brown-wooden-boat-moving-towards-the-mountain-O453M2Liufs" target="_blank" rel="noopener">Lago di Braies · Luca Bravo</a></div>
+</div>
+</template>
+<template id="gallery-home">
+<div class="screen gallery">
+<div class="art-area"><img src="tv-redesign-assets/van-gogh.jpg" alt="Wheat Field with Cypresses by Vincent van Gogh"><div class="art-title">Wheat Field with Cypresses<span>Vincent van Gogh, 1889</span></div><div class="art-credit"><a href="https://www.metmuseum.org/art/collection/search/436535" target="_blank" rel="noopener">The Metropolitan Museum of Art · Open Access</a></div></div>
+<header class="tv-top"><div class="brand"><svg class="brand-mark"><use href="#i-brand"/></svg>Brave TV</div><nav class="top-links" aria-label="Browser destinations"><button class="control" data-action="Tabs">Tabs</button><button class="control" data-action="Favorites">Favorites</button><button class="control icon-only" aria-label="Settings" data-action="Settings"><svg><use href="#i-settings"/></svg></button><time class="clock">8:41</time></nav></header>
+<div class="hero"><h1>Make room<br>for discovery.</h1><button class="search control focused" data-action="Search"><svg><use href="#i-search"/></svg><span>Search or enter a website</span><span class="enter-hint"><svg><use href="#i-enter"/></svg></span></button></div>
+<div class="home-lower"><section><div class="section-title">Favorites<button class="control more-link" data-action="Favorites">View all</button></div><div class="favorites">
+<button class="favorite control" data-action="YouTube"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span>YouTube</button>
+<button class="favorite control" data-action="Netflix"><span class="site-logo netflix">N</span>Netflix</button>
+<button class="favorite control" data-action="Wikipedia"><span class="site-logo wikipedia">W</span>Wikipedia</button>
+<button class="favorite control" data-action="Reddit"><span class="site-logo reddit">r</span>Reddit</button>
+<button class="favorite control" data-action="Twitch"><span class="site-logo twitch">t</span>Twitch</button>
+</div></section><section class="recent-section"><div class="section-title">Continue browsing<button class="control more-link" data-action="Tabs">All tabs</button></div><div class="recent-grid">
+<button class="recent control" data-action="YouTube tab"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span><span class="recent-text"><strong>YouTube</strong><small>youtube.com</small></span><svg><use href="#i-forward"/></svg></button>
+<button class="recent control" data-action="Wikipedia tab"><span class="site-logo wikipedia">W</span><span class="recent-text"><strong>James Webb Space Telescope</strong><small>wikipedia.org</small></span><svg><use href="#i-forward"/></svg></button>
+</div></section></div>
+<div class="home-hint"><span class="key">Back</span> Browser menu</div>
+</div>
+</template>
+<template id="coast-home">
+<div class="screen coast">
+<img class="coast-photo" src="tv-redesign-assets/coast.webp" alt=""><div class="shade"></div><div class="shade-bottom"></div>
+<nav class="rail" aria-label="Browser destinations"><svg class="brand-mark"><use href="#i-brand"/></svg><button class="control selected" data-action="Home"><svg><use href="#i-home"/></svg>Home</button><button class="control" data-action="Tabs"><svg><use href="#i-tabs"/></svg>Tabs</button><button class="control" data-action="Favorites"><svg><use href="#i-bookmark"/></svg>Favorites</button><button class="control" data-action="Menu"><svg><use href="#i-cursor"/></svg>Menu</button><button class="control rail-bottom" data-action="Settings"><svg><use href="#i-settings"/></svg>Settings</button></nav>
+<header class="tv-top"><div class="brand">Brave TV</div><time class="clock">8:41</time></header>
+<div class="hero"><h1>A world worth exploring.</h1><button class="search control focused" data-action="Search"><svg><use href="#i-search"/></svg><span>Search or enter a website</span><span class="enter-hint"><span>OK</span><svg><use href="#i-enter"/></svg></span></button></div>
+<div class="home-lower"><section><div class="section-title">Favorites<button class="control more-link" data-action="Favorites">View all</button></div><div class="favorites">
+<button class="favorite control youtube-card" data-action="YouTube"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span>YouTube</button>
+<button class="favorite control netflix-card" data-action="Netflix"><span class="site-logo netflix">N</span>Netflix</button>
+<button class="favorite control wiki-card" data-action="Wikipedia"><span class="site-logo wikipedia">W</span>Wikipedia</button>
+<button class="favorite control reddit-card" data-action="Reddit"><span class="site-logo reddit">r</span>Reddit</button>
+<button class="favorite control twitch-card" data-action="Twitch"><span class="site-logo twitch">t</span>Twitch</button>
+</div></section><section class="recent-section"><div class="section-title">Continue browsing<button class="control more-link" data-action="Tabs">All tabs</button></div><div class="recent-grid">
+<button class="recent control" data-action="YouTube tab"><span class="site-logo youtube"><svg><use href="#i-youtube"/></svg></span><span class="recent-text"><strong>YouTube</strong><small>youtube.com</small></span><svg><use href="#i-forward"/></svg></button>
+<button class="recent control" data-action="Wikipedia tab"><span class="site-logo wikipedia">W</span><span class="recent-text"><strong>James Webb Space Telescope</strong><small>wikipedia.org</small></span><svg><use href="#i-forward"/></svg></button>
+</div></section></div><div class="home-hint"><span class="key">Back</span> Browser menu</div><div class="credit"><a href="https://www.instagram.com/vass_captures/" target="_blank" rel="noopener">Coastal aerial · Dylan Malval</a></div>
+</div>
+</template>
+<script>
+const designs=[
+ {id:'ambient',name:'Ambient',description:'Cinematic scenery, a generous search pill, and a quiet menu that slides in from the right.',detail:'Closest to Google TV. The landscape leads; browser controls stay easy to scan.',recommended:true},
+ {id:'gallery',name:'Gallery',description:'A warm, modern art room. Search and saved pages sit beside a beautifully credited painting.',detail:'The most distinctive. A light olive menu opens from the left; artwork keeps its own space.'},
+ {id:'coast',name:'Coast',description:'A modern blue dashboard with colorful favorites, a slim navigation rail, and a wide menu tray.',detail:'The most practical. Every browser action fits in a single broad menu.'}
+];
+const menuItems=[
+ ['Tabs','tabs'],['Favorites','bookmark'],['History','history'],['Downloads','download'],['Shields','shield'],['Settings','settings'],['Page cursor','cursor'],['Scroll here','scroll'],['Playback','play']
+];
+const utilityItems=[['Site info','info'],['Phone remote','phone'],['Close tab','close']];
+const navItems=[['Back','back'],['Forward','forward'],['Reload','reload'],['Home','home']];
+function icon(name){return '<svg aria-hidden="true"><use href="#i-'+name+'"/></svg>'}
+function menuButton(item,style){return '<button class="control '+style+'" data-action="'+item[0]+'"'+(item[0]==='Forward'?' disabled':'')+'>'+icon(item[1])+'<span>'+item[0]+'</span></button>'}
+function menuHTML(){
+ return '<div class="menu-layer"><div class="scrim"></div><section class="menu-panel" role="dialog" aria-label="Browser controls">'+
+ '<div class="menu-head"><h2>Browser controls</h2><button class="control dismiss" aria-label="Return to page" data-action="Dismiss">'+icon('close')+'</button></div>'+
+ '<div class="site-context">'+icon('globe')+'youtube.com · example page</div>'+
+ '<button class="control menu-search focused" data-action="Search">'+icon('search')+'Search or enter a website</button>'+
+ '<div class="navigation-row">'+navItems.map(i=>menuButton(i,'nav-action')).join('')+'</div>'+
+ '<div class="menu-grid">'+menuItems.map(i=>menuButton(i,'menu-action')).join('')+'</div>'+
+ '<div class="utility-row">'+utilityItems.map(i=>menuButton(i,'utility-action')).join('')+'</div>'+
+ '<div class="menu-foot"><span class="key">Back</span> Return to page</div></section></div>';
+}
+const root=document.getElementById('options');
+for(const d of designs){
+ const section=document.createElement('section');section.className='option';section.dataset.design=d.id;
+ section.innerHTML='<div class="option-header"><div class="option-name"><h2>'+d.name+'</h2>'+(d.recommended?'<span class="recommendation">My pick</span>':'')+'</div><nav class="view-switch" aria-label="'+d.name+' preview"><button data-view="home" aria-pressed="true">Home</button><button data-view="menu" aria-pressed="false">Menu</button></nav></div><p class="description">'+d.description+'</p><div class="tv-frame" tabindex="-1" aria-label="'+d.name+' interactive TV preview"><div class="tv-canvas"></div></div><div class="option-footer"><span>'+d.detail+'</span><button class="enlarge" aria-label="Enlarge '+d.name+' preview">Enlarge</button></div>';
+ root.append(section);setView(section,'home');
+ section.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(section,b.dataset.view)));
+ section.querySelector('.enlarge').addEventListener('click',async()=>{
+  const frame=section.querySelector('.tv-frame');
+  if(frame.requestFullscreen){try{await frame.requestFullscreen();}catch(e){showToast(section,'Fullscreen unavailable. Use your browser zoom to enlarge.');}}
+  else showToast(section,'Use your browser zoom to enlarge this preview.');
+ });
+ section.addEventListener('click',event=>{
+  const control=event.target.closest('[data-action]');if(!control||control.disabled)return;
+  section.querySelectorAll('.focused').forEach(c=>c.classList.remove('focused'));control.classList.add('focused');
+  const action=control.dataset.action;
+  if(action==='Search')openEditor(section);
+  else if(action==='Dismiss'){setView(section,'home');section.querySelector('.search').focus({preventScroll:true});}
+  else if(action==='Menu')setView(section,'menu');
+  else if(action==='Home')setView(section,'home');
+  else showToast(section,'Preview: '+action);
+ });
+ section.addEventListener('keydown',event=>{
+  if(event.target.matches('input'))return;
+  const frame=section.querySelector('.tv-frame');if(!frame.contains(event.target))return;
+  if(event.key==='Escape'||event.key==='BrowserBack'){
+   event.preventDefault();const editor=frame.querySelector('.editor-layer');
+   if(editor){closeEditor(section);return;}
+   setView(section,section.dataset.view==='menu'?'home':'menu');
+   const focus=section.querySelector('.menu-search')||section.querySelector('.search');focus.focus({preventScroll:true});return;
+  }
+  if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key))return;
+  event.preventDefault();
+  const layer=frame.querySelector('.editor-layer')||frame.querySelector('.menu-layer')||frame.querySelector('.screen');
+  const targets=[...layer.querySelectorAll('button.control:not(:disabled)')].filter(el=>el.getBoundingClientRect().width>0);
+  const current=targets.find(el=>el===document.activeElement)||targets.find(el=>el.classList.contains('focused'))||targets[0];
+  if(!current)return;
+  const r=current.getBoundingClientRect(),cx=r.x+r.width/2,cy=r.y+r.height/2;
+  const horizontal=event.key==='ArrowLeft'||event.key==='ArrowRight',sign=event.key==='ArrowRight'||event.key==='ArrowDown'?1:-1;
+  const next=targets.filter(el=>el!==current).map(el=>{
+   const b=el.getBoundingClientRect(),dx=b.x+b.width/2-cx,dy=b.y+b.height/2-cy;
+   const primary=(horizontal?dx:dy)*sign,secondary=horizontal?Math.max(0,b.top-r.bottom,r.top-b.bottom):Math.max(0,b.left-r.right,r.left-b.right);
+   return{el,primary,score:primary+secondary*2.4};
+  }).filter(x=>x.primary>2).sort((a,b)=>a.score-b.score)[0];
+  if(next){section.querySelectorAll('.focused').forEach(c=>c.classList.remove('focused'));next.el.classList.add('focused');next.el.focus({preventScroll:true});}
+ });
+}
+function setView(section,view){
+ section.dataset.view=view;section.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));
+ const canvas=section.querySelector('.tv-canvas'),id=section.dataset.design;
+ canvas.innerHTML=document.getElementById(id+'-home').innerHTML;
+ if(view==='menu'){canvas.querySelectorAll('.focused').forEach(el=>el.classList.remove('focused'));canvas.querySelector('.screen').insertAdjacentHTML('beforeend',menuHTML());}
+}
+function showToast(section,message){
+ const canvas=section.querySelector('.tv-canvas');canvas.querySelector('.toast')?.remove();
+ const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=message;canvas.append(t);setTimeout(()=>t.remove(),2400);
+}
+function openEditor(section){
+ const canvas=section.querySelector('.tv-canvas');if(canvas.querySelector('.editor-layer'))return;
+ const layer=document.createElement('div');layer.className='editor-layer';layer.setAttribute('role','dialog');layer.setAttribute('aria-label','Search or enter a website');
+ layer.innerHTML='<form class="editor-panel"><h2>Search or enter a website</h2><p>Your selected search provider stays the same.</p><div class="editor-row"><input aria-label="Search or website address" placeholder="Search or enter a website" autocomplete="off"><button class="control" type="submit">Go</button></div><button class="control cancel" type="button">Cancel</button></form>';
+ canvas.querySelector('.screen').append(layer);
+ layer.querySelector('form').addEventListener('submit',e=>{e.preventDefault();const value=layer.querySelector('input').value.trim();if(!value){layer.querySelector('input').focus();return;}closeEditor(section);showToast(section,'Preview search: '+value);});
+ layer.querySelector('.cancel').addEventListener('click',()=>closeEditor(section));
+ layer.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeEditor(section);}});
+ layer.querySelector('input').focus({preventScroll:true});
+}
+function closeEditor(section){section.querySelector('.editor-layer')?.remove();(section.querySelector('.menu-search')||section.querySelector('.search'))?.focus({preventScroll:true});}
+const observer=new ResizeObserver(entries=>{for(const e of entries){const frame=e.target;frame.querySelector('.tv-canvas').style.setProperty('--scale',frame===document.fullscreenElement?Math.min(frame.clientWidth/1280,frame.clientHeight/720):e.contentRect.width/1280);}});
+document.querySelectorAll('.tv-frame').forEach(el=>observer.observe(el));
+document.addEventListener('fullscreenchange',()=>{document.querySelectorAll('.tv-frame').forEach(frame=>{frame.classList.toggle('fullscreen',frame===document.fullscreenElement);frame.querySelector('.tv-canvas').style.setProperty('--scale',frame===document.fullscreenElement?Math.min(frame.clientWidth/1280,frame.clientHeight/720):frame.clientWidth/1280);});});
+const params=new URLSearchParams(location.search);
+if(params.get('solo')==='1'){
+ document.body.classList.add('solo');const active=document.querySelector('[data-design="'+(designs.some(d=>d.id===params.get('concept'))?params.get('concept'):'ambient')+'"]');
+ active.classList.add('solo-active');setView(active,params.get('view')==='menu'?'menu':'home');
+}
+console.assert(designs.length===3,'Three design options must be present');
+console.assert(1+navItems.length+menuItems.length+utilityItems.length===17,'All 17 native browser actions must be represented');
+</script>
+</body>
+</html>

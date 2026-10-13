@@ -2,14 +2,18 @@
 
 Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), implement direct source changes, run focused checks and the cached emulator build, review only the latest implementation commit, then commit evidence and push `master`. Record failed or partial checks honestly. Physical testing requires later user authorization.
 
-## Current priority (user direction, 10 October)
+## Current priority (user direction, 12 October)
 
-The current requested work is the [TV UI rebuild engineering plan](tv-ui-rebuild-plan.md).
-Its ordered tasks are the canonical checklist for the ongoing Kotlin/Compose
-presentation migration. The list below retains earlier browser progress and
-acceptance. Historical Chromecast permissions are superseded: do not operate it
-during this rebuild. Emulator acceptance and actual hardware acceptance remain
-separate; the canonical checklist records the rebuild's current progress.
+The user selected Ambient and requested the
+[Ambient implementation and engineering plan](ambient-implementation-plan.md),
+including normal Home Phone connect/disconnect without experimental build/switch
+gates. Its five slices and acceptance checklist define the next implementation.
+This planning slice does not record native changes or new device acceptance.
+
+The [earlier TV UI rebuild plan](tv-ui-rebuild-plan.md) retains Compose migration
+history and outstanding wider acceptance. The list below retains browser
+progress. Device operations still use the applicable session authorization and
+explicit target; emulator and physical acceptance remain separate.
 
 - [x] Fix the restored-home startup panel issue. `44ccdafef` passes the previously failing 20-step home replay; real webpages retain automatic browser controls.
 - [ ] Resolve the intermittent Android 14 first-launch handoff with a repeatable, awake-device reproduction and verified correction. Ten fresh Chromecast initializations pass, including actual agent launch/inspection; the original rejection is unreproduced and is not claimed fixed.
