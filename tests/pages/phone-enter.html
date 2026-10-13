@@ -37,6 +37,20 @@
   window.events = [];
   window.submissions = [];
   window.invalids = 0;
+  const params = new URLSearchParams(location.search);
+  const run = params.get('run');
+  function report() {
+    if (!run || !/^[a-z0-9-]{1,80}$/.test(run)) return;
+    const active = document.activeElement;
+    fetch('/enter-report?run=' + run, { method: 'POST', body: JSON.stringify({
+      events, submissions, invalids, active: active.id,
+      text: active.isContentEditable ? active.innerText : active.value || '',
+      start: active.selectionStart, end: active.selectionEnd,
+    }) }).catch(() => {});
+  }
+  for (const event of ['keydown', 'input', 'focusin', 'focusout', 'invalid', 'submit']) {
+    document.addEventListener(event, () => setTimeout(report, 0), true);
+  }
   for (const element of document.querySelectorAll('input,textarea,[contenteditable]')) {
     element.addEventListener('keydown', event => {
       if (event.key !== 'Enter') return;
@@ -67,6 +81,9 @@
   addEventListener('message', event => {
     if (event.origin === 'http://127.0.0.1:18088' && event.source === frame.contentWindow && event.data?.fixture === 'enter')
       submissions.push({ id: 'frame', text: event.data.text, trusted: event.data.trusted });
+    report();
   });
+  if (params.has('case')) showCase(params.get('case'));
+  report();
 </script>
 </html>

@@ -526,6 +526,18 @@ Use the Nix shell and the API 36, 1920×1080, 320 dpi emulator from
 its exact launcher, config, serial and session arguments on every agent-device
 command. No test clears browser data.
 
+When the preserved TV process has no DevTools endpoint, run
+`phone-enter-fixture-server.mjs` from the repository root (loopback18088 only)
+instead of the static fixture server. `phone-enter-native-probe.mjs PW TV_SERIAL
+TV_AVD PHONE_SERIAL PHONE_AVD EXACT_COMPANION_ORIGIN TV_AGENT_DRIVER OUTPUT_JSON
+[PHONE_CDP_PORT]` navigates fresh run-scoped normal fixtures through the paired
+companion, focuses their native accessibility bounds using remote pointer
+commands, and checks page-reported trusted key/form events. The driver must be
+pinned to that same TV emulator/session and accept `snapshot --json`. Stock IME,
+composition and protected-owner checks remain separate; no TV DOM key or forced
+submission is injected. The report endpoint contains only owned synthetic data
+and exists in the test server, never the app.
+
 ## Cursor and click
 
 ### Deliberate edge scrolling

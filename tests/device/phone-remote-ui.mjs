@@ -508,6 +508,13 @@ try {
   ]) {
     await page.locator(`#${id}`).click();
     await capture(page, `${name}-mobile`);
+    if (captureDirectory && name === "type") {
+      for (const [width, height, size] of [[320, 700, "small"], [844, 390, "landscape"], [1440, 900, "desktop"]]) {
+        await page.setViewportSize({ width, height });
+        await capture(page, `type-${size}`);
+      }
+      await page.setViewportSize({ width: 390, height: 844 });
+    }
   }
   await page.locator("#remoteTab").click();
   for (const [width, height, name] of [
