@@ -33,6 +33,7 @@ let textBeforeReplace = false;
 let holdNativeAck = false;
 let rejectEnter = false;
 let holdEnterAck = false;
+let holdPrepareAck = false;
 const initial = {
   revision: 1,
   paused: false,
@@ -55,6 +56,7 @@ const initial = {
     action: "enter",
     multiline: false,
     composing: false,
+    phoneTyping: false,
     text: "hello",
     start: 5,
     end: 5,
@@ -113,6 +115,20 @@ const server = createServer(async (req, res) => {
     await barrier;
   }
   if (data.op !== "state") commands.push(data);
+  if (data.op === "stopTyping") initial.editable.phoneTyping = false;
+  if (data.edit === "prepare") {
+    const ok = initial.editable.ready && !initial.editable.composing;
+    if (ok) {
+      initial.editable.phoneTyping = true;
+      initial.editable.ready = !holdPrepareAck;
+    }
+    res.end(JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial }));
+    return;
+  }
+  if (data.edit === "finish") {
+    initial.editable.phoneTyping = true;
+    initial.editable.composing = false;
+  }
   if (data.edit === "enter") {
     const ok = !rejectEnter && initial.editable?.ready && !initial.editable.composing
       && data.editable === initial.editable.revision
@@ -297,7 +313,25 @@ try {
   await page.waitForFunction(
     () => state.editable?.ready && field === state.editable.revision,
   );
+  holdPrepareAck = true;
   await page.locator("#showKeyboard").click();
+  await page.waitForFunction(() => state.editable.phoneTyping && !state.editable.ready);
+  assert.equal(await page.locator("#editor").getAttribute("readonly"), "");
+  assert.equal(await page.locator("#enter").isDisabled(), true);
+  assert.equal(commands.filter((c) => c.edit === "replace").length, 0);
+  holdPrepareAck = false;
+  initial.editable.ready = true;
+  await page.waitForFunction(() => state.editable.phoneTyping && state.editable.ready && !busy);
+  assert.equal(await page.locator("#editor").getAttribute("readonly"), null);
+  initial.editable.phoneTyping = false;
+  await page.waitForFunction(() => !state.editable.phoneTyping);
+  const preparations = commands.filter((c) => c.edit === "prepare").length;
+  await page.waitForTimeout(650);
+  assert.equal(commands.filter((c) => c.edit === "prepare").length, preparations,
+    "Physical TV input cannot be automatically reclaimed");
+  assert.equal(await page.locator("#enter").isDisabled(), true);
+  await page.locator("#editor").click();
+  await page.waitForFunction(() => state.editable.phoneTyping && state.editable.ready && !busy);
   await page.locator("#editor").focus();
   holdNativeAck = true;
   await page.locator("#editor").fill("Native acknowledgement fixture");
@@ -424,6 +458,8 @@ try {
   // Task changes and native tab updates preserve keyboard ownership.
   await page.locator("#showKeyboard").focus();
   await page.keyboard.press("ArrowRight");
+  await page.waitForFunction(() => !state.editable.phoneTyping && !busy);
+  assert.equal(commands.at(-1).op, "stopTyping", "Leaving Type returns the keyboard lease");
   assert.equal(
     await page.locator("#tabsTab").getAttribute("aria-selected"),
     "true",
@@ -507,6 +543,7 @@ try {
     ["tabsTab", "tabs"],
   ]) {
     await page.locator(`#${id}`).click();
+    if (name === "type") await page.waitForFunction(() => state.editable.phoneTyping && state.editable.ready && !busy);
     await capture(page, `${name}-mobile`);
     if (captureDirectory && name === "type") {
       for (const [width, height, size] of [[320, 700, "small"], [844, 390, "landscape"], [1440, 900, "desktop"]]) {
@@ -527,6 +564,7 @@ try {
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator("#showKeyboard").click();
+  await page.waitForFunction(() => state.editable.phoneTyping && state.editable.ready && !busy);
   await page.locator("#editor").scrollIntoViewIfNeeded();
   const enters = () => commands.filter((c) => c.edit === "enter");
   const enterSettled = () => page.waitForFunction(
@@ -588,7 +626,8 @@ try {
   assert.equal(await page.locator("#fieldHint").textContent(),
     "Enter was sent. Check the TV before trying again.",
     "Unacknowledged sent input cannot claim it was discarded");
-  assert.equal(await page.locator("#editor").getAttribute("readonly"), null);
+  assert.equal(await page.locator("#editor").getAttribute("readonly"), "",
+    "An unacknowledged native field remains read-only after intent timeout");
   holdEnterAck = false;
   initial.editable.ready = true;
   await enterSettled();
@@ -705,6 +744,33 @@ try {
     1,
     "Resuming the same page must restore its tab controls",
   );
+  initial.editable.phoneTyping = false;
+  initial.editable.composing = true;
+  await page.locator("#remoteTab").click();
+  await page.waitForFunction(() => !busy && state.editable?.composing);
+  const preparationsBeforeComposition = commands.filter((c) => c.edit === "prepare").length;
+  await page.locator("#showKeyboard").click();
+  await page.waitForTimeout(650);
+  assert.equal(commands.filter((c) => c.edit === "prepare").length, preparationsBeforeComposition,
+    "Type entry cannot steal an active TV composition");
+  assert.equal(await page.locator("#enter").isDisabled(), true);
+  await page.locator("#finish").click();
+  await page.waitForFunction(() => !busy && state.editable.phoneTyping && !state.editable.composing);
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await page.waitForResponse(r => r.request().postDataJSON()?.op === 'stopTyping');
+  assert.equal(initial.editable.phoneTyping, false, "Phone background releases the lease");
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await page.waitForFunction(() => connected && !busy && !state.editable.phoneTyping);
+  const preparationsAfterBackground = commands.filter((c) => c.edit === "prepare").length;
+  await page.waitForTimeout(650);
+  assert.equal(commands.filter((c) => c.edit === "prepare").length, preparationsAfterBackground,
+    "Foreground polling cannot automatically reclaim typing");
   approvalError = "revoked";
   approved = false;
   await page
