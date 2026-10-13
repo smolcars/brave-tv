@@ -61,6 +61,7 @@ const read = () => new Promise((yes, no) => {
       nestedY:document.getElementById('nested').scrollTop,
       nestedX:document.getElementById('nested').scrollLeft,
       fullscreen:!!document.fullscreenElement,scale:devicePixelRatio,
+      zoom:visualViewport.scale,
       width:innerWidth,height:innerHeight,bounds:Object.fromEntries(
         ['nested','fullscreen'].map(id=>{const {x,y,width,height}=
           document.getElementById(id).getBoundingClientRect();return [id,{x,y,width,height}];}))})`,
@@ -72,6 +73,8 @@ try {
   initial = await read();
   assert.equal(initial.width * initial.scale, 1920);
   assert.equal(initial.height * initial.scale, 1080);
+  assert.equal(initial.scale, 2, 'Native coordinate checks require scale2');
+  assert.equal(initial.zoom, 1, 'Native coordinate checks require an unzoomed fixture');
   assert.equal(initial.scrollY + initial.nestedX + initial.nestedY
     + initial.topClicks + initial.bottomClicks, 0, 'Fresh fixture required');
 } catch (error) {
@@ -163,6 +166,7 @@ try {
   delay(1500); await sync();
   tap(353); await sync();
   await pageOwnsInput();
+  await move(105, 60); await move(106, 30);
   await move(103, 40);
   await move(108, 40);
   cursor('bottom', 960, 1079);
@@ -211,7 +215,7 @@ try {
   report('nested vertical / horizontal fallback', value);
   const button = value.bounds.fullscreen;
   // Anchored at the top edge, then moved15 native32px steps into the nested box.
-  const current = { x: 480, y: 240 };
+  const current = { x: 960 / value.scale, y: 480 / value.scale };
   const dx = Math.round(((button.x + button.width / 2) - current.x) * value.scale / 32);
   const dy = Math.round(((button.y + button.height / 2) - current.y) * value.scale / 32);
   await move(dx < 0 ? 105 : 106, Math.abs(dx));
