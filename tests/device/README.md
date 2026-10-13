@@ -753,8 +753,8 @@ reporting preferences. Verify direct native home, disabled reporting preferences
 focus/keyboard/Back, and a subsequent ordinary restart. Do not reset user data.
 The historical onboarding replays were removed because those screens no longer
 exist in the TV flow. With a normal native home tab active, run
-`replay tests/device/tv-home.ad` to check initial address focus, all four
-Compose shortcuts, Settings return focus and entry into the compact controls.
+`replay tests/device/tv-home.ad` to check initial Search focus, the Ambient navigation, Settings return focus
+and entry into the right-side drawer at baseline text scale.
 Verify actual GitHub and license navigation, keyboard behavior and private mode
 separately. The replay requires a selected normal Home; it does not navigate away
 from a restored webpage to manufacture that precondition.
@@ -1041,8 +1041,8 @@ ERR_BLOCKED_BY_CLIENT. `site-on`/`site-off` need no custom rules; cookie modes
 isolate the optional list while ads remain blocked. Existing `up`/`down` also
 require the historical temporary cosmetic/scriptlet fixture rules, which must
 never be shipped. Native D-pad Shields/filter actions are separate prerequisites.
-The Compose standard-mode replay starts with compact controls at Address and
-Aggressive selected. Changes reload the page and return to compact Controls;
+The standard-mode replay starts with the Ambient drawer at Search and
+Aggressive selected. Changes reload the page and return to the drawer;
 reenter Site protection to capture the current document before the next change.
 The replay changes Standard then restores Aggressive. Keep profiles and restore
 original site/list preferences.
@@ -1128,3 +1128,12 @@ is removed, then waits for the queue fence, absent cache files and successful
 normal recapture. Native tab/URL identity stays intact. Run it in its own
 instrumentation process with the corrected production/TEST artifact. This
 does not substitute for process-death, low-storage or failed-write tests.
+
+
+Ambient replay maintenance: current Home, Tabs, Favorites, address, drawer and
+Shields scripts use the promoted navigation and one-level groups. The two
+`tv-baseline-navigation-*.ad` files remain frozen source5829 measurement records
+and must not be run against Ambient. Fresh acceptance for this revision is the
+eight native tests and remote traversal in
+[Ambient implementation evidence](../../docs/ambient-implementation-evidence.md);
+editing a legacy replay does not claim its full scenario was rerun.

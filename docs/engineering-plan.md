@@ -7052,8 +7052,8 @@ focus/lifecycle behavior, then promote pairing and verify on an unflagged
 optimized TV artifact. Existing HTTP transport remains truthfully disclosed;
 the independent HTTPS research is not silently included in this UI work.
 
-Planning is complete. No native implementation, APK build, or device acceptance
-for this Ambient/promotion slice is recorded yet.
+Planning is complete. Native implementation, APK builds and emulator acceptance
+are recorded below; physical-device acceptance is separate.
 
 
 ### Ambient implementation started
@@ -7065,3 +7065,22 @@ isolated TV AVD after the authorized emulator cleanup, retained build caches,
 and blocking Android analysis. Preserve normal/private data and native owners.
 The five implementation slices and acceptance criteria remain in
 [ambient-implementation-plan.md](ambient-implementation-plan.md).
+
+
+### Ambient implementation outcome
+
+Source `8aab2fb28` completes the five approved implementation slices: native
+Ambient Home, a grouped right drawer with all 17 browser actions, lifecycle-safe
+Home Phone status/focus, unflagged pairing with explicit local HTTP disclosure,
+and focused emulator/build verification. The final source also fixes Search
+Down selecting a middle shortcut and restored Home missing controller startup.
+The finish review's row-height correction uses each native row's tallest label.
+
+Twenty project checks, strict mypy, Nix flake checks and eight native
+instrumentation regressions pass. D-pad action coverage and real native Phone
+approval/cancel/Back/disconnect are verified at 1080p, with 1.3 text-scale
+captures. Debug x64 and optimized non-debuggable ARM development APKs build
+with blocking analysis; signatures, revision pins and hashes are preserved.
+See [implementation evidence](ambient-implementation-evidence.md) for the
+review, design record, screenshots, exact artifacts and acceptance limits. No
+Chromecast installation or real-phone acceptance is claimed for this revision.

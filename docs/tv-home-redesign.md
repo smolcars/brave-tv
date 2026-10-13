@@ -80,7 +80,9 @@ The interactive artifact is `tv-home-redesign.html`. Home and menu previews are
 provided for each direction. Ambient is selected; Gallery and Coast are retained
 as unselected references. The [implementation and engineering plan](ambient-implementation-plan.md)
 adds first-class Phone connect/disconnect to the Home navigation. Native source
-implementation remains pending; its DESIGN.md will describe the built result.
+implementation and emulator evidence are recorded in
+[Ambient implementation evidence](ambient-implementation-evidence.md). The root
+DESIGN.md describes the built native TV system.
 
 If implemented, use the existing Compose for TV/native state seams, local assets,
 overscan-safe margins, system font scaling and reduced motion. Optional artwork

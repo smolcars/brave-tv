@@ -21,12 +21,18 @@ its mint focus border is the signature interaction. Artwork and tonal panels
 carry expression while native TV legibility sets the quality bar.
 
 **FORM:** Scenic TV ambient system, first in the grounded list; user-selected
-Ambient pick. `seed: 349525fb` (direction, Operate). Corroboration:
+Ambient pick. `seed: none (unavailable)`. Installed engine 0.1.14 reproduces the
+original direction roll but supplies no 16-hex seed reference and does not
+implement the newer check-seed flag. Corroboration and exact helper output:
 `.impeccable/questions/roll.json` and `.impeccable/questions/tv-options.json`;
+`.impeccable/questions/ambient-seed-check.txt`;
 original five-block contract: `docs/tv-home-redesign.md`. Gallery was assigned;
 the user's explicit Ambient choice governs this build. The approved HTML
 `docs/tv-home-redesign.html` is the code-led critique reference. There is no
 separate raster QUALITY BAR card or comp-led reproduction measurement.
+
+**FINISH:** unreviewed and undocumented is unfinished; this build ends with the
+finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 - **World:** Ambient, explicitly selected by the user from `docs/tv-home-redesign.html`. One credited landscape, forest blue surfaces, pale mint focus, generous TV spacing, familiar pill search. Google TV and the Google app are the user's craft references; native Brave's actual search provider remains authoritative.
 - **First viewport:** Home / Tabs / Favorites / Phone navigation, Settings and browser controls, local clock; a large search pill beneath “Where to next?”; bounded native Favorites and Continue browsing; Luca Bravo credit. There is no hardcoded feed or sample site data.

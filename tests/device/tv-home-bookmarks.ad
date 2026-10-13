@@ -1,14 +1,11 @@
-# Normal native home; bookmark data is read, never modified.
-open com.brave.browser_default --relaunch
-wait "text=\"The web. On your terms.\"" 5000
-wait "text=\"Address or search\" focused=true" 3000
-tv-remote down
-wait "text=\"Browser controls\" focused=true" 3000
+# Normal Ambient Home, Search focused, baseline text; bookmark data is only read.
+wait "text=\"Search or enter a website\" focused=true" 3000
+tv-remote up
+wait "text=\"Home\" focused=true" 3000
 tv-remote right
-wait "text=\"Tabs\" focused=true" 3000
 tv-remote right
-wait "text=\"Bookmarks\" focused=true" 3000
+wait "text=\"Favorites\" focused=true" 3000
 tv-remote select
 wait "text=\"Browser controls\"" 3000
 tv-remote back
-wait "text=\"Bookmarks\" focused=true" 3000
+wait "text=\"Favorites\" focused=true" 3000

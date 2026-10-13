@@ -1,6 +1,7 @@
 # Active normal tab: dialogs.html with no history; no media session created.
 open com.brave.browser_default --relaunch
-wait "text=\"Address or search\" focused=true" 5000
+wait "text=\"Search or enter a website\" focused=true" 5000
+tv-remote down
 tv-remote down
 tv-remote down
 tv-remote down

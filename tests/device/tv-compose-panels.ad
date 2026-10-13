@@ -1,10 +1,7 @@
-# Normal home with Address focused; opening a real model panel must attach before composition.
-wait "text=\"Address or search\" focused=true" 3000
-tv-remote down
-wait "text=\"Browser controls\" focused=true" 3000
-tv-remote select
-wait "text=\"Address or search\" focused=true" 3000
-tv-remote down
+# Normal Ambient Home, Search focused; native model panels attach before composition.
+wait "text=\"Search or enter a website\" focused=true" 3000
+tv-remote up
+wait "text=\"Home\" focused=true" 3000
 tv-remote right
 wait "text=\"Tabs\" focused=true" 3000
 tv-remote select
@@ -12,6 +9,6 @@ wait "text=\"New tab\" focused=true" 3000
 tv-remote back
 wait "text=\"Tabs\" focused=true" 3000
 tv-remote right
-wait "text=\"Bookmarks\" focused=true" 3000
+wait "text=\"Favorites\" focused=true" 3000
 tv-remote select
 wait "text=\"More bookmarks\"" 3000

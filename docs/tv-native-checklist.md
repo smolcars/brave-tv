@@ -7,8 +7,10 @@ Execution order: plan the slice in [engineering-plan.md](engineering-plan.md), i
 The user selected Ambient and requested the
 [Ambient implementation and engineering plan](ambient-implementation-plan.md),
 including normal Home Phone connect/disconnect without experimental build/switch
-gates. Its five slices and acceptance checklist define the next implementation.
-This planning slice does not record native changes or new device acceptance.
+gates. All five implementation slices are complete in native source. Focused
+emulator checks, the finish review and exact APK provenance are recorded in
+[Ambient implementation evidence](ambient-implementation-evidence.md). Physical
+TV and real-phone acceptance of this redesign remain open.
 
 The [earlier TV UI rebuild plan](tv-ui-rebuild-plan.md) retains Compose migration
 history and outstanding wider acceptance. The list below retains browser

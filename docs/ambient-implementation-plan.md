@@ -5,8 +5,9 @@ Ambient is the selected design for the native TV home and browser menu. Add
 an explicit Disconnect action. Preserve the browser engine, saved data, selected
 search provider, native input, private browsing, and existing browser commands.
 
-The deliverable is an implementation plan. Native changes and their acceptance
-checks remain pending. The [approved visual reference](tv-home-redesign.html)
+The approved plan is implemented in native source. Emulator acceptance and
+optimized ARM packaging are recorded in [implementation evidence](ambient-implementation-evidence.md);
+physical-device and wider acceptance gates below remain distinct. The [approved visual reference](tv-home-redesign.html)
 uses sample data; its preview checks do not establish native-device behavior.
 
 ## Product behavior
