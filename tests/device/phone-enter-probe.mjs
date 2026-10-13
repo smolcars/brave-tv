@@ -5,23 +5,28 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
-const [pw, serial, avd, phoneSerial, phoneAvd, origin, output] = process.argv.slice(2);
+const [pw, serial, avd, phoneSerial, phoneAvd, origin, output, tvPort = "9222", phonePort = "9223"] = process.argv.slice(2);
 assert.match(serial, /^emulator-\d+$/);
 assert.match(phoneSerial, /^emulator-\d+$/);
 assert.notEqual(serial, phoneSerial);
 assert.match(origin, /^http:\/\/10\.0\.2\.\d+:\d+$/);
 assert.ok(avd && phoneAvd && output);
+for (const port of [tvPort, phonePort]) {
+  assert.match(port, /^\d+$/);
+  assert.ok(Number(port) >= 1024 && Number(port) <= 65535);
+}
+assert.notEqual(tvPort, phonePort);
 const adb = (device, ...args) => execFileSync("adb", ["-s", device, ...args], {
   encoding: "utf8", timeout: 15000,
 });
-for (const [device, name, port] of [[serial, avd, 9222], [phoneSerial, phoneAvd, 9223]]) {
+for (const [device, name, port] of [[serial, avd, tvPort], [phoneSerial, phoneAvd, phonePort]]) {
   assert.equal(adb(device, "emu", "avd", "name").replace(/\r/g, "").trim(), name + "\nOK");
   assert.ok(adb(device, "forward", "--list").split(/\r?\n/).includes(
     `${device} tcp:${port} localabstract:chrome_devtools_remote`));
 }
 const { chromium } = createRequire(resolve(pw, "package.json"))("playwright-core");
-const tb = await chromium.connectOverCDP("http://127.0.0.1:9222");
-const pb = await chromium.connectOverCDP("http://127.0.0.1:9223");
+const tb = await chromium.connectOverCDP("http://127.0.0.1:" + tvPort);
+const pb = await chromium.connectOverCDP("http://127.0.0.1:" + phonePort);
 const results = [];
 const record = async (name, test) => {
   await test();

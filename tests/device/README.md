@@ -432,6 +432,10 @@ With explicit9222/9223 diagnostic forwards and the exact paired private origin:
 node tests/device/phone-enter-probe.mjs PLAYWRIGHT_CORE emulator-5554 brave_tv_clean_api36 emulator-5556 brave_phone_remote_api36 http://10.0.2.17:PORT /absolute/evidence/phone-enter.json
 ```
 
+Append explicit TV/phone diagnostic ports when using isolated emulators, e.g.
+`9322 9323`; the probe requires each forward to match its exact emulator. Keep
+other sessions' mappings intact.
+
 The probe verifies packaged JavaScript, normal authenticated state, actual remote
 pointer focus, fresh field readiness, Unicode form/search handlers, required-field
 validation, canceled keys, native textarea/contenteditable newline, action changes,
