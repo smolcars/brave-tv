@@ -27,6 +27,25 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
+### Next: phone webpage field submission
+
+The user requests this after TV loading feedback: let a phone submit the active
+webpage field using the same action as the TV keyboard's Enter/Search/Go, without
+returning to pointer mode to click a site button. YouTube and Google search are
+the motivating flows. Research the existing Chromium native input connection,
+IME action/type metadata and phone field-edit protocol before choosing delivery;
+do not infer form submission from a URL, field name or DOM button selector.
+
+Plan and implement one clear phone action that follows the native field's action.
+Differentiate a single-line search/submission action from multiline newline
+behavior, preserve native validation/site handlers, composition completion and
+current field/document ownership, and retain password/private/native-modal
+exclusions. Decide labels and unavailable states from authoritative metadata.
+Use existing input machinery and bundled companion UI; add targeted search,
+form, multiline, stale-field and IME/composition checks. Record primary-source
+research and the concrete protocol/UX plan before source edits. Finish the active
+TV loading slice first; this roadmap entry is authorization for the next fix.
+
 ### TV webpage loading feedback — compact native status
 
 The user requests clear feedback after submitting a URL and chooses a compact
