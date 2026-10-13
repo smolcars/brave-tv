@@ -530,7 +530,7 @@ When the preserved TV process has no DevTools endpoint, run
 `phone-enter-fixture-server.mjs` from the repository root (loopback18088 only)
 instead of the static fixture server. `phone-enter-native-probe.mjs PW TV_SERIAL
 TV_AVD PHONE_SERIAL PHONE_AVD EXACT_COMPANION_ORIGIN TV_AGENT_DRIVER PHONE_AGENT_DRIVER OUTPUT_JSON
-[PHONE_CDP_PORT]` navigates fresh run-scoped normal fixtures through the paired
+[PHONE_CDP_PORT] [stock|phone-ime]` navigates fresh run-scoped normal fixtures through the paired
 companion, focuses their native accessibility bounds using remote pointer
 commands, and checks page-reported trusted key/form events. The driver must be
 pinned to that same TV emulator/session and accept `snapshot --json`. The phone
@@ -539,6 +539,11 @@ stale CDP hit testing while Android pans for its keyboard. Stock IME,
 composition and protected-owner checks remain separate; no TV DOM key or forced
 submission is injected. The report endpoint contains only owned synthetic data
 and exists in the test server, never the app.
+The optional `phone-ime` run requires the built Remote IME fixture installed on
+the phone emulator. It uses visible owned native keyboard buttons for genuine
+InputConnection composition, commit and editor action, verifies composition
+cannot submit, and restores the selected phone IME in `finally`. Keep the TV's
+stock keyboard selected for this paired interoperability check.
 
 ## Cursor and click
 

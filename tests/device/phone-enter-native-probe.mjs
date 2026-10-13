@@ -5,7 +5,9 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
-const [pw, tvSerial, tvAvd, phoneSerial, phoneAvd, origin, driver, phoneDriver, output, port = '9323'] = process.argv.slice(2);
+const [pw, tvSerial, tvAvd, phoneSerial, phoneAvd, origin, driver, phoneDriver, output,
+  port = '9323', mode = 'stock'] = process.argv.slice(2);
+assert.ok(['stock', 'phone-ime'].includes(mode));
 assert.match(origin, /^http:\/\/10\.0\.2\.\d+:\d+$/);
 assert.match(port, /^\d+$/);
 assert.ok(Number(port) >= 1024 && Number(port) <= 65535);
@@ -21,6 +23,8 @@ assert.ok(adb(phoneSerial, 'forward', '--list').split(/\r?\n/).includes(
 const { chromium } = createRequire(resolve(pw, 'package.json'))('playwright-core');
 const browser = await chromium.connectOverCDP('http://127.0.0.1:' + port);
 const results = [];
+const originalIme = mode === 'phone-ime'
+  ? adb(phoneSerial, 'shell', 'settings', 'get', 'secure', 'default_input_method').trim() : null;
 try {
   const pages = browser.contexts().flatMap(c => c.pages()).filter(p => p.url() === origin + '/');
   assert.equal(pages.length, 1, 'Require one exact paired companion');
@@ -101,8 +105,61 @@ try {
     await settled();
     return await phone.evaluate(() => ({ action: state.editable.action, composing: state.editable.composing }));
   }
-  for (const name of ['search', 'plain', 'js', 'textareaSearch', 'lines', 'editable', 'frame', 'validation', 'canceled', 'password']) {
+  const cases = mode === 'phone-ime' ? ['search']
+    : ['search', 'plain', 'js', 'textareaSearch', 'lines', 'editable', 'frame', 'validation', 'canceled', 'password'];
+  for (const name of cases) {
     const metadata = await focus(name);
+    if (mode === 'phone-ime') {
+      const fixtureIme = 'org.bravetv.remoteime.test/.RemoteIme';
+      assert.match(adb(phoneSerial, 'shell', 'pm', 'path', 'org.bravetv.remoteime.test'), /^package:/);
+      adb(phoneSerial, 'shell', 'ime', 'enable', fixtureIme);
+      adb(phoneSerial, 'shell', 'ime', 'set', fixtureIme);
+      execFileSync('python3', [resolve(phoneDriver), 'press', 'id="editor"', '--settle'],
+        { encoding: 'utf8', timeout: 15000 });
+      function pressIme(label) {
+        const ime = adb(phoneSerial, 'shell', 'dumpsys', 'input_method');
+        assert.ok(ime.includes('Input method service state for org.bravetv.remoteime.test.RemoteIme')
+          && ime.includes('mIsInputViewShown=true'));
+        const native = JSON.parse(execFileSync('python3', [resolve(phoneDriver), 'snapshot', '--json'],
+          { encoding: 'utf8', timeout: 15000 }));
+        assert.ok(native.success && !native.data.truncated);
+        const button = native.data.nodes.find(n => n.label === label && n.visibleToUser && n.enabled
+          && n.bundleId === 'org.bravetv.remoteime.test');
+        assert.ok(button, 'Visible owned InputConnection stimulus required');
+        // agent-device incorrectly treats the IME's own buttons as covered by that IME.
+        adb(phoneSerial, 'shell', 'input', 'tap',
+          String(Math.round(button.rect.x + button.rect.width / 2)),
+          String(Math.round(button.rect.y + button.rect.height / 2)));
+      }
+      pressIme('Compose Japanese');
+      await phone.waitForFunction(() => composing && state.editable?.ready && state.editable.composing
+        && state.editable.text === '日本' && !dirty && !pendingEdit && !busy);
+      assert.equal(await phone.locator('#enter').isDisabled(), true);
+      assert.equal(await phone.evaluate(() => requestEnter()), false);
+      assert.equal(await phone.evaluate(() => {
+        const e = state.editable;
+        return command('edit', { edit: 'enter', editable: e.revision, version: e.version, action: e.action });
+      }), false, 'Native Enter rejects active composition');
+      pressIme('Commit Japanese');
+      await phone.waitForFunction(() => !composing && !state.editable.composing && state.editable.ready
+        && state.editable.text === '日本' && !dirty && !pendingEdit && !busy);
+      const committed = await report(r => r.text === '日本');
+      assert.equal(committed.events.length, 0);
+      assert.equal(committed.submissions.length, 0, 'Commit alone cannot submit');
+      pressIme('Send keyboard action');
+      await report(r => r.events.length === 1 && r.events[0].trusted
+        && r.submissions.length === 1 && r.submissions[0].text === '日本');
+      await settled();
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const final = await report(() => true);
+      assert.equal(final.events.length, 1);
+      assert.equal(final.submissions.length, 1);
+      results.push({ name: 'phone InputConnection composition, commit and keyboard Search', passed: true,
+        metadata, observed: final });
+      await writeFile(output, JSON.stringify({ tvAvd, phoneAvd, results }, null, 2));
+      console.log('PASS: genuine phone InputConnection composition/commit/Search with native composition rejection');
+      continue;
+    }
     if (name === 'password') {
       assert.equal(await phone.locator('#enter').isDisabled(), true);
       assert.equal(await phone.evaluate(() => requestEnter()), false);
@@ -145,4 +202,7 @@ try {
     await writeFile(output, JSON.stringify({ tvAvd, phoneAvd, results }, null, 2));
     console.log(`PASS: paired native ${name} Enter`);
   }
-} finally { await browser.close(); }
+} finally {
+  if (originalIme) adb(phoneSerial, 'shell', 'ime', 'set', originalIme);
+  await browser.close();
+}
