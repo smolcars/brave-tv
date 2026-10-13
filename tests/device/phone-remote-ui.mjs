@@ -578,6 +578,9 @@ try {
   await page.locator("#enter").click();
   await page.waitForFunction(() => enterIntent?.sent && !state.editable.ready);
   await page.waitForFunction(() => !enterIntent);
+  assert.equal(await page.locator("#fieldHint").textContent(),
+    "Enter was sent. Check the TV before trying again.",
+    "Unacknowledged sent input cannot claim it was discarded");
   assert.equal(await page.locator("#editor").getAttribute("readonly"), null);
   holdEnterAck = false;
   initial.editable.ready = true;

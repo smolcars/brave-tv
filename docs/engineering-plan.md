@@ -67,6 +67,10 @@ retained editor focus and exactly one action after acknowledgement.
 Spec also finds the client skips its timeout once Enter is sent. Apply the same
 bounded cancellation to readiness after dispatch; hold that acknowledgement in
 the host fixture, then recover and require no retransmission.
+Standards requires honest sent-timeout copy: delivery may already have executed.
+Keep a field-local acknowledgement notice asking the user to check the TV,
+distinct from unsent cancellation; retain it until editing/another action or
+field/context reset. Deadlines also remain checked during an outstanding request.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
