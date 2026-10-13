@@ -60,6 +60,14 @@ native coverage for oversized Search recovery, all action hints, duplicate
 pending input, actual form submission and textarea newline. Preserve a drain
 barrier when metadata rotates during an in-flight edit; never advertise the old
 operation as ready early. Client/UI and paired-emulator acceptance still follow.
+Client review observes selection dispatch remains possible during pending Enter.
+Gate caret edits on ready native state and absence of an Enter intent; extend
+the held-action regression to move the phone caret and require no native edit,
+retained editor focus and exactly one action after acknowledgement.
+The cached main build rejects the extended hook's ten-value operand stack
+against upstream's eight-value maximum. Raise only this hook's declared maximum
+to cover its added arguments; preserve locals, signature checks and warnings-as-
+errors. Rebuild from the retained failed output; do not reset dependencies.
 
 [Primary-source research](phone-field-submit-research.md) establishes that field
 type and `enterkeyhint` cannot prove search/form intent. Send native input through
@@ -6867,3 +6875,21 @@ actual host checks pass: counts-only private header, overlong body rejection,
 invalid counts, and private rejection for both active/normal-ids modes. The
 upgrade checker retains its original strict private rejection. No private
 payload is decoded by the counts diagnostic; no APK code changes in this slice.
+
+
+## Ambient home and browser menu with first class Phone
+
+The user selected Ambient from the three design options and requested an
+implementation and engineering plan. Phone becomes a normal top-level Home
+control for connect/disconnect, replacing local-build and experimental-switch
+gating. The canonical scope, five implementation slices and acceptance gates
+are in [ambient-implementation-plan.md](ambient-implementation-plan.md).
+
+Keep Chromium/native data and input ownership. Build native Ambient Home and
+a right-side controls drawer, expose sanitized phone session state with stable
+focus/lifecycle behavior, then promote pairing and verify on an unflagged
+optimized TV artifact. Existing HTTP transport remains truthfully disclosed;
+the independent HTTPS research is not silently included in this UI work.
+
+Planning is complete. No native implementation, APK build, or device acceptance
+for this Ambient/promotion slice is recorded yet.

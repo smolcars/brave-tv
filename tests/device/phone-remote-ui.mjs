@@ -556,6 +556,15 @@ try {
   holdEnterAck = true;
   await page.locator("#editor").press("Enter");
   await page.waitForFunction(() => enterIntent?.sent && !state.editable.ready);
+  const selectionsDuringEnter = commands.filter((c) => c.edit === "select").length;
+  await page.locator("#editor").evaluate((editor) => new Promise((resolve) => {
+    editor.addEventListener("select", resolve, { once: true });
+    editor.setSelectionRange(0, 1);
+  }));
+  assert.equal(commands.filter((c) => c.edit === "select").length, selectionsDuringEnter,
+    "Caret movement cannot send edits during pending native Enter");
+  assert.equal(await page.locator("#editor").isEnabled(), true);
+  assert.equal(await page.evaluate(() => document.activeElement.id), "editor");
   assert.equal(await page.evaluate(() => requestEnter()), false);
   assert.equal(await page.locator("#enter").isDisabled(), true);
   holdEnterAck = false;
