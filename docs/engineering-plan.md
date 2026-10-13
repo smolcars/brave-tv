@@ -27,6 +27,34 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
+### Unified TV page browsing — deliberate edge scrolling
+
+The user authorizes implementation of one primary Browse page control for the
+physical TV remote. D-pad moves the pointer; reaching the visible webpage's
+top/bottom edge never scrolls by itself. Continuing to hold the outward arrow
+for450ms after arrival starts conservative vertical wheel scrolling at the
+pointer. Release, reversal, OK, canceled input, focus/native-owner changes,
+navigation and viewport changes cancel edge intent. Repeated events after an
+interruption must not restart scrolling without a fresh directional press.
+An idle cursor never scrolls; left/right remain pointer movement. Preserve
+single-click-on-release, hidden-cursor wake and Back-to-controls behavior.
+
+Keep the existing Scroll mode as secondary Scroll here for nested/horizontal
+content, with its current wheel delivery and OK-to-pointer behavior. Use a
+small directional cursor cue for pending/active edge scrolling and localized
+button hints. Account for visible content offsets and fullscreen; do not add
+DOM injection or clickable-element heuristics to production input delivery.
+
+Implement the timing/state policy in TvRemoteInput and adapt native event time,
+viewport bounds and cursor feedback in TvBrowserControls. Add deterministic
+JVM checks and a normal synthetic webpage/native uinput regression for edge
+arrival/clicks, delayed continuous scrolling, release/reversal, sticky controls,
+nested fallback and fullscreen. Plan/source/test/evidence changes are small
+signed master commits with latest-only Standards/Spec review. Reuse the retained
+x64 checkout/output cache through Nix, four workers,18/22GiB limits and blocking
+Android analysis. Verify emulator first without profile clearing; Chromecast
+installation and physical-remote calibration remain separate future work.
+
 ### Phone companion redesign — touchpad browsing first
 
 Final phone redesign outcome: source87b is deployed on the available TV after
