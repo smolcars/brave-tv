@@ -32,6 +32,7 @@
 <section id="textareaSearchCase" hidden><textarea id="textareaSearch" enterkeyhint="search" rows="3"></textarea></section>
 <section id="frameCase" hidden><iframe id="frame" title="Cross-origin search" src="http://127.0.0.1:18088/phone-enter-frame.html"></iframe></section>
 <section id="passwordCase" hidden><input id="password" type="password"></section>
+<section id="modalCase" hidden><form onsubmit="event.preventDefault();alert('Owned Enter guard fixture')"><input id="modal"><button id="showModal">Open native dialog</button></form></section>
 <output id="result">No action yet</output>
 <script>
   window.events = [];
