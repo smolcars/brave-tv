@@ -160,6 +160,11 @@ Build attempts r6/r7/r8 are interrupted by the host's6GiB availability guard.
 Preserve their logs/output, suspend only this task's isolated emulator services
 with their profiles intact, and lower the cached retry to two Siso workers.
 Do not stop other sessions' devices or weaken the memory/analysis checks.
+The paired handoff check finds stock Gboard retains `mIsInputViewShown=true`
+after its window closes. The owned native snapshot contains no keyboard nodes,
+while InputMethodManager reports `mInputShown=false` and the service reports
+`mWindowVisible=false`. Require actual input/window visibility for both opening
+and yielding; the configuration flag alone is not a window-visibility oracle.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-

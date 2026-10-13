@@ -48,7 +48,8 @@ try {
       const current = await phone.evaluate(() => JSON.stringify({ revision: state.revision,
         field: state.editable?.revision, ready: state.editable?.ready, width: state.width, height: state.height }));
       if (current !== previous) { previous = current; stableSince = Date.now(); }
-      const shown = !requireKeyboard || adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true');
+      const ime = requireKeyboard ? adb(tvSerial, 'shell', 'dumpsys', 'input_method') : '';
+      const shown = !requireKeyboard || (ime.includes('mInputShown=true') && ime.includes('mWindowVisible=true'));
       if (shown && JSON.parse(current).ready !== false && Date.now() - stableSince >= 500) return;
       await new Promise(resolve => setTimeout(resolve, 100));
     }
@@ -109,7 +110,8 @@ try {
     await waitForLayout(true);
     await phone.locator('#showKeyboard').click();
     await phone.waitForFunction(() => state.editable?.phoneTyping && state.editable.ready && !busy);
-    assert.ok(!adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true'),
+    const yielded = adb(tvSerial, 'shell', 'dumpsys', 'input_method');
+    assert.ok(yielded.includes('mInputShown=false') && yielded.includes('mWindowVisible=false'),
       'TV keyboard yields before phone editing');
     await settled();
     return await phone.evaluate(() => ({ action: state.editable.action, composing: state.editable.composing }));
@@ -132,7 +134,7 @@ try {
       function pressIme(label) {
         const ime = adb(phoneSerial, 'shell', 'dumpsys', 'input_method');
         assert.ok(ime.includes('Input method service state for org.bravetv.remoteime.test.RemoteIme')
-          && ime.includes('mIsInputViewShown=true'));
+          && ime.includes('mInputShown=true') && ime.includes('mWindowVisible=true'));
         const native = JSON.parse(execFileSync('python3', [resolve(phoneDriver), 'snapshot', '--json'],
           { encoding: 'utf8', timeout: 15000 }));
         assert.ok(native.success && !native.data.truncated);
