@@ -25,6 +25,8 @@ const browser = await chromium.connectOverCDP('http://127.0.0.1:' + port);
 const results = [];
 const originalIme = mode === 'phone-ime'
   ? adb(phoneSerial, 'shell', 'settings', 'get', 'secure', 'default_input_method').trim() : null;
+const originalTvIme = mode === 'phone-ime'
+  ? adb(tvSerial, 'shell', 'settings', 'get', 'secure', 'default_input_method').trim() : null;
 try {
   const pages = browser.contexts().flatMap(c => c.pages()).filter(p => p.url() === origin + '/');
   assert.equal(pages.length, 1, 'Require one exact paired companion');
@@ -39,6 +41,20 @@ try {
     && !pendingEdit && !enterIntent && state?.editable?.ready);
   const runId = Date.now().toString(36);
   let run;
+  async function waitForLayout(requireKeyboard) {
+    const deadline = Date.now() + 6000;
+    let previous, stableSince = Date.now();
+    while (Date.now() < deadline) {
+      const current = await phone.evaluate(() => JSON.stringify({ revision: state.revision,
+        field: state.editable?.revision, ready: state.editable?.ready, width: state.width, height: state.height }));
+      if (current !== previous) { previous = current; stableSince = Date.now(); }
+      const shown = !requireKeyboard || adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true');
+      if (shown && JSON.parse(current).ready !== false && Date.now() - stableSince >= 500) return;
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    throw Error('TV keyboard and field ownership must settle before phone input');
+  }
+  await waitForLayout(false);
   async function report(predicate) {
     const deadline = Date.now() + 7000;
     let last;
@@ -90,18 +106,8 @@ try {
     await phone.waitForFunction(() => state.editable?.ready && !busy);
     if (name !== 'frame') await report(r => r.active === name);
     if (await phone.locator('#editor').isHidden()) await phone.locator('#showKeyboard').click();
-    // Wait for the stock TV IME's opening layout, which rotates browser ownership.
-    const deadline = Date.now() + 6000;
-    let previous, stableSince = Date.now();
-    while (Date.now() < deadline) {
-      const current = await phone.evaluate(() => JSON.stringify({ revision: state.revision,
-        field: state.editable?.revision, ready: state.editable?.ready, width: state.width, height: state.height }));
-      if (current !== previous) { previous = current; stableSince = Date.now(); }
-      const shown = adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true');
-      if (shown && JSON.parse(current).ready && Date.now() - stableSince >= 500) break;
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    assert.ok(Date.now() < deadline, 'TV keyboard and field ownership must settle before phone typing');
+    // Wait for the TV IME's opening layout, which rotates browser ownership.
+    await waitForLayout(true);
     await settled();
     return await phone.evaluate(() => ({ action: state.editable.action, composing: state.editable.composing }));
   }
@@ -111,9 +117,13 @@ try {
     const metadata = await focus(name);
     if (mode === 'phone-ime') {
       const fixtureIme = 'org.bravetv.remoteime.test/.RemoteIme';
-      assert.match(adb(phoneSerial, 'shell', 'pm', 'path', 'org.bravetv.remoteime.test'), /^package:/);
-      adb(phoneSerial, 'shell', 'ime', 'enable', fixtureIme);
-      adb(phoneSerial, 'shell', 'ime', 'set', fixtureIme);
+      for (const serial of [tvSerial, phoneSerial]) {
+        assert.match(adb(serial, 'shell', 'pm', 'path', 'org.bravetv.remoteime.test'), /^package:/);
+        adb(serial, 'shell', 'ime', 'enable', fixtureIme);
+        adb(serial, 'shell', 'ime', 'set', fixtureIme);
+      }
+      await waitForLayout(true);
+      await settled();
       execFileSync('python3', [resolve(phoneDriver), 'press', 'id="editor"', '--settle'],
         { encoding: 'utf8', timeout: 15000 });
       function pressIme(label) {
@@ -136,10 +146,12 @@ try {
         && state.editable.text === '日本' && !dirty && !pendingEdit && !busy);
       assert.equal(await phone.locator('#enter').isDisabled(), true);
       assert.equal(await phone.evaluate(() => requestEnter()), false);
-      assert.equal(await phone.evaluate(() => {
+      assert.deepEqual(await phone.evaluate(async () => {
         const e = state.editable;
-        return command('edit', { edit: 'enter', editable: e.revision, version: e.version, action: e.action });
-      }), false, 'Native Enter rejects active composition');
+        const before = seq;
+        const accepted = await command('edit', { edit: 'enter', editable: e.revision, version: e.version, action: e.action });
+        return { accepted, sent: seq === before + 1, connected };
+      }), { accepted: false, sent: true, connected: true }, 'Native Enter rejects active composition');
       pressIme('Commit Japanese');
       await phone.waitForFunction(() => !composing && !state.editable.composing && state.editable.ready
         && state.editable.text === '日本' && !dirty && !pendingEdit && !busy);
@@ -203,6 +215,11 @@ try {
     console.log(`PASS: paired native ${name} Enter`);
   }
 } finally {
-  if (originalIme) adb(phoneSerial, 'shell', 'ime', 'set', originalIme);
-  await browser.close();
+  try {
+    if (originalIme) adb(phoneSerial, 'shell', 'ime', 'set', originalIme);
+  } finally {
+    try {
+      if (originalTvIme) adb(tvSerial, 'shell', 'ime', 'set', originalTvIme);
+    } finally { await browser.close(); }
+  }
 }

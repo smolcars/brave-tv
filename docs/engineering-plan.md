@@ -114,6 +114,15 @@ sequence order across concurrent requests, preserve UTF-8 across body chunks,
 and recheck exact key/submission counts after native acknowledgement so an
 intermediate successful report cannot hide a duplicate. Native input delivery and real phone UI still
 supply every edit/action; no synthetic TV key or forced form submission.
+Paired native reports pass all ten search/form/multiline/frame/validation/password
+cases with both stock IMEs selected. Genuine phone InputConnection composition
+uses the existing deterministic IME fixtures on both emulators, as in the earlier
+phone-input workflow: the stock TV IME can finish native composition early.
+Keep this separate from stock-keyboard acceptance. Require an actual sent native
+Enter request to reject while composition is active, no submission from commit,
+and exactly one trusted native Search from the phone keyboard's editor action.
+Restore both selected IMEs even if one restoration fails; preserve the existing
+TV fixture APK/signature and remove only the newly installed phone fixture later.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
