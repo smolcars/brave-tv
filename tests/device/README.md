@@ -539,12 +539,15 @@ stale CDP hit testing while Android pans for its keyboard. Stock IME,
 composition and protected-owner checks remain separate; no TV DOM key or forced
 submission is injected. The report endpoint contains only owned synthetic data
 and exists in the test server, never the app.
-The optional `phone-ime` run requires the Remote IME fixture installed on both
-emulators, with the phone editor-action stimulus built on the phone. It uses visible owned native keyboard buttons for genuine
+The probe waits for the TV keyboard's opening layout, then explicitly enters
+Type and requires the field-scoped typing handoff and closed TV keyboard before
+editing. The optional `phone-ime` run requires the Remote IME fixture installed
+on the phone, including its editor-action stimulus. It retains the stock TV IME
+and uses visible owned native keyboard buttons for genuine
 InputConnection composition, commit and editor action, verifies composition
-cannot submit, and restores both selected IMEs in `finally`. This deterministic
-composition check is separate from the ten-case stock-keyboard run; the stock
-TV IME can finish native composition before the phone's candidate is committed.
+cannot submit, and restores selected IMEs in `finally`. This deterministic
+composition check is separate from the ten-case stock-keyboard run. The TV
+connection remains detached while the phone owns typing.
 
 ## Cursor and click
 

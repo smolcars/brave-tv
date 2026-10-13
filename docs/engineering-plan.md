@@ -149,6 +149,17 @@ coverage, rebuild from retained cache, then rerun both stock-keyboard website
 cases and genuine phone composition. Live Google/YouTube query URL checks,
 not rendered-result/performance claims, remain part of acceptance. Recapture and
 review the changed UI state copy within the second bounded design round.
+Native review requires an equal-metadata focus change to schedule Chromium's
+next-state InputConnection restart; reset/destruction retain their own teardown.
+Client cleanup is session-scoped even during pending preparation/edit. Bind any
+delayed gesture to its epoch/browser/field and bounded deadline; cancel on loss.
+Wait for cleanup before another preparation and exclude pre-cleanup command or
+poll replies, including response reordering. Host checks must hold the original
+leased snapshot until after cleanup, then require a fresh handoff on re-entry.
+Build attempts r6/r7/r8 are interrupted by the host's6GiB availability guard.
+Preserve their logs/output, suspend only this task's isolated emulator services
+with their profiles intact, and lower the cached retry to two Siso workers.
+Do not stop other sessions' devices or weaken the memory/analysis checks.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
