@@ -102,6 +102,15 @@ with an editor-action stimulus above its original two-button bottom row. Preserv
 the existing TV layout and old probe coordinates. Exercise genuine phone
 InputConnection composition/commit and keyboard Enter through the paired UI,
 then restore stock IMEs and remove only test fixtures installed by this task.
+The isolated TV cold process has no DevTools socket, matching an earlier
+recorded limitation of this preserved AVD. Do not change product debugging
+policy for diagnostics. Add an optional run-scoped report to the owned normal
+Enter fixture and serve it through a loopback-only test server. Select cases by
+fresh query navigation through the actual companion, focus by native snapshot
+bounds and actual remote pointer commands, and require fresh trusted key/form
+reports keyed to that run. The existing CDP-based probe remains available for
+emulators with that endpoint. Native input delivery and real phone UI still
+supply every edit/action; no synthetic TV key or forced form submission.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
