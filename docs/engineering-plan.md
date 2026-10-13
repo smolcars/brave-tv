@@ -51,6 +51,50 @@ form, multiline, stale-field and IME/composition checks. Record primary-source
 research and the concrete protocol/UX plan before source edits. Finish the active
 TV loading slice first; this roadmap entry is authorization for the next fix.
 
+#### Phone Enter implementation slice
+
+[Primary-source research](phone-field-submit-research.md) establishes that field
+type and `enterkeyhint` cannot prove search/form intent. Send native input through
+Chromium's IME adapter: Search/Go/Send/Done use its corresponding editor action;
+otherwise send a fixed Enter key pair. In particular, default Next must not
+replace the user's requested Enter. The renderer retains validation, site key
+handlers, implicit form submission and multiline/contenteditable newline rules.
+No site/URL selector heuristics, synthetic DOM keys or forced form submission.
+
+Extend the signature-checked native-state hook with input mode/action metadata.
+Use existing `ImeUtils.computeEditorInfo` to expose a small action vocabulary,
+logical multiline flag and composing state. Metadata changes invalidate field
+identity even when text is equal. Add one field-scoped `edit: enter` command,
+matching current action, exact version and all existing browser/field guards.
+Reject active native composition. Track action completion using the existing
+native queue barrier and a refreshed renderer state, rather than predicting
+text/focus/navigation results. Retain current timeout/invalidation behavior.
+
+Extend the existing phone Type panel with a primary Enter/Search/Go/Send/Done
+button and matching keyboard hint. Keep the stable textarea and native multiline
+behavior; its visible action is a reliable fallback for phone keyboard variance.
+Cancelable Enter key/beforeinput events dispatch one native action, avoiding
+both a local newline replacement and a second key. Composition candidate Enter
+does not submit; composition end never auto-submits. Preserve pasted newlines.
+
+A single bounded intent captures session/document/field identity and the latest
+phone text/selection. Flush coalesced edits, wait for their exact native
+acknowledgement, then send Enter once. Keep the editor focused/read-only while
+the action is pending and disable duplicate submission. Cancel on target changes,
+conflicting acknowledgement, composition, timeout, disconnection or lifecycle
+loss; never retarget or replay. Preserve password/private/native-modal exclusion.
+
+Add bundled-client regressions for immediate typing/Enter, held acknowledgements,
+duplicate/candidate Enter, multiline/paste, changed fields, failure and reconnect.
+Add controlled native search/form/validation/keydown/multiline/contenteditable
+fixtures plus action-hint and equal-text metadata checks. Reuse existing paired
+TV/phone emulator workflow, stock IME and test-only native composition fixture
+where needed. Verify the packaged companion and native renderer over emulator
+LAN; current public Google/YouTube behavior is a separate bounded emulator
+check, not a deterministic fixture guarantee. Build committed source with
+retained Nix x64 cache and blocking analysis; review each latest source slice
+against its parent, plus one bounded phone UI design review/documentation handoff.
+
 ### TV webpage loading feedback — compact native status
 
 Outcome: source `1807ad165` passes the retained blocking x64 main/test builds,
@@ -59,6 +103,8 @@ review (`ship`) at both TV resolutions and enlarged text. Exact artifacts,
 failed attempts and scope limits are in device-tests.md; latest source review
 corrections are in input-review.md. The loading slice is ready for the separate
 future real-device installation/check. Continue with the authorized phone action.
+The fresh design documenter checks implementation, incumbent and all four APK
+captures; no native token drift is found and phone authority files are preserved.
 
 The user requests clear feedback after submitting a URL and chooses a compact
 indicator/progress bar so partially loaded pages remain usable. Extend the

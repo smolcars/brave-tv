@@ -28,8 +28,9 @@ Final signed x86_64 artifacts are preserved in
   `ef3b7cd6e4e7344b0eec47c32412084446c398145fa2af3488675215dc5b2ad3`.
 
 V2 signature/package/ABI checks pass; installed emulator bytes match both
-artifacts. `adb install -r` preserves the existing profile. Artifact provenance,
-GN arguments, build resource samples, native logs and capture guards are in
+artifacts. `adb install -r` preserves the existing profile. Artifact provenance
+and GN arguments remain with the artifacts; build-time runtime status stays
+unchanged. Final installation, resource samples, native logs and capture guards are in
 `~/.cache/brave-tv/evidence/page-loading-20261012/`.
 
 Impeccable's fresh finish reviewer returns `ship` on four actual APK captures:
