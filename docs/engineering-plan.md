@@ -168,6 +168,10 @@ and yielding; the configuration flag alone is not a window-visibility oracle.
 A later fixture click misses after the native toolbar changes layout. Re-read
 owned native bounds on each bounded retry and require the exact target field
 to acquire native focus; command acceptance alone is not focus acknowledgement.
+Stock Gboard can pan the fixture heading off-screen after that focus succeeds.
+Retain positive ownership using either its visible heading or its exact native
+address-bar URL, alongside app/document/field guards; do not accept arbitrary
+page titles or omit ownership validation.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-

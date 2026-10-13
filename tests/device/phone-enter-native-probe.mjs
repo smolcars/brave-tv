@@ -83,7 +83,11 @@ try {
       assert.ok(native.success && !native.data.truncated);
       assert.equal(native.data.appBundleId, 'com.brave.browser_default');
       const nodes = native.data.nodes.filter(n => n.visibleToUser);
-      assert.ok(nodes.some(n => n.label === 'Native phone Enter fixture'));
+      const address = new URL(url);
+      assert.ok(nodes.some(n => n.label === 'Native phone Enter fixture')
+        || nodes.some(n => n.identifier?.endsWith(':id/url_bar')
+          && n.label === address.host + address.pathname + address.search),
+      'Require the owned fixture heading or its exact visible native address');
       const webView = nodes.find(n => n.kind === 'webview');
       const target = nodes.find(n => n.identifier === (name === 'frame' ? 'frameSearch' : name)
         && n.kind === 'text-field' && n.editable);
