@@ -31,9 +31,12 @@ Controls include address, back, forward, reload/stop, tabs, favorites, history,
 downloads, media, Shields, settings, pointer, scroll, fullscreen, home, and the
 phone remote when available. Native security and private browsing remain native.
 Presentation uses AndroidX Compose for TV in the existing Chromium GN build.
-The planned Home Phone entry observes the current native session and supports
+The implemented Home Phone entry observes the current native session and supports
 connect/disconnect without local-build or experimental-switch requirements.
-This promotion is planned, not yet implemented; the existing transport is HTTP.
+Native TV approval, cancellation, connected-state restoration and disconnect
+pass on the Android TV emulator. The existing transport is local HTTP, disclosed
+in the pairing panel and companion. Physical TV and real-phone acceptance of
+this redesign remain outstanding.
 
 ## Brand Commitments
 

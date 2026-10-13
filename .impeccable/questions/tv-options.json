@@ -1,0 +1,226 @@
+{
+  "title": "Choose your TV browser design",
+  "question": "Preview three home-screen directions; browser menu previews are in the interactive comparison.",
+  "options": [
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "kind": "assigned",
+      "thesis": "A modern gallery room with beautiful art and a calm search area.",
+      "palette": [
+        "#efece5",
+        "#30392c",
+        "#657755",
+        "#bdcad0"
+      ],
+      "materials": [
+        "credited photography or artwork",
+        "native TV controls"
+      ],
+      "viewport": "Search and saved pages on the left; framed Van Gogh on the right; warm menu from the left.",
+      "risk": "Brighter than the other options in a dark room.",
+      "html": ".impeccable/mocks/decision/gallery.html",
+      "htmlFrame": "1280x720",
+      "comp": ".impeccable/mocks/decision/gallery.png"
+    },
+    {
+      "id": "ambient",
+      "label": "Ambient",
+      "kind": "pick",
+      "thesis": "An expansive landscape with a search bar that feels at home on a TV.",
+      "palette": [
+        "#162b29",
+        "#f5f7f2",
+        "#d7e9d7",
+        "#91b1aa"
+      ],
+      "materials": [
+        "credited photography or artwork",
+        "native TV controls"
+      ],
+      "viewport": "Full-screen landscape, large search pill, favorites, recent tabs and a right-side browser menu.",
+      "risk": "Closest to the familiar Google TV aesthetic.",
+      "html": ".impeccable/mocks/decision/ambient.html",
+      "htmlFrame": "1280x720",
+      "comp": ".impeccable/mocks/decision/ambient.png",
+      "kicker": "IMPECCABLE\u2019S PICK"
+    },
+    {
+      "id": "coast",
+      "label": "Coast",
+      "kind": "grounded",
+      "thesis": "A colorful, compact browser dashboard with a coastal backdrop.",
+      "palette": [
+        "#132731",
+        "#e7f4f8",
+        "#8ac4d4",
+        "#e2aa71"
+      ],
+      "materials": [
+        "credited photography or artwork",
+        "native TV controls"
+      ],
+      "viewport": "Slim destination rail, panoramic photo, colored favorites and a wide lower menu tray.",
+      "risk": "Busier than Ambient and Gallery.",
+      "html": ".impeccable/mocks/decision/coast.html",
+      "htmlFrame": "1280x720",
+      "comp": ".impeccable/mocks/decision/coast.png"
+    },
+    {
+      "id": "ikeda-datamatics",
+      "catalogId": "ikeda-datamatics",
+      "kind": "challenger",
+      "label": "Ikeda Datamatics",
+      "verdict": "declined",
+      "case": "Barcode data imagery conflicts with the scenic/art TV brief.",
+      "kept": "Unmistakable focus.",
+      "thesis": "Barcode data imagery conflicts with the scenic/art TV brief.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Barcode data imagery conflicts with the scenic/art TV brief.",
+      "hero": "https://impeccable.style/worlds/cards/ikeda-datamatics-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/ikeda-datamatics.webp"
+    },
+    {
+      "id": "pop-culture-shelf-character-goods-catalog",
+      "catalogId": "pop-culture-shelf-character-goods-catalog",
+      "kind": "challenger",
+      "label": "Pop Culture Shelf Character Goods Catalog",
+      "verdict": "declined",
+      "case": "Mascot catalog styling does not match the pinned modern browser direction.",
+      "kept": "Recognizable saved-site identities.",
+      "thesis": "Mascot catalog styling does not match the pinned modern browser direction.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Mascot catalog styling does not match the pinned modern browser direction.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-character-goods-catalog-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/pop-culture-shelf-character-goods-catalog.webp"
+    },
+    {
+      "id": "rw-centre-rail-reference-setting",
+      "catalogId": "rw-centre-rail-reference-setting",
+      "kind": "challenger",
+      "label": "Rw Centre Rail Reference Setting",
+      "verdict": "declined",
+      "case": "Dense scholarly typography is unsuitable for couch viewing.",
+      "kept": "Stable alignment.",
+      "thesis": "Dense scholarly typography is unsuitable for couch viewing.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Dense scholarly typography is unsuitable for couch viewing.",
+      "hero": "https://impeccable.style/worlds/cards/rw-centre-rail-reference-setting-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/rw-centre-rail-reference-setting.webp"
+    },
+    {
+      "id": "japanese-high-density-web",
+      "catalogId": "japanese-high-density-web",
+      "kind": "challenger",
+      "label": "Japanese High Density Web",
+      "verdict": "declined",
+      "case": "Small high-density web modules conflict with remote legibility.",
+      "kept": "Complete action coverage.",
+      "thesis": "Small high-density web modules conflict with remote legibility.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Small high-density web modules conflict with remote legibility.",
+      "hero": "https://impeccable.style/worlds/cards/japanese-high-density-web-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/japanese-high-density-web.webp"
+    },
+    {
+      "id": "notation-diagram-systems-star-atlas",
+      "catalogId": "notation-diagram-systems-star-atlas",
+      "kind": "challenger",
+      "label": "Notation Diagram Systems Star Atlas",
+      "verdict": "declined",
+      "case": "Atlas navigation introduces a metaphor unrelated to browser tasks.",
+      "kept": "Low-light readability.",
+      "thesis": "Atlas navigation introduces a metaphor unrelated to browser tasks.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Atlas navigation introduces a metaphor unrelated to browser tasks.",
+      "hero": "https://impeccable.style/worlds/cards/notation-diagram-systems-star-atlas-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/notation-diagram-systems-star-atlas.webp"
+    },
+    {
+      "id": "wayfinding-cartography-signage-terminal-yellow-wayfinding",
+      "catalogId": "wayfinding-cartography-signage-terminal-yellow-wayfinding",
+      "kind": "challenger",
+      "label": "Wayfinding Cartography Signage Terminal Yellow Wayfinding",
+      "verdict": "declined",
+      "case": "Airport signage does not match the requested Google-app and art reference.",
+      "kept": "Clear destinations.",
+      "thesis": "Airport signage does not match the requested Google-app and art reference.",
+      "palette": [
+        "#132731",
+        "#f5f7f2"
+      ],
+      "materials": [
+        "graphic system"
+      ],
+      "viewport": "Adapted to standard TV browser controls.",
+      "risk": "Airport signage does not match the requested Google-app and art reference.",
+      "hero": "https://impeccable.style/worlds/cards/wayfinding-cartography-signage-terminal-yellow-wayfinding-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/wayfinding-cartography-signage-terminal-yellow-wayfinding.webp"
+    }
+  ],
+  "reroll": {
+    "registers": [
+      "safer",
+      "bolder"
+    ]
+  },
+  "steer": true,
+  "canon": true,
+  "canonCard": {
+    "label": "Straight Google TV style",
+    "thesis": "A familiar scenic home, carried through the browser controls.",
+    "palette": [
+      "#132731",
+      "#ffffff",
+      "#bddde5"
+    ],
+    "materials": [
+      "landscape photography",
+      "native TV controls"
+    ],
+    "viewport": "Centered search and favorite tiles over a landscape.",
+    "risk": "Deliberately familiar.",
+    "html": ".impeccable/mocks/decision/canon.html",
+    "htmlFrame": "1280x720",
+    "comp": ".impeccable/mocks/decision/canon.png"
+  },
+  "buildPath": {
+    "value": "code",
+    "toggle": true
+  }
+}
