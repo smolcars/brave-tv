@@ -27,6 +27,35 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
+### TV webpage loading feedback — compact native status
+
+The user requests clear feedback after submitting a URL and chooses a compact
+indicator/progress bar so partially loaded pages remain usable. Extend the
+established native TV presentation: a small opaque charcoal status surface,
+warm readable “Loading page…” label and sage linear progress, inset from the
+top/right TV edges. It is display-only, never takes focus, and does not cover
+the viewport with a loading panel. Use localized copy and existing theme roles;
+keep the phone companion's separate PRODUCT/DESIGN files unchanged.
+
+Observe only the selected native Tab's loading/progress events. Show immediately
+when Chromium begins navigation, including before Home's native view is replaced;
+track redirects/reload/history and clear when loading stops, fails or is canceled.
+Use actual WebContents/observer progress, not elapsed-time estimates or site DOM
+injection. Browser completion does not establish a site's later app readiness.
+Keep progress callbacks independent of cursor/document-lease invalidation.
+Hide during pause, focus loss, native/security takeover and locked private state;
+refresh the current tab on resume and detach/dispose observations/views at teardown.
+Background tabs must never update the displayed state or expose page identity.
+
+Add native observer/presentation regression coverage and a controlled delayed
+response fixture for URL submission, early content, completion, Stop, replacement,
+tab switching and native ownership. Capture real emulator TV loading/settled
+states at normal and enlarged text settings; run one bounded design review/fix
+batch with impeccable, plus exact-parent Standards/Spec reviews. Reuse the retained
+Nix x64 outputs, four workers,18/22GiB limits and blocking Android analysis.
+Preserve emulator profiles and all caches/artifacts. Chromecast delivery and
+hardware readability are separate from this implementation/emulator slice.
+
 ### Unified TV page browsing — deliberate edge scrolling
 
 The user authorizes implementation of one primary Browse page control for the
