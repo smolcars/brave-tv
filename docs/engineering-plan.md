@@ -29,6 +29,17 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Phone companion redesign — touchpad browsing first
 
+Current outcome: reviewed source87b completes host and actual APK emulator
+acceptance, including the full native controls/text suites, stock IMEs and real
+Disconnect/listener refusal. Package delivery for the user's available TV follows
+using retained optimized ARM cache, four workers,18/22GiB and swap0. Acceptance:
+signature/ABI/non-debuggable artifact provenance, data-preserving physical update
+and native Home/served-asset smoke. Use the later explicit free-TV authorization;
+preserve current profiles and do not repeat earlier storage clearing. Real phone
+and Safari acceptance remains pending. See phone redesign evidence for prior
+failed probes, viewport corrections and exact final APK checks.
+
+
 Design proposals are concrete inert390x844 source-owned HTML sketches, with a
 T3 inline comparison and visual chooser. User confirmed touchpad/quick controls;
 user selected After hours (deep blue/soft teal). Implementation acceptance below
@@ -76,6 +87,14 @@ enabled only for our pending same-field replacement/selection; retain initial
 field-loading, changed-field, paused/password and native command readiness guards.
 Acceptance: host regression must fail before the change and pass after; full
 native typing suite, latest-only source/root reviews and cached repackaging.
+
+Viewport probe follow-up: source87b passes actual Unicode, composition,
+selection/deletion, stale-field rejection and textarea editing. The remaining
+contenteditable aim repeatedly hits above its target with the TV keyboard open.
+Dismiss that real native keyboard with verified-emulator Back before switching
+fixture fields; wait for its visual viewport to settle, then recompute coordinates.
+Keep native pointer/text behavior unchanged. First rerun only contenteditable and
+password targeting; then complete the strict suite on the same APK if green.
 
 Native text probe correction slice: mobile IME viewport changes make desktop
 coordinate clicks hit unrelated controls. Explicitly focus the companion editor

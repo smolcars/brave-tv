@@ -23,6 +23,20 @@ try {
   assert.equal(phoneTargets.length, 1, "Require one companion target");
   const tv = tvTargets[0];
   const phone = phoneTargets[0];
+  for (const [serial, avd] of [
+    ["emulator-5554", "brave_tv_clean_api36"],
+    ["emulator-5556", "brave_phone_remote_api36"],
+  ]) {
+    assert.equal(
+      execFileSync("adb", ["-s", serial, "emu", "avd", "name"], {
+        encoding: "utf8",
+        timeout: 15000,
+      })
+        .replace(/\r/g, "")
+        .trim(),
+      avd + "\nOK",
+    );
+  }
   phone.setDefaultTimeout(5000);
   tv.setDefaultTimeout(5000);
   await phone.bringToFront();
@@ -31,9 +45,28 @@ try {
     url,
   );
   async function focus(selector) {
-    if (await tv.evaluate((id) => document.activeElement?.id === id, selector.slice(1))) {
-      await phone.waitForFunction(() => state.editable?.ready && !busy && !state.paused);
+    if (
+      await tv.evaluate(
+        (id) => document.activeElement?.id === id,
+        selector.slice(1),
+      )
+    ) {
+      await phone.waitForFunction(
+        () => state.editable?.ready && !busy && !state.paused,
+      );
       return;
+    }
+    // Close the TV IME before sampling a different field's screen coordinates.
+    if (await tv.evaluate(() => visualViewport.height < innerHeight - 1)) {
+      execFileSync("adb", [
+        "-s",
+        "emulator-5554",
+        "shell",
+        "input",
+        "keyevent",
+        "4",
+      ]);
+      await tv.waitForFunction(() => visualViewport.height >= innerHeight - 1);
     }
     for (let attempt = 0; attempt < 16; attempt++) {
       await phone.waitForFunction(() => connected && !busy && !state.paused);

@@ -94,3 +94,37 @@ The native probe also explicitly focuses the companion editor before filling
 and bounds waits: mobile IME panning makes desktop coordinate clicks intercept
 unrelated controls. It continues to send every TV edit through the native bridge.
 Corrected-source APK packaging and full native typing acceptance remain pending.
+
+### Final emulator acceptance — source `87b489044`
+
+Final cached x64 packaging passes blocking Android analysis in1m37.95s,
+50steps. Observed peak12820164608B (11.94GiB), no host-guard interruption.
+Artifact `~/.cache/brave-tv/artifacts/phone-after-hours-87b489044-x64-debug-20261012/BraveMonox64.apk`
+is852772546B, SHA256 `09beeb0f7676f0d99b29ee42cbe8795c988ab2affb9a5bb2714635e894021c0a`.
+Pinned development signature/package/x64 checks and in-place emulator install pass.
+
+Fresh actual QR waiting/fragment removal/native approval and all three APK-served
+asset hashes pass. The complete actual touch/navigation/tab/stale/duplicate probe
+passes. The complete strict native text suite passes: Unicode replacements,
+actual phone InputConnection composition, selection/code-point deletion,
+textarea/contenteditable, stale-field rejection and password exclusion. No TV
+DOM values are assigned. A separate stock-TV/phone-IME run passes twenty Unicode
+replacements, input acknowledgement, composition and stable field identity.
+Disconnect clears companion credentials and the actual emulator-LAN listener
+refuses a subsequent connection.
+
+Earlier helper-keyboard runs and the first corrected-source contenteditable aim
+failed; these are not passes. The launcher changes the selected TV IME, so the
+required keyboards are selected after launch. Native IME panning also invalidated
+screen-coordinate sampling; the probe verifies both exact AVD identities,
+dismisses the real TV keyboard before targeting a different fixture field, waits
+for its viewport, then resamples. The failed final segment first passed alone,
+followed by the complete strict suite on this same APK. Browser/native validation
+was not relaxed. Visual layout remains the reviewed After hours direction.
+
+ARM delivery slice uses the existing optimized non-debuggable output with blocking
+checks and the same memory/job bounds. The user's later free-TV installation
+permission supersedes the earlier busy-TV restriction for this delivery. Attempt
+an in-place update retaining current browser data; no new storage wipe is implied
+by this phone redesign. Physical installation/served-asset verification is pending.
+Real physical phone camera/IME and Safari/iOS remain unverified.

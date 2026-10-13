@@ -351,6 +351,16 @@ is required only if composition was still active; the stock keyboard can finish
 it earlier. This supplements the complete strict native-input probe and does
 not establish phone IME, stale-lease, password or private/security acceptance.
 
+The strict probe targets `brave_tv_clean_api36` on emulator-5554 and
+`brave_phone_remote_api36` on emulator-5556 and verifies both identities before
+platform input. Select the required keyboards **after** device launch, which can
+select the agent helper IME. For strict composition, select the retained test IME
+on the TV as well as the phone. The probe focuses the companion editor without
+desktop coordinates and waits for selection acknowledgement before filling.
+Before targeting a different TV fixture field it dismisses the actual native
+keyboard and waits for the visual viewport, then samples new coordinates. These
+are emulator harness actions, not evidence of physical phone IME compatibility.
+
 For the composition step, build and select the emulator-only test keyboard:
 
 ```sh
