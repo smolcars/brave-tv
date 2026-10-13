@@ -8,15 +8,24 @@ const { chromium } = createRequire(resolve(process.argv[2], "package.json"))(
 const tb = await chromium.connectOverCDP("http://127.0.0.1:9222");
 const pb = await chromium.connectOverCDP("http://127.0.0.1:9223");
 try {
-  const tv = tb
+  const tvTargets = tb
     .contexts()[0]
     .pages()
-    .find((p) => p.url().includes("/phone-remote.html"));
-  const phone = pb
+    .filter((p) =>
+      /^http:\/\/10\.0\.2\.2:18088\/phone-remote\.html(?:[?#]|$)/.test(p.url()),
+    );
+  const phoneTargets = pb
     .contexts()[0]
     .pages()
-    .find((p) => /^http:\/\/10\.0\.2\./.test(p.url()));
-  assert.ok(tv && phone);
+    .filter((p) => /^http:\/\/10\.0\.2\.\d+:\d+\/$/.test(p.url()));
+  assert.equal(tvTargets.length, 1, "Require one exact normal TV fixture");
+  assert.equal(phoneTargets.length, 1, "Require one companion target");
+  const [tv] = tvTargets,
+    [phone] = phoneTargets;
+  await phone.waitForFunction(
+    () => connected && !busy && state && !state.paused,
+  );
+  assert.equal(await phone.evaluate(() => state.url), tv.url());
   const base = "http://10.0.2.2:18088/phone-remote.html";
   async function settled() {
     let previous;
@@ -38,12 +47,14 @@ try {
     throw new Error("TV context did not settle");
   }
   async function navigate(url) {
+    await phone.locator("#showKeyboard").click();
     await phone.locator("#address").fill(url);
     await phone.locator("#addressForm button").click();
     await phone.waitForFunction(
       (expected) => state?.url === expected && !state.loading && !busy,
       url,
     );
+    await phone.locator("#remoteTab").click();
   }
   await navigate(base + "?controls");
   const point = await tv.locator("#click").evaluate((e) => {
@@ -167,6 +178,7 @@ try {
     state.tabs.findIndex((t) => t.selected),
   );
   const count = await phone.evaluate(() => state.tabs.length);
+  await phone.locator("#tabsTab").click();
   await phone.locator('[data-op="new"]').click();
   await phone.waitForFunction(
     (n) => state.tabs?.length === n + 1 && !busy,
@@ -188,6 +200,7 @@ try {
     (index) => state.tabs[index].selected && !busy,
     originalIndex,
   );
+  await settled();
   await phone.locator("#tabs .tab").nth(count).locator("button").last().click();
   await phone.waitForFunction((n) => state.tabs.length === n, count);
   console.log(

@@ -57,6 +57,17 @@ and review the latest correction commit before packaging.
 Root Standards review found a weak no-field drag assertion: a pre-poll move could
 satisfy it. Observe a completed held-pointer poll and require the next movement
 request after it; run the focused host suite and review the latest test correction.
+Native-integration slice: adapt the existing phone-controls probe to switch Type
+for address entry, Remote for touchpad and Tabs for native tab actions; require
+unique normal fixture/companion targets. Cached x64 build passes in1m38.84s,
+observed memory peak14160662528B; emulator update succeeds without clearing data.
+Acceptance: actual bundled asset hashes, simulated-private-LAN QR/approval,
+controls/gesture/navigation/tab/security-rejection probe and native text bridge.
+Native tab-handle rotation correction: real selected-tab changes rotate opaque
+handles. Preserve matching-row focus when possible; if a selected row handle
+rotates, restore the engine-selected row rather than New tab. Keep native tokens,
+revision validation and all security behavior unchanged. Prove host regression
+red on current source, then green; review/pin/repackage and retest native selection.
 
 The user invokes Impeccable redesign and confirms touchpad browsing/quick controls
 as primary. Replace the companion visual world and long control stack with a

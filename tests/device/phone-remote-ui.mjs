@@ -412,6 +412,19 @@ try {
       .evaluate((e) => e === document.activeElement),
     true,
   );
+  initial.tabs[0].id = "rotated-selected-tab";
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".tab-select")?.dataset.tab ===
+      "rotated-selected-tab",
+  );
+  assert.equal(
+    await page
+      .locator(".tab-select")
+      .evaluate((e) => e === document.activeElement),
+    true,
+    "Native handle rotation keeps focus on the authoritative selected tab",
+  );
   initial.tabs = [];
   await page.locator("#tabsEmpty").waitFor();
   assert.equal(
