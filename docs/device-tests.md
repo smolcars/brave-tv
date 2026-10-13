@@ -1,5 +1,58 @@
 # Device and website test matrix
 
+## Chromecast loading and Enter follow-up — 13 October 2026
+
+The user subsequently authorized physical TV checks and explicitly requested
+complete old-Brave removal across all Android profiles. Final source
+`a11a402117b6ae873faaa3cbd8fc2ec9b78df40b` is installed on the Android14/API34
+Chromecast (`sabrina`, ARM32), only on user0; users10/11/12 have no Brave package.
+Native startup and installed-byte/non-debuggable checks pass. Android profiles
+are preserved; the authorized uninstall clears old Brave app data.
+
+Evidence is retained in `~/.cache/brave-tv/evidence/loading-enter-chromecast-20261013/`:
+
+- `badge-bounds-red.json` records the original physical overlap: loading panel
+  y64–214, connected badge y120–198. `badge-bounds-green.json` proves final
+  separation: badge y246–324, below the measured loading bottom.
+  `loading-final.png` captures the actual corrected TV. Completion restores badge
+  y120 (`loading-final-complete.json`); native Browser controls suppress the
+  overlay while offering Stop loading (`loading-final-controls.json`).
+- `physical-search-final.json` proves exactly one trusted, non-composing native
+  Search and one submission with `TV Enter check 🙂`. Phone editing detaches the
+  TV keyboard; actual input/window visibility is false while stock Gboard remains
+  selected. `physical-lines-final.json` proves one trusted Enter inserts
+  `one\n`, with no submission. Both use fresh run-scoped fixture reports and
+  settled exact event counts. The companion is host Chromium at a phone viewport
+  against the physical TV, not a real phone/Safari test. Public search results
+  are not rechecked on hardware; earlier live query-URL checks remain emulator evidence.
+- `installed-package-final.json` binds the installed APK to its SHA-256 and
+  confirms user scope, flags and stock IME. Final immutable artifact is
+  `~/.cache/brave-tv/artifacts/loading-enter-a11a40211-arm-nodebug-20261013/BraveMonoarm.apk`,
+  368,091,376bytes, SHA-256
+  `872e0ed0acbba05fa0146365f613394af1bafb90767f6aa8942cfca828a4324e`.
+  V2 development signature, ARM ABI and non-debuggable manifest checks pass.
+
+Retained Static ARM outputs/dependencies are reused with blocking Android
+analysis,18/22GiB limits, no swap and the6GiB host-availability guard. Initial
+3f build r1 passes in16m58.69s. Correction r2 stops at that guard; r3 resumes
+with one worker and passes in4m09.02s (Siso4m05.49s), sampled cgroup peak
+14,687,084,544bytes. No build cache is deleted.
+
+The first streamed install stalls and the TV becomes unreachable; the user
+reports a stuck Chromecast and reboots it. The old APK remains installed after
+reboot, so this is not an observed crash of the new build. The cause of the
+freeze is unestablished. Targeted staging then succeeds. Authorized global
+cleanup abandons the owned unfinished install and removes old Brave from every
+profile. A later final update explicitly returns
+`INSTALL_FAILED_INSUFFICIENT_STORAGE`; global uninstall and `pm install --user 0`
+succeed in55.18s. Failed attempts and successful results remain separate in the
+connection/install/cleanup JSON files. Final cleanup (`cleanup-final.json`)
+removes the redundant staged TV APK and owned reverses, stops only the two
+physical fixture services and retains the host artifact (1,151,288KiB free).
+Other sessions' emulators/controllers,
+shared fixtures and machine caches remain intact. Real phone/Safari, extended
+TV performance and broader release acceptance remain open.
+
 ## Phone Enter and native typing handoff — 13 October 2026
 
 Final source `3f84d8d42b59fe8aa48f50b0ed86187c9d4bab6c` passes scoped
@@ -8,7 +61,8 @@ Search/Go/Send/Done metadata; otherwise it sends Enter, preserving native form
 validation, site handlers and multiline newline behavior. Explicit phone editing
 leases the current field and detaches its TV InputConnection before typing.
 Composition, field/version ownership and native-owner guards remain enforced.
-The user has deferred all physical-device work; none occurs in this slice.
+The original emulator slice defers physical-device work; its subsequently
+authorized hardware follow-up is recorded separately above.
 
 Final testing uses isolated API36 TV `brave_tv_launch_followup_api36`
 (emulator5560) and phone `brave_phone_enter_20261013_api36` (5562). Other sessions'

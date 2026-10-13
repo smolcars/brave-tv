@@ -1,5 +1,17 @@
 # First input increment review
 
+## Chromecast loading badge correction — 13 October 2026
+
+Hardware reveals loading/connection-badge overlap. Source `f2a3ed1d6` against
+`3f84d8d42` gets Spec0 and Standards1 (P3: the layout callback needs the activity
+teardown guard). Correction `a11a40211` against `f2a3ed1d6` gets Standards0,
+Spec0. The existing badge observes the measured loading bottom only while it
+exists, avoids unchanged layout updates and removes its listener on stop.
+Actual physical native bounds fail before the correction and pass on the final
+APK, including restoration after completion. Search and newline delivery remain
+unchanged and pass the scoped physical-TV/host-companion checks recorded in
+[device tests](device-tests.md#chromecast-loading-and-enter-follow-up--13-october-2026).
+
 ## Phone Enter review — 13 October 2026
 
 Independent read-only Standards and Spec reviewers compare each committed slice

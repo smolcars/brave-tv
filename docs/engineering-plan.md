@@ -27,14 +27,27 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
-Testing constraint: the user is going to sleep and has turned the TV off.
-Finish both loading feedback and phone Enter/submission using emulators for
-device testing. Do not contact, install on or test physical TVs/phones in this
-work. Real-device installation and acceptance are explicitly deferred.
+Original emulator-slice constraint (completed): the user was going to sleep
+and had turned the TV off. Both loading feedback and phone Enter/submission
+were restricted to emulator testing, with physical installation and acceptance
+deferred until the subsequent authorization below.
 
 ### Phone webpage field submission — complete on emulators
 
 #### Chromecast verification follow-up — 13 October
+
+The authorized follow-up is complete on source `a11a40211`: the Chromecast has
+been cleared of old Brave installations across users0/10/11/12 and the final
+non-debuggable ARM APK is installed only on active user0. Actual native bounds
+prove the corrected loading/connection-badge separation and return after
+completion. Native controls suppress the loading overlay. A host companion
+connected to the physical TV produces one trusted Search/submission and one
+multiline Enter/newline with no submission. Stock TV Gboard remains selected.
+See [hardware evidence](device-tests.md#chromecast-loading-and-enter-follow-up--13-october-2026).
+The first streamed transfer stalled and the user rebooted the Chromecast; its
+cause remains unestablished. The final update hit insufficient storage, so the
+explicitly authorized global uninstall/fresh install was used. Build caches,
+Android profiles and other sessions' devices remain intact.
 
 Hardware inspection finds a concrete layout collision: while the companion is
 connected, its native badge at60dp overlaps the loading panel at32dp. Keep the
@@ -68,7 +81,8 @@ background guards, live Google/YouTube query URLs and retained build attempts.
 resolved source findings and the final visual `ship` decision. Google acceptance
 starts from its ready fullscreen search field; results content is unverified.
 No product refresh workaround is added for premature field-readiness probes.
-Real-device installation/testing and Safari remain deferred. The following
+The subsequently authorized Chromecast follow-up passes the scoped hardware
+checks above; real phone/Safari acceptance remains deferred. The following
 roadmap and corrections preserve the decisions leading to this implementation.
 
 The user requests this after TV loading feedback: let a phone submit the active
