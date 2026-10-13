@@ -63,10 +63,13 @@ try {
     const nodes = native.data.nodes.filter(n => n.visibleToUser);
     assert.ok(nodes.some(n => n.kind === 'webview'));
     assert.ok(nodes.some(n => n.label === 'Native phone Enter fixture'));
-    const target = nodes.find(n => n.kind === 'text-field' && n.editable);
+    const target = nodes.find(n => n.identifier === (name === 'frame' ? 'frameSearch' : name)
+      && n.kind === 'text-field' && n.editable);
     assert.ok(target && (name === 'password' || !target.password)
       && target.rect.width > 0 && target.rect.height > 0);
-    const point = { x: target.rect.x + target.rect.width / 2, y: target.rect.y + target.rect.height / 2 };
+    const webView = nodes.find(n => n.kind === 'webview');
+    const point = { x: target.rect.x + target.rect.width / 2 - webView.rect.x,
+      y: target.rect.y + target.rect.height / 2 - webView.rect.y };
     let focused = false;
     for (let attempt = 0; attempt < 8 && !focused; attempt++) {
       await phone.waitForFunction(url => connected && !busy && !state.paused && !state.loading
@@ -83,6 +86,18 @@ try {
     await phone.waitForFunction(() => state.editable?.ready && !busy);
     if (name !== 'frame') await report(r => r.active === name);
     if (await phone.locator('#editor').isHidden()) await phone.locator('#showKeyboard').click();
+    // Wait for the stock TV IME's opening layout, which rotates browser ownership.
+    const deadline = Date.now() + 6000;
+    let previous, stableSince = Date.now();
+    while (Date.now() < deadline) {
+      const current = await phone.evaluate(() => JSON.stringify({ revision: state.revision,
+        field: state.editable?.revision, ready: state.editable?.ready, width: state.width, height: state.height }));
+      if (current !== previous) { previous = current; stableSince = Date.now(); }
+      const shown = adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true');
+      if (shown && JSON.parse(current).ready && Date.now() - stableSince >= 500) break;
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    assert.ok(Date.now() < deadline, 'TV keyboard and field ownership must settle before phone typing');
     await settled();
     return await phone.evaluate(() => ({ action: state.editable.action, composing: state.editable.composing }));
   }
