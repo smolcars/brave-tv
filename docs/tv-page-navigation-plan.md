@@ -23,7 +23,7 @@ pointer movement remains available without opening browser controls.
    explains arrows, OK and hold OK. The native overlay supplies a visible
    selection ring and preserves position when switching to pointer.
 4. Read only the current selected element's geometry in a bounded isolated
-   renderer world; never enumerate page content, retain URLs/text, or build a
+   renderer world; never enumerate page content, persist URLs/text, or build a
    synthetic focus tree. Validate rectangles and discard responses after
    tab/document/viewport or native-input ownership changes. Custom controls
    and remote frames retain the pointer fallback.
