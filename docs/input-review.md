@@ -1,5 +1,28 @@
 # First input increment review
 
+## Unified browsing review — 12 October 2026
+
+Independent read-only Standards/Spec reviews compared each source slice with
+its exact parent, plus the connected root tests. Source `3a039ffee` versus
+`87b489044` had one Standards documentation finding and two Spec findings:
+canceled unrelated keys could retain edge intent, and external native/lifecycle
+cancellation left the new arrow cue painted. Source `f76523e5a` versus
+`3a039ffee` documents physical bounds/monotonic timing and clears both intent
+and drawable feedback without sending hover or waking the pointer. Both axes
+reported zero new findings on that correction. JVM coverage includes active
+reversal, canceled unrelated input and fresh-press recovery.
+
+Root native-fixture slice `a6b8470` versus `0efff56` exposed an incorrect
+More controls label and a false-pass gap: observations after key release
+could not prove continuous scrolling or click-on-release. `eae135d` separately
+corrects fullscreen-first Back handling; `ce710bf` checks two increasing
+scroll/wheel samples while Down remains held and unchanged click counters
+during held OK before requiring exactly one click on release. Both axes
+reported zero new findings on `ce710bf` versus `eae135d`. Native execution
+and final APK evidence are recorded separately in device-tests.md. Both axes
+also report zero findings for `c65946d` versus `ce710bf`, which captures the
+normal fixture's arrow cue before reversing the still-held direction.
+
 Scope requested by the user: latest implementation commit only. Compared `c48f63717a7ab22ced7a57aa19153dbe7b1436e9` with parent `7a4ec72895a5b763dcb7d58acbc8d28df189b25c`. Two independent read-only reviews used the engineering plan and upstream Android standards.
 
 ## Standards
