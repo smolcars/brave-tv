@@ -71,6 +71,10 @@ Standards requires honest sent-timeout copy: delivery may already have executed.
 Keep a field-local acknowledgement notice asking the user to check the TV,
 distinct from unsent cancellation; retain it until editing/another action or
 field/context reset. Deadlines also remain checked during an outstanding request.
+Root fixture review requires a fresh field revision after pointer focus and
+fresh per-case native key/submission/invalid-event counts. Blur only the owned
+fixture target before clicking it, and use unique run text so retained fixture
+results cannot satisfy cross-origin/contenteditable/validation acceptance.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-

@@ -41,6 +41,8 @@ try {
   const available = () => phone.waitForFunction(url => connected && !busy && state?.page
     && !state.paused && state.url === url, url);
   await available();
+  const runId = Date.now().toString(36);
+  await tv.evaluate(() => document.querySelector("#search").enterKeyHint = "search");
   const settled = () => phone.waitForFunction(() => !busy && !dirty && !pendingEdit
     && !enterIntent && state?.editable?.ready);
   await record("packaged companion JavaScript matches source", async () => {
@@ -51,12 +53,14 @@ try {
   });
   async function focus(name, selector = "#" + name, frame = false) {
     await available();
+    const previousField = await phone.evaluate(() => state.editable?.revision);
     if (await tv.evaluate(() => visualViewport.height < innerHeight - 1)) {
       adb(serial, "shell", "input", "keyevent", "4");
       await tv.waitForFunction(() => visualViewport.height >= innerHeight - 1);
     }
     await tv.evaluate(name => showCase(name), name);
     const target = frame ? tv.frameLocator("#frame").locator(selector) : tv.locator(selector);
+    await target.evaluate(element => element.blur());
     for (let attempt = 0; attempt < 8; attempt++) {
       await available();
       const point = await target.evaluate(element => {
@@ -77,7 +81,8 @@ try {
         await target.evaluate(element => {
           if (document.activeElement !== element) throw Error("Native pointer has not focused field");
         });
-        if (name !== "password") await phone.waitForFunction(() => state.editable?.ready && !busy);
+        if (name !== "password") await phone.waitForFunction(previous => state.editable?.ready
+          && state.editable.revision !== previous && !busy, previousField);
         return target;
       } catch (error) {
         if (attempt === 7) throw error;
@@ -95,7 +100,7 @@ try {
       await focus(name);
       if (name === "plain") assert.equal(await phone.evaluate(() => state.editable.action), "enter");
       const before = await tv.evaluate(() => ({ keys: events.length, submits: submissions.length }));
-      const text = `Immediate ${name} héllo हिन्दी 🌍`;
+      const text = `Immediate ${name} ${runId} héllo हिन्दी 🌍`;
       await type(text);
       await phone.locator("#enter").click();
       await tv.waitForFunction(({ name, text, before }) => submissions.length === before + 1
@@ -104,14 +109,16 @@ try {
       await settled();
       assert.equal(await tv.evaluate(() => events.length), before.keys + 1);
       assert.equal(await tv.evaluate(() => events.at(-1).trusted), true);
+      assert.equal(await tv.evaluate(() => events.at(-1).id), name);
     });
   }
   await record("native HTML validation and canceled keydown retain site behavior", async () => {
     await focus("validation");
     const before = await tv.evaluate(() => submissions.length);
+    const invalidBefore = await tv.evaluate(() => invalids);
     await type("Valid query, missing required field");
     await phone.locator("#enter").click();
-    await tv.waitForFunction(() => invalids > 0);
+    await tv.waitForFunction(before => invalids > before, invalidBefore);
     await settled();
     assert.equal(await tv.evaluate(() => submissions.length), before);
     await focus("canceled");
@@ -124,21 +131,28 @@ try {
   });
   await record("textarea Enter inserts one native newline; phone keyboard does not duplicate it", async () => {
     const lines = await focus("lines");
-    await type("Pasted\nlines");
+    const text = `Pasted\nlines ${runId}`;
+    const before = await tv.evaluate(() => events.length);
+    await type(text);
     await phone.locator("#editor").press("Enter");
-    await tv.waitForFunction(() => document.querySelector("#lines").value === "Pasted\nlines\n");
+    await tv.waitForFunction(({ text, before }) => document.querySelector("#lines").value === text + "\n"
+      && events.length === before + 1 && events.at(-1).id === "lines" && events.at(-1).trusted,
+    { text, before });
     await settled();
-    assert.equal(await lines.inputValue(), "Pasted\nlines\n");
-    assert.equal(await phone.locator("#editor").inputValue(), "Pasted\nlines\n");
+    assert.equal(await lines.inputValue(), text + "\n");
+    assert.equal(await phone.locator("#editor").inputValue(), text + "\n");
   });
   await record("contenteditable Enter follows native newline rules", async () => {
     await focus("editable");
-    await type("Editable");
+    const text = `Editable ${runId}`;
+    const before = await tv.evaluate(() => events.length);
+    await type(text);
     await phone.locator("#enter").click();
-    await phone.waitForFunction(() => state.editable?.ready && state.editable.text.includes("\n")
-      && !enterIntent && !busy);
-    assert.ok((await tv.locator("#editable").innerText()).startsWith("Editable\n"));
-    assert.equal(await tv.evaluate(() => events.at(-1).trusted), true);
+    await phone.waitForFunction(text => state.editable?.ready && state.editable.text.startsWith(text + "\n")
+      && !enterIntent && !busy, text);
+    assert.ok((await tv.locator("#editable").innerText()).startsWith(text + "\n"));
+    assert.deepEqual(await tv.evaluate(() => ({ count: events.length, id: events.at(-1).id,
+      trusted: events.at(-1).trusted })), { count: before + 1, id: "editable", trusted: true });
   });
   await record("equal-text action change rotates identity; stale action rejects", async () => {
     await focus("search");
@@ -153,11 +167,15 @@ try {
   });
   await record("cross-origin focused frame receives native search", async () => {
     await focus("frame", "#frameSearch", true);
-    await type("Cross-origin héllo 🌍");
+    const text = `Cross-origin ${runId} héllo 🌍`;
+    const before = await tv.evaluate(() => submissions.length);
+    await type(text);
     await phone.locator("#enter").click();
-    await tv.waitForFunction(() => submissions.at(-1)?.id === "frame"
-      && submissions.at(-1).text === "Cross-origin héllo 🌍" && submissions.at(-1).trusted);
+    await tv.waitForFunction(({ text, before }) => submissions.length === before + 1
+      && submissions.at(-1)?.id === "frame" && submissions.at(-1).text === text
+      && submissions.at(-1).trusted, { text, before });
     await settled();
+    assert.equal(await tv.evaluate(() => submissions.length), before + 1);
   });
   await record("password field cannot enable or dispatch Enter", async () => {
     await focus("password");
