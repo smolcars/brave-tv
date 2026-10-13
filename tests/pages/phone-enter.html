@@ -39,11 +39,12 @@
   window.invalids = 0;
   const params = new URLSearchParams(location.search);
   const run = params.get('run');
+  let reportSequence = 0;
   function report() {
     if (!run || !/^[a-z0-9-]{1,80}$/.test(run)) return;
     const active = document.activeElement;
     fetch('/enter-report?run=' + run, { method: 'POST', body: JSON.stringify({
-      events, submissions, invalids, active: active.id,
+      sequence: ++reportSequence, events, submissions, invalids, active: active.id,
       text: active.isContentEditable ? active.innerText : active.value || '',
       start: active.selectionStart, end: active.selectionEnd,
     }) }).catch(() => {});

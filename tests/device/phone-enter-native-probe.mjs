@@ -109,9 +109,14 @@ try {
         : name === 'editable' ? r.text.startsWith(text + '\n')
         : r.submissions.length === 1 && r.submissions[0].id === name && r.submissions[0].text === text)));
     await settled();
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const final = await report(() => true);
+    assert.equal(final.events.length, observed.events.length, 'No additional native Enter after acknowledgement');
+    assert.equal(final.submissions.length, observed.submissions.length, 'No additional submission after acknowledgement');
+    assert.equal(final.invalids, observed.invalids);
     if (name === 'canceled' || name === 'validation') assert.equal(observed.submissions.length, 0);
     if (name === 'lines') assert.equal(await phone.locator('#editor').inputValue(), text + '\n');
-    results.push({ name, passed: true, metadata, observed });
+    results.push({ name, passed: true, metadata, observed: final });
     await writeFile(output, JSON.stringify({ tvAvd, phoneAvd, results }, null, 2));
     console.log(`PASS: paired native ${name} Enter`);
   }

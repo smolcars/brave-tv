@@ -109,7 +109,10 @@ Enter fixture and serve it through a loopback-only test server. Select cases by
 fresh query navigation through the actual companion, focus by native snapshot
 bounds and actual remote pointer commands, and require fresh trusted key/form
 reports keyed to that run. The existing CDP-based probe remains available for
-emulators with that endpoint. Native input delivery and real phone UI still
+emulators with that endpoint. Fixture reports must keep monotonic per-run
+sequence order across concurrent requests, preserve UTF-8 across body chunks,
+and recheck exact key/submission counts after native acknowledgement so an
+intermediate successful report cannot hide a duplicate. Native input delivery and real phone UI still
 supply every edit/action; no synthetic TV key or forced form submission.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum

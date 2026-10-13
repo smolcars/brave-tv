@@ -12,17 +12,20 @@ const server = createServer(async (req, res) => {
     const run = url.searchParams.get('run');
     if (!run || !/^[a-z0-9-]{1,80}$/.test(run)) { res.writeHead(400).end(); return; }
     if (req.method === 'POST') {
-      let body = '';
+      const chunks = [];
+      let bytes = 0;
       for await (const chunk of req) {
-        body += chunk;
-        if (body.length > 16384) { res.writeHead(413).end(); return; }
+        bytes += chunk.length;
+        if (bytes > 16384) { res.writeHead(413).end(); return; }
+        chunks.push(chunk);
       }
       try {
-        const data = JSON.parse(body);
+        const data = JSON.parse(Buffer.concat(chunks).toString('utf8'));
         assert.ok(Array.isArray(data.events) && Array.isArray(data.submissions));
         assert.ok(Number.isSafeInteger(data.invalids) && data.invalids >= 0);
+        assert.ok(Number.isSafeInteger(data.sequence) && data.sequence > 0);
         if (reports.size >= 100 && !reports.has(run)) reports.delete(reports.keys().next().value);
-        reports.set(run, data);
+        if (!reports.has(run) || reports.get(run).sequence < data.sequence) reports.set(run, data);
         res.writeHead(204).end();
       } catch { res.writeHead(400).end(); }
       return;
