@@ -91,6 +91,11 @@ The final native textarea check also fails on the isolated TV: Enter is accepted
 but expected text/readiness is not observed. Add guarded synthetic-fixture state
 and native key diagnostics to this case, then rerun before changing input delivery.
 Keep the initial passing run and both subsequent failures distinct.
+For phone IME acceptance, extend only the existing test keyboard's phone layout
+with an editor-action stimulus above its original two-button bottom row. Preserve
+the existing TV layout and old probe coordinates. Exercise genuine phone
+InputConnection composition/commit and keyboard Enter through the paired UI,
+then restore stock IMEs and remove only test fixtures installed by this task.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
