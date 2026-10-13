@@ -418,6 +418,10 @@ are host evidence, not native-device acceptance.
 
 `phone-remote-ui.mjs` separately checks the bundled UI against a synthetic
 server and does not count as device evidence.
+It also checks native action labels/keyboard hints, immediate and held-text Enter,
+duplicate suppression, candidate composition, multiline/pasted text, and discard
+on field/text conflict, timeout, rejection and native pause. The phone editor
+stays read-only during an intent; native acknowledgement precedes one field action.
 
 `phone-qr-pair.mjs PLAYWRIGHT_CORE ZXING_JAR SCREENSHOT_PATH` decodes the TV
 QR with `PhoneQr.java`, opens its invitation in the phone browser and approves

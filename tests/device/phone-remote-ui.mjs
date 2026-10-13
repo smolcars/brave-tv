@@ -31,6 +31,8 @@ let conflictingCaret = false;
 let compositionBeforeReplace = false;
 let textBeforeReplace = false;
 let holdNativeAck = false;
+let rejectEnter = false;
+let holdEnterAck = false;
 const initial = {
   revision: 1,
   paused: false,
@@ -50,6 +52,9 @@ const initial = {
     version: 1,
     replacementVersion: 1,
     ready: true,
+    action: "enter",
+    multiline: false,
+    composing: false,
     text: "hello",
     start: 5,
     end: 5,
@@ -108,6 +113,14 @@ const server = createServer(async (req, res) => {
     await barrier;
   }
   if (data.op !== "state") commands.push(data);
+  if (data.edit === "enter") {
+    const ok = !rejectEnter && initial.editable?.ready && !initial.editable.composing
+      && data.editable === initial.editable.revision
+      && data.version === initial.editable.version && data.action === initial.editable.action;
+    if (ok) initial.editable.ready = !holdEnterAck;
+    res.end(JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial }));
+    return;
+  }
   if (data.edit === "select") {
     if (selectionStarted) {
       const barrier = new Promise((r) => {
@@ -140,6 +153,7 @@ const server = createServer(async (req, res) => {
     if (ok) {
       initial.editable.ready = !holdNativeAck;
       initial.editable.text = data.text;
+      initial.editable.composing = !!data.composing;
       initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
       initial.editable.end = data.end;
       initial.editable.version++;
@@ -507,6 +521,112 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator("#showKeyboard").click();
   await page.locator("#editor").scrollIntoViewIfNeeded();
+  const enters = () => commands.filter((c) => c.edit === "enter");
+  const enterSettled = () => page.waitForFunction(
+    () => !enterIntent && !busy && !pendingEdit && !dirty && state.editable?.ready,
+  );
+  initial.editable.action = "search";
+  initial.editable.version++;
+  await page.getByRole("button", { name: "Search", exact: true }).waitFor();
+  assert.equal(await page.locator("#editor").getAttribute("enterkeyhint"), "search");
+  const enterBefore = enters().length;
+  await page.locator("#editor").fill("Immediate héllo 🌍");
+  await page.locator("#enter").click();
+  await enterSettled();
+  assert.equal(enters().length, enterBefore + 1);
+  assert.deepEqual(commands.slice(-2).map((c) => c.edit), ["replace", "enter"]);
+  assert.equal(enters().at(-1).version, initial.editable.version);
+  assert.equal(initial.editable.text, "Immediate héllo 🌍");
+  assert.equal(await page.locator("#editor").inputValue(), "Immediate héllo 🌍");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "editor");
+
+  holdNativeAck = true;
+  await page.locator("#editor").fill("Held text acknowledgement");
+  await page.waitForFunction(() => pendingEdit && !state.editable.ready);
+  await page.locator("#enter").click();
+  await page.waitForFunction(() => !!enterIntent);
+  assert.equal(enters().length, enterBefore + 1);
+  assert.equal(await page.locator("#enter").isDisabled(), true);
+  assert.equal(await page.locator("#editor").getAttribute("readonly"), "");
+  holdNativeAck = false;
+  initial.editable.ready = true;
+  await enterSettled();
+  assert.equal(enters().length, enterBefore + 2);
+
+  holdEnterAck = true;
+  await page.locator("#editor").press("Enter");
+  await page.waitForFunction(() => enterIntent?.sent && !state.editable.ready);
+  assert.equal(await page.evaluate(() => requestEnter()), false);
+  assert.equal(await page.locator("#enter").isDisabled(), true);
+  holdEnterAck = false;
+  initial.editable.ready = true;
+  await enterSettled();
+  assert.equal(enters().length, enterBefore + 3);
+  assert.equal(initial.editable.text, "Held text acknowledgement");
+
+  const candidateBefore = enters().length;
+  await page.locator("#editor").focus();
+  const candidateIme = await page.context().newCDPSession(page);
+  await candidateIme.send("Input.imeSetComposition", {
+    text: "日本", selectionStart: 2, selectionEnd: 2,
+  });
+  assert.equal(await page.evaluate(() => requestEnter()), false);
+  await page.locator("#editor").dispatchEvent("keydown", {
+    key: "Enter", isComposing: true, keyCode: 229,
+  });
+  await candidateIme.send("Input.insertText", { text: "日本" });
+  await page.waitForFunction(() => !composing && !dirty && !busy && !pendingEdit);
+  assert.equal(enters().length, candidateBefore, "Candidate confirmation/end cannot submit");
+  await candidateIme.detach();
+
+  initial.editable.action = "enter";
+  initial.editable.multiline = true;
+  initial.editable.version++;
+  await page.getByRole("button", { name: "Enter", exact: true }).waitFor();
+  await page.locator("#editor").fill("Pasted\nnewlines");
+  await page.waitForFunction(() => !dirty && !busy && !pendingEdit);
+  assert.equal(enters().length, candidateBefore, "Pasted newline remains a text edit");
+  assert.equal(await page.locator("#editor").evaluate((editor) => editor.dispatchEvent(
+    new InputEvent("beforeinput", { inputType: "insertParagraph", cancelable: true, bubbles: true }),
+  )), false, "A cancelable phone Enter prevents a local newline");
+  await enterSettled();
+  assert.equal(enters().length, candidateBefore + 1);
+  assert.equal(initial.editable.text, "Pasted\nnewlines", "No local newline replacement duplicates Enter");
+
+  for (const conflict of ["field", "text", "timeout"]) {
+    holdNativeAck = true;
+    await page.locator("#editor").fill(`Discard ${conflict}`);
+    await page.waitForFunction(() => pendingEdit && !state.editable.ready);
+    await page.locator("#enter").click();
+    await page.waitForFunction(() => !!enterIntent);
+    const count = enters().length;
+    if (conflict === "field") initial.editable.revision++;
+    if (conflict !== "timeout") {
+      initial.editable.text = "Changed on TV";
+      initial.editable.start = initial.editable.end = initial.editable.text.length;
+      initial.editable.version++;
+      initial.editable.ready = true;
+    }
+    await page.waitForFunction(() => !enterIntent);
+    holdNativeAck = false;
+    initial.editable.ready = true;
+    await enterSettled();
+    assert.equal(enters().length, count, `${conflict} discards Enter without replay`);
+  }
+  rejectEnter = true;
+  const rejectedBefore = enters().length;
+  await page.locator("#enter").click();
+  await enterSettled();
+  await page.evaluate(() => poll());
+  assert.equal(enters().length, rejectedBefore + 1, "Rejected Enter is never retried");
+  rejectEnter = false;
+  await capture(page, "type-enter-mobile");
+  holdNativeAck = true;
+  await page.locator("#editor").fill("Discard on native pause");
+  await page.waitForFunction(() => pendingEdit && !state.editable.ready);
+  await page.locator("#enter").click();
+  await page.waitForFunction(() => !!enterIntent);
+  const pauseEnterCount = enters().length;
   nativePaused = true;
   await page.getByText("Control paused", { exact: true }).waitFor();
   await page.waitForFunction(
@@ -545,8 +665,11 @@ try {
     assert.equal(await page.locator("#disconnect").isEnabled(), true);
   }
   nativePaused = false;
+  holdNativeAck = false;
+  initial.editable.ready = true;
   initial.revision = 3;
   await page.waitForFunction(() => state && !state.paused);
+  assert.equal(enters().length, pauseEnterCount, "Native pause cannot replay pending Enter");
   assert.equal(
     await page.locator("#tabs .tab").count(),
     1,
@@ -584,7 +707,7 @@ try {
   assert.equal(await page.locator("#pairForm").isVisible(), true);
   assert.deepEqual(errors, []);
   console.log(
-    "Companion regression passed: QR approval/retry UI, fragment removal, polling-time action, one click, acknowledged selection/typing, conflicting edit rejection, portrait/landscape overflow, no script errors.",
+    "Companion regression passed: immediate/held/duplicate Enter, native action labels, candidate composition, multiline/paste, stale-field/text/timeout/rejection/pause cancellation; QR approval/retry, polling, pointer, typing, reflow and no script errors.",
   );
 } finally {
   releasePoll?.();
