@@ -64,11 +64,17 @@ const read = () => new Promise((yes, no) => {
     returnByValue: true,
   } }));
 });
-const initial = await read();
-assert.equal(initial.width * initial.scale, 1920);
-assert.equal(initial.height * initial.scale, 1080);
-assert.equal(initial.scrollY + initial.nestedX + initial.nestedY
-  + initial.topClicks + initial.bottomClicks, 0, 'Fresh fixture required');
+let initial;
+try {
+  initial = await read();
+  assert.equal(initial.width * initial.scale, 1920);
+  assert.equal(initial.height * initial.scale, 1080);
+  assert.equal(initial.scrollY + initial.nestedX + initial.nestedY
+    + initial.topClicks + initial.bottomClicks, 0, 'Fresh fixture required');
+} catch (error) {
+  socket.close();
+  throw error;
+}
 const remote = spawn('adb', ['-s', serial, 'shell', 'uinput', '-'],
   { stdio: ['pipe', 'pipe', 'pipe'] });
 let output = '', errors = '', ended = false, token = 0;
@@ -76,7 +82,7 @@ remote.stdout.on('data', data => { output += data; });
 remote.stderr.on('data', data => { errors += data; });
 remote.on('error', error => { errors += error.message; ended = true; });
 remote.on('exit', () => { ended = true; });
-const watchdog = setTimeout(() => remote.kill('SIGKILL'), 120000);
+const watchdog = setTimeout(() => { socket.close(); remote.kill('SIGKILL'); }, 120000);
 const send = (command, fields = {}) => remote.stdin.write(JSON.stringify({ id: 1, command, ...fields }) + '\n');
 const key = (code, down) => send('inject', { events: [1, code, down ? 1 : 0, 0, 0, 0] });
 const delay = duration => send('delay', { duration });
@@ -120,6 +126,21 @@ const still = async before => {
   const after = await read();
   assert.equal(after.scrollY, before.scrollY, 'Release/idle must not scroll');
 };
+const scrollWhileHeld = async (code, before) => {
+  key(code, true); delay(750); await sync();
+  const first = await state(s => s.scrollY > before);
+  delay(250); await sync();
+  const second = await state(s => s.scrollY > first.scrollY && s.wheels > first.wheels);
+  return second;
+};
+const clickEdge = async id => {
+  const name = `${id}Clicks`;
+  const before = (await read())[name];
+  key(353, true); delay(1000); await sync();
+  assert.equal((await read())[name], before, 'Held OK must not click before release');
+  key(353, false); delay(300); await sync();
+  return state(s => s[name] === before + 1);
+};
 try {
   send('register', { name: 'Brave TV edge regression', vid: 4660, pid: 1, bus: 'usb',
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
@@ -132,12 +153,12 @@ try {
   await still(value);
   await hold(108, 250);
   assert.equal((await read()).scrollY, 0, 'Brief outward hold must not scroll');
-  await hold(353, 1000);
-  value = await state(s => s.bottomClicks === 1);
+  value = await clickEdge('bottom');
   assert.equal(value.scrollY, 0, 'Bottom edge button must remain clickable');
   report('edge arrival / idle / grace / bottom button', value);
-  await hold(108, 1200);
-  value = await state(s => s.scrollY > 0);
+  await scrollWhileHeld(108, 0);
+  key(108, false); delay(300); await sync();
+  value = await read();
   const downY = value.scrollY;
   await still(value);
   tap(103); await sync();
@@ -147,8 +168,7 @@ try {
   await move(103, 40);
   value = await state(s => s.hover.y === 0);
   assert.equal(value.scrollY, downY, 'Arriving at top must not scroll');
-  await hold(353, 1000);
-  value = await state(s => s.topClicks === 1);
+  value = await clickEdge('top');
   assert.equal(value.scrollY, downY, 'Sticky top button must remain clickable');
   await hold(103, 2000);
   value = await state(s => s.scrollY === 0);
@@ -156,7 +176,7 @@ try {
   report('top button / hold up / document boundary', value);
   await move(108, 15);
   tap(158); await sync(); await focus('Browse page');
-  tap(108); tap(106); tap(106); await sync(); await focus('More');
+  tap(108); tap(106); tap(106); await sync(); await focus('More controls');
   tap(353); await sync(); await focus('History');
   tap(108); tap(106); await sync(); await focus('Scroll here');
   tap(353); await sync();
@@ -177,10 +197,11 @@ try {
   await state(s => s.fullscreen);
   await move(108, 40);
   value = await read(); assert.equal(value.scrollY, 0);
-  await hold(108, 1200);
-  value = await state(s => s.fullscreen && s.scrollY > 0);
+  await scrollWhileHeld(108, 0);
+  key(103, true); delay(80); key(103, false); key(108, false); delay(300); await sync();
+  value = await state(s => s.fullscreen && s.scrollY > 0 && s.hover.y * s.scale < 1070);
   await still(value);
-  report('fullscreen edge scrolling', value);
+  report('fullscreen edge scrolling / active reversal', value);
   const capture = agent('screenshot', resolve(screenshot));
   assert.ok(capture.success, 'Normal fullscreen fixture screenshot required');
   tap(158); await sync(); await state(s => !s.fullscreen);
