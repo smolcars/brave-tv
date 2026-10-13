@@ -42,3 +42,10 @@ pointer movement remains available without opening browser controls.
 - Record exact source revisions, logs, signatures, APK hashes and acceptance
   limits. Preserve cached outputs and install on the isolated TV emulator
   without clearing data. Physical-TV acceptance remains separate.
+
+## Delivered
+
+Implemented in `d8a0ebb90`; the final native suite passes all twelve checks.
+The optimized non-debuggable ARM APK and emulator x64 APK are preserved with
+checksums and exact build provenance. See [acceptance evidence](tv-page-navigation-evidence.md).
+Physical-TV timing and broader website compatibility remain separate acceptance.

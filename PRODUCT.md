@@ -8,7 +8,7 @@ android
 
 ## Scope
 
-Native Android TV browser home and browser menu. The user selected Ambient and
+Native Android TV browser Home, browser menu and webpage remote navigation. The user selected Ambient and
 requested an implementation and engineering plan, including promotion of phone
 pairing from experimental to a normal Home feature. The phone companion keeps
 its existing visual system; feature-status wording is part of the promotion.
@@ -32,7 +32,7 @@ added once to eligible normal TV profiles and editable in the native library.
 Existing saved items keep their titles, URLs and order; deletions stay removed.
 These four sites use bundled official marks, without tint or runtime fetching.
 Controls include address, back, forward, reload/stop, tabs, favorites, history,
-downloads, media, Shields, settings, pointer, scroll, fullscreen, home, and the
+downloads, media, Shields, settings, element navigation, pointer, scroll, fullscreen, home, and the
 phone remote when available. Native security and private browsing remain native.
 Home's bottom footer reads “A simple browser with ad blocking and private browsing.”
 It credits Brave/Chromium and the photographer, and opens the public GitHub project.
@@ -43,6 +43,15 @@ Native TV approval, cancellation, connected-state restoration and disconnect
 pass on the Android TV emulator. The existing transport is local HTTP, disclosed
 in the pairing panel and companion. Physical TV and real-phone acceptance of
 this redesign remain outstanding.
+
+Webpages start in element navigation. Remote arrows jump between visible selectable
+elements, then scroll the nearest eligible container at its visible edge.
+Short OK activates once; hold OK for 650ms switches between element navigation
+and the pointer without activation. Down continues scrolling to the document
+end without wrapping. Unsupported focused embedded frames use the pointer.
+Native keyboards, dialogs, security/private locks and fullscreen players retain
+input ownership. A native mint outline follows the current element; hints fade
+after three seconds and the pointer wakes on movement.
 
 ## Brand Commitments
 

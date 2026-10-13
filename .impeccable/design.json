@@ -149,6 +149,10 @@
       "label-photo": {
         "displayName": "Photo credit",
         "purpose": "Permanent bottom-left photographer credit; native labelSmall, 11sp/16sp."
+      },
+      "label-page-navigation": {
+        "displayName": "Page navigation hint",
+        "purpose": "Native overlay, 16sp with system scaling; brief arrow/OK/hold instruction."
       }
     },
     "shadows": [],
@@ -232,7 +236,7 @@
       "kind": "custom",
       "refersTo": "drawer-container",
       "description": "Illustration of one group inside the native 540dp/92%-width drawer. Native height caps at 90% of viewport; intrinsic tallest-label rows align only drawer siblings. Native font scaling determines three-to-two column reflow.",
-      "html": "<section class=\"ds-drawer\" aria-label=\"Browser controls\"><h2 class=\"ds-drawer-title\">Browser controls</h2><div class=\"ds-drawer-groups\"><section class=\"ds-drawer-group\"><h3 class=\"ds-drawer-heading\">Browse</h3><div class=\"ds-drawer-row\"><button class=\"ds-drawer-action\">Go</button><button class=\"ds-drawer-action\">Browse page</button><button class=\"ds-drawer-action\">Reload page</button></div></section></div></section>",
+      "html": "<section class=\"ds-drawer\" aria-label=\"Browser controls\"><h2 class=\"ds-drawer-title\">Browser controls</h2><div class=\"ds-drawer-groups\"><section class=\"ds-drawer-group\"><h3 class=\"ds-drawer-heading\">Browse</h3><div class=\"ds-drawer-row\"><button class=\"ds-drawer-action\">Search</button><button class=\"ds-drawer-action\">Browse page</button><button class=\"ds-drawer-action\">Jump between elements</button></div></section></div></section>",
       "css": ".ds-drawer{display:flex;flex-direction:column;gap:16px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-drawer-title{margin:0;font:400 24px/32px sans-serif}.ds-drawer-groups{display:flex;flex-direction:column;gap:20px;overflow:auto}.ds-drawer-group{display:flex;flex-direction:column;gap:10px}.ds-drawer-heading{margin:0;color:#D0DFD8;font:500 14px/20px sans-serif;letter-spacing:.1px}.ds-drawer-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}.ds-drawer-action{background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:18px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent;overflow-wrap:normal}.ds-drawer-action:hover,.ds-drawer-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-drawer-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
     },
     {
@@ -240,7 +244,7 @@
       "kind": "custom",
       "refersTo": "phone-container",
       "description": "Illustration of the native connected state, retaining the existing local-HTTP disclosure and actions. Native window dim is 0.55, panel width 540dp capped at 92%, and height capped at 90%; the companion has its separate design.",
-      "html": "<section class=\"ds-phone\" aria-label=\"Phone\"><h2 class=\"ds-phone-title\">Phone</h2><div class=\"ds-phone-entries\"><p class=\"ds-phone-description\">Phone connected</p><p class=\"ds-phone-description\">Local connection · Not encrypted. Use a trusted network. Other devices on this network may read or change traffic. Do not enter passwords or personal information.</p><div class=\"ds-phone-row\"><button class=\"ds-phone-action\">Continue browsing</button><button class=\"ds-phone-action\">Disconnect</button></div></div></section>",
+      "html": "<section class=\"ds-phone\" aria-label=\"Phone\"><h2 class=\"ds-phone-title\">Phone</h2><div class=\"ds-phone-entries\"><p class=\"ds-phone-description\">Phone connected</p><p class=\"ds-phone-description\">Local connection \u00b7 Not encrypted. Use a trusted network. Other devices on this network may read or change traffic. Do not enter passwords or personal information.</p><div class=\"ds-phone-row\"><button class=\"ds-phone-action\">Continue browsing</button><button class=\"ds-phone-action\">Disconnect</button></div></div></section>",
       "css": ".ds-phone{display:flex;flex-direction:column;gap:12px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-phone-title{margin:0;font-size:26px;font-weight:500}.ds-phone-entries{display:flex;flex-direction:column;gap:10px;overflow:auto}.ds-phone-description{margin:0;color:#D0DFD8;font-size:16px}.ds-phone-row{display:flex;flex-wrap:wrap;gap:12px}.ds-phone-action{flex:1;min-width:140px;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:18px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent}.ds-phone-action:hover,.ds-phone-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-phone-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
     },
     {
@@ -249,11 +253,16 @@
       "description": "Exact native four-stop forest scrim and permanent photograph credit, illustrated on the fallback color. The bundled native photo is not embedded in this self-contained snippet; native captures show its crop. Stops are converted from Compose ARGB to CSS RGBA hex. This layer is decorative and has no focus state. The native footer also holds the product description, Brave/Chromium credits and a quiet GitHub action; it reserves height outside the scrolling foreground.",
       "html": "<div class=\"ds-ambient\" aria-label=\"Ambient forest contrast layer\"><span class=\"ds-ambient-credit\">Photo: Luca Bravo / Unsplash</span></div>",
       "css": ".ds-ambient{position:relative;aspect-ratio:16/9;background:linear-gradient(to bottom,#081E1CAD,#091C1B70,#071918D1,#102825),#142726}.ds-ambient-credit{position:absolute;left:40px;bottom:16px;color:#D0DFD8;font:500 11px/16px sans-serif;letter-spacing:.5px}"
+    },
+    {
+      "name": "Webpage selection cue",
+      "kind": "custom",
+      "description": "Native Canvas outline only: mint #DCEBDC 3dp over forest #19362E 5dp with 6dp corners. Selected geometry is clipped to the visible viewport and bounded scroller ancestors. The 16sp hint fades after three seconds; the ring stays. Chromium owns page navigation; held OK switches to the existing pointer."
     }
   ],
   "narrative": {
     "northStar": "Ambient",
-    "overview": "A landscape supplies the atmosphere; forest surfaces and warm white keep the\nbrowser legible from a couch. Filled native TV controls and pale mint focus\nmake the current remote target easy to find. Expression comes from scenery,\ntonal layering and generous space.\n\nThis system applies to native Android TV Home, the root browser drawer and\nPhone panels. It uses AndroidX Compose for TV inside Chromium's native view\nand dialog ownership. The separate phone companion is documented in\n[brave/DESIGN.md](brave/DESIGN.md); unrelated TV library, settings and security\npanels retain their existing presentation.",
+    "overview": "A landscape supplies the atmosphere; forest surfaces and warm white keep the\nbrowser legible from a couch. Filled native TV controls and pale mint focus\nmake the current remote target easy to find. Expression comes from scenery,\ntonal layering and generous space.\n\nThis system applies to native Android TV Home, the root browser drawer and\nPhone panels. It uses AndroidX Compose for TV inside Chromium's native view\nand dialog ownership. The separate phone companion is documented in\n[brave/DESIGN.md](brave/DESIGN.md); unrelated TV library, settings and security\npanels retain their existing presentation.\n\nWebpage navigation uses the existing forest/mint colors for a native selection ring and a brief scaled hint. Chromium owns directional target selection and scrolling.",
     "keyCharacteristics": [
       "One bundled landscape with permanent photographer credit and fixed contrast scrims.",
       "Forest surfaces, warm white content and a pale mint focused target.",

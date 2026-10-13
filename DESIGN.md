@@ -272,7 +272,7 @@ The browser drawer is right aligned and vertically centered, with a native
 right inset (24dp). Its width is the lesser of 540dp and 92% of viewport width;
 its content height is capped at 90% of viewport height. Inside, padding is 24dp,
 outer sections are spaced by 16dp, groups by 20dp, and group content by 10dp.
-All 17 actions remain on one level in Browse, Your library, This page and
+All 18 actions remain on one level in Browse, Your library, This page and
 Browser groups.
 
 Rows calculate columns from available width, gap and a minimum width multiplied
@@ -360,6 +360,18 @@ and security context, then a scrolling group stack. Group headings carry
 heading semantics. Rows align sibling tile heights using intrinsic text size;
 text scaling never forces a fixed-height tile. Native dialog Back dismisses the
 drawer, and action identity preserves focus while browser state updates.
+
+### Webpage remote navigation
+
+The browser engine owns directional target selection and edge scrolling. A
+native overlay supplies a pale-mint (#DCEBDC) 3dp ring over a forest-ink
+(#19362E) 5dp stroke, with 6dp corners. It follows only the selected element's
+visible bounds and persists while its brief hint fades after three seconds.
+The 16sp hint uses system font scaling; it sits opposite the selected element's
+vertical half to keep that target visible. The existing pointer retains its
+7dp dot and idle fade. Hold OK for 650ms switches modes without clicking;
+short OK activates once. The menu names both modes. Native keyboard, dialog,
+security/private-lock and fullscreen ownership precede page navigation.
 
 ### Phone
 

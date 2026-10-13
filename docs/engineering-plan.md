@@ -7131,3 +7131,10 @@ for a plan and implementation. Follow [page navigation plan](tv-page-navigation-
 reuse Chromium spatial navigation, add short/held OK policy, automatic webpage
 entry, a native focus cue and pointer fallback, then verify native input/privacy
 ownership and preserved data on cached x64/ARM builds.
+
+Source `d8a0ebb90` implements the approved interaction through Chromium's native
+engine, a canceled-safe held-OK toggle and a scoped selection cue. All twelve
+native checks, 20 project tests, strict mypy, Nix checks and blocking x64/ARM builds
+pass. The emulator update retains all five bookmarks and normal text scale.
+See [page navigation evidence](tv-page-navigation-evidence.md) for APKs, signatures,
+captures and physical-TV/website-compatibility acceptance limits.

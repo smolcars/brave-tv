@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TV navigation fixture</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 36px 48px; background: #142726; color: #f3efe7;
+    font: 20px/1.5 system-ui, sans-serif; }
+  h1 { margin: 0 0 6px; font-size: 38px; font-weight: 500; }
+  p { margin: 0 0 24px; color: #d0dfd8; }
+  h2 { margin: 28px 0 12px; font-size: 24px; font-weight: 500; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  button, a { display: block; width: 100%; padding: 22px; border: 1px solid #647872;
+    border-radius: 14px; background: #28413e; color: inherit; text-align: left;
+    font: inherit; text-decoration: none; }
+  button:focus, a:focus { outline: 2px solid #dcebdc; outline-offset: 3px; }
+  button span { display: block; color: #d0dfd8; font-size: 16px; }
+  #panel { height: 190px; overflow: auto; border-radius: 14px; border: 1px solid #647872; }
+  #panel button { border: 0; border-radius: 0; border-bottom: 1px solid #647872; }
+  .spacer { height: 460px; }
+  output { font-size: 16px; color: #d0dfd8; }
+</style>
+<h1>Browse with your remote</h1>
+<p>Arrows move between items. Down at the visible edge scrolls to more.</p>
+<div class="grid">
+  <button id="first" autofocus>Explore<span>First target</span></button>
+  <button>Watch<span>Second target</span></button>
+  <button>Listen<span>Third target</span></button>
+  <button>Discover<span>Next row</span></button>
+  <button>Saved pages<span>Next row</span></button>
+  <button>Reading<span>Next row</span></button>
+</div>
+<h2>A scrolling panel</h2>
+<div id="panel">
+  <button>Panel item 1</button><button>Panel item 2</button>
+  <button>Panel item 3</button><button>Panel item 4</button>
+  <button>Panel item 5</button><button>Panel item 6</button>
+</div>
+<h2>More below</h2>
+<p>This is a local test page for the native TV browser.</p>
+<output id="status" aria-live="polite">No activations</output>
+<div class="spacer"></div>
+<button>Last page item</button>
+<script>
+  let activations = 0;
+  document.addEventListener('click', event => {
+    if (event.target.closest('button')) {
+      activations++;
+      document.querySelector('output').textContent = `${activations} activation${activations === 1 ? '' : 's'}`;
+    }
+  });
+</script>
+</html>
