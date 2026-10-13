@@ -131,8 +131,8 @@
         "purpose": "Compact Home navigation labels."
       },
       "label-credit": {
-        "displayName": "Photo credit",
-        "purpose": "Permanent bottom-left photographer credit."
+        "displayName": "Footer credit",
+        "purpose": "Home product description and Brave/Chromium attribution."
       },
       "title-phone": {
         "displayName": "Phone title",
@@ -145,6 +145,10 @@
       "label-back": {
         "displayName": "Back hint",
         "purpose": "Explicit native panel Back hint size."
+      },
+      "label-photo": {
+        "displayName": "Photo credit",
+        "purpose": "Permanent bottom-left photographer credit; native labelSmall, 11sp/16sp."
       }
     },
     "shadows": [],
@@ -242,9 +246,9 @@
     {
       "name": "Ambient contrast layer",
       "kind": "custom",
-      "description": "Exact native four-stop forest scrim and permanent photograph credit, illustrated on the fallback color. The bundled native photo is not embedded in this self-contained snippet; native captures show its crop. Stops are converted from Compose ARGB to CSS RGBA hex. This layer is decorative and has no focus state.",
-      "html": "<div class=\"ds-ambient\" aria-label=\"Ambient forest contrast layer\"><span class=\"ds-ambient-credit\">Lago di Braies · Luca Bravo / Unsplash</span></div>",
-      "css": ".ds-ambient{position:relative;aspect-ratio:16/9;background:linear-gradient(to bottom,#081E1CAD,#091C1B70,#071918D1,#102825),#142726}.ds-ambient-credit{position:absolute;left:40px;bottom:16px;color:#D0DFD8;font:500 12px/16px sans-serif;letter-spacing:.5px}"
+      "description": "Exact native four-stop forest scrim and permanent photograph credit, illustrated on the fallback color. The bundled native photo is not embedded in this self-contained snippet; native captures show its crop. Stops are converted from Compose ARGB to CSS RGBA hex. This layer is decorative and has no focus state. The native footer also holds the product description, Brave/Chromium credits and a quiet GitHub action; it reserves height outside the scrolling foreground.",
+      "html": "<div class=\"ds-ambient\" aria-label=\"Ambient forest contrast layer\"><span class=\"ds-ambient-credit\">Photo: Luca Bravo / Unsplash</span></div>",
+      "css": ".ds-ambient{position:relative;aspect-ratio:16/9;background:linear-gradient(to bottom,#081E1CAD,#091C1B70,#071918D1,#102825),#142726}.ds-ambient-credit{position:absolute;left:40px;bottom:16px;color:#D0DFD8;font:500 11px/16px sans-serif;letter-spacing:.5px}"
     }
   ],
   "narrative": {

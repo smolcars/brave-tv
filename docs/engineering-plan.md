@@ -7115,3 +7115,11 @@ large text cannot overlap saved/recent cards. Reuse native URL loading and
 the existing Shields/private-tab features; this slice changes presentation.
 Verify the GitHub destination/tab ownership, focus traversal, baseline and
 1.3 text scale, then build and preserve the x64/ARM artifacts.
+
+Source `0cd7165ed` completes the footer with the user's exact description:
+“A simple browser with ad blocking and private browsing.” Five native regressions
+pass on the implementation, followed by final-copy footer acceptance at 1.3
+text scale. Both final browser APKs build with blocking analysis and pass
+signature verification. The emulator retains all five bookmarks and returns
+to normal text scale. See [footer evidence](ambient-footer-evidence.md) for the
+captures, artifacts and acceptance limits.

@@ -34,6 +34,8 @@ These four sites use bundled official marks, without tint or runtime fetching.
 Controls include address, back, forward, reload/stop, tabs, favorites, history,
 downloads, media, Shields, settings, pointer, scroll, fullscreen, home, and the
 phone remote when available. Native security and private browsing remain native.
+Home's bottom footer reads “A simple browser with ad blocking and private browsing.”
+It credits Brave/Chromium and the photographer, and opens the public GitHub project.
 Presentation uses AndroidX Compose for TV in the existing Chromium GN build.
 The implemented Home Phone entry observes the current native session and supports
 connect/disconnect without local-build or experimental-switch requirements.

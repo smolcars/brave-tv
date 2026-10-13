@@ -75,6 +75,12 @@ typography:
     fontWeight: 500
     lineHeight: "16sp"
     letterSpacing: "0.5sp"
+  label-photo:
+    fontFamily: "sans-serif"
+    fontSize: "11sp"
+    fontWeight: 500
+    lineHeight: "16sp"
+    letterSpacing: "0.5sp"
   title-phone:
     fontFamily: "sans-serif"
     fontSize: "26sp"
@@ -102,7 +108,7 @@ spacing:
   drawer-group: "20dp"
   panel-inset: "24dp"
   home-side: "40dp"
-  home-bottom: "48dp"
+  home-bottom: "16dp"
 components:
   button-action:
     backgroundColor: "{colors.forest-surface}"
@@ -236,7 +242,7 @@ Frontmatter preserves native sp measurements rather than browser units.
 - **Headline:** `headline-drawer`, TV Material headline-small, for Browser controls.
 - **Title:** `title-search` for the search launcher; `title-brand` for Brave TV; `title-section` for Home section headings, card titles and the local clock; `title-group` for drawer groups.
 - **Body:** `body-action` is TV Material body-large with the observed action-label size override. `body-context` describes empty sections and drawer context. `body-card-detail` is the secondary host line on recent cards.
-- **Label:** `label-navigation` styles compact top navigation; `label-credit` styles the permanent photograph credit.
+- **Label:** `label-navigation` styles compact top navigation; `label-credit` styles the product description and upstream credits; `label-photo` styles the photograph credit.
 - **Phone:** `title-phone`, `body-phone` and `label-back` record the existing panel's explicit size overrides. Its QR/manual instructions also use the body Phone size in a native TextView.
 
 **The Native Type Rule.** Keep text in native sp and preserve system font
@@ -245,7 +251,7 @@ scaling. Reflow columns and permit scrolling as text grows.
 ## Layout
 
 Home uses a full-screen cropped landscape with a scrollable foreground. Its
-safe-space padding is asymmetric (40dp sides, 16dp top, 48dp bottom). The
+safe-space padding is asymmetric (40dp sides, 16dp top and bottom). The
 foreground stacks with the Home gap token. The search launcher fills available
 width up to its cap (680dp); it is left aligned beneath the heading.
 
@@ -254,8 +260,13 @@ controls, and a local clock. Navigation uses adaptive rows (maximum four
 columns, 108dp minimum times font scale, 8dp gaps); Phone has weight 1.5 within
 its row to fit its live status. Home cards use 120dp minimum columns times font
 scale and 12dp gaps, bounded to six Favorites and four Continue browsing items.
-The bottom-left photograph credit stays outside the scrolling foreground
-(40dp horizontal, 16dp vertical inset).
+The bottom footer stays outside the scrolling foreground, reserving its actual
+height so scaled text cannot overlap the cards. It uses 40dp horizontal and
+16dp bottom insets, an 8dp top inset, 4dp gaps between description/credits/photo,
+and 20dp between that text column and the quiet GitHub action. Normal Home
+shows “A simple browser with ad blocking and private browsing.” Private Home
+retains its existing session explanation below the heading. Both show Brave/Chromium and photo
+credits. GitHub opens the canonical project URL in the current native tab.
 
 The browser drawer is right aligned and vertically centered, with a native
 right inset (24dp). Its width is the lesser of 540dp and 92% of viewport width;
@@ -364,7 +375,7 @@ badge retains its previous palette and is outside this Ambient scope.
 One bundled [Lago di Braies photograph](brave/android/java/brave-res/drawable-nodpi/brave_tv_ambient.jpg)
 is decoded off the UI thread and cached once. Crop fills Home; a forest
 fallback remains behind it. The permanent bottom-left credit reads
-“Lago di Braies · Luca Bravo / Unsplash”. The build adds no runtime wallpaper
+“Photo: Luca Bravo / Unsplash”. The build adds no runtime wallpaper
 request, font request or rotation service.
 
 ## Do's and Don'ts
