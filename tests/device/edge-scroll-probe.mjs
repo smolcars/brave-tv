@@ -198,12 +198,12 @@ try {
   await move(108, 40);
   value = await read(); assert.equal(value.scrollY, 0);
   await scrollWhileHeld(108, 0);
+  const capture = agent('screenshot', resolve(screenshot));
+  assert.ok(capture.success, 'Normal fullscreen fixture screenshot required');
   key(103, true); delay(80); key(103, false); key(108, false); delay(300); await sync();
   value = await state(s => s.fullscreen && s.scrollY > 0 && s.hover.y * s.scale < 1070);
   await still(value);
   report('fullscreen edge scrolling / active reversal', value);
-  const capture = agent('screenshot', resolve(screenshot));
-  assert.ok(capture.success, 'Normal fullscreen fixture screenshot required');
   tap(158); await sync(); await state(s => !s.fullscreen);
   tap(158); await sync();
   assert.ok(snapshot().some(n => n.label === 'Browser controls'), 'Back returns to controls');
