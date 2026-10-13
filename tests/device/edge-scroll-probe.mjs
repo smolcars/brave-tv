@@ -12,6 +12,9 @@ const adb = (...args) => execFileSync('adb', ['-s', serial, ...args],
 assert.deepEqual(adb('emu', 'avd', 'name').trim().split(/\r?\n/), ['brave_tv_clean_api36', 'OK']);
 assert.equal(adb('shell', 'wm', 'size').trim(), 'Physical size: 1920x1080');
 assert.equal(adb('shell', 'wm', 'density').trim(), 'Physical density: 320');
+assert.equal(adb('shell', 'settings', 'get', 'secure', 'default_input_method').trim(),
+  'com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME',
+  'Restore the stock TV keyboard after opening the app');
 assert.ok(adb('forward', '--list').split('\n').some(line =>
   line.trim() === `${serial} tcp:9222 localabstract:chrome_devtools_remote`));
 const agent = (...args) => JSON.parse(execFileSync('python3', [resolve(driver), ...args, '--json'],
@@ -86,7 +89,7 @@ const watchdog = setTimeout(() => { socket.close(); remote.kill('SIGKILL'); }, 1
 const send = (command, fields = {}) => remote.stdin.write(JSON.stringify({ id: 1, command, ...fields }) + '\n');
 const key = (code, down) => send('inject', { events: [1, code, down ? 1 : 0, 0, 0, 0] });
 const delay = duration => send('delay', { duration });
-const tap = code => { key(code, true); key(code, false); delay(40); };
+const tap = code => { key(code, true); delay(50); key(code, false); delay(40); };
 const sync = async () => {
   const name = `edge-${++token}`;
   send('sync', { syncToken: name });
@@ -120,7 +123,20 @@ const focus = async label => {
     await new Promise(yes => setTimeout(yes, 25));
   }
 };
+const pageOwnsInput = async () => {
+  const deadline = Date.now() + 5000;
+  while (snapshot().some(n => n.label === 'Browser controls')) {
+    assert.ok(Date.now() < deadline, 'Browse must dismiss controls');
+    await new Promise(yes => setTimeout(yes, 25));
+  }
+};
 const report = (check, value) => console.log(JSON.stringify({ check, ...value }));
+const cursor = (name, x, y) => {
+  const path = `${resolve(screenshot)}.${name}.png`;
+  assert.ok(agent('screenshot', path).success, 'Normal cursor screenshot required');
+  console.log(execFileSync('java', [resolve('tests/device/CursorScreenshot.java'), path,
+    String(x), String(y)], { encoding: 'utf8', timeout: 20000 }).trim());
+};
 const still = async before => {
   delay(650); await sync();
   const after = await read();
@@ -146,13 +162,16 @@ try {
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
   delay(1500); await sync();
   tap(353); await sync();
-  assert.ok(!snapshot().some(n => n.label === 'Browser controls'), 'Browse must dismiss controls');
+  await pageOwnsInput();
+  await move(103, 40);
   await move(108, 40);
-  let value = await state(s => s.hover && s.hover.y * s.scale > 1070);
+  cursor('bottom', 960, 1079);
+  let value = await read();
   assert.equal(value.scrollY, 0, 'Tapping to the edge must not scroll');
   await still(value);
   await hold(108, 250);
   assert.equal((await read()).scrollY, 0, 'Brief outward hold must not scroll');
+  await move(103, 1); await move(108, 1);
   value = await clickEdge('bottom');
   assert.equal(value.scrollY, 0, 'Bottom edge button must remain clickable');
   report('edge arrival / idle / grace / bottom button', value);
@@ -162,12 +181,15 @@ try {
   const downY = value.scrollY;
   await still(value);
   tap(103); await sync();
-  value = await state(s => s.hover.y * s.scale < 1070);
+  cursor('reverse', 960, 1047);
+  value = await read();
   assert.equal(value.scrollY, downY, 'Reverse moves pointer without scrolling');
   report('hold down / release / reverse', value);
   await move(103, 40);
-  value = await state(s => s.hover.y === 0);
+  cursor('top', 960, 0);
+  value = await read();
   assert.equal(value.scrollY, downY, 'Arriving at top must not scroll');
+  await move(108, 1); await move(103, 1);
   value = await clickEdge('top');
   assert.equal(value.scrollY, downY, 'Sticky top button must remain clickable');
   await hold(103, 2000);
@@ -188,7 +210,8 @@ try {
     'Returning to Browse must not click');
   report('nested vertical / horizontal fallback', value);
   const button = value.bounds.fullscreen;
-  const current = (await read()).hover;
+  // Anchored at the top edge, then moved15 native32px steps into the nested box.
+  const current = { x: 480, y: 240 };
   const dx = Math.round(((button.x + button.width / 2) - current.x) * value.scale / 32);
   const dy = Math.round(((button.y + button.height / 2) - current.y) * value.scale / 32);
   await move(dx < 0 ? 105 : 106, Math.abs(dx));
@@ -201,7 +224,8 @@ try {
   const capture = agent('screenshot', resolve(screenshot));
   assert.ok(capture.success, 'Normal fullscreen fixture screenshot required');
   key(103, true); delay(80); key(103, false); key(108, false); delay(300); await sync();
-  value = await state(s => s.fullscreen && s.scrollY > 0 && s.hover.y * s.scale < 1070);
+  cursor('fullscreen-reverse', 1632, 1047);
+  value = await state(s => s.fullscreen && s.scrollY > 0);
   await still(value);
   report('fullscreen edge scrolling / active reversal', value);
   tap(158); await sync(); await state(s => !s.fullscreen);

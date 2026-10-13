@@ -27,7 +27,7 @@
 <button id="fullscreen">Enter fullscreen</button>
 <button id="bottom">Bottom edge clicks: 0</button>
 <script>
-  const checks = { topClicks: 0, bottomClicks: 0, hover: null, wheels: 0 };
+  const checks = { topClicks: 0, bottomClicks: 0, wheels: 0 };
   for (const id of ['top', 'bottom']) {
     document.getElementById(id).onclick = () => {
       const key = `${id}Clicks`;
@@ -35,9 +35,6 @@
         `${id === 'top' ? 'Top' : 'Bottom'} edge clicks: ${++checks[key]}`;
     };
   }
-  document.addEventListener('mousemove', e => {
-    checks.hover = { x: e.clientX, y: e.clientY };
-  });
   document.addEventListener('wheel', () => ++checks.wheels, { passive: true });
   document.getElementById('fullscreen').onclick = () => document.documentElement.requestFullscreen();
 </script>

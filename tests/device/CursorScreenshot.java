@@ -14,7 +14,7 @@ class CursorScreenshot {
         int x = Integer.parseInt(args[1]);
         int y = Integer.parseInt(args[2]);
         int center = screenshot.getRGB(x, y) & 0xffffff;
-        int ring = screenshot.getRGB(x, y - 14) & 0xffffff;
+        int ring = screenshot.getRGB(x, y >= 14 ? y - 14 : y + 14) & 0xffffff;
         boolean visible = center == 0xffffff && ring == 0x000000;
         boolean expectedVisible = args.length == 3;
         if (visible != expectedVisible) {

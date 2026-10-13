@@ -486,7 +486,10 @@ for this exact fixture with Browse page focused. The driver must retain the
 exact launcher/config/session returned by T3 `device_open`.
 
 The probe uses a temporary non-alphabetic uinput remote for every page/menu
-interaction; CDP only reads synthetic state. It checks stationary edge arrival,
+interaction; CDP only reads synthetic state. Native cursor pixels verify exact
+edge/reversal coordinates; renderer hover events are not a pointer-position
+oracle. Restore the stock TV keyboard after agent-device opens the app. The
+probe checks stationary edge arrival,
 idle and brief holds, one held-OK click on fixed top/bottom buttons, scrolling
 while held, release/reversal, document boundaries, nested vertical/horizontal
 Scroll here, fullscreen and Back recovery. Exact450ms timing, canceled input,
