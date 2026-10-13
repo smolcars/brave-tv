@@ -27,6 +27,11 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Current scope and latest implementation evidence
 
+Testing constraint: the user is going to sleep and has turned the TV off.
+Finish both loading feedback and phone Enter/submission using emulators for
+device testing. Do not contact, install on or test physical TVs/phones in this
+work. Real-device installation and acceptance are explicitly deferred.
+
 ### Next: phone webpage field submission
 
 The user requests this after TV loading feedback: let a phone submit the active
