@@ -1,5 +1,17 @@
 # Device and website test matrix
 
+## Authorized emulator disk cleanup — 13 October 2026
+
+After hardware closeout, the user explicitly requests deletion of the simulators
+used to recover disk space. `avdmanager delete avd` removes the three verified
+stopped profiles: `brave_phone_enter_20261013_api36`,
+`brave_tv_launch_followup_api36` and `brave_tv_onboarding_api36`, including their
+registration files. Their measured allocated storage totals19,626,528,768bytes
+(18.28GiB). Evidence: `~/.cache/brave-tv/evidence/loading-enter-chromecast-20261013/emulator-disk-cleanup.json`.
+The two active AVDs claimed by other sessions remain intact, as do all SDK,
+APK, build-cache and test-evidence files. The physical Chromecast is untouched.
+Earlier profile-retention notes describe state before this authorized cleanup.
+
 ## Chromecast loading and Enter follow-up — 13 October 2026
 
 The user subsequently authorized physical TV checks and explicitly requested
