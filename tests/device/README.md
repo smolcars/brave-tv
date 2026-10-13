@@ -17,7 +17,9 @@ activity pause/resume and Stop. Run it in its own instrumentation process.
 Address/Go flow while Home is still visible, then releases the response and
 requires completion. `#pageLoadingCompletesAndClearsAcrossReplacementAndFailure`
 checks redirect, partial content, explicit completion, replacement and connection
-failure. Run each separately with an idle fixture (no pending response).
+failure with an actual error-page assertion. `#pageLoadingYieldsToSameWindowFindAndRecovers`
+checks suppression and return without relying on window focus changes. Run each
+separately with an idle fixture (no pending response).
 `#firstPageCursorActivationWhileLoadingClicksOnce` retains the existing
 loopback18084 slow fixture and now also requires the new native loading status,
 its suppression under controls, recovery on page return and removal on Stop.
