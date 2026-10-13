@@ -53,6 +53,14 @@ TV loading slice first; this roadmap entry is authorization for the next fix.
 
 #### Phone Enter implementation slice
 
+Native-slice review of `fa99073b3` finds stale action metadata after an oversized
+field becomes eligible and a missing explicit adapter-validity guard for literal
+Enter. Recompute on eligibility acquisition, reject invalid adapters and add
+native coverage for oversized Search recovery, all action hints, duplicate
+pending input, actual form submission and textarea newline. Preserve a drain
+barrier when metadata rotates during an in-flight edit; never advertise the old
+operation as ready early. Client/UI and paired-emulator acceptance still follow.
+
 [Primary-source research](phone-field-submit-research.md) establishes that field
 type and `enterkeyhint` cannot prove search/form intent. Send native input through
 Chromium's IME adapter: Search/Go/Send/Done use its corresponding editor action;
