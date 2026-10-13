@@ -11,6 +11,15 @@ assert.doesNotMatch(await (await read('/done.html')).text(), /src="\/held.js"/);
 assert.equal((await read('/missing')).status, 404);
 assert.equal((await read('/release')).status, 404);
 assert.equal((await read('/hold.html', { method: 'POST' })).status, 405);
+const before = read('/before.html');
+const deadline = Date.now() + 5000;
+while ((await (await read('/state')).json()).pending !== 1) {
+  assert.ok(Date.now() < deadline, 'Pending pre-commit response observed');
+  await new Promise(resolve => setTimeout(resolve, 20));
+}
+assert.equal((await read('/release', { method: 'POST' })).status, 200);
+assert.match(await (await before).text(), /Resource complete/);
+assert.deepEqual(await (await read('/state')).json(), { pending: 0 });
 const first = await read('/held.js');
 const second = await read('/held.js');
 assert.deepEqual(await (await read('/state')).json(), { pending: 2 });

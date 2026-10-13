@@ -1,7 +1,8 @@
 # TV device regressions
 
 `loading-fixture-server.mjs` serves a normal synthetic page on loopback18091.
-Its deferred script stays pending until loopback `POST /release`; `/state`
+Its deferred script stays pending until loopback `POST /release`; `/before.html`
+holds the initial response before commit, and `/state`
 reports the pending count, `/redirect` navigates to it and `/done.html` is a
 complete replacement. At most two script requests remain pending, each with
 a90-second abandonment watchdog. Run `loading-server-check.mjs` first and
@@ -12,6 +13,11 @@ remove the owned reverse/server at closeout.
 `TvHomePageTest#pageLoadingFollowsSelectedTabAndActivityResume` uses this
 pending resource to verify selected/background-tab isolation, native Home,
 activity pause/resume and Stop. Run it in its own instrumentation process.
+`#pageLoadingIsVisibleAfterAddressSubmissionBeforeCommit` submits the native
+Address/Go flow while Home is still visible, then releases the response and
+requires completion. `#pageLoadingCompletesAndClearsAcrossReplacementAndFailure`
+checks redirect, partial content, explicit completion, replacement and connection
+failure. Run each separately with an idle fixture (no pending response).
 `#firstPageCursorActivationWhileLoadingClicksOnce` retains the existing
 loopback18084 slow fixture and now also requires the new native loading status,
 its suppression under controls, recovery on page return and removal on Stop.
