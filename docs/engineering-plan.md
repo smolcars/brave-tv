@@ -75,6 +75,10 @@ Root fixture review requires a fresh field revision after pointer focus and
 fresh per-case native key/submission/invalid-event counts. Blur only the owned
 fixture target before clicking it, and use unique run text so retained fixture
 results cannot satisfy cross-origin/contenteditable/validation acceptance.
+Correction review observes setup itself can rotate the old field revision.
+Require the phone to observe no eligible field after owned blur/preparation,
+then click and await the new ready field. This positive no-field boundary avoids
+mistaking an old field's reacquired lease for the intended focus acknowledgement.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-

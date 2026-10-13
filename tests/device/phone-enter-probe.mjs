@@ -53,7 +53,6 @@ try {
   });
   async function focus(name, selector = "#" + name, frame = false) {
     await available();
-    const previousField = await phone.evaluate(() => state.editable?.revision);
     if (await tv.evaluate(() => visualViewport.height < innerHeight - 1)) {
       adb(serial, "shell", "input", "keyevent", "4");
       await tv.waitForFunction(() => visualViewport.height >= innerHeight - 1);
@@ -61,6 +60,7 @@ try {
     await tv.evaluate(name => showCase(name), name);
     const target = frame ? tv.frameLocator("#frame").locator(selector) : tv.locator(selector);
     await target.evaluate(element => element.blur());
+    await phone.waitForFunction(() => connected && !busy && !state.paused && !state.editable);
     for (let attempt = 0; attempt < 8; attempt++) {
       await available();
       const point = await target.evaluate(element => {
@@ -81,8 +81,7 @@ try {
         await target.evaluate(element => {
           if (document.activeElement !== element) throw Error("Native pointer has not focused field");
         });
-        if (name !== "password") await phone.waitForFunction(previous => state.editable?.ready
-          && state.editable.revision !== previous && !busy, previousField);
+        if (name !== "password") await phone.waitForFunction(() => state.editable?.ready && !busy);
         return target;
       } catch (error) {
         if (attempt === 7) throw error;

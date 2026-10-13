@@ -423,6 +423,24 @@ duplicate suppression, candidate composition, multiline/pasted text, and discard
 on field/text conflict, timeout, rejection and native pause. The phone editor
 stays read-only during an intent; native acknowledgement precedes one field action.
 
+For native Enter integration, serve the new `phone-enter.html` fixture from the
+same loopback18088 server; reverse18088 on the verified TV emulator for its
+cross-origin127.0.0.1 frame. Navigate using the approved companion Address UI.
+With explicit9222/9223 diagnostic forwards and the exact paired private origin:
+
+```sh
+node tests/device/phone-enter-probe.mjs PLAYWRIGHT_CORE emulator-5554 brave_tv_clean_api36 emulator-5556 brave_phone_remote_api36 http://10.0.2.17:PORT /absolute/evidence/phone-enter.json
+```
+
+The probe verifies packaged JavaScript, normal authenticated state, actual remote
+pointer focus, fresh field readiness, Unicode form/search handlers, required-field
+validation, canceled keys, native textarea/contenteditable newline, action changes,
+stale rejection, cross-origin delivery and password exclusion. It records fresh
+per-case counts and unique text, so repeat runs cannot pass on retained results.
+DOM operations only prepare the owned fixture; all field text/actions travel
+through the bundled phone and native input. This does not establish OOP process
+isolation, phone IME composition or real-device behavior by itself.
+
 `phone-qr-pair.mjs PLAYWRIGHT_CORE ZXING_JAR SCREENSHOT_PATH` decodes the TV
 QR with `PhoneQr.java`, opens its invitation in the phone browser and approves
 on the TV. It never logs the invitation. Keep the screenshot private until the
