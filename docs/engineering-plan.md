@@ -79,6 +79,14 @@ Correction review observes setup itself can rotate the old field revision.
 Require the phone to observe no eligible field after owned blur/preparation,
 then click and await the new ready field. This positive no-field boundary avoids
 mistaking an old field's reacquired lease for the intended focus acknowledgement.
+Runtime isolation: another T3 session claims the original TV/phone controllers
+while verification is running. Keep those sessions/services intact and move
+paired acceptance to the stopped `brave_tv_launch_followup_api36` profile on
+emulator5560 and a new, non-overwriting `brave_phone_enter_20261013_api36` on5562.
+Reuse the verified d960 APK and existing SDK/build caches. Record the failed
+shared-device attempts without attributing their assertion failure to interference
+until isolated testing supplies evidence. Restore only owned test settings and
+stop only controllers/emulators still exclusively owned by this task.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
