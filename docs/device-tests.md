@@ -8,9 +8,15 @@ stopped profiles: `brave_phone_enter_20261013_api36`,
 `brave_tv_launch_followup_api36` and `brave_tv_onboarding_api36`, including their
 registration files. Their measured allocated storage totals19,626,528,768bytes
 (18.28GiB). Evidence: `~/.cache/brave-tv/evidence/loading-enter-chromecast-20261013/emulator-disk-cleanup.json`.
-The two active AVDs claimed by other sessions remain intact, as do all SDK,
-APK, build-cache and test-evidence files. The physical Chromecast is untouched.
-Earlier profile-retention notes describe state before this authorized cleanup.
+The user then explicitly requests cleanup of all remaining emulators. Both
+active services stop, their T3 panels close, and `brave_tv_clean_api36` and
+`brave_phone_remote_api36` are deleted with their registrations. This second
+pass removes14,844,420,096bytes of measured allocated storage after shutdown,
+for a combined32.10GiB. `emulator-disk-cleanup-all.json` records the follow-up.
+The AVD directory has no profiles/registrations and no emulator services remain.
+SDK, APK, build-cache and test-evidence files are retained; the physical
+Chromecast is untouched. Earlier profile-retention notes describe state before
+this authorized cleanup.
 
 ## Chromecast loading and Enter follow-up — 13 October 2026
 

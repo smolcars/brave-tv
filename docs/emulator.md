@@ -1,15 +1,16 @@
 # Android TV emulator through Nix
 
-Current test devices (13 October): `brave_tv_clean_api36` and
-`brave_phone_remote_api36` remain active in other sessions. At the user's explicit
-disk-cleanup request, the stopped `brave_phone_enter_20261013_api36`,
-`brave_tv_launch_followup_api36` and `brave_tv_onboarding_api36` AVDs were deleted
-with `avdmanager`, recovering18.28GiB of allocated storage. The earlier obsolete
-`brave_tv_api36` was already deleted on9 October. Test results and commands below
-are historical; discover current devices with `device_list` before use. APKs,
-logs, SDK/system images and build caches remain preserved. Deleting those test
-profiles removes their guest app data and snapshots; this supersedes their
-previous retention for upgrade/fixture testing.
+Current test devices (13 October): none. The user explicitly requested removal
+of all test emulators, including the two still active in other sessions.
+Both emulator services were stopped and their T3 panels closed. All five AVDs
+and registrations are deleted: `brave_tv_clean_api36`,
+`brave_phone_remote_api36`, `brave_phone_enter_20261013_api36`,
+`brave_tv_launch_followup_api36` and `brave_tv_onboarding_api36`.
+Measured allocated storage removed totals32.10GiB across both cleanup passes.
+The earlier obsolete `brave_tv_api36` was already deleted on9 October. Commands
+and results below are historical; create new test profiles before future checks.
+APKs, logs, SDK/system images and build caches remain preserved. Guest app data
+and snapshots were removed, superseding prior upgrade/fixture retention notes.
 
 The optional `tv-emulator-sdk` flake package supplies SDK Command-line Tools 20.0, an emulator package and the Android TV API 36 x86-64 image (revision 4), pinned by the existing `flake.lock`. It uses Google's Android SDK license and permits the SDK's unfree packages only in this separate package set. It does not change Chromium's build SDK or download the image for ordinary development-shell checks.
 
