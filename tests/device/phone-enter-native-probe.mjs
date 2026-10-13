@@ -5,11 +5,11 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
-const [pw, tvSerial, tvAvd, phoneSerial, phoneAvd, origin, driver, output, port = '9323'] = process.argv.slice(2);
+const [pw, tvSerial, tvAvd, phoneSerial, phoneAvd, origin, driver, phoneDriver, output, port = '9323'] = process.argv.slice(2);
 assert.match(origin, /^http:\/\/10\.0\.2\.\d+:\d+$/);
 assert.match(port, /^\d+$/);
 assert.ok(Number(port) >= 1024 && Number(port) <= 65535);
-assert.ok(driver && output && tvAvd && phoneAvd);
+assert.ok(driver && phoneDriver && output && tvAvd && phoneAvd);
 assert.notEqual(tvSerial, phoneSerial);
 const adb = (serial, ...args) => execFileSync('adb', ['-s', serial, ...args], { encoding: 'utf8', timeout: 15000 });
 for (const [serial, avd] of [[tvSerial, tvAvd], [phoneSerial, phoneAvd]]) {
@@ -99,7 +99,17 @@ try {
     if (['plain', 'lines'].includes(name)) assert.equal(metadata.action, 'enter');
     const text = `Native ${name} ${runId} héllo हिन्दी 🌍`;
     await phone.locator('#editor').fill(text);
-    await phone.locator('#enter').click();
+    // Native accessibility avoids CDP's stale hit testing during Android IME panning.
+    const nativePhone = JSON.parse(execFileSync('python3', [resolve(phoneDriver), 'snapshot', '--json'],
+      { encoding: 'utf8', timeout: 15000 }));
+    assert.ok(nativePhone.success && !nativePhone.data.truncated);
+    assert.equal(nativePhone.data.appBundleId, 'com.brave.browser_default');
+    assert.ok(nativePhone.data.nodes.some(n => n.identifier?.endsWith(':id/url_bar')
+      && n.label === new URL(origin).host));
+    const enter = nativePhone.data.nodes.find(n => n.identifier === 'enter' && n.visibleToUser && n.enabled);
+    assert.ok(enter, 'Visible enabled phone field action required');
+    execFileSync('python3', [resolve(phoneDriver), 'press', '@' + enter.ref, '--settle'],
+      { encoding: 'utf8', timeout: 15000 });
     const observed = await report(r => (name === 'frame' ? r.submissions.length === 1
       && r.submissions[0].id === 'frame' && r.submissions[0].text === text && r.submissions[0].trusted
       : r.events.length === 1 && r.events[0].id === name
