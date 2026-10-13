@@ -53,6 +53,13 @@ TV loading slice first; this roadmap entry is authorization for the next fix.
 
 ### TV webpage loading feedback — compact native status
 
+Outcome: source `1807ad165` passes the retained blocking x64 main/test builds,
+all five native loading/ownership regression cases and fresh Impeccable visual
+review (`ship`) at both TV resolutions and enlarged text. Exact artifacts,
+failed attempts and scope limits are in device-tests.md; latest source review
+corrections are in input-review.md. The loading slice is ready for the separate
+future real-device installation/check. Continue with the authorized phone action.
+
 The user requests clear feedback after submitting a URL and chooses a compact
 indicator/progress bar so partially loaded pages remain usable. Extend the
 established native TV presentation: a small opaque charcoal status surface,

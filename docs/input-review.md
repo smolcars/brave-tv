@@ -1,5 +1,19 @@
 # First input increment review
 
+## Compact loading review — 12 October 2026
+
+Latest-only source reviews compared each committed slice with its exact parent.
+Initial `5dacac6e5` Spec findings require precommit Home ownership and broader
+native completion coverage, addressed by `56edab7eb` (both axes0). Formatting
+`e2e97f938` also passes both axes. Native Find/error coverage `9bb25ef39` has
+one IME-ordering finding on each axis; `3613f6db7` corrects the actual keyboard
+wait/dismiss order and checked exception (both axes0). Final `1807ad165` adds
+the required annotated test network connection and direct GN dependency;
+Standards0, Spec0 against `3613f6db7`. All five native cases then pass on the
+final APK. Impeccable's fresh native finish review returns `ship`, with no
+material fixes across the four required emulator captures. Device evidence and
+failed build/automation attempts are recorded in device-tests.md.
+
 ## Unified browsing review — 12 October 2026
 
 Independent read-only Standards/Spec reviews compared each source slice with

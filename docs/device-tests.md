@@ -1,5 +1,54 @@
 # Device and website test matrix
 
+## Compact TV loading feedback — 12 October 2026
+
+Source `1807ad16588077c889aa7d886ec7d0a5c9043503` passes five native
+`TvHomePageTest` cases on the preserved `brave_tv_clean_api36` emulator:
+first-page cursor activation while loading; selected-tab/pause-resume ownership;
+native Address/Go submission before response headers; completion/replacement/
+network-error cleanup; and same-window Find suppression/recovery. Each separate
+instrumentation process reports `OK (1 test)`. The stock TV IME is selected.
+The controlled loopback fixture exercises held headers, a held script, redirect,
+explicit release and completion; fixture self-checks also pass.
+
+Cached Nix x64 builds retain `out/android_Debug`, four Siso workers,18/22GiB
+cgroup limits, no swap, a6GiB host-availability guard and blocking Android
+analysis. Initial main build passes in7m13.87s; its test build fails on a missing
+checked exception. The second test build fails the required traffic-annotation
+check. Both are corrected without disabling analysis. Final main/test builds
+pass in13.63s/54.62s, with sampled cgroup peak10,092,527,616B. Logs retain all
+three attempts under `~/.cache/brave-tv/logs/build-loading-*-r{1,2,3}`.
+
+Final signed x86_64 artifacts are preserved in
+`~/.cache/brave-tv/artifacts/page-loading-1807ad165-x64-debug-20261012/`:
+
+- `BraveMonox64.apk`:852,791,967bytes; SHA-256
+  `b98764d5a42835a0580c4372c22f329870df0661f0cd874d0757500fbec26237`.
+- `BravePublicTest.apk`:876,504,169bytes; SHA-256
+  `ef3b7cd6e4e7344b0eec47c32412084446c398145fa2af3488675215dc5b2ad3`.
+
+V2 signature/package/ABI checks pass; installed emulator bytes match both
+artifacts. `adb install -r` preserves the existing profile. Artifact provenance,
+GN arguments, build resource samples, native logs and capture guards are in
+`~/.cache/brave-tv/evidence/page-loading-20261012/`.
+
+Impeccable's fresh finish reviewer returns `ship` on four actual APK captures:
+1920×1080 loading/settled at font scale1.0;1920×1080 loading at1.3; and1280×720
+loading at1.3, all density320. Enlarged text fits, partial content remains
+visible and the completed status disappears. Native palette/typography are
+preserved; phone-only design authority is unchanged. No web detector applies
+to this native extension. Capture files live under the evidence directory's
+`.impeccable/review/`. Settings return to the original size/font/stock IME.
+
+Initial visual automation failures are retained: an incorrect wait syntax,
+expired held response, configuration-recreation race and an off-screen controls
+guard. Agent-device tap/select does not activate this native TV button in the
+reproducer; raw Android D-pad Center does. A controlled native-key comparison
+passes without a product-code change. These attempts are not acceptance passes.
+Host tests/typechecking/Nix checks and formatter/whitespace checks pass at their
+recorded source slices. Physical-TV installation, viewing-distance readability
+and real-device performance are deferred at the user's explicit request.
+
 ## Unified TV browsing — 12 October 2026
 
 Source `f76523e5a336aadb0e3b754646dcfae28c6988d9` implements Browse page with
