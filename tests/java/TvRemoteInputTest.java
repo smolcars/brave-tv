@@ -79,6 +79,11 @@ public final class TvRemoteInputTest {
         assert page.scrollY == 1 && page.y == 79 : "Continued hold scrolls at the pointer";
         input.onKey(TvRemoteInput.Key.DOWN, true, 3, false, 1500);
         assert page.scrollY == 2 : "Live repeats continue scrolling";
+        input.onKey(TvRemoteInput.Key.UP, true, 0, false, 1501);
+        assert page.y == 69 && page.scrollY == 2 && page.edgeDirection == 0
+                : "Reversing an active hold immediately returns to pointer movement";
+        input.onKey(TvRemoteInput.Key.UP, false, 0, false, 1502);
+        input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 1503);
         input.onKey(TvRemoteInput.Key.DOWN, false, 0, false, 1510);
         assert page.edgeDirection == 0 : "Release removes the cue";
         input.onKey(TvRemoteInput.Key.DOWN, true, 4, false, 2000);
@@ -97,6 +102,11 @@ public final class TvRemoteInputTest {
         input.onKey(TvRemoteInput.Key.DOWN, true, 1, true, 3650);
         input.onKey(TvRemoteInput.Key.DOWN, true, 2, false, 4000);
         assert page.scrollY == 2 : "Canceled direction discards its hold";
+        input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 4010);
+        assert !input.onKey(TvRemoteInput.Key.OTHER, true, 0, true, 4020);
+        input.onKey(TvRemoteInput.Key.DOWN, true, 1, false, 4500);
+        assert page.scrollY == 2
+                : "Canceled unrelated input cancels edge intent but passes through";
         input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 4100);
         input.cancelPress();
         input.onKey(TvRemoteInput.Key.DOWN, true, 1, false, 5000);
