@@ -75,6 +75,9 @@ this Brave package globally from all profiles and installing it again. Keep
 unrelated apps, Android users, SDK/build caches and previous APKs intact.
 Verify installed APK bytes/non-debuggable configuration and bounded native
 startup/controls; record whether the authorized storage fallback was needed.
+The user also asks to be notified if the TV is unreachable so they can turn it
+on. Reachability preflight passes; report any disconnect that prevents delivery
+instead of treating a connection failure as insufficient-storage authorization.
 
 ### Phone companion redesign — touchpad browsing first
 
