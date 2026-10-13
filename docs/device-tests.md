@@ -1,5 +1,80 @@
 # Device and website test matrix
 
+## Unified TV browsing — 12 October 2026
+
+Source `f76523e5a336aadb0e3b754646dcfae28c6988d9` implements Browse page with
+deliberate vertical edge holds and retains secondary Scroll here for nested
+and horizontal content. Source/root changes are signed incremental master
+commits; exact-parent Standards/Spec reviews and corrections are in
+[input-review.md](input-review.md#unified-browsing-review--12-october-2026).
+
+Both cached x64 builds pass with blocking Android analysis, four Siso workers,
+18GiB/22GiB cgroup limits and no swap: initial source `3a039ffee` takes3m53.10s
+wall time; final correction takes3m36.83s. Native compilation/dependencies and
+existing output directories are retained; there is no initialization or reset.
+The final observed cgroup MemoryPeak while running is15,089,860,608B; this is a
+sampled build peak, not browser performance. Final log/time prefixes are
+`~/.cache/brave-tv/logs/build-edge-x64-r2.{log,time}`.
+
+The final development-signed Debug APK is preserved at
+`~/.cache/brave-tv/artifacts/edge-scroll-f76523e5a-x64-debug-20261012/BraveMonox64.apk`,
+852,771,074bytes, SHA-256
+`fc4c052c9b7fbedb9b6a73764e58d3ddd056d62c6c3485d1f1fcce7344004e6f`.
+V2 signature verification passes; installed emulator APK bytes match that hash.
+The artifact retains `args.gn`, package metadata and source/build provenance.
+Installation uses `adb install -r`; the existing profile is preserved.
+
+Host checks pass:20 repository tests, strict mypy over15 files, both Nix flake
+checks including the pinned source submodule, Java formatting and whitespace.
+JVM input regressions cover exact450ms grace, arrival versus long approach,
+live repeats, release/active reversal, single click, canceled unrelated input,
+native takeover/resume, viewport changes, side edges and phone positioning.
+
+Actual engine acceptance uses T3-attached `brave_tv_clean_api36`, API36,
+1920×1080/density320, devicePixelRatio2/unzoomed, stock TV keyboard and a
+temporary non-alphabetic uinput remote (KeyboardType1). CDP only observes the
+normal controlled fixture; actual menu/page actions use remote input. The
+final probe `39da822` explicitly anchors the retained pointer and passes
+`probe-r6.log` after the prior run leaves X1632. The same document survives
+the whole run (`performance.timeOrigin`1791853532114.9):
+
+- Exact cursor pixels pass at960,1079;960,0;960,1047 and fullscreen1632,1047.
+- Edge arrival, idle and brief outward holds leave root scroll at0. Fixed
+  bottom/top buttons receive exactly one click after OK release, none while held.
+- Two increasing root-scroll/wheel samples occur before Down release. Root
+  scroll reaches768CSS px; release stays still, and reversal moves inward.
+- Up returns to document start without a jump/wrap. Scroll here changes the
+  nested box to vertical64/horizontal320CSS px while root scroll remains0;
+  OK returns to Browse without clicking.
+- Fullscreen edge scrolling continues on the same document; reversal while
+  Down is held moves inward. First Back exits fullscreen, second returns to
+  Browser controls. The native arrow cue is captured while Down is held.
+
+Evidence is outside Git at `~/.cache/brave-tv/evidence/edge-scroll-20261012/`:
+normal controls/cue/reversal screenshots and `probe-r5.log`, `probe-r6.log`.
+Failed attempts remain failed: r1 observes controls too early; r2/r3 use stale
+renderer hover as a pointer oracle; r4 correctly rejects restored root scroll2260
+after Reload. Native screenshots and input-device inspection rule out a clamped
+cursor or alphabetic input. The corrected probe uses cursor pixels/bounded
+ownership waits, and setup returns the fixture to its start through native input.
+
+Native alert/confirm/prompt recovery also passes on this exact APK, including
+held OK, conservative Cancel focus, both confirm outcomes, prompt Back,
+subsequent click and cursor pixels, with the same document1791853825033.3.
+The first standard probe correctly rejects two retained `dialogs.html` targets.
+An evidence-owned copy changes only the expected URL to the unique local
+`dialogs.html?edge-scroll=f76523e5a`; diagnostic navigation sets up that fixture,
+then all test interactions use the unchanged native remote sequence. The setup
+has a background-target read timeout after navigating the active target; it is
+not counted as a successful setup script. The independent exact-query native
+probe passes (`native-dialog-query.log`, screenshot `native-dialog-return.png`).
+This diagnostic URL setup does not establish remote address-entry acceptance.
+
+This is controlled emulator acceptance. Chromecast installation, physical remote
+repeat-rate/450ms calibration, arbitrary site widgets that swallow wheel events,
+and broader website/device acceptance remain separate work. No physical device
+operation or ARM build is part of this slice.
+
 Status: emulator input regressions pass as recorded below. The initial debuggable Chromecast APK repeatedly froze; the current non-debuggable test APK installs and passes initial startup and physical-remote input checks. See [build evidence](build.md) and [prototype status](tv-prototype.md). Broad website, sustained-video and performance coverage remain open.
 
 ## What hardware is needed

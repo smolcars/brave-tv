@@ -2,6 +2,20 @@
 
 Historical prototype and artifact record. Development now uses the [real source fork](source-workflow.md); the patch-export workflow has been retired.
 
+## Current page browsing — 12 October
+
+The primary action is now Browse page: D-pad moves the pointer; continuing
+to hold Up/Down at the actual content edge for450ms scrolls vertically.
+Arrival/idle never scrolls, release stops, and the opposite arrow moves inward.
+OK cancels edge intent and clicks once on release; existing idle-wake and
+native/fullscreen Back rules remain. A directional cue accompanies an outward
+edge hold. More controls retains Scroll here for nested/horizontal content,
+with OK returning to Browse without clicking. See the
+[scoped native evidence](device-tests.md#unified-tv-browsing--12-october-2026)
+and [incremental reviews](input-review.md#unified-browsing-review--12-october-2026).
+The older two-mode prototype and its historical results below remain evidence
+for their recorded revisions.
+
 Status: the TV patch builds with blocking Android static analysis and installs on the Android TV API 36 emulator. A demonstrated first-run focus trap was corrected; the same remote replay fails on the original APK and passes on the correction. All onboarding pages can now be completed with D-pad/OK. Cursor visibility, precise field clicks, native keyboard/Back, nested scrolling and tab-detach cleanup now pass controlled emulator regressions. The public input-policy tests also pass on the JVM. Physical-TV, website, video and performance acceptance remain open. This is not a completed MVP or a release APK.
 
 The first compile failed after 40 seconds because the adapter imported JSpecify's `Nullable`, which is absent from this target's classpath. It now uses the surrounding code's existing AndroidX annotation. The retry passed Android Java compilation and produced the APK in 2m24s. However, 328 static-analysis tasks were still queued; service teardown terminated the background server (lint reported signal -15). Those checks must not be treated as passing.

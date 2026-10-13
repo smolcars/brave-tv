@@ -1006,7 +1006,7 @@ before holding completion for15seconds. Retain two-request bounds and cleanup
 on Stop/disconnection. Its host `security-server-check.mjs` verifies the
 streamed target, counter, method/HEAD behavior and released slots. For Stage3.3,
 use the verified TV emulator and explicit18084 reverse, navigate with native
-Chromium, require it still loading, open controls and activate Page cursor
+Chromium, require it still loading, open controls and activate Browse page
 exactly once. Check controls dismissal, actual content focus, fresh viewport
 cursor coordinates and one real click separately. Do not retry a failed initial
 activation into a passing claim or substitute DOM assignment for native input.
@@ -1015,7 +1015,7 @@ activation into a passing claim or substitute DOM assignment for native input.
 owned slow route with explicit18084 reverse. It requires the first activation
 to dismiss controls, focus the retained native content and reveal the cursor
 while Chromium remains loading. Genuine SOURCE_DPAD OK then produces exactly
-one centered native click, with no click from entering Page cursor. Cursor
+one centered native click, with no click from entering Browse page. Cursor
 bitmaps are transient normal-fixture observations, guarded by native identity
 and secure-window exclusion; no private screenshot flags are changed.
 

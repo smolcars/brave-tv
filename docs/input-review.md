@@ -23,6 +23,12 @@ and final APK evidence are recorded separately in device-tests.md. Both axes
 also report zero findings for `c65946d` versus `ce710bf`, which captures the
 normal fixture's arrow cue before reversing the still-held direction.
 
+Native test follow-up `7cdcb5a` versus `0101b47` replaces stale DOM hover with
+cursor pixels, bounded native ownership waits and stock-keyboard guards. Spec
+finds a retained-X setup gap; `39da822` versus `7cdcb5a` anchors X with native
+Left/Right and requires scale2/unzoomed geometry. Both correction axes report
+zero new findings. The final native repeat passes from the previous X1632.
+
 Scope requested by the user: latest implementation commit only. Compared `c48f63717a7ab22ced7a57aa19153dbe7b1436e9` with parent `7a4ec72895a5b763dcb7d58acbc8d28df189b25c`. Two independent read-only reviews used the engineering plan and upstream Android standards.
 
 ## Standards

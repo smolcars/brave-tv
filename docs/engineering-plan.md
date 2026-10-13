@@ -55,6 +55,14 @@ x64 checkout/output cache through Nix, four workers,18/22GiB limits and blocking
 Android analysis. Verify emulator first without profile clearing; Chromecast
 installation and physical-remote calibration remain separate future work.
 
+Implementation and emulator outcome: source `f76523e5a` passes the cached
+blocking x64 build, exact-parent Standards/Spec correction reviews and host
+checks. Native edge/buttons/continuous-hold/release/reversal/nested/fullscreen/
+Back checks pass twice on the preserved clean AVD; the final test `39da822`
+anchors the previously retained X1632 and checks actual cursor pixels, not stale
+renderer hover. Native alert/confirm/prompt ownership and cursor/document return
+also pass on the final APK. Scope and failed-attempt evidence are in device-tests.md.
+
 ### Phone companion redesign — touchpad browsing first
 
 Final phone redesign outcome: source87b is deployed on the available TV after

@@ -12,7 +12,7 @@ its pending gates and evidence supersede that historical restriction.
 | Native home / New tab / final normal closure | TvHomePage, BasicNativePage, existing TabModel | Compose native-page view; Address initially; controls on Back; never create WebContents during composition |
 | Address / selected search provider | Native omnibox, TemplateUrlService, native URL classification | TV editor using same service; IME first owner; cancel restores invoker/page |
 | Mobile top toolbar / menu | BraveToolbarLayout, Chromium toolbar manager | Retire TV presentation after compact controls/entry routes pass; retain native browser commands |
-| Page cursor / scrolling | TvRemoteInput, TvBrowserControls, ContentView compositor parent | Retain input policy/overlay; Back opens controls; OK release exactly one click |
+| Browse page / Scroll here | TvRemoteInput, TvBrowserControls, ContentView compositor parent | Pointer plus deliberate vertical edge scrolling; nested/horizontal fallback; native/fullscreen Back; OK release exactly one click |
 | Compact browser controls | TvBrowserControls, native Tab/WebContents | Compose dialog sibling; native Back/action validation; restore remembered action |
 | Normal/private tabs and groups | TabModelSelector, TabModelUtils, tab closure/group filter | Flat cards, bounded rows; stable tab IDs; private unlock stays trusted; normal last tab recovers home |
 | Group-delete confirmation | Chromium ModalDialogManager, tab-group model | Retain trusted confirmation; Cancel initial; Left/Right actual buttons; do not delete stored groups implicitly |
@@ -75,7 +75,7 @@ cleanup and the final replaced/retained report remain under Stage6.4/6.7.
 | IME / focused editor | Native composition, selection and deletion | Dismiss IME first; second Back cancels TV editor and restores invoker |
 | Native security / group confirmation | Native focus; Cancel initially for destructive operations | Cancel/dismiss; restore same surviving page or usable home |
 | TV child library/settings/filter row | One visible TV focus, stable item identity | Return parent, restore invoking action; destroyed/stale result ignored |
-| TV root controls | TV focus; disabled actions cannot activate | Existing native Back history/exit owner; explicit Page cursor returns to content |
+| TV root controls | TV focus; disabled actions cannot activate | Existing native Back history/exit owner; explicit Browse page returns to content |
 | Home | Address initially; no phone requirement | Open controls through existing callback; native exit only through existing Back owner |
 | Page / cursor / scroll | Scoped page input; held OK one click; idle wake no click | Fullscreen exit first; preserve applicable native/webpage Back handling with a reachable controls escape |
 | External app return | Native result routing | Restore surviving invoker, never stale Tab/View reference |
