@@ -1,24 +1,23 @@
-# Requires a normal native home; verifies actual Compose semantics/focus and compact overflow.
-wait "text=\"Address or search\" focused=true" 3000
-tv-remote down
+# Native Ambient Home, baseline font scale; one-level browser drawer.
+wait "text=\"Search or enter a website\" focused=true" 3000
+tv-remote up
+wait "text=\"Home\" focused=true" 3000
+tv-remote right
+tv-remote right
+tv-remote right
+tv-remote right
+tv-remote right
 wait "text=\"Browser controls\" focused=true" 3000
 tv-remote select
-wait "text=\"Address or search\" focused=true" 3000
+wait "text=\"Search or enter a website\" focused=true" 3000
 tv-remote down
+wait "text=\"Go forward\" focused=true" 3000
+tv-remote down
+wait "text=\"Tabs\" focused=true" 3000
 tv-remote right
+wait "text=\"Bookmarks\" focused=true" 3000
 tv-remote right
-tv-remote right
-wait "text=\"More controls\" focused=true" 3000
-tv-remote select
 wait "text=\"History\" focused=true" 3000
 tv-remote back
-wait "text=\"More controls\" focused=true" 3000
-tv-remote up
-tv-remote left
-tv-remote left
-tv-remote left
-wait "text=\"Address or search\" focused=true" 3000
-# Root Back returns to its home invoker without forwarding into page history.
-tv-remote back
-wait "text=\"The web. On your terms.\"" 3000
-wait "text=\"Address or search\" focused=true" 3000
+wait "text=\"Where to next?\"" 3000
+wait "text=\"Search or enter a website\" focused=true" 3000

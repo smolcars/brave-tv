@@ -307,14 +307,14 @@ find that native error with a polite live region as well as the editor metadata.
 Run on a normal synthetic editor and never submit. This proves announcement
 semantics, not actual speech or screen-reader navigation.
 
-## Local phone remote experiment
+## Local phone remote
 
-These automated probes require emulator serials. Enable the development-only `tv-local-remote-experiment`
-switch using Chromium's Android debug command-line mechanism, then start the
-experiment on the TV and approve the phone. Use synthetic fields only.
-The gate requires a non-official local-development-channel build; optimized
-non-debuggable APKs qualify when explicitly selected as Android's debug app.
-Physical tests require user authorization and a separately specified serial.
+Phone is available in ordinary TV builds through the Home header and browser drawer.
+No process switch or development channel is required. The listener remains off until
+Phone is opened; approve the paired phone explicitly on the TV. Back cancels an
+unapproved invitation; Back from a connected panel keeps the connection. Disconnect
+revokes it immediately. These automated probes require emulator serials and synthetic
+fields. Physical tests require a separately specified serial.
 [Remote evidence](../../docs/phone-remote-evidence.md) records shared virtual
 Wi-Fi setup, exact tested browser versions and tool limitations. The companion
 must open the TV's private origin directly; these diagnostic forwards do not
