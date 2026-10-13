@@ -123,6 +123,11 @@ Enter request to reject while composition is active, no submission from commit,
 and exactly one trusted native Search from the phone keyboard's editor action.
 Restore both selected IMEs even if one restoration fails; preserve the existing
 TV fixture APK/signature and remove only the newly installed phone fixture later.
+Add a controlled normal-fixture JavaScript alert case to verify actual native
+modal ownership rejects an Enter API request and clears page/editable metadata.
+Dismiss through Back without capturing a protected/private window, then require
+no replay. Native Menu keys route to the active stock keyboard in the earlier
+attempts; do not count those attempts as browser-controls-owner acceptance.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
