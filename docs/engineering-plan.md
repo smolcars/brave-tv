@@ -165,6 +165,9 @@ after its window closes. The owned native snapshot contains no keyboard nodes,
 while InputMethodManager reports `mInputShown=false` and the service reports
 `mWindowVisible=false`. Require actual input/window visibility for both opening
 and yielding; the configuration flag alone is not a window-visibility oracle.
+A later fixture click misses after the native toolbar changes layout. Re-read
+owned native bounds on each bounded retry and require the exact target field
+to acquire native focus; command acceptance alone is not focus acknowledgement.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-

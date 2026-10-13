@@ -76,29 +76,34 @@ try {
     await phone.waitForFunction(url => connected && !busy && !state.paused && state.page
       && state.url === url && !state.editable, url);
     await report(r => r.events.length === 0 && r.submissions.length === 0 && r.active === '');
-    let native;
-    try { native = JSON.parse(execFileSync('python3', [resolve(driver), 'snapshot', '--json'],
-      { encoding: 'utf8', timeout: 15000 })); } catch { throw Error('Owned native snapshot unavailable'); }
-    assert.ok(native.success && !native.data.truncated);
-    assert.equal(native.data.appBundleId, 'com.brave.browser_default');
-    const nodes = native.data.nodes.filter(n => n.visibleToUser);
-    assert.ok(nodes.some(n => n.kind === 'webview'));
-    assert.ok(nodes.some(n => n.label === 'Native phone Enter fixture'));
-    const target = nodes.find(n => n.identifier === (name === 'frame' ? 'frameSearch' : name)
-      && n.kind === 'text-field' && n.editable);
-    assert.ok(target && (name === 'password' || !target.password)
-      && target.rect.width > 0 && target.rect.height > 0);
-    const webView = nodes.find(n => n.kind === 'webview');
-    const point = { x: target.rect.x + target.rect.width / 2 - webView.rect.x,
-      y: target.rect.y + target.rect.height / 2 - webView.rect.y };
+    function targetSnapshot() {
+      let native;
+      try { native = JSON.parse(execFileSync('python3', [resolve(driver), 'snapshot', '--json'],
+        { encoding: 'utf8', timeout: 15000 })); } catch { throw Error('Owned native snapshot unavailable'); }
+      assert.ok(native.success && !native.data.truncated);
+      assert.equal(native.data.appBundleId, 'com.brave.browser_default');
+      const nodes = native.data.nodes.filter(n => n.visibleToUser);
+      assert.ok(nodes.some(n => n.label === 'Native phone Enter fixture'));
+      const webView = nodes.find(n => n.kind === 'webview');
+      const target = nodes.find(n => n.identifier === (name === 'frame' ? 'frameSearch' : name)
+        && n.kind === 'text-field' && n.editable);
+      assert.ok(webView && target && (name === 'password' || !target.password)
+        && target.rect.width > 0 && target.rect.height > 0);
+      return { target, webView };
+    }
     let focused = false;
     for (let attempt = 0; attempt < 8 && !focused; attempt++) {
       await phone.waitForFunction(url => connected && !busy && !state.paused && !state.loading
         && state.url === url, url);
-      focused = await phone.evaluate(async p => await command('move', {
+      const { target, webView } = targetSnapshot();
+      const point = { x: target.rect.x + target.rect.width / 2 - webView.rect.x,
+        y: target.rect.y + target.rect.height / 2 - webView.rect.y };
+      const accepted = await phone.evaluate(async p => await command('move', {
         dx: Math.round(p.x - state.x), dy: Math.round(p.y - state.y) }) && await command('click'), point);
+      await new Promise(resolve => setTimeout(resolve, 250));
+      focused = accepted && targetSnapshot().target.focused === true;
     }
-    assert.ok(focused, 'Native pointer commands must be accepted');
+    assert.ok(focused, 'Fresh native target must receive focus, including toolbar layout changes');
     if (name === 'password') {
       await phone.waitForFunction(() => !state.editable && !busy);
       await report(r => r.active === name);

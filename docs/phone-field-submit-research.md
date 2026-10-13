@@ -283,3 +283,14 @@ to the browser and website.
 [action-enum]: https://chromium.googlesource.com/chromium/src/+/cfaadc5a132d78e1828635aa8405a499f3e14864/ui/base/ime/text_input_action.h
 [key-routing]: https://chromium.googlesource.com/chromium/src/+/cfaadc5a132d78e1828635aa8405a499f3e14864/content/browser/renderer_host/render_widget_host_view_android.cc#2834
 [implicit-native]: https://chromium.googlesource.com/chromium/src/+/cfaadc5a132d78e1828635aa8405a499f3e14864/third_party/blink/renderer/core/html/forms/input_type_view.cc#96
+
+## Keyboard visibility follow-up — 13 October 2026
+
+The paired stock-Gboard check observes a retained `mIsInputViewShown=true`
+after yielding, alongside `mInputShown=false`, `mDecorViewVisible=false` and
+`mWindowVisible=false`, with no keyboard nodes in the owned native snapshot.
+Android16's InputMethodService explicitly distinguishes its decor/window
+visibility from that input-view configuration flag. Use actual window/input
+visibility for the test's opening/yielding preconditions; product readiness
+already uses Android window insets. This follow-up records a test-oracle
+correction, not an application change. [Android16 InputMethodService](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android16-release/core/java/android/inputmethodservice/InputMethodService.java#631).
