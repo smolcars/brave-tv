@@ -91,6 +91,12 @@ The final native textarea check also fails on the isolated TV: Enter is accepted
 but expected text/readiness is not observed. Add guarded synthetic-fixture state
 and native key diagnostics to this case, then rerun before changing input delivery.
 Keep the initial passing run and both subsequent failures distinct.
+Diagnostics show a genuine trusted Enter and renderer text `\none`: insertion
+occurred at the beginning, with native composition active afterward. The test
+only waited for text/readiness, omitting caret and composition ownership checks.
+Finish only its own synthetic composition, explicitly acknowledge selection3/3,
+and assert no active composition before Enter. Preserve the newline assertion;
+do not change production delivery based on this invalid caret precondition.
 For phone IME acceptance, extend only the existing test keyboard's phone layout
 with an editor-action stimulus above its original two-button bottom row. Preserve
 the existing TV layout and old probe coordinates. Exercise genuine phone
