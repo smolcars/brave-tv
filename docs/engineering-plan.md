@@ -36,6 +36,16 @@ work. Real-device installation and acceptance are explicitly deferred.
 
 #### Chromecast verification follow-up — 13 October
 
+Hardware inspection finds a concrete layout collision: while the companion is
+connected, its native badge at60dp overlaps the loading panel at32dp. Keep the
+loading panel's position and preserve the connection badge, moving that badge
+below the loading panel's measured bottom with a gap. Observe native layout only
+while the badge exists, update margins only when changed and remove the observer
+on stop. Restore its original position when loading ends; use actual measured
+bounds for enlarged text. Record a failing native bounds probe before editing,
+then verify non-overlap/return on the corrected physical APK. This is a scoped
+hardware bug correction, preserving the existing native design and input paths.
+
 The user now authorizes TV checks. Verify the existing Chromecast's wireless
 connection/ARM ABI, then build final source `3f84d8d42` in the retained Static ARM
 cache with blocking analysis and `debuggable_apks=false`. Use one worker and
