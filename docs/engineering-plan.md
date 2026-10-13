@@ -7084,3 +7084,16 @@ with blocking analysis; signatures, revision pins and hashes are preserved.
 See [implementation evidence](ambient-implementation-evidence.md) for the
 review, design record, screenshots, exact artifacts and acceptance limits. No
 Chromecast installation or real-phone acceptance is claimed for this revision.
+
+### Streaming starter favorites
+
+The user requests YouTube, Netflix, Prime Video and Twitch, using official logos;
+Disney+ is explicitly excluded. Seed ordinary bookmarks once on eligible normal
+TV Home after native bookmark loading. Preserve existing saved data/order, avoid
+duplicate service bookmarks and respect bookmark editing policy. Keep a local
+per-profile completion preference so deleted starter bookmarks stay deleted.
+Bundle the original official logo assets with origin records and render them
+without tint; unrelated sites keep the current monogram. Native focus, URL
+activation, six-card preview and private restrictions remain unchanged. Verify
+one-time seeding, deduplication, deletion/restart, policy/private exclusion and
+logo rendering at baseline and enlarged text before final x64/ARM packaging.

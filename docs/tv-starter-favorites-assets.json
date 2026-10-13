@@ -1,0 +1,34 @@
+{
+  "downloaded": "2026-10-13",
+  "assets": [
+    {
+      "resource": "brave/android/java/brave-res/drawable-nodpi/brave_tv_youtube.png",
+      "official_page": "https://brand.youtube/",
+      "source": "https://www.gstatic.com/marketing-cms/assets/images/98/c6/59f93f6f4ac1a8e63612c5370193/favicon-1.png=s180",
+      "sha256": "3966626226dc83b87b8f3fd83381bf132853ad0fb52eaeff163ccc344ec2e5de",
+      "use": "Native bookmark site identity; retain colors and aspect ratio"
+    },
+    {
+      "resource": "brave/android/java/brave-res/drawable-nodpi/brave_tv_netflix.png",
+      "official_page": "https://brand.netflix.com/en/assets/logos/",
+      "source": "https://images.ctfassets.net/y2ske730sjqp/4aEQ1zAUZF5pLSDtfviWjb/ba04f8d5bd01428f6e3803cc6effaf30/Netflix_N.png?w=300",
+      "sha256": "55c08ef236b1d91e2ade2f124af47715467f96812aa064883cff54cb5092d6aa",
+      "use": "Native bookmark site identity; retain colors and aspect ratio"
+    },
+    {
+      "resource": "brave/android/java/brave-res/drawable-nodpi/brave_tv_prime_video.png",
+      "official_page": "https://www.primevideo.com/",
+      "source": "https://m.media-amazon.com/images/G/01/digital/video/DVUI/favicons/apple-touch-icon-152x152.png",
+      "sha256": "d6ab254d870c9077c06fd4624ab82042144f13c572342faab741b53f7a7828e7",
+      "use": "Native bookmark site identity; retain colors and aspect ratio"
+    },
+    {
+      "resource": "brave/android/java/brave-res/drawable/brave_tv_twitch.xml",
+      "official_page": "https://brand.twitch.com/",
+      "source": "https://brand.twitch.com/uploads/Twitch-Brand.zip",
+      "archive_member": "Twitch Brand/Twitch Logos/02. Glitch/01. Twitch Purple/glitch_flat_purple.svg",
+      "sha256": "07c2f851a2bad400b1de79f2172f9856dd700f3fe307421417514a80a5e9e771",
+      "use": "Exact SVG geometry converted to Android vector; colors and aspect ratio retained"
+    }
+  ]
+}
