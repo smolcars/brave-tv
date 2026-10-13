@@ -573,6 +573,17 @@ try {
   assert.equal(enters().length, enterBefore + 3);
   assert.equal(initial.editable.text, "Held text acknowledgement");
 
+  const sentTimeoutBefore = enters().length;
+  holdEnterAck = true;
+  await page.locator("#enter").click();
+  await page.waitForFunction(() => enterIntent?.sent && !state.editable.ready);
+  await page.waitForFunction(() => !enterIntent);
+  assert.equal(await page.locator("#editor").getAttribute("readonly"), null);
+  holdEnterAck = false;
+  initial.editable.ready = true;
+  await enterSettled();
+  assert.equal(enters().length, sentTimeoutBefore + 1, "Sent-action timeout never resends Enter");
+
   const candidateBefore = enters().length;
   await page.locator("#editor").focus();
   const candidateIme = await page.context().newCDPSession(page);

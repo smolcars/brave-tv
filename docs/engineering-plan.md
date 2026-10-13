@@ -64,6 +64,9 @@ Client review observes selection dispatch remains possible during pending Enter.
 Gate caret edits on ready native state and absence of an Enter intent; extend
 the held-action regression to move the phone caret and require no native edit,
 retained editor focus and exactly one action after acknowledgement.
+Spec also finds the client skips its timeout once Enter is sent. Apply the same
+bounded cancellation to readiness after dispatch; hold that acknowledgement in
+the host fixture, then recover and require no retransmission.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
