@@ -75,6 +75,12 @@ repeat-rate/450ms calibration, arbitrary site widgets that swallow wheel events,
 and broader website/device acceptance remain separate work. No physical device
 operation or ARM build is part of this slice.
 
+Closeout restores the stock TV keyboard, removes only this emulator's18089
+reverse/9222 forward, closes its T3 Device panel and stops the two task-owned
+fixture services and task-owned emulator. No edge-task service remains running;
+AVD/profile data, SDK, dependency/build/artifact caches and the shared ADB/T3
+services are preserved. The unrelated physical-device forward is untouched.
+
 Status: emulator input regressions pass as recorded below. The initial debuggable Chromecast APK repeatedly froze; the current non-debuggable test APK installs and passes initial startup and physical-remote input checks. See [build evidence](build.md) and [prototype status](tv-prototype.md). Broad website, sustained-video and performance coverage remain open.
 
 ## What hardware is needed

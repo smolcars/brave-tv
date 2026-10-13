@@ -29,6 +29,12 @@ finds a retained-X setup gap; `39da822` versus `7cdcb5a` anchors X with native
 Left/Right and requires scale2/unzoomed geometry. Both correction axes report
 zero new findings. The final native repeat passes from the previous X1632.
 
+Closeout `4c6938e` versus `39da822` has one low Standards documentation finding:
+the inventory's combined mode row incorrectly applies click-on-release to
+Scroll here. Qualify OK by mode; the other current guides are correct. Spec
+reports zero findings and both reviewers verify the recorded build/native
+evidence without rerunning tests.
+
 Scope requested by the user: latest implementation commit only. Compared `c48f63717a7ab22ced7a57aa19153dbe7b1436e9` with parent `7a4ec72895a5b763dcb7d58acbc8d28df189b25c`. Two independent read-only reviews used the engineering plan and upstream Android standards.
 
 ## Standards

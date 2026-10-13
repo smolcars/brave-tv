@@ -12,7 +12,7 @@ its pending gates and evidence supersede that historical restriction.
 | Native home / New tab / final normal closure | TvHomePage, BasicNativePage, existing TabModel | Compose native-page view; Address initially; controls on Back; never create WebContents during composition |
 | Address / selected search provider | Native omnibox, TemplateUrlService, native URL classification | TV editor using same service; IME first owner; cancel restores invoker/page |
 | Mobile top toolbar / menu | BraveToolbarLayout, Chromium toolbar manager | Retire TV presentation after compact controls/entry routes pass; retain native browser commands |
-| Browse page / Scroll here | TvRemoteInput, TvBrowserControls, ContentView compositor parent | Pointer plus deliberate vertical edge scrolling; nested/horizontal fallback; native/fullscreen Back; OK release exactly one click |
+| Browse page / Scroll here | TvRemoteInput, TvBrowserControls, ContentView compositor parent | Pointer plus deliberate vertical edge scrolling; nested/horizontal fallback; native/fullscreen Back; Browse OK clicks once on release; Scroll here OK returns to Browse |
 | Compact browser controls | TvBrowserControls, native Tab/WebContents | Compose dialog sibling; native Back/action validation; restore remembered action |
 | Normal/private tabs and groups | TabModelSelector, TabModelUtils, tab closure/group filter | Flat cards, bounded rows; stable tab IDs; private unlock stays trusted; normal last tab recovers home |
 | Group-delete confirmation | Chromium ModalDialogManager, tab-group model | Retain trusted confirmation; Cancel initial; Left/Right actual buttons; do not delete stored groups implicitly |
