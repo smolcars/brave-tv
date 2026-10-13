@@ -39,6 +39,18 @@ public final class RemoteIme extends InputMethodService {
     public View onCreateInputView() {
         if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK)
                 == Configuration.UI_MODE_TYPE_TELEVISION) return createTvView();
+        LinearLayout column = new LinearLayout(this);
+        column.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout actionRow = new LinearLayout(this);
+        column.addView(actionRow);
+        addStimulus(
+                actionRow,
+                "Send keyboard action",
+                input -> {
+                    EditorInfo info = getCurrentInputEditorInfo();
+                    if (info != null)
+                        input.performEditorAction(info.imeOptions & EditorInfo.IME_MASK_ACTION);
+                });
         LinearLayout row = new LinearLayout(this);
         for (boolean composing : new boolean[] {true, false}) {
             Button button = new Button(this);
@@ -52,7 +64,8 @@ public final class RemoteIme extends InputMethodService {
                     });
             row.addView(button, new LinearLayout.LayoutParams(0, 180, 1));
         }
-        return row;
+        column.addView(row);
+        return column;
     }
 
     private View createTvView() {
