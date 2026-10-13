@@ -7123,3 +7123,11 @@ text scale. Both final browser APKs build with blocking analysis and pass
 signature verification. The emulator retains all five bookmarks and returns
 to normal text scale. See [footer evidence](ambient-footer-evidence.md) for the
 captures, artifacts and acceptance limits.
+
+### Remote element navigation and pointer fallback
+
+The user approves element jumping with scrolling at the visible edge and asks
+for a plan and implementation. Follow [page navigation plan](tv-page-navigation-plan.md):
+reuse Chromium spatial navigation, add short/held OK policy, automatic webpage
+entry, a native focus cue and pointer fallback, then verify native input/privacy
+ownership and preserved data on cached x64/ARM builds.

@@ -14,6 +14,10 @@ public final class TvRemoteInputTest {
         int bottom = 79;
         int edgeDirection;
         TvRemoteInput.Mode mode;
+        int navigations;
+        int selections;
+        int toggles;
+        TvRemoteInput input;
 
         @Override
         public int getWidth() {
@@ -63,11 +67,67 @@ public final class TvRemoteInputTest {
             scrollX += dx;
             scrollY += dy;
         }
+
+        @Override
+        public void showNavigation() {
+            mode = TvRemoteInput.Mode.ELEMENTS;
+        }
+
+        @Override
+        public void navigate(TvRemoteInput.Key key) {
+            navigations++;
+        }
+
+        @Override
+        public void selectElement() {
+            selections++;
+        }
+
+        @Override
+        public void toggleNavigation() {
+            toggles++;
+            input.activate(input.getMode() == TvRemoteInput.Mode.ELEMENTS
+                    ? TvRemoteInput.Mode.POINTER : TvRemoteInput.Mode.ELEMENTS);
+        }
+    }
+
+    private static void elementNavigation() {
+        Page page = new Page();
+        TvRemoteInput input = new TvRemoteInput(page, 10);
+        page.input = input;
+        assert input.activate(TvRemoteInput.Mode.ELEMENTS);
+        input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 100);
+        input.onKey(TvRemoteInput.Key.DOWN, true, 1, false, 200);
+        input.onKey(TvRemoteInput.Key.DOWN, false, 0, false, 210);
+        assert page.navigations == 2 && page.clicks == 0;
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 300);
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false, 350);
+        assert page.selections == 1 && page.clicks == 0;
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 400);
+        assert !input.onSelectHeld(1049);
+        assert input.onSelectHeld(1050);
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false, 1060);
+        assert page.toggles == 1 && page.selections == 1 && page.clicks == 0;
+        assert input.getMode() == TvRemoteInput.Mode.POINTER;
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 1100);
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false, 1800);
+        assert page.toggles == 2 && page.clicks == 0;
+        assert input.getMode() == TvRemoteInput.Mode.ELEMENTS;
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 1900);
+        input.cancelPress();
+        assert !input.onSelectHeld(3000);
+        input.onKey(TvRemoteInput.Key.SELECT, false, 0, false, 3001);
+        assert page.selections == 1 && page.toggles == 2;
+        input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 3100);
+        input.cancelPress();
+        input.onKey(TvRemoteInput.Key.DOWN, true, 1, false, 3200);
+        assert page.navigations == 3 : "Interrupted repeats cannot navigate a new owner";
     }
 
     private static void edgeScrolling() {
         Page page = new Page();
         TvRemoteInput input = new TvRemoteInput(page, 10);
+        page.input = input;
         assert input.activate(TvRemoteInput.Mode.POINTER);
         assert input.positionPointer(50, 69);
         input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 1000);
@@ -92,7 +152,7 @@ public final class TvRemoteInputTest {
         assert page.y == 69 && page.scrollY == 2 : "Reversal immediately moves inward";
         input.onKey(TvRemoteInput.Key.UP, false, 0, false, 2020);
         input.onKey(TvRemoteInput.Key.DOWN, true, 0, false, 2100);
-        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 2200);
+        input.onKey(TvRemoteInput.Key.SELECT, true, 0, false, 2800);
         input.onKey(TvRemoteInput.Key.DOWN, true, 1, false, 3000);
         input.onKey(TvRemoteInput.Key.SELECT, false, 0, false, 3010);
         assert page.clicks == 1 && page.scrollY == 2 : "OK cancels scrolling and clicks once";
@@ -152,9 +212,11 @@ public final class TvRemoteInputTest {
     }
 
     public static void main(String[] args) {
+        elementNavigation();
         edgeScrolling();
         Page page = new Page();
         TvRemoteInput input = new TvRemoteInput(page, 10);
+        page.input = input;
         assert input.activate(TvRemoteInput.Mode.POINTER);
         assert page.x == 50 && page.y == 40 : "Pointer starts in the page center";
         assert input.onKey(TvRemoteInput.Key.RIGHT, true, 0, false, 0);
