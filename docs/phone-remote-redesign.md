@@ -69,3 +69,28 @@ complete native acceptance of that correction remain pending.
 
 No physical-TV install, physical phone camera/IME or Safari claim follows from
 these tests. The optimized physical-TV installation remains source090.
+
+### Native typing follow-up
+
+Source901 cached x64 build passes in1m31.93s, peak12447973376B (11.59GiB),
+with the same four-worker, blocking-analysis and18/22GiB/swap0 bounds. APK
+`~/.cache/brave-tv/artifacts/phone-after-hours-901588a94-x64-debug-20261012/BraveMonox64.apk`
+is852772545B, SHA256 `b4c4470cf84a3458236df5dfcd8fd03f22a7f027d41c570114af53c9e6c3288c`.
+Data-preserving emulator install, native-served asset hashes, fresh QR/approval
+and the complete controls probe pass, including normal tab closure. No native
+command/protocol change was needed for the earlier closure wait failure.
+
+Native text attempts failed first replacement/repeated typing; no complete text
+pass is claimed on source901. A real UI cause is reproduced separately: disabling
+the phone textarea during a pending same-field native acknowledgement blurs its
+IME. Source87b retains focus only for that pending edit; initial loading, changed
+fields and protected pauses remain fenced. The actual-handler host regression
+fails before this fix and the complete host suite passes after it. The new edit
+adds a native version, so the older selection-ack test now checks the sampled
+version increment rather than a fixed2. Latest source Standards/Spec reviews
+report0 findings and independent finish review clears this interaction fix.
+
+The native probe also explicitly focuses the companion editor before filling
+and bounds waits: mobile IME panning makes desktop coordinate clicks intercept
+unrelated controls. It continues to send every TV edit through the native bridge.
+Corrected-source APK packaging and full native typing acceptance remain pending.

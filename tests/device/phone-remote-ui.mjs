@@ -30,6 +30,7 @@ let releaseSelection;
 let conflictingCaret = false;
 let compositionBeforeReplace = false;
 let textBeforeReplace = false;
+let holdNativeAck = false;
 const initial = {
   revision: 1,
   paused: false,
@@ -137,6 +138,7 @@ const server = createServer(async (req, res) => {
       data.version === initial.editable.version ||
       data.replacementVersion === initial.editable.replacementVersion;
     if (ok) {
+      initial.editable.ready = !holdNativeAck;
       initial.editable.text = data.text;
       initial.editable.start = data.start + (conflictingCaret ? 1 : 0);
       initial.editable.end = data.end;
@@ -282,6 +284,17 @@ try {
     () => state.editable?.ready && field === state.editable.revision,
   );
   await page.locator("#showKeyboard").click();
+  await page.locator("#editor").focus();
+  holdNativeAck = true;
+  await page.locator("#editor").fill("Native acknowledgement fixture");
+  await page.waitForFunction(() => state.editable && !state.editable.ready);
+  assert.equal(await page.locator("#editor").isEnabled(), true,
+    "A pending same-field native acknowledgement must keep the phone keyboard focused");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "editor");
+  holdNativeAck = false;
+  initial.editable.ready = true;
+  await page.waitForFunction(() => state.editable.ready && !pendingEdit);
+  const versionBeforeSelection = initial.editable.version;
   const selected = new Promise((r) => {
     selectionStarted = r;
   });
@@ -294,7 +307,8 @@ try {
     undefined,
     { timeout: 3000 },
   );
-  assert.equal(commands.find((c) => c.edit === "replace").version, 2);
+  assert.equal(commands.filter((c) => c.edit === "replace").at(-1).version,
+    versionBeforeSelection + 1);
   await page.waitForFunction(() => !busy && !pendingEdit);
   const replacements = commands.filter((c) => c.edit === "replace").length;
   const conflictingSelection = new Promise((r) => {

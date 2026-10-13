@@ -63,6 +63,27 @@ unique normal fixture/companion targets. Cached x64 build passes in1m38.84s,
 observed memory peak14160662528B; emulator update succeeds without clearing data.
 Acceptance: actual bundled asset hashes, simulated-private-LAN QR/approval,
 controls/gesture/navigation/tab/security-rejection probe and native text bridge.
+Source87b host focus regression and complete companion suite pass; latest source
+Standards/Spec and narrow finish reviews report no findings. Package the reviewed
+correction in retained x64 output, then prove full native text and controls before
+closeout. Source901 complete controls and served-asset acceptance passed; its
+native typing failures are recorded separately in phone redesign evidence.
+
+Native typing focus correction: a successful edit temporarily reports the same
+field as not ready while Chromium acknowledges it. Disabling the phone textarea
+then blurs its keyboard and interrupts subsequent edits/composition. Keep it
+enabled only for our pending same-field replacement/selection; retain initial
+field-loading, changed-field, paused/password and native command readiness guards.
+Acceptance: host regression must fail before the change and pass after; full
+native typing suite, latest-only source/root reviews and cached repackaging.
+
+Native text probe correction slice: mobile IME viewport changes make desktop
+coordinate clicks hit unrelated controls. Explicitly focus the companion editor
+and wait for its selection acknowledgement before filling; keep every TV edit
+on the genuine native bridge. Bound probe waits, then run the full existing
+Unicode/composition/selection/deletion/stale/password suite. Do not count the
+failed first-replacement runs as acceptance or modify native validation to pass.
+
 Native tab-handle rotation correction: real selected-tab changes rotate opaque
 handles. Preserve matching-row focus when possible; if a selected row handle
 rotates, restore the engine-selected row rather than New tab. Keep native tokens,

@@ -23,6 +23,9 @@ try {
   assert.equal(phoneTargets.length, 1, "Require one companion target");
   const tv = tvTargets[0];
   const phone = phoneTargets[0];
+  phone.setDefaultTimeout(5000);
+  tv.setDefaultTimeout(5000);
+  await phone.bringToFront();
   await phone.waitForFunction(
     (url) => connected && !busy && !state.paused && state.url === url,
     url,
@@ -99,6 +102,14 @@ try {
       text,
     );
   }
+  async function fillEditor(text) {
+    // Focus without desktop coordinates while Android pans for the phone IME.
+    await phone.locator("#editor").focus();
+    await phone.waitForFunction(
+      () => state?.editable?.ready && !busy && !pendingEdit && !dirty,
+    );
+    await phone.locator("#editor").fill(text);
+  }
   await focus("#plain");
   await phone.waitForFunction(() => state?.editable?.ready, undefined, {
     timeout: 5000,
@@ -108,7 +119,7 @@ try {
     await phone.locator("#showKeyboard").click();
   }
   const text = "héllo हिन्दी 🌍";
-  await phone.locator("#editor").fill(text);
+  await fillEditor(text);
   await tv.waitForFunction(
     (expected) => document.querySelector("#plain").value === expected,
     text,
@@ -122,7 +133,7 @@ try {
   // Exercise the first-replacement race repeatedly without re-pairing/reloading.
   for (let i = 0; i < 10; i++) {
     for (const replacement of ["hello", text]) {
-      await phone.locator("#editor").fill(replacement);
+      await fillEditor(replacement);
       await settled(replacement);
       assert.ok(await tv.locator("#plain").inputValue() === replacement,
         "Native fixture replacement did not match");
@@ -236,7 +247,7 @@ try {
     "Replacement accepted a changed native text version",
   );
   await settled(text + "!");
-  await phone.locator("#editor").fill(text);
+  await fillEditor(text);
   await settled(text);
   // Android resizes the visual viewport for its keyboard. Dismiss it before
   // targeting toolbar buttons; desktop coordinates can hit the wrong element.
@@ -260,7 +271,7 @@ try {
     { timeout: 5000 },
   );
   await settled(text.slice(0, -2));
-  await phone.locator("#editor").fill("");
+  await fillEditor("");
   await settled("");
   await phone.locator("#editor").focus();
   function tapIme(label) {
@@ -291,7 +302,7 @@ try {
   }
   // Use the actual Android InputConnection. The stock IME cancels CDP-injected
   // composition even in a bare textarea, so CDP is only valid for the host test.
-  await phone.locator("#editor").click();
+  await phone.locator("#editor").focus();
   tapIme("Compose Japanese");
   await phone.waitForFunction(() => composing, undefined, { timeout: 3000 });
   assert.equal(
@@ -350,7 +361,7 @@ try {
   await settled("क本");
   assert.ok(await tv.locator("#plain").inputValue() === "क本",
     "Native fixture commit did not match");
-  await phone.locator("#editor").fill("A🌍BCéD");
+  await fillEditor("A🌍BCéD");
   await settled("A🌍BCéD");
   await nativeEdit("select", { start: 3, end: 5 });
   await phone.waitForFunction(
@@ -369,7 +380,7 @@ try {
       .evaluate((e) => [e.selectionStart, e.selectionEnd]),
     [1, 3],
   );
-  await phone.locator("#editor").fill("日本");
+  await fillEditor("日本");
   await settled("日本");
 
   await phone.locator("#editor").evaluate((e) => e.setSelectionRange(0, 1));
@@ -419,7 +430,7 @@ try {
       .locator(selector)
       .evaluate((e) => (e.isContentEditable ? e.textContent : e.value));
     await settled(original);
-    await phone.locator("#editor").fill(replacement);
+    await fillEditor(replacement);
     await settled(replacement);
     assert.ok(
       await tv
