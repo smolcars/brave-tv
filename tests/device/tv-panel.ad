@@ -2,9 +2,9 @@
 open com.brave.browser_default --relaunch
 wait "text=\"Address or search\" focused=true" 5000
 tv-remote down
-wait "text=\"Page cursor\" focused=true" 3000
+wait "text=\"Browse page\" focused=true" 3000
 tv-remote right
-wait "text=\"Scroll page\" focused=true" 3000
+wait "text=\"Scroll here\" focused=true" 3000
 tv-remote right
 wait "text=\"Tabs\" focused=true" 3000
 tv-remote select

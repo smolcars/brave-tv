@@ -37,7 +37,7 @@ try {
     assert.ok(nodes.some(n => n.label === 'Browser controls'), 'Normal native controls required');
     assert.ok(!nodes.some(n => n.label === 'Private browsing'), 'Private owner rejected');
     assert.ok(nodes.some(n => n.label === url), 'Exact native fixture owner required');
-    assert.ok(nodes.some(n => n.focused && ['Address or search', 'Page cursor',
+    assert.ok(nodes.some(n => n.focused && ['Address or search', 'Browse page',
       'Go back', 'Go forward', 'Reload page', 'Stop loading', 'Tabs', 'Bookmarks',
       'More controls'].includes(n.label)), 'Focused compact native controls required');
   };

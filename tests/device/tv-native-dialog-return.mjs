@@ -1,4 +1,4 @@
-// Start the normal dialogs.html fixture with Browser controls' Page cursor focused.
+// Start the normal dialogs.html fixture with Browser controls' Browse page focused.
 // Usage: node tv-native-dialog-return.mjs EMULATOR_SERIAL AGENT_DRIVER.py NORMAL_SCREENSHOT.png
 // AGENT_DRIVER must retain device_open's launcher, config/session and private daemon credentials.
 import assert from 'node:assert/strict';
@@ -37,7 +37,7 @@ const focus = label => waitNative(nodes => nodes.some(n => n.focused && n.label 
 const modal = (message, label) => waitNative(nodes =>
   nodes.some(n => n.label === message) && nodes.some(n => n.focused && n.label === label),
   'Exact synthetic native dialog and conservative focus required');
-await focus('Page cursor');
+await focus('Browse page');
 const url = 'http://10.0.2.2:18088/dialogs.html';
 const controls = snapshot();
 assert.ok(controls.some(n => n.label === 'Browser controls'), 'Trusted normal controls required');
@@ -150,7 +150,7 @@ try {
     configuration: [{ type: 100, data: [1] }, { type: 101, data: [103, 108, 105, 106, 353, 158] }] });
   send('delay', { duration: 1500 });
   await sync();
-  await focus('Page cursor');
+  await focus('Browse page');
   key(353, true); send('delay', { duration: 100 }); key(353, false);
   send('delay', { duration: 40 });
   await sync();
@@ -161,7 +161,7 @@ try {
         || n.label === 'TV native dialog checks'
         || (Object.hasOwn(initial.buttons, n.identifier)
           && nodes.some(node => node.label === 'TV native dialog checks')))),
-  'Native Page cursor activation must release controls before page movement');
+  'Native Browse page activation must release controls before page movement');
   await point('alert');
   await click(); await modal('TV alert: close this dialog with the remote.', 'OK');
   adb('shell', 'input', 'keyevent', 'KEYCODE_DPAD_CENTER');

@@ -1,6 +1,6 @@
 # Requires the fixture at its initial scroll position and TV controls open.
 # Alphabetic virtual keyboard events must not move/click the TV pointer.
-wait "text=\"Page cursor\""
+wait "text=\"Browse page\""
 tv-remote up
 tv-remote down
 tv-remote select
