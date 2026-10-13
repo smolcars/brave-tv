@@ -128,6 +128,27 @@ modal ownership rejects an Enter API request and clears page/editable metadata.
 Dismiss through Back without capturing a protected/private window, then require
 no replay. Native Menu keys route to the active stock keyboard in the earlier
 attempts; do not count those attempts as browser-controls-owner acceptance.
+Live YouTube now demonstrates the missing typing handoff: its search input
+receives the phone text, but the stock TV Gboard re-establishes composition,
+so the guarded Enter is blocked and the URL remains `m.youtube.com/#searching`.
+Do not weaken composition/version guards or force site submission. Add an
+explicit current-field phone typing lease before editing. While leased, hide
+and detach only that field's physical TV InputConnection without blurring the
+renderer field or changing its input type, text, selection or native action.
+Gate keyboard display and physical InputConnection creation in signature-checked
+IME hooks; preserve the platform's own suppression/privacy/EditorInfo behavior.
+A field-scoped preparation operation must reject active composition and use the
+native queue barrier. Keep the editor read-only until the lease is ready and the
+TV keyboard has closed; Type selection or an editor tap starts the handoff.
+An explicit Finish composition may finish and hand off; composition commit alone
+still cannot submit. Release on field loss, native ownership, physical TV input,
+Type exit, phone background/session end and destruction. Do not automatically
+reclaim from a physical controller without another phone editing gesture.
+Add host preparation/readonly/release checks and native connection/field/lease
+coverage, rebuild from retained cache, then rerun both stock-keyboard website
+cases and genuine phone composition. Live Google/YouTube query URL checks,
+not rendered-result/performance claims, remain part of acceptance. Recapture and
+review the changed UI state copy within the second bounded design round.
 The cached main build rejects the extended hook's ten-value operand stack
 against upstream's eight-value maximum. Raise only this hook's declared maximum
 to cover its added arguments; preserve locals, signature checks and warnings-as-
