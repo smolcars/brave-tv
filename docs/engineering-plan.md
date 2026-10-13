@@ -29,7 +29,28 @@ hardware follow-up is separately authorized and does not reopen the release back
 
 ### Phone companion redesign — touchpad browsing first
 
-Current outcome: reviewed source87b completes host and actual APK emulator
+Final phone redesign outcome: source87b is deployed on the available TV after
+an explicitly authorized Brave-only storage fallback. The installed APK checksum,
+native Home/Address focus, actual TV-served resource hashes and native experiment
+shutdown pass. Full controls/native text/stock-IME acceptance passed on the retained
+emulator profile. Physical Brave data was intentionally removed from all four
+users; fresh installation is user0 only. Physical in-place upgrade and real phone/
+Safari checks remain unverified. All task-owned services/emulators are stopped;
+compile/SDK/artifact caches and emulator data remain. Exact artifacts, failures,
+reviews and test boundaries are in the phone redesign evidence.
+
+Physical storage fallback: the optimized ARM build passes in1m58.99s, peak
+17242796032B (16.06GiB), but in-place user0 install fails with
+INSTALL_FAILED_INSUFFICIENT_STORAGE at868MiB free. The earlier preference to
+retain physical data cannot be fulfilled by that install. Use the user's explicit
+later authorization, “feel free to uninstall and clear old app install and its
+storage on all profiles and build on the tv,” for a global Brave-only uninstall
+and fresh user0 installation. Confirm absence across the actual Android users,
+then verify the pinned installed APK and native Home/served assets. This intentionally
+removes physical Brave data; emulator upgrade data and all build/SDK caches remain.
+Do not count it as a physical in-place upgrade pass or remove unrelated apps/data.
+
+Earlier delivery plan: reviewed source87b completes host and actual APK emulator
 acceptance, including the full native controls/text suites, stock IMEs and real
 Disconnect/listener refusal. Package delivery for the user's available TV follows
 using retained optimized ARM cache, four workers,18/22GiB and swap0. Acceptance:

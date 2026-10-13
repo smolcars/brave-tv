@@ -67,8 +67,8 @@ match disappears. The focused host regression fails on sourced6 and passes with
 source901. Native token lifetime/security remain unchanged. Cached packaging and
 complete native acceptance of that correction remain pending.
 
-No physical-TV install, physical phone camera/IME or Safari claim follows from
-these tests. The optimized physical-TV installation remains source090.
+At that checkpoint there was no physical-TV installation claim from these
+emulator tests; the physical installation was source090. Final delivery follows.
 
 ### Native typing follow-up
 
@@ -128,3 +128,36 @@ permission supersedes the earlier busy-TV restriction for this delivery. Attempt
 an in-place update retaining current browser data; no new storage wipe is implied
 by this phone redesign. Physical installation/served-asset verification is pending.
 Real physical phone camera/IME and Safari/iOS remain unverified.
+
+### TV delivery and closeout
+
+Optimized ARM/non-debuggable build passes in1m58.99s,55steps, with blocking
+analysis/four workers/18–22GiB/swap0. Observed peak17242796032B (16.06GiB),
+no host-guard interruption. Artifact:
+`~/.cache/brave-tv/artifacts/phone-after-hours-87b489044-arm-nodebug-20261012/BraveMonoarm.apk`,
+368054503B, SHA256 `e4923e2b8dd3518521400db245bfcca459f16072ae3ff9edcf2bf3335a3097ff`.
+The development certificate matches the retained baseline; ABI/package and
+non-debuggable checks pass. Build-start root is `f27504ced3ded8e59318e3bf7a9910ac72ba9747`.
+
+At868MiB free the physical in-place install fails with
+`INSTALL_FAILED_INSUFFICIENT_STORAGE: Failed to override installation location`.
+Using the user's explicit free-TV uninstall/clear-all-profiles authorization,
+Brave is globally uninstalled and confirmed absent from users0/10/11/12. This
+intentionally removes their old Brave data. At920MiB free the fresh user0 install
+succeeds. It is absent from the other users, and the installed base APK hashes
+exactly to the artifact above. This is not a physical in-place upgrade pass.
+
+Actual native Home opens with Address focused. The trusted native development
+warning/start flow works; all three assets fetched directly from the TV's LAN
+listener hash-match reviewed source87b. Native Disconnect stops that experiment,
+its listener refuses connection, and Home returns with Address focused. No
+physical phone was paired: real camera, thumb gestures/IME, Safari/iOS and broader
+hardware compatibility remain unverified. The HTTP remote remains an opt-in,
+unencrypted development experiment, not a secure/public-release remote.
+
+Task-owned emulator/fixture/preview/build helpers are stopped, diagnostic forwards
+removed, stock test-emulator IMEs restored and temporary TV Ethernet disable
+reversed. Emulator data and all compile/APK/SDK caches are retained. The physical
+TV remains on usable Home with no active remote experiment; its thread panel is
+closed without powering it off. Source/master and root/master delivery/reviews
+are synchronized; the unrelated HTTPS research file is preserved untracked.
