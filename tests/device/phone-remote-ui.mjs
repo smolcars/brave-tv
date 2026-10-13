@@ -34,6 +34,8 @@ let holdNativeAck = false;
 let rejectEnter = false;
 let holdEnterAck = false;
 let holdPrepareAck = false;
+let preparationStarted;
+let releasePreparation;
 const initial = {
   revision: 1,
   paused: false,
@@ -115,14 +117,21 @@ const server = createServer(async (req, res) => {
     await barrier;
   }
   if (data.op !== "state") commands.push(data);
-  if (data.op === "stopTyping") initial.editable.phoneTyping = false;
+  if (data.op === "stopTyping" && initial.editable) initial.editable.phoneTyping = false;
   if (data.edit === "prepare") {
     const ok = initial.editable.ready && !initial.editable.composing;
     if (ok) {
       initial.editable.phoneTyping = true;
       initial.editable.ready = !holdPrepareAck;
     }
-    res.end(JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial }));
+    const result = JSON.stringify({ ok, epoch: "synthetic-epoch", state: initial });
+    if (preparationStarted) {
+      const barrier = new Promise(r => { releasePreparation = r; });
+      preparationStarted();
+      preparationStarted = null;
+      await barrier;
+    }
+    res.end(result);
     return;
   }
   if (data.edit === "finish") {
@@ -771,6 +780,31 @@ try {
   await page.waitForTimeout(650);
   assert.equal(commands.filter((c) => c.edit === "prepare").length, preparationsAfterBackground,
     "Foreground polling cannot automatically reclaim typing");
+  const preparing = new Promise(r => { preparationStarted = r; });
+  await page.locator("#showKeyboard").click();
+  await preparing;
+  const cleanup = page.waitForResponse(r => r.request().postDataJSON()?.op === 'stopTyping');
+  await page.locator("#remoteTab").click();
+  await cleanup;
+  assert.equal(initial.editable.phoneTyping, false, "Type exit releases an in-flight preparation");
+  const preparationsBeforeReentry = commands.filter(c => c.edit === 'prepare').length;
+  await page.locator("#showKeyboard").click();
+  releasePreparation();
+  await page.waitForFunction(() => !busy && state.editable.phoneTyping);
+  assert.equal(commands.filter(c => c.edit === 'prepare').length, preparationsBeforeReentry + 1,
+    "An older leased snapshot cannot satisfy a fresh Type handoff");
+  await page.locator("#remoteTab").click();
+  await page.waitForFunction(() => !busy && !typingRelease && !state.editable.phoneTyping);
+  initial.editable.ready = false;
+  await page.waitForFunction(() => !state.editable.ready);
+  await page.locator("#showKeyboard").click();
+  initial.editable.revision++;
+  initial.editable.ready = true;
+  await page.waitForFunction(() => state.editable.ready && !typingRequested);
+  const afterFieldRotation = commands.filter(c => c.edit === 'prepare').length;
+  await page.waitForTimeout(650);
+  assert.equal(commands.filter(c => c.edit === 'prepare').length, afterFieldRotation,
+    "A delayed preparation never acquires a different field");
   approvalError = "revoked";
   approved = false;
   await page
@@ -808,6 +842,7 @@ try {
 } finally {
   releasePoll?.();
   releaseSelection?.();
+  releasePreparation?.();
   await browser.close();
   server.close();
 }

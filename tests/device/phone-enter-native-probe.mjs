@@ -105,9 +105,12 @@ try {
     }
     await phone.waitForFunction(() => state.editable?.ready && !busy);
     if (name !== 'frame') await report(r => r.active === name);
-    if (await phone.locator('#editor').isHidden()) await phone.locator('#showKeyboard').click();
     // Wait for the TV IME's opening layout, which rotates browser ownership.
     await waitForLayout(true);
+    await phone.locator('#showKeyboard').click();
+    await phone.waitForFunction(() => state.editable?.phoneTyping && state.editable.ready && !busy);
+    assert.ok(!adb(tvSerial, 'shell', 'dumpsys', 'input_method').includes('mIsInputViewShown=true'),
+      'TV keyboard yields before phone editing');
     await settled();
     return await phone.evaluate(() => ({ action: state.editable.action, composing: state.editable.composing }));
   }
@@ -117,12 +120,12 @@ try {
     const metadata = await focus(name);
     if (mode === 'phone-ime') {
       const fixtureIme = 'org.bravetv.remoteime.test/.RemoteIme';
-      for (const serial of [tvSerial, phoneSerial]) {
+      for (const serial of [phoneSerial]) {
         assert.match(adb(serial, 'shell', 'pm', 'path', 'org.bravetv.remoteime.test'), /^package:/);
         adb(serial, 'shell', 'ime', 'enable', fixtureIme);
         adb(serial, 'shell', 'ime', 'set', fixtureIme);
       }
-      await waitForLayout(true);
+      await waitForLayout(false);
       await settled();
       execFileSync('python3', [resolve(phoneDriver), 'press', 'id="editor"', '--settle'],
         { encoding: 'utf8', timeout: 15000 });
