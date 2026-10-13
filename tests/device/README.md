@@ -1,5 +1,24 @@
 # TV device regressions
 
+`loading-fixture-server.mjs` serves a normal synthetic page on loopback18091.
+Its deferred script stays pending until loopback `POST /release`; `/state`
+reports the pending count, `/redirect` navigates to it and `/done.html` is a
+complete replacement. At most two script requests remain pending, each with
+a90-second abandonment watchdog. Run `loading-server-check.mjs` first and
+require its route/release/bounds checks before reversing18091 to an explicitly
+verified TV emulator. Release only this owned fixture, preserve profiles and
+remove the owned reverse/server at closeout.
+
+`TvHomePageTest#pageLoadingFollowsSelectedTabAndActivityResume` uses this
+pending resource to verify selected/background-tab isolation, native Home,
+activity pause/resume and Stop. Run it in its own instrumentation process.
+`#firstPageCursorActivationWhileLoadingClicksOnce` retains the existing
+loopback18084 slow fixture and now also requires the new native loading status,
+its suppression under controls, recovery on page return and removal on Stop.
+Both belong to `brave_java_unit_tests`; a compilation alone is not acceptance.
+Visual review captures normal synthetic loading/settled states from the actual
+browser APK at TV density and normal/enlarged system text, never private pages.
+
 `tv_upgrade_check.py` reads only the preserved normal synthetic profile on
 `brave_tv_onboarding_api36`. Pass an explicit emulator serial, retained workspace,
 verified APK/source SHA, baseline JSON and a different output path. It verifies
