@@ -330,7 +330,11 @@ the label can announce changes and wrap with larger system text.
 
 ### Cards / Containers
 
-Favorites show a native site initial over a single-line saved-page title.
+Favorites show a native site identity over a single-line saved-page title.
+YouTube, Netflix, Prime Video and Twitch use their bundled official marks,
+fitted into the same 28dp identity slot with original colors and aspect ratio.
+Other bookmarks retain the native site initial. The four user-selected starter
+bookmarks are seeded once; native bookmark ownership and removability remain.
 Continue browsing places the initial beside the title and secondary host line.
 Both use opaque forest surfaces and the same focus treatment as actions.
 Titles and host details ellipsize on one line; accessible names retain the full

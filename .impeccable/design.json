@@ -211,7 +211,7 @@
       "name": "Favorite card",
       "kind": "card",
       "refersTo": "card-favorite",
-      "description": "Native initial over a saved-page title. The placeholder identifies the data slot rather than a shipped bookmark; actual Home uses the bookmark model.",
+      "description": "Native site identity over a saved-page title. User-selected streaming services use bundled official marks in the same 28dp slot without tint; other bookmarks use the shown initial. Actual Home uses the native bookmark model and removable starter bookmarks.",
       "html": "<button class=\"ds-favorite\"><span class=\"ds-favorite-initial\" aria-hidden=\"true\">S</span><span class=\"ds-favorite-title\">[Saved page title]</span></button>",
       "css": ".ds-favorite{display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-width:120px;font:500 16px/24px sans-serif;letter-spacing:.2px;outline:2px solid transparent}.ds-favorite-initial{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgb(243 239 231 / .12)}.ds-favorite-title{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-favorite:hover,.ds-favorite:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-favorite:hover .ds-favorite-initial,.ds-favorite:focus-visible .ds-favorite-initial{background:rgb(25 54 46 / .12)}.ds-favorite:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
     },

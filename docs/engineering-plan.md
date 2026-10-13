@@ -7097,3 +7097,10 @@ without tint; unrelated sites keep the current monogram. Native focus, URL
 activation, six-card preview and private restrictions remain unchanged. Verify
 one-time seeding, deduplication, deletion/restart, policy/private exclusion and
 logo rendering at baseline and enlarged text before final x64/ARM packaging.
+
+Source `97729c571` completes this extension. Six native regressions, 20 project
+tests, strict mypy, x64/ARM builds and signature checks pass. The emulator
+preserves the existing bookmark and adds each service once; D-pad traversal and
+native captures at 1.0/1.3 text scale pass. See
+[starter favorites evidence](tv-starter-favorites-evidence.md) for artifacts,
+official asset provenance and physical-TV/playback acceptance limits.

@@ -27,6 +27,10 @@ home, search/address entry, tabs, favorites, and browser controls.
 
 Preserve the existing browser actions, selected search provider, native data,
 remote focus, OK and Back behavior. Home has favorites and recent normal tabs.
+YouTube, Netflix, Prime Video and Twitch are user-requested starter bookmarks,
+added once to eligible normal TV profiles and editable in the native library.
+Existing saved items keep their titles, URLs and order; deletions stay removed.
+These four sites use bundled official marks, without tint or runtime fetching.
 Controls include address, back, forward, reload/stop, tabs, favorites, history,
 downloads, media, Shields, settings, pointer, scroll, fullscreen, home, and the
 phone remote when available. Native security and private browsing remain native.
