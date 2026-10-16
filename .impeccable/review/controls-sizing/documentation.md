@@ -73,7 +73,9 @@ were exercised with an emulator-local test client. This does not establish
 physical-phone acceptance. The [independent finish review](finish-review.md)
 reports SHIP for source, documentation and emulator visuals, with no material
 fixes. The optimized non-debuggable ARM build, blocking analysis, development
-signature and ARM32 ABI checks also pass. Exact artifacts and the interrupted
-physical-TV installation are recorded in [delivery evidence](../../../docs/tv-controls-sizing-evidence.md).
-Physical-TV and real-phone acceptance remain unverified. The before photo supplies
-defect evidence, not acceptance of the replacement.
+signature and ARM32 ABI checks also pass. Exact artifacts, the recovered
+data-preserving physical-TV installation, native control/status captures and
+cleanup are recorded in [delivery evidence](../../../docs/tv-controls-sizing-evidence.md).
+Physical acceptance used injected native keys and a test HTTP client; actual-phone/
+Safari and human physical-button acceptance remain unverified. The before photo
+supplies defect evidence, not acceptance of the replacement.

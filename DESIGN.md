@@ -244,8 +244,9 @@ records the final x64 build/analysis pass, all 14 native checks at this source,
 and eight emulator confirmation captures. The [independent finish review](.impeccable/review/controls-sizing/finish-review.md)
 reports SHIP for source, documentation and native emulator acceptance. The
 optimized ARM build and artifact checks also pass. [Delivery evidence](docs/tv-controls-sizing-evidence.md)
-tracks the interrupted physical-TV installation separately; physical-TV and
-real-phone acceptance remain unverified.
+records the completed data-preserving TV installation and native hardware
+controls/status captures. Actual-phone/Safari and human physical-button
+acceptance remain separate and unverified.
 
 ## Colors
 

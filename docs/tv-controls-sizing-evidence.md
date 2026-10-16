@@ -50,7 +50,7 @@ native results and machine-readable `provenance.json`.
 Raw execution logs are in
 `~/.cache/brave-tv/probes/controls-sizing-20261016/`.
 
-## Physical-TV delivery — interrupted
+## Physical-TV delivery and acceptance
 
 The authorized Chromecast was connected as `192.168.4.50:41531` (Android 14,
 ARM32). Before the update, `com.brave.browser_default` was installed under
@@ -60,15 +60,31 @@ changed.
 
 The initial in-place install failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE`.
 The authorized fallback `cmd package uninstall -k --user all
-com.brave.browser_default` returned Success, retaining browser data. The subsequent
-install transmitted the APK, then lost its wireless ADB connection and exited
-without an installation result. The old debugging endpoint now refuses TCP
-connections although the TV responds to ping. A scoped reconnect failed, and
-multicast discovery returned Cast services without an ADB connection service.
-The shared ADB server was not restarted.
+com.brave.browser_default` returned Success, retaining browser data. Reinstallation
+lost wireless ADB before returning a result. When debugging became available again,
+multicast discovery found the new connection endpoint `192.168.4.50:39061`.
+The previous install had not completed. Its inactive, uncommitted staging session
+was abandoned; a bounded recovery attempt was also automatically abandoned after
+its client timeout. The final streamed retry returned **Success**. The shared
+ADB server was not restarted and no browser data was cleared.
 
-Installation completion, retained data after reinstall, installed APK hash and
-native physical-TV acceptance are **not verified**. The app code may still be
-absent following the keep-data uninstall. The current wireless-debugging endpoint
-is needed to complete or recover the install. No data-clearing uninstall,
-profile wipe, unrelated-app removal or cache deletion was performed.
+The installed APK's on-device SHA-256 matches the final archived ARM artifact.
+App ID `10141`, user-0 data inode `81460` and installed state under all four
+profiles match the pre-update records. The four favorites render normally.
+No profile wipe, unrelated-app removal or build/AVD cache deletion was performed.
+
+| Physical-TV check | Evidence/result |
+| --- | --- |
+| Home text navigation | [Tabs focused](../.impeccable/review/controls-sizing/tv-home.png): consistent targets and matching rounded fill/outline |
+| Disabled menu focus | [Browse page focused](../.impeccable/review/controls-sizing/tv-menu-disabled.png): outline matches the disabled tile |
+| Bookmarks sizing and action | [Bookmarks focused](../.impeccable/review/controls-sizing/tv-menu-bookmarks.png): intact one-line label; OK opens native bookmarks; Back returns to focused Bookmarks, then normal Home search |
+| Connected Home Phone | [Native approved connection](../.impeccable/review/controls-sizing/tv-phone-home.png): compact icon and connected dot |
+| Connected webpage badge | [Compact badge](../.impeccable/review/controls-sizing/tv-phone-webpage.png): small top-right phone mark; existing toolbar/fixture overlap remains outside this refinement |
+| Cleanup | Test connection disconnected, owned reverse removed and owned fixture tab closed; [normal Home restored](../.impeccable/review/controls-sizing/tv-final-home.png) |
+
+[Hardware results](../.impeccable/review/controls-sizing/tv-results.json) record
+these checks. Physical-TV acceptance used native D-pad/OK/Back injection and a
+temporary test HTTP client exercising native TV approval. It does not establish
+human physical-button or actual-phone/Safari acceptance. Font scale remains
+unset/default and the stock IME is unchanged. The emulator supplies enlarged-text
+coverage; physical font settings were preserved.

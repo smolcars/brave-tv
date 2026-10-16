@@ -7198,7 +7198,9 @@ capture the real controls before the independent finish review/documentation.
 Implementation is complete at `3b2ccb47f4d8283e92f57f5a59233e1ea2520488`.
 Both final builds and blocking analysis pass, all 14 native checks pass at
 normal/enlarged text, and independent source/docs/emulator visual review reports
-SHIP. Physical delivery is interrupted after the authorized keep-data uninstall:
-wireless ADB dropped during reinstall and its old port now refuses connections.
-Recover the current debugging endpoint, finish installation and verify retained
-data/hardware controls. See [delivery evidence](tv-controls-sizing-evidence.md).
+SHIP. After wireless debugging moved ports, discovery recovered the TV and the
+final keep-data reinstall succeeded. The installed hash, original app/data
+identity and all four profile install states match; native Home/menu/Bookmarks
+and connected Phone captures pass. The test client/reverse/tab were cleaned up
+and normal Home restored. Actual-phone/Safari and human physical-button checks
+remain separate. See [delivery evidence](tv-controls-sizing-evidence.md).

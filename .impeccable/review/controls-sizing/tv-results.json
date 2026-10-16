@@ -1,0 +1,25 @@
+{
+  "source": "3b2ccb47f4d8283e92f57f5a59233e1ea2520488",
+  "installed_apk_hash_matches": true,
+  "app_id_retained": 10141,
+  "user0_data_inode_retained": 81460,
+  "installed_users": [
+    0,
+    10,
+    11,
+    12
+  ],
+  "physical_font_scale": "default (unset)",
+  "stock_ime_unchanged": true,
+  "home_navigation_capture": true,
+  "menu_disabled_focus_capture": true,
+  "bookmarks_focused_capture": true,
+  "bookmarks_activation_and_back": true,
+  "phone_native_approval": true,
+  "phone_home_and_webpage_captures": true,
+  "actual_phone_used": false,
+  "test_connection_disconnected": true,
+  "owned_reverse_removed": true,
+  "owned_fixture_tab_closed": true,
+  "normal_home_restored": true
+}
