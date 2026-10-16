@@ -63,6 +63,12 @@ typography:
     fontWeight: 400
     lineHeight: "16sp"
     letterSpacing: "0.2sp"
+  body-footer:
+    fontFamily: "sans-serif"
+    fontSize: "12sp"
+    fontWeight: 400
+    lineHeight: "16sp"
+    letterSpacing: "0.2sp"
   label-navigation:
     fontFamily: "sans-serif"
     fontSize: "14sp"
@@ -71,16 +77,16 @@ typography:
     letterSpacing: "0.1sp"
   label-credit:
     fontFamily: "sans-serif"
-    fontSize: "12sp"
-    fontWeight: 500
+    fontSize: "11sp"
+    fontWeight: 400
     lineHeight: "16sp"
-    letterSpacing: "0.5sp"
+    letterSpacing: "0.2sp"
   label-photo:
     fontFamily: "sans-serif"
     fontSize: "11sp"
-    fontWeight: 500
+    fontWeight: 400
     lineHeight: "16sp"
-    letterSpacing: "0.5sp"
+    letterSpacing: "0.2sp"
   title-phone:
     fontFamily: "sans-serif"
     fontSize: "26sp"
@@ -146,6 +152,17 @@ components:
     typography: "{typography.label-navigation}"
     rounded: "{rounded.pill}"
     padding: "10dp 16dp"
+  home-footer:
+    textColor: "{colors.warm-white}"
+    typography: "{typography.body-footer}"
+    padding: "4dp 40dp 12dp"
+  github-action:
+    backgroundColor: "transparent"
+    textColor: "{colors.warm-white}"
+    rounded: "{rounded.pill}"
+    padding: "10dp 16dp"
+    width: "56dp"
+    height: "48dp"
   card-favorite:
     backgroundColor: "{colors.forest-surface}"
     textColor: "{colors.warm-white}"
@@ -206,6 +223,11 @@ CSS px for the documentation panel and do not replace native behavior or capture
 Their generated tonal strips are visualization metadata, not additional native
 theme colors.
 
+The compact Home footer and navigation are recorded from native source
+`0b103706dae9b831eb8c5f4223937502a9379c39`.
+[Local documentation evidence](.impeccable/review/footer-redesign/documentation.md)
+records native captures of both components at baseline and enlarged text.
+
 ## Colors
 
 The palette borrows the landscape's forest tones and reserves its lightest
@@ -241,8 +263,8 @@ Frontmatter preserves native sp measurements rather than browser units.
 - **Display:** `display-home`, TV Material display-small with medium weight, for the Home heading.
 - **Headline:** `headline-drawer`, TV Material headline-small, for Browser controls.
 - **Title:** `title-search` for the search launcher; `title-brand` for Brave TV; `title-section` for Home section headings, card titles and the local clock; `title-group` for drawer groups.
-- **Body:** `body-action` is TV Material body-large with the observed action-label size override. `body-context` describes empty sections and drawer context. `body-card-detail` is the secondary host line on recent cards.
-- **Label:** `label-navigation` styles compact top navigation; `label-credit` styles the product description and upstream credits; `label-photo` styles the photograph credit.
+- **Body:** `body-action` is TV Material body-large with the observed action-label size override. `body-context` describes empty sections and drawer context. `body-card-detail` is the secondary host line on recent cards. `body-footer` uses regular TV Material body-small for the warm-white product description.
+- **Label:** `label-navigation` styles compact top navigation. `label-credit` and `label-photo` use regular body-small with an 11sp size override for the quieter mist upstream and photograph credits.
 - **Phone:** `title-phone`, `body-phone` and `label-back` record the existing panel's explicit size overrides. Its QR/manual instructions also use the body Phone size in a native TextView.
 
 **The Native Type Rule.** Keep text in native sp and preserve system font
@@ -256,14 +278,19 @@ foreground stacks with the Home gap token. The search launcher fills available
 width up to its cap (680dp); it is left aligned beneath the heading.
 
 The header has a brand, four navigation actions, icon-only Settings and browser
-controls, and a local clock. Navigation uses adaptive rows (maximum four
-columns, 108dp minimum times font scale, 8dp gaps); Phone has weight 1.5 within
-its row to fit its live status. Home cards use 120dp minimum columns times font
+controls, and a local clock. Navigation uses a FlowRow in the remaining header
+width, with content-sized pills, a 48dp minimum target height and 8dp gaps in
+both directions. Labels and live Phone status determine width; actions wrap
+naturally rather than filling weighted columns. Home cards use 120dp minimum columns times font
 scale and 12dp gaps, bounded to six Favorites and four Continue browsing items.
 The bottom footer stays outside the scrolling foreground, reserving its actual
-height so scaled text cannot overlap the cards. It uses 40dp horizontal and
-16dp bottom insets, an 8dp top inset, 4dp gaps between description/credits/photo,
-and 20dp between that text column and the quiet GitHub action. Normal Home
+height so scaled text cannot overlap the cards. Its insets follow `home-footer`,
+with 2dp gaps between text rows and 20dp between the text column and the quiet
+GitHub action. A space-between FlowRow shares the upstream and photograph
+credits across one baseline when they fit, with 20dp trailing padding on the
+upstream credit; it wraps to further lines as needed. The 48dp action sets a
+64dp baseline footer at the 960×540dp reference viewport; content can increase
+that height at larger text scales or narrower widths. Normal Home
 shows “A simple browser with ad blocking and private browsing.” Private Home
 retains its existing session explanation below the heading. Both show Brave/Chromium and photo
 credits. GitHub opens the canonical project URL in the current native tab.
@@ -306,8 +333,10 @@ outline. Selected Home remains a separate persistent state.
 
 Search and compact navigation share the pill radius. Ambient action tiles and
 Home cards share the action radius; drawer and Phone containers share the panel
-radius. Native icons use vector resources on a 24-unit canvas, displayed at
-20dp and tinted from the control's content color. Site initials are content
+radius. Native control icons use vector resources displayed at 20dp and tinted
+from the control's content color. Most use a 24-unit canvas; the official GitHub
+Invertocat retains its source 98×96 canvas and original path/aspect ratio.
+Site initials are content
 badges (28dp square, site-initial radius), with the current content color at
 12% opacity behind a native title-medium letter.
 
@@ -318,7 +347,7 @@ badges (28dp square, site-initial radius), with the current content color at
 Native TV Material buttons own remote activation and enabled, focus and pressed
 states. Their inherited content padding is 10dp vertically and 16dp horizontally.
 Text-only content adds its observed inner vertical padding (8dp for ordinary
-and compact labels, 4dp for search). The component tokens record the outer
+labels, 4dp for search and zero for compact labels). The component tokens record the outer
 padding. Action labels use up to two lines; drawer labels allow three, then
 ellipsis. Disabled colors and pressed behavior stay with the pinned TV library.
 Icons are nonverbal decoration within named controls, spaced from text by 10dp.
@@ -337,7 +366,20 @@ Home / Tabs / Favorites / Phone use quiet pills. Home carries the selected
 surface and selected semantics even while another control has focus. Settings
 and Browser controls are vector-only buttons with accessible names. Phone
 retains its control identity while its label observes native connection status;
-the label can announce changes and wrap with larger system text.
+the label can announce changes and wrap with larger system text. The navigation
+pills size to their contents and retain at least 48dp height. Compact labels use
+the inherited outer button padding without additional inner vertical padding.
+
+### Home footer
+
+The regular warm-white description sits above quieter regular mist credits.
+Upstream and photographer attributions share a flowing row; text remains
+untruncated and the footer reserves its actual height outside the scrolling
+foreground. Private Home keeps its session explanation beneath the heading and
+still shows both credits. The trailing `github-action` is icon-only, using the
+official 2026 Invertocat vector from GitHub's brand archive, with source
+provenance in the drawable. It retains the native GitHub accessible name,
+project URL callback, tinted content and normal mint focus state.
 
 ### Cards / Containers
 
@@ -386,7 +428,7 @@ badge retains its previous palette and is outside this Ambient scope.
 
 One bundled [Lago di Braies photograph](brave/android/java/brave-res/drawable-nodpi/brave_tv_ambient.jpg)
 is decoded off the UI thread and cached once. Crop fills Home; a forest
-fallback remains behind it. The permanent bottom-left credit reads
+fallback remains behind it. The permanent flowing footer credit reads
 “Photo: Luca Bravo / Unsplash”. The build adds no runtime wallpaper
 request, font request or rotation service.
 

@@ -7107,6 +7107,24 @@ official asset provenance and physical-TV/playback acceptance limits.
 
 ### Ambient Home footer
 
+16 October refinement: reduce the footer's vertical footprint, separate the
+description from quieter attribution text, and bundle GitHub's official
+Invertocat as the project action. Preserve the exact product and credit copy,
+native URL loading, D-pad focus and scaled-text reflow. Verify baseline and
+1.3 font scale on the TV emulator after the shared build checkout is idle.
+
+The user also requests smaller selected top-navigation pills. Let Home, Tabs,
+Favorites and Phone use their content width and flow naturally instead of
+stretching across equal columns. Remove the compact labels' extra internal
+vertical padding while preserving 48dp navigation targets, mint focus, selected
+Home semantics and live Phone status. Verify normal/enlarged text and narrow
+native D-pad traversal before the coordinated final ARM rebuild.
+
+Final source `6b49003d6` completes both refinements. Baseline/enlarged native
+captures, focused footer/navigation checks, blocking x64/ARM builds and the
+independent finish review pass. See [updated footer evidence](ambient-footer-evidence.md)
+for the exact validation scope and coordinated physical-TV handoff.
+
 Restore a compact bottom footer with the product description, explicit Brave
 and Chromium credit, and a D-pad-accessible GitHub action using the canonical
 project URL. Relabel the photograph credit in English while retaining Luca
