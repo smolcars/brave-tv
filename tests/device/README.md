@@ -1137,3 +1137,15 @@ and must not be run against Ambient. Fresh acceptance for this revision is the
 eight native tests and remote traversal in
 [Ambient implementation evidence](../../docs/ambient-implementation-evidence.md);
 editing a legacy replay does not claim its full scenario was rerun.
+
+## Product removal Shields regression
+
+`TvHomePageTest#shieldsRemainEffectiveWithoutAdvertisingProducts` uses the fixed
+`shields-fixture-server.mjs` and an explicit emulator reverse on port18081. It
+checks the bundled network rule against a working control script, custom
+cosmetic hiding and scriptlet execution, then verifies that the same ad resource
+loads and both custom effects disappear with per-site Shields disabled. The
+test restores existing custom rules and the site's original protection setting
+in `finally`. Run in the separate instrumentation package on the owned TV
+emulator; the normal app's upgrade profile must remain intact. This complements
+the signed-bundle host tests and packaged resource checks.

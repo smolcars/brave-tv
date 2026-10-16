@@ -16,7 +16,10 @@ data, existing language support and TV/phone input behavior. Google Play AAB
 preparation, compiler tuning and upstream updates are separate work. This is
 authorized implementation work. Record source/build checkpoints and retained
 feature checks in the package reduction evidence; acceptance remains unchecked
-until verified.
+until verified. Add a controlled native Shields regression covering bundled
+network blocking, custom cosmetic/scriptlet execution and per-site disable;
+restore its temporary rules and site setting after the test. After emulator
+acceptance, run the user-requested quick Chromecast smoke checks.
 
 ## Current direction: autonomous TV UI implementation (10 October)
 

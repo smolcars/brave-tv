@@ -4,6 +4,7 @@
 Android TV browser and measure the resulting package reduction. Google Play
 publication remains the eventual delivery target. Implementation is authorized
 and in progress; completion checks below require build and runtime evidence.
+Recorded results and deviations are in the [evidence note](tv-package-reduction-evidence.md).
 
 ## Scope and delivery decisions
 
@@ -33,10 +34,10 @@ these comparisons.
 
 ## 0 Record a baseline using the existing build
 
-- [ ] Finish or preserve concurrent source work; record the project, Brave and
+- [x] Finish or preserve concurrent source work; record the project, Brave and
   Chromium revisions used for every artifact. Follow the existing
   [source workflow](source-workflow.md) and [build limits](build.md).
-- [ ] Build or identify a matching optimized, non-debuggable ARM32 APK baseline.
+- [x] Build or identify a matching optimized, non-debuggable ARM32 APK baseline.
   Record its effective GN arguments, package/version, signing certificate,
   byte size, checksum and resource/native/DEX breakdown. Preserve existing
   artifacts and caches.
@@ -48,8 +49,7 @@ these comparisons.
 The historical ARM32 APK inspected during research is **368,539,141 bytes**.
 This is a reference measurement, not a forecast of savings from the selected
 product removals. Establish their individual savings with matching builds.
-[Measurement context](browser-engine-research.md),
-[installed artifact](tv-page-navigation-hardware.md)
+[Installed artifact](tv-page-navigation-hardware.md)
 
 **Exit:** a reproducible baseline APK with saved build arguments. Reuse an
 existing matching artifact where possible; no new delivery pipeline is required.
@@ -122,7 +122,7 @@ missing expected reduction before moving to the next product.
 
 ## 2 Validate the combined result
 
-- [ ] Add a focused artifact checker under `tests/build/` for required
+- [x] Add a focused artifact checker under `tests/build/` for required
   browser/Shields/filter assets and exclusive payloads of the removed products.
   Verify VPN/Leo payloads and browser UI locale coverage remain intact.
   Inspect packed resources through their generated resource index where assets
@@ -154,6 +154,16 @@ missing expected reduction before moving to the next product.
   Keep implementation, emulator acceptance, physical
   TV acceptance and publication status separate.
 
+## Additional TV smoke test
+
+After emulator verification, install the completed ARM APK on the user's
+Chromecast and check launch, native Home/settings, remote navigation, browsing,
+Shields and video/fullscreen where available. The user authorized deleting the
+existing TV installation and its data from all Android profiles if necessary
+for installation; attempt an in-place update first. Preserve the emulator's
+seeded profile for the upgrade check. Keep these quick checks distinct from
+full physical-TV release acceptance.
+
 ## Play publication handoff
 
 This plan produces smaller artifacts and evidence for release preparation; it
@@ -181,7 +191,7 @@ and installation through an internal test track before production rollout.
 
 ## Completion checklist
 
-- [ ] Matching baseline APK and build configuration recorded.
+- [x] Matching baseline APK and build configuration recorded.
 - [ ] News removed; native TV Home preserved.
 - [ ] Wallet removed.
 - [ ] Rewards/Brave Ads removed; Shields and filter updates verified.
