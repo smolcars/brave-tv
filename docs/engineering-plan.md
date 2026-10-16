@@ -71,7 +71,7 @@ deferred until the subsequent authorization below.
 
 The authorized follow-up is complete on source `a11a40211`: the Chromecast has
 been cleared of old Brave installations across users0/10/11/12 and the final
-non-debuggable ARM APK is installed only on active user 0. Actual native bounds
+non-debuggable ARM APK is installed only on active user0. Actual native bounds
 prove the corrected loading/connection-badge separation and return after
 completion. Native controls suppress the loading overlay. A host companion
 connected to the physical TV produces one trusted Search/submission and one
@@ -398,7 +398,7 @@ instead of treating a connection failure as insufficient-storage authorization.
 Delivery outcome: optimized ARM build and signature/ABI/non-debuggable checks
 pass; installed bytes match source `f76523e5a`'s preserved artifact. The update
 fails with insufficient storage, so the authorized global uninstall removes
-Brave data from all four users; fresh user 0 installation succeeds. Android
+Brave data from all four users; fresh user0 installation succeeds. Android
 users and unrelated apps remain intact. Native Home and controls pass after a
 Google TV launcher interruption and normal relaunch. Another T3 session owns
 agent-device, so it is preserved; Android native input and T3 images establish
@@ -413,18 +413,18 @@ an explicitly authorized Brave-only storage fallback. The installed APK checksum
 native Home/Address focus, actual TV-served resource hashes and native experiment
 shutdown pass. Full controls/native text/stock-IME acceptance passed on the retained
 emulator profile. Physical Brave data was intentionally removed from all four
-users; fresh installation is user 0 only. Physical in-place upgrade and real phone/
+users; fresh installation is user0 only. Physical in-place upgrade and real phone/
 Safari checks remain unverified. All task-owned services/emulators are stopped;
 compile/SDK/artifact caches and emulator data remain. Exact artifacts, failures,
 reviews and test boundaries are in the phone redesign evidence.
 
 Physical storage fallback: the optimized ARM build passes in1m58.99s, peak
-17242796032B (16.06GiB), but in-place user 0 install fails with
+17242796032B (16.06GiB), but in-place user0 install fails with
 INSTALL_FAILED_INSUFFICIENT_STORAGE at868MiB free. The earlier preference to
 retain physical data cannot be fulfilled by that install. Use the user's explicit
 later authorization, “feel free to uninstall and clear old app install and its
 storage on all profiles and build on the tv,” for a global Brave-only uninstall
-and fresh user 0 installation. Confirm absence across the actual Android users,
+and fresh user0 installation. Confirm absence across the actual Android users,
 then verify the pinned installed APK and native Home/served assets. This intentionally
 removes physical Brave data; emulator upgrade data and all build/SDK caches remain.
 Do not count it as a physical in-place upgrade pass or remove unrelated apps/data.
@@ -755,7 +755,7 @@ Correction source4dde and its root pin pass latest-only Standards/Spec review
 with zero findings. Both bounded cached builds pass blocking analysis: ARM52
 steps and x64136 steps, each about four minutes. Preserve both artifacts before
 runtime checks. The TV package manager documents `-f` as internal-flash placement;
-try one explicit streamed `-r -f --user 0` update after stopping only our browser
+try one explicit streamed `-r -f --user0` update after stopping only our browser
 media process. This is a bounded placement investigation, not a storage-check
 bypass. If Android again rejects the update, retain the failure and use the
 already authorized browser-only fresh installation, explicitly recording lost

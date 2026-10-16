@@ -167,11 +167,17 @@ The Chromecast was reachable on Android 14/ARM32, active user 0, with profiles
 0/10/11/12 and 984,496 KiB available. An in-place update was attempted with the
 verified final ARM artifact. Wireless ADB stopped answering during the streamed
 transfer; a target-only disconnect ended the install without a package-manager
-error. Reconnect returned offline, and multicast discovery found no endpoint.
+error. Reconnect returned offline. Discovery initially found no endpoint; a later
+response advertised the same port, but a bounded reconnect still failed.
 The TV still responded to network ping. The user was asked to toggle wireless
 debugging so installation and the requested hardware smoke checks can resume.
 No uninstall or app-data deletion has occurred in this task. Logs and initial
-device state are under `tv/`. Hardware acceptance remains pending.
+device state are under `tv/`. Hardware acceptance remains pending. Before
+retrying, inspect shell-owned incomplete installer sessions for this exact
+335,870,497-byte artifact. Task-owned Shields/media servers were stopped and
+the three added emulator reverses removed; the pre-existing fixture service
+and 18088 reverse remain untouched. Emulator app locale is restored, browser
+data is retained and its automation session is closed.
 
 The latest source change was reviewed against its parent, including the
 baseline evidence supporting the corrected assertions; no additional findings.
