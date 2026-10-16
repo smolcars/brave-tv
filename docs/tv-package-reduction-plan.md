@@ -9,7 +9,8 @@ Recorded results and deviations are in the [evidence note](tv-package-reduction-
 ## Scope and delivery decisions
 
 Remove News, Wallet, and Rewards/Brave Ads in separate checkpoints. Keep VPN
-and Leo enabled, including their required dependencies, resources and services.
+and Leo build configuration and their required dependencies, resources and services.
+Leo was already disabled at runtime in this fork; preserve that existing state.
 Brave Ads here means Brave's advertising product; Shields and `adblock-rust`
 remain essential. Preserve browser profiles, bookmarks, history, passwords,
 downloads, permissions, security controls, media, TV navigation and phone

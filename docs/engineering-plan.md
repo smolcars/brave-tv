@@ -22,6 +22,14 @@ restore its temporary rules and site setting after the test. The saved-Wallet
 shortcut regression exposed an invalid legacy selection reaching the hidden
 Auto option; normalize that value in the shared preference reader. After emulator
 acceptance, run the user-requested quick Chromecast smoke checks.
+The baseline intentionally disables Leo at runtime despite retaining its build;
+preserve that policy and assert availability against the existing gate, rather
+than re-enable a product as part of removal. Compare failing legacy navigation
+and privacy-count assertions against the exact baseline test APK before adjusting
+test expectations. Both fail on the baseline too: navigation at the same Back
+focus step, and the privacy remainder count by three. Correct the stale privacy
+count while retaining explicit presence/absence assertions; document the
+unchanged navigation failure and cover navigation in physical-TV smoke checks.
 
 ## Current direction: autonomous TV UI implementation (10 October)
 
