@@ -89,3 +89,12 @@ navigation reenables it after dismissal. Physical keyboards and pointer/touch
 activation retain native editing ownership. This requires one narrow Blink
 patch, incremental patch application and actual x64/ARM native compilation;
 do not substitute Tab order or a JavaScript navigation tree.
+
+The corrected first-frame and all five editor-type checks pass on `70cabc3ca`,
+including actual native typing/caret movement and return after dismissal.
+The strengthened persistent-show check then exposes a native-page observer
+ordering gap: the activity manager processes SHOWN before the tab publishes
+that state, retaining its hidden offset. Apply native positions after either
+published HIDDEN or SHOWN, while retaining authoritative composed constraints,
+active-tab/lifecycle guards and observer disposal. This preserves explicit
+native fallback visibility rather than accepting state alone as proof.
