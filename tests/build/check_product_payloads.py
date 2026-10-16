@@ -4,9 +4,11 @@ import argparse
 import hashlib
 import importlib
 import json
+import os
 from pathlib import Path
 import re
 import sys
+import subprocess
 import zipfile
 
 REMOVED_CLASSES = (
@@ -74,6 +76,7 @@ def main() -> None:
     parser.add_argument("apk", type=Path)
     parser.add_argument("baseline", type=Path, help="matching ABI and packaging baseline APK")
     args = parser.parse_args()
+    sys.path.insert(0, str(args.source / "brave/script"))
     sys.path.insert(0, str(args.source / "tools/grit"))
     data_pack = importlib.import_module("grit.format.data_pack")
     with zipfile.ZipFile(args.baseline) as baseline, zipfile.ZipFile(args.apk) as apk:
@@ -102,6 +105,33 @@ def main() -> None:
         require(flags.get("ENABLE_" + feature) == 0, f"{feature} compiled build flag is not disabled")
     for feature in ("AI_CHAT", "BRAVE_VPN"):
         require(flags.get("ENABLE_" + feature) == 1, f"{feature} compiled build flag is not enabled")
+
+    environment = os.environ.copy()
+    environment["PYTHONPATH"] = str(args.source.resolve() / "brave/script") + os.pathsep + environment.get("PYTHONPATH", "")
+    graph = subprocess.check_output(
+        [str(args.source.resolve() / "buildtools/linux64/gn"), "desc",
+         str(args.output.resolve()), "//brave:brave", "deps", "--all"],
+        cwd=args.source, env=environment, text=True,
+    )
+    require("ERROR" not in graph, "GN dependency inspection failed")
+    targets = set(graph.splitlines())
+    for target in (
+        "//brave/components/brave_shields/core/common/adblock/rs:rust_lib",
+        "//brave/components/ai_chat/core/browser:browser",
+        "//brave/components/brave_vpn/browser:browser",
+    ):
+        require(target in targets, f"required implementation absent from build graph: {target}")
+    for target in (
+        "//brave/components/brave_news/renderer:renderer",
+        "//brave/components/brave_news/browser:browser",
+        "//brave/components/brave_wallet/browser:browser",
+        "//brave/browser/brave_rewards:brave_rewards_impl",
+        "//brave/browser/brave_ads:impl",
+        "//brave/components/brave_ads/core:core",
+        "//brave/components/brave_adaptive_captcha:brave_adaptive_captcha",
+        "//brave/browser/ui/webui/new_tab_takeover/android:new_tab_takeover",
+    ):
+        require(target not in targets, f"removed implementation remains in build graph: {target}")
 
     candidate_sizes = breakdown(args.apk)
     baseline_sizes = breakdown(args.baseline)
