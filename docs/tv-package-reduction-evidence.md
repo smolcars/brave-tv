@@ -2,9 +2,9 @@
 
 16 October 2026. Final x64 and optimized ARM32 builds, payload checks and
 scoped emulator verification pass, with one documented baseline test failure.
-Physical Chromecast smoke verification is in progress.
+The verified APK is installed on the physical Chromecast and scoped smoke checks pass.
 This is the evidence companion to the [reduction plan](tv-package-reduction-plan.md).
-It does not establish physical-TV acceptance or Play publication readiness.
+These bounded checks do not establish broad TV compatibility or Play publication readiness.
 
 ## Fixed baseline
 
@@ -161,23 +161,48 @@ correctly fails its product-removal check. Languages and Play/AAB delivery
 configuration are unchanged. Release signing, device-specific bundle delivery,
 ABI/page-size validation and store submission remain separate release work.
 
-## Physical TV status
+## Physical Chromecast verification
 
-The Chromecast was reachable on Android 14/ARM32, active user 0, with profiles
-0/10/11/12 and 984,496 KiB available. An in-place update was attempted with the
-verified final ARM artifact. Wireless ADB stopped answering during the streamed
-transfer; a target-only disconnect ended the install without a package-manager
-error. Reconnect returned offline. Discovery initially found no endpoint; a later
-response advertised the same port, but a bounded reconnect still failed.
-The TV still responded to network ping. The user was asked to toggle wireless
-debugging so installation and the requested hardware smoke checks can resume.
-No uninstall or app-data deletion has occurred in this task. Logs and initial
-device state are under `tv/`. Hardware acceptance remains pending. Before
-retrying, inspect shell-owned incomplete installer sessions for this exact
-335,870,497-byte artifact. Task-owned Shields/media servers were stopped and
-the three added emulator reverses removed; the pre-existing fixture service
-and 18088 reverse remain untouched. Emulator app locale is restored, browser
-data is retained and its automation session is closed.
+The final ARM APK is installed on the Android 14/ARM32 Chromecast. Its on-device
+SHA-256 exactly matches `3f182fa8075cf7851ff47819e7f8687982874078ee390ffe98c260baf95548fd`.
+No uninstall or app-data deletion was needed. Application ID 10141, user-0 data
+inode 81460, original installation time and all four profiles' installation/data
+identities match the pre-update records (`tv/preserved-identity.json`). Active
+user remains 0. Available storage after restart was 1,093,364 KiB.
+
+The initial streamed update lost its ADB response, but Android had committed it.
+After the user authorized a reboot, an isolated host ADB server connected and
+sent `reboot`. That command timed out as the TV disappeared from the network.
+The shared ADB server/emulator were preserved and the temporary server stopped.
+After the user enabled wireless debugging, discovery found a new endpoint;
+`sys.boot_completed=1` and 108 seconds uptime confirmed the restart. No incomplete
+installer sessions remained. Checking the installed hash before retrying proved
+the final artifact was already installed, avoiding an unnecessary reinstall.
+
+| Bounded physical check | Observed result |
+| --- | --- |
+| Native Home | Rhenium branding, favorite tiles, Search focus and empty initial page list render correctly. |
+| D-pad/OK and Settings | Up and Right traverse the native header; OK opens Settings and Back returns. |
+| Webpage navigation | Right moves Explore → Watch; short OK records exactly one activation. Held OK introduces no extra activation; browser controls remain reachable. |
+| Shields | Controlled ad and cookie-list requests fail while the control script loads; site protection remains on. Cosmetic/scriptlet and off/on reversal are covered by the emulator native test. |
+| Media/fullscreen | The fixture reports readyState 4, decoded frames and advancing playback with no media error. D-pad reaches Fullscreen; OK enters it, and Back returns to the same document with playback active. |
+
+These use injected nonalphabetic D-pad/OK events and native device snapshots,
+not a human remote or real phone. The fullscreen capture shows native controls
+but does not establish picture/audio quality; playback counters and unchanged
+document identity are the bounded evidence. Streaming DRM, paid VPN, Leo backend
+chat, long-duration playback, human A/V and broader websites remain unverified.
+The pre-existing emulator Back-focus test failure remains documented above.
+
+All three task-owned tabs are closed and native Home is restored with an empty
+Continue browsing list. Active user, stock Gboard, display size/density and
+pre-existing forwarding state match the initial records. The current browser
+process has no crash-buffer entries. Task-owned fixture servers and TV reverses
+are stopped/removed, and its automation session is closed. Shared services,
+emulator data, build caches and unrelated files are retained.
+
+Evidence, native snapshots, Home/Settings/Shields/fullscreen captures, reboot
+and package state are under `tv/` in the preserved evidence directory.
 
 The latest source change was reviewed against its parent, including the
 baseline evidence supporting the corrected assertions; no additional findings.

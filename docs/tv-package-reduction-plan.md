@@ -2,8 +2,8 @@
 
 16 October 2026. Planned work: compile out unused Brave products from the
 Android TV browser and measure the resulting package reduction. Google Play
-publication remains the eventual delivery target. Implementation and scoped emulator verification are complete; physical TV
-smoke verification is in progress. Unchecked broader acceptance remains explicit.
+publication remains the eventual delivery target. Implementation, scoped emulator verification and the requested physical TV
+smoke checks are complete. Unchecked broader acceptance remains explicit.
 Recorded results and deviations are in the [evidence note](tv-package-reduction-evidence.md).
 
 ## Scope and delivery decisions

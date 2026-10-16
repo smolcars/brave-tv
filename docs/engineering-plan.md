@@ -36,8 +36,10 @@ The final ARM APK is 32,713,865 bytes smaller (8.88%); both builds and blocking
 analysis pass, along with 70 Robolectric runs, 17 signed-filter tests and 23
 distinct native checks. One existing Back-focus test fails identically on the
 exact baseline. The emulator profile survives the update. Source is pushed;
-Chromecast installation/smoke verification is pending recovery of its wireless
-debugging connection. See the [evidence](tv-package-reduction-evidence.md).
+The final APK is verified on the Chromecast after an authorized reboot restored
+debugging. App/data identity and all four profile installations are preserved;
+Home, Settings, navigation, Shields and fullscreen smoke checks pass. See the
+[evidence](tv-package-reduction-evidence.md).
 
 ## Current direction: autonomous TV UI implementation (10 October)
 
