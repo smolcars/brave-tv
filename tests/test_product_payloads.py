@@ -30,6 +30,11 @@ class ProductPayloadTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "baseline"):
             check_entries(self.names, set())
 
+    def test_different_abi_fails(self) -> None:
+        other_abi = {name.replace("armeabi-v7a", "arm64-v8a") for name in self.names}
+        with self.assertRaisesRegex(ValueError, "ABIs"):
+            check_entries(other_abi, self.names)
+
     def test_missing_build_inputs_fail_closed(self) -> None:
         script = Path(__file__).parent / "build/check_product_payloads.py"
         result = subprocess.run(

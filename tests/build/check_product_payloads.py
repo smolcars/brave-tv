@@ -48,6 +48,11 @@ def require(condition: bool, message: str) -> None:
 def check_entries(names: set[str], baseline: set[str]) -> None:
     require(any(n.endswith("/libchrome.so") for n in names), "browser library missing")
     require(any(n.endswith("/libwg-go.so") for n in names), "VPN WireGuard library missing")
+    browser_libraries = {n for n in names if n.endswith("/libchrome.so")}
+    baseline_libraries = {n for n in baseline if n.endswith("/libchrome.so")}
+    require(browser_libraries == baseline_libraries, "baseline and candidate browser ABIs differ")
+    require(all(n.replace("/libchrome.so", "/libwg-go.so") in names for n in browser_libraries),
+            "VPN library missing for a browser ABI")
     require("assets/brave_resources.pak" in names, "Brave resource pack missing")
     require("assets/ntp_news_optin_icon_animation.json" not in names, "News animation retained")
     locales = {n for n in names if n.startswith("assets/locales/")}
