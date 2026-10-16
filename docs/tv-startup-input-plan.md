@@ -72,3 +72,20 @@ applies that position before the token is released. Explicit persistent native
 showing remains unchanged. Keyboard suppression is borrowed only for the active
 document's element-navigation owner. Short OK on an editable selection uses
 the native keyboard delegate, without sending Enter or submitting the form.
+
+The first corrected build passes transient-show and explicit-OK checks but
+exposes two narrower failures. Diagnostics show the very first toolbar draw is
+112 px high, with the hiding token already held and no selected tab: the native
+manager's visibility update is deferred. Initialize the inflated TV toolbar
+view as INVISIBLE while that token owns startup. No blanket hiding remains
+after native tab classification.
+
+Text/search/password inputs and textarea traversal pass; populated
+`contenteditable` remains selected because Chromium's editor consumes the
+direction as caret movement before spatial navigation. Prioritize the existing
+native navigation handler for unmodified arrows while spatial navigation is
+enabled. Explicit OK disables spatial navigation for actual editing; remote
+navigation reenables it after dismissal. Physical keyboards and pointer/touch
+activation retain native editing ownership. This requires one narrow Blink
+patch, incremental patch application and actual x64/ARM native compilation;
+do not substitute Tab order or a JavaScript navigation tree.
