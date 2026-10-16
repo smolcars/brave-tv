@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T15:23:26.953189Z",
+  "generatedAt": "2026-10-16T16:20:12.933524Z",
   "title": "Design System: Brave TV Ambient",
   "extensions": {
     "colorMeta": {
@@ -116,7 +116,7 @@
       },
       "body-action": {
         "displayName": "Action text",
-        "purpose": "Ordinary and drawer action labels; body-large with the observed size override."
+        "purpose": "All ordinary and drawer action labels share 18sp bodyLarge; drawer captions allow two lines, with vertical centering inside the full tile content area."
       },
       "body-context": {
         "displayName": "Context text",
@@ -128,7 +128,7 @@
       },
       "label-navigation": {
         "displayName": "Navigation label",
-        "purpose": "Compact Home navigation labels."
+        "purpose": "Home/Tabs/Favorites text tabs share the 14sp native labelLarge role; one line with ellipsis. Phone keeps its full native live status in its accessible name and displays an icon."
       },
       "label-credit": {
         "displayName": "Footer credit",
@@ -162,19 +162,19 @@
     "shadows": [],
     "motion": [
       {
-        "name": "native-focus-scale",
-        "value": "focusedScale = 1.02f; normal and pressed scale = 1f",
-        "purpose": "Native TV Material button focus scale; existing library animation behavior is inherited, with no custom duration token."
+        "name": "native-control-scale",
+        "value": "focusedScale = 1f; pressedScale = 1f; focusedDisabledScale = 1f",
+        "purpose": "Shared native TV buttons preserve target size in focus, pressed and focused-disabled states. Shape and the two-dp focus border match explicitly; no custom duration token is introduced."
       }
     ],
     "breakpoints": [
       {
         "name": "native-action-columns",
-        "value": "clamp(floor((availableWidth + gap) / (minimumWidth * max(1, systemFontScale) + gap)), 1, maxColumns)"
+        "value": "clamp(floor((availableWidth + gap) / (baseMinimumWidth * max(1, systemFontScale) + gap)), 1, maxColumns)"
       },
       {
         "name": "drawer-columns",
-        "value": "minimumWidth = 140dp; gap = 10dp; maxColumns = 3; verified 1080p/320dpi: 3 columns at fontScale 1.0, 2 at 1.3"
+        "value": "baseMinimumWidth = 180dp; gap = 10dp; maxColumns = 2; minimumHeight = 72dp * max(1, systemFontScale); intrinsic sibling-height alignment; one column when two font-scaled minimum widths do not fit"
       },
       {
         "name": "home-card-columns",
@@ -182,7 +182,7 @@
       },
       {
         "name": "home-navigation-flow",
-        "value": "FlowRow in remaining header width; intrinsic-width Home/Tabs/Favorites/Phone pills; 8dp horizontal and vertical gaps; minimum target height 48dp; no weighted columns or font-scale minimum-width algorithm"
+        "value": "FlowRow in remaining header width; Home/Tabs/Favorites share minimumWidth = 96dp * max(1, systemFontScale), minimumHeight = 48dp, 12dp corners and one-line labels; 8dp horizontal and vertical gaps; Phone is icon-only 48dp square; natural wrapping"
       }
     ]
   },
@@ -191,17 +191,17 @@
       "name": "Filled action",
       "kind": "button",
       "refersTo": "button-action",
-      "description": "Illustration of a native TV action. Outer 10dp/16dp padding plus 8dp inner label padding; mint focus and native 1.02 scale. Hover demonstrates D-pad focus in the documentation panel.",
+      "description": "Illustration of a native TV action: 14dp Ambient corners, at least 48dp target height, explicit 10dp/16dp content padding and 18sp labels. Fill and the two-dp focus/disabled-focus outline share one shape; native focus and press do not enlarge the target. Hover illustrates D-pad focus.",
       "html": "<button class=\"ds-action\">Reload page</button>",
-      "css": ".ds-action{display:inline-flex;align-items:center;justify-content:center;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:18px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent}.ds-action:hover,.ds-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "css": ".ds-action{display:inline-flex;align-items:center;justify-content:center;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-height:48px;box-sizing:border-box;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent}.ds-action:hover,.ds-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-action[aria-disabled=\"true\"]{background:rgb(40 65 62 / .65);color:rgb(243 239 231 / .5)}"
     },
     {
       "name": "Quiet navigation",
       "kind": "button",
       "refersTo": "navigation-quiet",
-      "description": "Unselected compact Home navigation. Content-sized pill with a 48dp minimum native target height, 10dp/16dp outer padding and no additional inner label padding; transparent at rest and filled on native focus. Native baseline and 1.3 text-scale captures verify this compact geometry.",
+      "description": "Unselected Home/Tabs/Favorites text tab. Shared 96dp minimum width times max(1, systemFontScale), 48dp minimum height, 12dp corners, one-line 14sp label and 10dp/16dp content padding. The illustration shows baseline sizing; native font scaling and wrapping remain authoritative. Focus keeps the same size and outline shape.",
       "html": "<button class=\"ds-quiet\">Tabs</button>",
-      "css": ".ds-quiet{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#F3EFE7;border:0;border-radius:32px;padding:10px 16px;min-height:48px;font:500 14px/20px sans-serif;letter-spacing:.1px;outline:2px solid transparent}.ds-quiet:hover,.ds-quiet:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-quiet:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "css": ".ds-quiet{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#F3EFE7;border:0;border-radius:12px;padding:10px 16px;min-height:48px;min-width:96px;box-sizing:border-box;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:500 14px/20px sans-serif;letter-spacing:.1px;outline:2px solid transparent}.ds-quiet:hover,.ds-quiet:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-quiet:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}"
     },
     {
       "name": "Search launcher",
@@ -209,15 +209,15 @@
       "refersTo": "search-launcher",
       "description": "White native button that opens the address editor. Illustration preserves its 680dp cap, search vector, 4dp inner label padding and mint outline. It does not add an HTML input or a search provider.",
       "html": "<button class=\"ds-search\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21,21L16.5,16.5 M10.5,18a7.5,7.5 0,1 1,0 -15a7.5,7.5 0,1 1,0 15\"/></svg><span class=\"ds-search-label\">Search or enter a website</span></button>",
-      "css": ".ds-search{display:flex;align-items:center;gap:10px;width:100%;max-width:680px;background:#F3EFE7;color:#142726;border:0;border-radius:32px;padding:14px 16px;outline:2px solid transparent;font:400 22px/28px sans-serif;text-align:left}.ds-search-label{flex:1}.ds-search:hover,.ds-search:focus-visible{background:#F3EFE7;color:#19362E;outline-color:#DCEBDC;transform:scale(1.02)}.ds-search:active{background:#F3EFE7;color:#19362E;outline-color:#DCEBDC;transform:scale(1)}"
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;width:100%;max-width:680px;background:#F3EFE7;color:#142726;border:0;border-radius:32px;padding:14px 16px;outline:2px solid transparent;font:400 22px/28px sans-serif;text-align:left}.ds-search-label{flex:1}.ds-search:hover,.ds-search:focus-visible{background:#F3EFE7;color:#19362E;outline-color:#DCEBDC}.ds-search:active{background:#F3EFE7;color:#19362E;outline-color:#DCEBDC}"
     },
     {
-      "name": "Selected Home and live Phone navigation",
+      "name": "Selected Home and compact Phone navigation",
       "kind": "nav",
       "refersTo": "navigation-selected",
-      "description": "Illustration of content-sized Home/Tabs/Favorites/Phone pills in a wrapping FlowRow with 8dp gaps and 48dp minimum target height. Selected Home remains independent of focus; Phone keeps its identity while native status changes. Compact labels add no inner vertical padding. Native baseline and 1.3 text-scale captures verify this compact geometry.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Home navigation\"><button class=\"ds-nav-button ds-nav-current\" aria-current=\"page\">Home</button><button class=\"ds-nav-button\">Tabs</button><button class=\"ds-nav-button\">Favorites</button><button class=\"ds-nav-button ds-nav-phone\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8,2H16Q18,2 18,4V20Q18,22 16,22H8Q6,22 6,20V4Q6,2 8,2 M10,18H14\"/></svg><span>Phone connected</span></button></nav>",
-      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ds-nav-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:#F3EFE7;border:0;border-radius:32px;padding:10px 16px;min-height:48px;font:500 14px/20px sans-serif;letter-spacing:.1px;outline:2px solid transparent;min-width:0;max-width:100%;flex:0 1 auto}.ds-nav-current{background:#28413E}.ds-nav-button:hover,.ds-nav-button:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-nav-button:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "description": "Illustration of the wrapping native FlowRow: 8dp gaps, 12dp corners, shared 96dp font-scaled minimum widths for Home/Tabs/Favorites, and an icon-only 48dp Phone shortcut. Selected Home persists independently of focus. The connected-state 6dp dot is driven by native state; its full live accessible name remains Phone connected. CSS illustrates baseline dp/sp numerically in px and does not emulate Android system font scaling.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Home navigation\"><button class=\"ds-nav-button ds-nav-current\" aria-current=\"page\">Home</button><button class=\"ds-nav-button\">Tabs</button><button class=\"ds-nav-button\">Favorites</button><button class=\"ds-nav-button ds-nav-phone\" aria-label=\"Phone connected\" aria-live=\"polite\"><span class=\"ds-nav-phone-mark\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8,2H16Q18,2 18,4V20Q18,22 16,22H8Q6,22 6,20V4Q6,2 8,2 M10,18H14\"/></svg><span class=\"ds-nav-phone-dot\" aria-hidden=\"true\"></span></span></button></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ds-nav-button{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#F3EFE7;border:0;border-radius:12px;padding:10px 16px;min-height:48px;min-width:96px;box-sizing:border-box;font:500 14px/20px sans-serif;letter-spacing:.1px;outline:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;flex:0 1 auto}.ds-nav-current{background:#28413E}.ds-nav-button:hover,.ds-nav-button:focus-visible,.ds-nav-button:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-nav-phone{width:48px;height:48px;min-width:48px;padding:0;flex:none}.ds-nav-phone-mark{position:relative;display:flex;width:20px;height:20px}.ds-nav-phone-dot{position:absolute;top:0;right:0;width:6px;height:6px;border-radius:3px;background:#DCEBDC}.ds-nav-phone:hover .ds-nav-phone-dot,.ds-nav-phone:focus-visible .ds-nav-phone-dot,.ds-nav-phone:active .ds-nav-phone-dot{background:currentColor}"
     },
     {
       "name": "Favorite card",
@@ -225,7 +225,7 @@
       "refersTo": "card-favorite",
       "description": "Native site identity over a saved-page title. User-selected streaming services use bundled official marks in the same 28dp slot without tint; other bookmarks use the shown initial. Actual Home uses the native bookmark model and removable starter bookmarks.",
       "html": "<button class=\"ds-favorite\"><span class=\"ds-favorite-initial\" aria-hidden=\"true\">S</span><span class=\"ds-favorite-title\">[Saved page title]</span></button>",
-      "css": ".ds-favorite{display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-width:120px;font:500 16px/24px sans-serif;letter-spacing:.2px;outline:2px solid transparent}.ds-favorite-initial{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgb(243 239 231 / .12)}.ds-favorite-title{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-favorite:hover,.ds-favorite:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-favorite:hover .ds-favorite-initial,.ds-favorite:focus-visible .ds-favorite-initial{background:rgb(25 54 46 / .12)}.ds-favorite:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "css": ".ds-favorite{display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-width:120px;font:500 16px/24px sans-serif;letter-spacing:.2px;outline:2px solid transparent}.ds-favorite-initial{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgb(243 239 231 / .12)}.ds-favorite-title{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-favorite:hover,.ds-favorite:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-favorite:hover .ds-favorite-initial,.ds-favorite:focus-visible .ds-favorite-initial{background:rgb(25 54 46 / .12)}.ds-favorite:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}"
     },
     {
       "name": "Continue browsing card",
@@ -233,15 +233,15 @@
       "refersTo": "card-recent",
       "description": "Native site initial beside a title and 85%-opacity host line. Placeholder labels identify the native tab slots; they are not example data added to Home.",
       "html": "<button class=\"ds-recent\"><span class=\"ds-recent-initial\" aria-hidden=\"true\">S</span><span class=\"ds-recent-copy\"><span class=\"ds-recent-title\">[Open page title]</span><span class=\"ds-recent-host\">[Host]</span></span></button>",
-      "css": ".ds-recent{display:flex;align-items:center;gap:10px;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-width:120px;outline:2px solid transparent;text-align:left}.ds-recent-initial{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgb(243 239 231 / .12);font:500 16px/24px sans-serif;flex-shrink:0}.ds-recent-copy{display:flex;flex-direction:column;gap:2px;min-width:0}.ds-recent-title{font:500 16px/24px sans-serif;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-recent-host{font:400 12px/16px sans-serif;letter-spacing:.2px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-recent:hover,.ds-recent:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-recent:hover .ds-recent-initial,.ds-recent:focus-visible .ds-recent-initial{background:rgb(25 54 46 / .12)}.ds-recent:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "css": ".ds-recent{display:flex;align-items:center;gap:10px;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-width:120px;outline:2px solid transparent;text-align:left}.ds-recent-initial{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgb(243 239 231 / .12);font:500 16px/24px sans-serif;flex-shrink:0}.ds-recent-copy{display:flex;flex-direction:column;gap:2px;min-width:0}.ds-recent-title{font:500 16px/24px sans-serif;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-recent-host{font:400 12px/16px sans-serif;letter-spacing:.2px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-recent:hover,.ds-recent:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-recent:hover .ds-recent-initial,.ds-recent:focus-visible .ds-recent-initial{background:rgb(25 54 46 / .12)}.ds-recent:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}"
     },
     {
       "name": "Browser drawer group",
       "kind": "custom",
       "refersTo": "drawer-container",
-      "description": "Illustration of one group inside the native 540dp/92%-width drawer. Native height caps at 90% of viewport; intrinsic tallest-label rows align only drawer siblings. Native font scaling determines three-to-two column reflow.",
-      "html": "<section class=\"ds-drawer\" aria-label=\"Browser controls\"><h2 class=\"ds-drawer-title\">Browser controls</h2><div class=\"ds-drawer-groups\"><section class=\"ds-drawer-group\"><h3 class=\"ds-drawer-heading\">Browse</h3><div class=\"ds-drawer-row\"><button class=\"ds-drawer-action\">Search</button><button class=\"ds-drawer-action\">Browse page</button><button class=\"ds-drawer-action\">Jump between elements</button></div></section></div></section>",
-      "css": ".ds-drawer{display:flex;flex-direction:column;gap:16px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-drawer-title{margin:0;font:400 24px/32px sans-serif}.ds-drawer-groups{display:flex;flex-direction:column;gap:20px;overflow:auto}.ds-drawer-group{display:flex;flex-direction:column;gap:10px}.ds-drawer-heading{margin:0;color:#D0DFD8;font:500 14px/20px sans-serif;letter-spacing:.1px}.ds-drawer-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}.ds-drawer-action{background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:18px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent;overflow-wrap:normal}.ds-drawer-action:hover,.ds-drawer-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-drawer-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "description": "Illustration of one native drawer group inside the 540dp/92%-width, 90%-height-capped panel. At most two columns use 180dp minimum width times max(1, systemFontScale), 10dp gaps and a 72dp font-scaled minimum height. Intrinsic measurement preserves sibling alignment and allows growth. Each 20dp icon and 18sp two-line caption is centered vertically in a row filling the tile content area, with 16dp horizontal/10dp vertical padding. Native reflow and scrolling remain authoritative.",
+      "html": "<section class=\"ds-drawer\" aria-label=\"Browser controls\"><h2 class=\"ds-drawer-title\">Browser controls</h2><div class=\"ds-drawer-groups\"><section class=\"ds-drawer-group\"><h3 class=\"ds-drawer-heading\">Your library</h3><div class=\"ds-drawer-row\"><button class=\"ds-drawer-action\"><span class=\"ds-drawer-content\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4,6H18V20H4Z M8,2H22V16\"/></svg><span class=\"ds-drawer-caption\">Tabs</span></span></button><button class=\"ds-drawer-action\"><span class=\"ds-drawer-content\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6,3H18V21L12,17L6,21Z\"/></svg><span class=\"ds-drawer-caption\">Bookmarks</span></span></button></div></section></div></section>",
+      "css": ".ds-drawer{display:flex;flex-direction:column;gap:16px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-drawer-title{margin:0;font:400 24px/32px sans-serif}.ds-drawer-groups{display:flex;flex-direction:column;gap:20px;overflow:auto}.ds-drawer-group{display:flex;flex-direction:column;gap:10px}.ds-drawer-heading{margin:0;color:#D0DFD8;font:500 14px/20px sans-serif;letter-spacing:.1px}.ds-drawer-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px;align-items:stretch}.ds-drawer-action{display:flex;align-items:stretch;min-height:72px;box-sizing:border-box;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent;text-align:left}.ds-drawer-content{display:flex;align-items:center;gap:10px;width:100%;flex:1}.ds-drawer-content svg{flex:none}.ds-drawer-caption{flex:1;min-width:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:normal}.ds-drawer-action:hover,.ds-drawer-action:focus-visible,.ds-drawer-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-drawer-action[aria-disabled=\"true\"]{background:rgb(40 65 62 / .65);color:rgb(243 239 231 / .5)}"
     },
     {
       "name": "Connected Phone panel",
@@ -249,20 +249,27 @@
       "refersTo": "phone-container",
       "description": "Illustration of the native connected state, retaining the existing local-HTTP disclosure and actions. Native window dim is 0.55, panel width 540dp capped at 92%, and height capped at 90%; the companion has its separate design.",
       "html": "<section class=\"ds-phone\" aria-label=\"Phone\"><h2 class=\"ds-phone-title\">Phone</h2><div class=\"ds-phone-entries\"><p class=\"ds-phone-description\">Phone connected</p><p class=\"ds-phone-description\">Local connection \u00b7 Not encrypted. Use a trusted network. Other devices on this network may read or change traffic. Do not enter passwords or personal information.</p><div class=\"ds-phone-row\"><button class=\"ds-phone-action\">Continue browsing</button><button class=\"ds-phone-action\">Disconnect</button></div></div></section>",
-      "css": ".ds-phone{display:flex;flex-direction:column;gap:12px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-phone-title{margin:0;font-size:26px;font-weight:500}.ds-phone-entries{display:flex;flex-direction:column;gap:10px;overflow:auto}.ds-phone-description{margin:0;color:#D0DFD8;font-size:16px}.ds-phone-row{display:flex;flex-wrap:wrap;gap:12px}.ds-phone-action{flex:1;min-width:140px;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:18px 16px;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent}.ds-phone-action:hover,.ds-phone-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-phone-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}"
+      "css": ".ds-phone{display:flex;flex-direction:column;gap:12px;width:calc(100% - 48px);max-width:492px;max-height:calc(90vh - 48px);padding:24px;background:#142726;color:#F3EFE7;border-radius:24px;font-family:sans-serif}.ds-phone-title{margin:0;font-size:26px;font-weight:500}.ds-phone-entries{display:flex;flex-direction:column;gap:10px;overflow:auto}.ds-phone-description{margin:0;color:#D0DFD8;font-size:16px}.ds-phone-row{display:flex;flex-wrap:wrap;gap:12px}.ds-phone-action{flex:1;min-width:140px;background:#28413E;color:#F3EFE7;border:0;border-radius:14px;padding:10px 16px;min-height:48px;box-sizing:border-box;font:400 18px/24px sans-serif;letter-spacing:.5px;outline:2px solid transparent}.ds-phone-action:hover,.ds-phone-action:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-phone-action:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}"
     },
     {
       "name": "Ambient contrast layer and Home footer",
       "kind": "custom",
-      "description": "Exact native forest scrim with the compact Home footer, illustrated on the fallback color. The bundled photo is omitted; native captures show its crop. Footer insets are 4dp top, 40dp sides and 12dp bottom, with 2dp text gaps and 20dp to the 56x48dp quiet GitHub action. Regular 12sp description sits above regular 11sp mist credits in a space-between FlowRow that wraps; upstream credit has 20dp trailing padding. The footer reserves actual height outside native scrolling content. The inline official 2026 Invertocat preserves the source 98x96 path and aspect ratio; the native callback and accessible name remain GitHub. Hover illustrates native D-pad focus.",
+      "description": "Exact native forest scrim with the compact Home footer, illustrated on the fallback color. The bundled photo is omitted; native captures show its crop. Footer insets are 4dp top, 40dp sides and 12dp bottom, with 2dp text gaps and 20dp to the 56x48dp quiet GitHub action with 12dp corners and zero icon padding. Regular 12sp description sits above regular 11sp mist credits in a space-between FlowRow that wraps; upstream credit has 20dp trailing padding. The footer reserves actual height outside native scrolling content. The inline official 2026 Invertocat preserves the source 98x96 path and aspect ratio; the native callback and accessible name remain GitHub. Hover illustrates native D-pad focus.",
       "html": "<div class=\"ds-ambient\" aria-label=\"Ambient forest contrast layer\"><footer class=\"ds-footer\"><div class=\"ds-footer-copy\"><p class=\"ds-footer-description\">A simple browser with ad blocking and private browsing.</p><div class=\"ds-footer-credits\"><span class=\"ds-footer-upstream\">Built on Brave and Chromium \u00b7 Thanks to their open-source contributors</span><span>Photo: Luca Bravo / Unsplash</span></div></div><button class=\"ds-footer-github\" aria-label=\"GitHub\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 98 96\" fill=\"currentColor\"><path d=\"M41.4395 69.3848C28.8066 67.8535 19.9062 58.7617 19.9062 46.9902C19.9062 42.2051 21.6289 37.0371 24.5 33.5918C23.2559 30.4336 23.4473 23.7344 24.8828 20.959C28.7109 20.4805 33.8789 22.4902 36.9414 25.2656C40.5781 24.1172 44.4062 23.543 49.0957 23.543C53.7852 23.543 57.6133 24.1172 61.0586 25.1699C64.0254 22.4902 69.2891 20.4805 73.1172 20.959C74.457 23.543 74.6484 30.2422 73.4043 33.4961C76.4668 37.1328 78.0937 42.0137 78.0937 46.9902C78.0937 58.7617 69.1934 67.6621 56.3691 69.2891C59.623 71.3945 61.8242 75.9883 61.8242 81.252L61.8242 91.2051C61.8242 94.0762 64.2168 95.7031 67.0879 94.5547C84.4102 87.9512 98 70.6289 98 49.1914C98 22.1074 75.9883 6.69539e-07 48.9043 4.309e-07C21.8203 1.92261e-07 -1.9479e-07 22.1074 -4.3343e-07 49.1914C-6.20631e-07 70.4375 13.4941 88.0469 31.6777 94.6504C34.2617 95.6074 36.75 93.8848 36.75 91.3008L36.75 83.6445C35.4102 84.2188 33.6875 84.6016 32.1562 84.6016C25.8398 84.6016 22.1074 81.1563 19.4277 74.7441C18.375 72.1602 17.2266 70.6289 15.0254 70.3418C13.877 70.2461 13.4941 69.7676 13.4941 69.1934C13.4941 68.0449 15.4082 67.1836 17.3223 67.1836C20.0977 67.1836 22.4902 68.9063 24.9785 72.4473C26.8926 75.2227 28.9023 76.4668 31.2949 76.4668C33.6875 76.4668 35.2187 75.6055 37.4199 73.4043C39.0469 71.7773 40.291 70.3418 41.4395 69.3848Z\"/></svg></button></footer></div>",
-      "css": ".ds-ambient{position:relative;aspect-ratio:16/9;background:linear-gradient(to bottom,#081E1CAD,#091C1B70,#071918D1,#102825),#142726}.ds-footer{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:20px;padding:4px 40px 12px;color:#F3EFE7;font-family:sans-serif}.ds-footer-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}.ds-footer-description{margin:0;font:400 12px/16px sans-serif;letter-spacing:.2px}.ds-footer-credits{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 0;color:#D0DFD8;font:400 11px/16px sans-serif;letter-spacing:.2px}.ds-footer-upstream{padding-right:20px}.ds-footer-github{display:inline-flex;align-items:center;justify-content:center;flex:none;width:56px;height:48px;box-sizing:border-box;padding:10px 16px;border:0;border-radius:32px;background:transparent;color:#F3EFE7;outline:2px solid transparent}.ds-footer-github:hover,.ds-footer-github:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1.02)}.ds-footer-github:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7;transform:scale(1)}",
+      "css": ".ds-ambient{position:relative;aspect-ratio:16/9;background:linear-gradient(to bottom,#081E1CAD,#091C1B70,#071918D1,#102825),#142726}.ds-footer{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:20px;padding:4px 40px 12px;color:#F3EFE7;font-family:sans-serif}.ds-footer-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}.ds-footer-description{margin:0;font:400 12px/16px sans-serif;letter-spacing:.2px}.ds-footer-credits{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 0;color:#D0DFD8;font:400 11px/16px sans-serif;letter-spacing:.2px}.ds-footer-upstream{padding-right:20px}.ds-footer-github{display:inline-flex;align-items:center;justify-content:center;flex:none;width:56px;height:48px;box-sizing:border-box;padding:0;border:0;border-radius:12px;background:transparent;color:#F3EFE7;outline:2px solid transparent}.ds-footer-github:hover,.ds-footer-github:focus-visible{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}.ds-footer-github:active{background:#DCEBDC;color:#19362E;outline-color:#F3EFE7}",
       "refersTo": "home-footer"
     },
     {
       "name": "Webpage selection cue",
       "kind": "custom",
       "description": "Native Canvas outline only: mint #DCEBDC 3dp over forest #19362E 5dp with 6dp corners. Selected geometry is clipped to the visible viewport and bounded scroller ancestors. The 16sp hint fades after three seconds; the ring stays. Chromium owns page navigation; held OK switches to the existing pointer."
+    },
+    {
+      "name": "Compact webpage Phone badge",
+      "kind": "custom",
+      "description": "Native webpage connection status retains its legacy #25282B surface and #C7D8AF accent rather than adopting Ambient. A 24dp phone vector sits in a 48dp-square, 12dp-corner target with no visible status text. The native Phone connected accessible name, polite live region and open-panel callback remain; the native owner excludes page keyboard focus, hides the badge on Home/private tabs and disposes it on disconnect. This illustration does not implement native placement, input ownership or lifecycle.",
+      "html": "<button class=\"ds-page-phone\" tabindex=\"-1\" aria-label=\"Phone connected\" aria-live=\"polite\"><svg aria-hidden=\"true\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8,2H16Q18,2 18,4V20Q18,22 16,22H8Q6,22 6,20V4Q6,2 8,2 M10,18H14\"/></svg></button>",
+      "css": ".ds-page-phone{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;box-sizing:border-box;border:0;border-radius:12px;padding:0;background:#25282B;color:#C7D8AF}"
     }
   ],
   "narrative": {
@@ -288,20 +295,20 @@
       },
       {
         "name": "The Focus First Rule",
-        "body": "Focus changes the target's fill, content color,\ntwo-dp outline and native scale (1.02). The white search surface remains white\nand takes a pale mint outline; other targets take a mint fill and warm white\noutline. Selected Home remains a separate persistent state.",
+        "body": "Focus changes fill, content color and the two-dp outline while preserving target size. Fill, focused, pressed, disabled and focused-disabled shapes use the same radius; focused and focused-disabled borders match it explicitly. Focus, press and focused-disabled scales are 1.0. The white search stays white with a mint outline; enabled filled targets take mint fill and warm-white outline. Selected Home remains a separate persistent state.",
         "section": "elevation"
       }
     ],
     "dos": [
       "**Do** use the scoped Ambient Material color roles for Home, the root drawer and Phone.",
       "**Do** preserve native TV type roles, sp scaling and adaptive scrollable rows.",
-      "**Do** keep focus visible and distinguish it from persistent selected Home navigation.",
+      "**Do** keep focus visible, match its outline to the button fill, preserve target size, and distinguish it from persistent selected Home navigation.",
       "**Do** use native vector icons and full accessible control names.",
       "**Do** retain the photograph's permanent credit and fixed contrast scrims."
     ],
     "donts": [
       "**Don't** apply the TV Ambient palette to the separate phone companion or unrelated native panels.",
-      "**Don't** lower text scale or impose fixed drawer row heights to fit labels.",
+      "**Don't** lower text scale to fit labels; use font-scaled minimum widths/heights and allow intrinsic growth and scrolling.",
       "**Don't** replace live native status or saved/recent models with display guesses or sample content.",
       "**Don't** let the scenic background wash out labels or remove the focused target's outline.",
       "**Don't** convert the search launcher into a provider-branded or voice-search field that the browser does not implement."

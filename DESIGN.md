@@ -100,6 +100,7 @@ typography:
 rounded:
   site-initial: "8dp"
   action: "14dp"
+  compact: "12dp"
   panel: "24dp"
   pill: "32dp"
 spacing:
@@ -144,14 +145,21 @@ components:
     backgroundColor: "transparent"
     textColor: "{colors.warm-white}"
     typography: "{typography.label-navigation}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.compact}"
     padding: "10dp 16dp"
   navigation-selected:
     backgroundColor: "{colors.forest-surface}"
     textColor: "{colors.warm-white}"
     typography: "{typography.label-navigation}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.compact}"
     padding: "10dp 16dp"
+  navigation-phone:
+    backgroundColor: "transparent"
+    textColor: "{colors.warm-white}"
+    rounded: "{rounded.compact}"
+    padding: "0dp"
+    width: "48dp"
+    height: "48dp"
   home-footer:
     textColor: "{colors.warm-white}"
     typography: "{typography.body-footer}"
@@ -159,8 +167,8 @@ components:
   github-action:
     backgroundColor: "transparent"
     textColor: "{colors.warm-white}"
-    rounded: "{rounded.pill}"
-    padding: "10dp 16dp"
+    rounded: "{rounded.compact}"
+    padding: "0dp"
     width: "56dp"
     height: "48dp"
   card-favorite:
@@ -226,7 +234,18 @@ theme colors.
 The compact Home footer and navigation are recorded from native source
 `0b103706dae9b831eb8c5f4223937502a9379c39`.
 [Local documentation evidence](.impeccable/review/footer-redesign/documentation.md)
-records native captures of both components at baseline and enlarged text.
+records captures of that prior implementation. The user's later
+[physical-TV photo](.impeccable/review/controls-sizing/user-tv-before.jpg) supersedes
+its navigation/menu approval. The controls refinement below is extracted from
+`3b2ccb47f4d8283e92f57f5a59233e1ea2520488` (`b47fca975` implementation,
+`1a89c6b17` test-fixture correction, `3b2ccb47f` menu content centering).
+[Refinement documentation](.impeccable/review/controls-sizing/documentation.md)
+records the final x64 build/analysis pass, all 14 native checks at this source,
+and eight emulator confirmation captures. The [independent finish review](.impeccable/review/controls-sizing/finish-review.md)
+reports SHIP for source, documentation and native emulator acceptance. The
+optimized ARM build and artifact checks also pass. [Delivery evidence](docs/tv-controls-sizing-evidence.md)
+tracks the interrupted physical-TV installation separately; physical-TV and
+real-phone acceptance remain unverified.
 
 ## Colors
 
@@ -277,11 +296,14 @@ safe-space padding is asymmetric (40dp sides, 16dp top and bottom). The
 foreground stacks with the Home gap token. The search launcher fills available
 width up to its cap (680dp); it is left aligned beneath the heading.
 
-The header has a brand, four navigation actions, icon-only Settings and browser
-controls, and a local clock. Navigation uses a FlowRow in the remaining header
-width, with content-sized pills, a 48dp minimum target height and 8dp gaps in
-both directions. Labels and live Phone status determine width; actions wrap
-naturally rather than filling weighted columns. Home cards use 120dp minimum columns times font
+The header has a brand, Home / Tabs / Favorites text tabs, an icon-only Phone
+shortcut, icon-only Settings and browser controls, and a local clock. Navigation
+uses a FlowRow in the remaining header width with 8dp gaps in both directions.
+The three text tabs share a 96dp minimum width multiplied by
+`max(1, systemFontScale)` and a 48dp minimum height. Phone, Settings and browser
+controls use 48dp-square targets. Actions wrap naturally; live Phone status is
+announced through its accessible name without widening the icon shortcut. Home
+cards use 120dp minimum columns times font
 scale and 12dp gaps, bounded to six Favorites and four Continue browsing items.
 The bottom footer stays outside the scrolling foreground, reserving its actual
 height so scaled text cannot overlap the cards. Its insets follow `home-footer`,
@@ -304,10 +326,12 @@ Browser groups.
 
 Rows calculate columns from available width, gap and a minimum width multiplied
 by `max(1, systemFontScale)`, then clamp to one through the configured maximum.
-Drawer tiles use a 140dp minimum and at most three columns. At the verified
-1080p emulator density, the drawer changes from three columns at 1.0 text scale
-to two at 1.3. Each drawer row takes its tallest intrinsic label's height and
-fills its sibling tiles to match; Home and Phone rows keep their natural heights.
+Drawer tiles use a 180dp minimum and at most two columns, with a 10dp gap.
+Each tile has a 72dp minimum height multiplied by `max(1, systemFontScale)`;
+rows retain intrinsic height measurement and fill sibling tiles to match.
+The icon/caption row fills the tile's content area and centers vertically, so
+one- and two-line labels share the same alignment. Narrower widths or larger
+text can reflow to one column. Home and Phone rows keep their natural heights.
 Focused items scroll into view with a native margin (24dp above and below).
 
 Phone uses the existing right-side native panel geometry, padding and height
@@ -324,16 +348,21 @@ no glow; there are no custom drop shadows. The browser drawer dims the page
 the exact four-stop gradient recorded in the sidecar; it does not estimate
 contrast from the photograph at runtime.
 
-**The Focus First Rule.** Focus changes the target's fill, content color,
-two-dp outline and native scale (1.02). The white search surface remains white
-and takes a pale mint outline; other targets take a mint fill and warm white
-outline. Selected Home remains a separate persistent state.
+**The Focus First Rule.** Focus changes the target's fill, content color and
+two-dp outline while preserving its size. Fill, focused, pressed, disabled and
+focused-disabled shapes use the same radius; focus and focused-disabled borders
+explicitly match that shape. Focus, press and focused-disabled scales are 1.0.
+The white search surface remains white and takes a pale mint outline; enabled
+filled targets take a mint fill and warm white outline. Selected Home remains
+a separate persistent state.
 
 ## Shapes
 
-Search and compact navigation share the pill radius. Ambient action tiles and
-Home cards share the action radius; drawer and Phone containers share the panel
-radius. Native control icons use vector resources displayed at 20dp and tinted
+Search retains the pill radius (32dp). Compact navigation and icon-only native
+controls use 12dp corners. Ambient action tiles and Home cards share the action
+radius (14dp); drawer and Phone containers share the panel radius (24dp). Each
+button's fill and focus outline use the same shape in every state. Native
+control icons use vector resources displayed at 20dp and tinted
 from the control's content color. Most use a 24-unit canvas; the official GitHub
 Invertocat retains its source 98×96 canvas and original path/aspect ratio.
 Site initials are content
@@ -345,12 +374,15 @@ badges (28dp square, site-initial radius), with the current content color at
 ### Buttons
 
 Native TV Material buttons own remote activation and enabled, focus and pressed
-states. Their inherited content padding is 10dp vertically and 16dp horizontally.
-Text-only content adds its observed inner vertical padding (8dp for ordinary
-labels, 4dp for search and zero for compact labels). The component tokens record the outer
-padding. Action labels use up to two lines; drawer labels allow three, then
-ellipsis. Disabled colors and pressed behavior stay with the pinned TV library.
-Icons are nonverbal decoration within named controls, spaced from text by 10dp.
+states. Text buttons use explicit 10dp vertical and 16dp horizontal content
+padding; only search adds 4dp inner vertical label padding. Ordinary text targets
+have at least 48dp height. Icon-only controls use zero content padding and
+48dp-square targets, subject to an explicit caller size such as the footer's
+56×48dp GitHub control. Compact labels stay on one line; other action labels
+allow two lines, then ellipsis. Disabled buttons use the current surface at
+65% opacity and warm-white content at 50%, with the same matching focus outline
+when focused. Icons are nonverbal decoration within named controls, spaced from
+text by 10dp. Focus and press do not enlarge controls.
 
 ### Inputs / Fields
 
@@ -362,13 +394,15 @@ Down reaches the first favorite, otherwise the first recent tab.
 
 ### Navigation
 
-Home / Tabs / Favorites / Phone use quiet pills. Home carries the selected
-surface and selected semantics even while another control has focus. Settings
-and Browser controls are vector-only buttons with accessible names. Phone
-retains its control identity while its label observes native connection status;
-the label can announce changes and wrap with larger system text. The navigation
-pills size to their contents and retain at least 48dp height. Compact labels use
-the inherited outer button padding without additional inner vertical padding.
+Home / Tabs / Favorites use quiet rounded rectangles with the same 14sp label
+role, 12dp corners, 96dp font-scaled minimum width and 48dp minimum height. Home
+carries the selected surface and selected semantics even while another control
+has focus. Phone is a 48dp icon-only shortcut: its 20dp vector gains a 6dp dot
+at the top-right when the native session is connected. The dot uses pale mint
+at rest and the focused content color on focus. Its full accessible name
+observes native connection status and politely announces changes. Settings and
+Browser controls are also named, vector-only 48dp buttons. Compact text adds
+no inner vertical padding and ellipsizes on one line.
 
 ### Home footer
 
@@ -379,7 +413,8 @@ foreground. Private Home keeps its session explanation beneath the heading and
 still shows both credits. The trailing `github-action` is icon-only, using the
 official 2026 Invertocat vector from GitHub's brand archive, with source
 provenance in the drawable. It retains the native GitHub accessible name,
-project URL callback, tinted content and normal mint focus state.
+project URL callback, tinted content and normal mint focus state. The 56×48dp
+target uses the shared compact 12dp shape and zero icon content padding.
 
 ### Cards / Containers
 
@@ -399,8 +434,12 @@ omits normal saved/recent previews.
 
 An opaque rounded panel holds a heading, up to two lines each of native page
 and security context, then a scrolling group stack. Group headings carry
-heading semantics. Rows align sibling tile heights using intrinsic text size;
-text scaling never forces a fixed-height tile. Native dialog Back dismisses the
+heading semantics. At most two 180dp font-scaled minimum-width columns keep
+labels readable. All actions use the 18sp body-action role, 20dp icons, 10dp
+icon/text gaps, two-line captions with ellipsis, and 16dp horizontal/10dp vertical
+padding. Rows share a 72dp font-scaled minimum height and retain intrinsic
+measurement for larger content. An inner row fills each button's content area
+and vertically centers its icon and caption. Native dialog Back dismisses the
 drawer, and action identity preserves focus while browser state updates.
 
 ### Webpage remote navigation
@@ -422,7 +461,12 @@ retry and cancellation states. It keeps the QR/manual pairing content, local
 HTTP disclosure and native Continue browsing/Disconnect actions visible in its
 scrolling body. Its source-owned labels and dismissal restore the invoking
 Home Phone control. Private Home disables Phone. The separate webpage connection
-badge retains its previous palette and is outside this Ambient scope.
+badge keeps its existing surface (`#25282B`) and accent (`#C7D8AF`), with a 24dp
+phone vector centered inside a 48dp-square target with 12dp corners. It shows
+no visible status text. Its native “Phone connected” accessible name, polite
+live region and Phone-panel callback remain; it never requests page keyboard
+focus. The native owner hides it on Home/private tabs and clears it on
+disconnect. Its existing top-right placement respects the page-loading indicator.
 
 ### Ambient backdrop
 
@@ -438,14 +482,14 @@ request, font request or rotation service.
 
 - **Do** use the scoped Ambient Material color roles for Home, the root drawer and Phone.
 - **Do** preserve native TV type roles, sp scaling and adaptive scrollable rows.
-- **Do** keep focus visible and distinguish it from persistent selected Home navigation.
+- **Do** keep focus visible, match its outline to the button fill, preserve target size, and distinguish it from persistent selected Home navigation.
 - **Do** use native vector icons and full accessible control names.
 - **Do** retain the photograph's permanent credit and fixed contrast scrims.
 
 ### Don't:
 
 - **Don't** apply the TV Ambient palette to the separate phone companion or unrelated native panels.
-- **Don't** lower text scale or impose fixed drawer row heights to fit labels.
+- **Don't** lower text scale to fit labels; use font-scaled minimum widths/heights and allow intrinsic growth and scrolling.
 - **Don't** replace live native status or saved/recent models with display guesses or sample content.
 - **Don't** let the scenic background wash out labels or remove the focused target's outline.
 - **Don't** convert the search launcher into a provider-branded or voice-search field that the browser does not implement.

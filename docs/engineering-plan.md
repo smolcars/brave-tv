@@ -7194,3 +7194,11 @@ Verify Home/menu, enabled/disabled focus, Bookmarks and connected Phone at 1.0/1
 font scale, narrow traversal/callbacks and badge focus ownership. Then build the
 optimized ARM APK, update the authorized physical TV with data retained, and
 capture the real controls before the independent finish review/documentation.
+
+Implementation is complete at `3b2ccb47f4d8283e92f57f5a59233e1ea2520488`.
+Both final builds and blocking analysis pass, all 14 native checks pass at
+normal/enlarged text, and independent source/docs/emulator visual review reports
+SHIP. Physical delivery is interrupted after the authorized keep-data uninstall:
+wireless ADB dropped during reinstall and its old port now refuses connections.
+Recover the current debugging endpoint, finish installation and verify retained
+data/hardware controls. See [delivery evidence](tv-controls-sizing-evidence.md).
