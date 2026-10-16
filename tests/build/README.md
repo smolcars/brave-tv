@@ -31,3 +31,25 @@ initialization has no side effects while phone initialization retains them,
 and rejects an upstream method rename. JVM verification covers the injected
 branch and existing frames. This fails before the TV guard. A complete Android
 build and private-close-to-home device check remain required.
+
+## Removed product payloads
+
+After the complete APK build succeeds, run:
+
+```sh
+nix develop --command python3 tests/build/check_product_payloads.py \
+  "$HOME/.cache/brave-tv/workspace/src" \
+  "$HOME/.cache/brave-tv/workspace/src/out/android_Static_arm" \
+  "$HOME/.cache/brave-tv/workspace/src/out/android_Static_arm/apks/BraveMonoarm.apk" \
+  /path/to/matching/baseline.apk
+```
+
+The check reads actual APK payloads, the generated PAK resource index, compiled
+feature flags and the Java archive passed to R8. Use inputs from the same
+completed build; stale build outputs are not valid evidence. It verifies locale
+coverage against the baseline and retains VPN, Leo and bundled Shields filters.
+It does not replace native dependency inspection or runtime tests.
+
+The Ads tooltip object check above applies only when `enable_brave_ads=true`.
+The product-reduced Android build excludes that implementation target; an old
+object left in the incremental output directory must not be treated as linked.
