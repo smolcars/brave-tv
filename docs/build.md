@@ -73,6 +73,13 @@ The Debug command completed native/Java compilation and APK packaging. Use `SISO
 
 ## Resume with host resource limits
 
+For product-removal rebuilds, use `SISO_LIMITS=local=2,step=2` with the same
+memory-bounded service. The broader rebuild on 16 October hit host memory
+pressure with `local=4`; reducing only `local` still allowed concurrent Java
+pools. The `step` limit bounds all concurrent steps. Keep the existing output
+directories when resuming. See [Siso resource limits](https://chromium.googlesource.com/build/+/refs/heads/main/siso/docs/environment_variables.md#siso_limits).
+
+
 Keep `--gn=android_static_analysis:on` in these commands. Chromium otherwise defaults to background analysis for development builds, and can report a successful APK while checks are still queued. A transient service then terminates that background server at exit. The explicit `on` mode runs analysis as blocking build steps and propagates failures; no checks are disabled.
 
 On this systemd-based Linux builder, run the long compile in a transient user service. This keeps it independent of the terminal connection and limits its memory consumption. A reboot still stops the service. Do not run two builds against the same output directory.
