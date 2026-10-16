@@ -7178,3 +7178,19 @@ controls before draw, then gate soft-keyboard display during element navigation
 until OK. Preserve native security/persistent owners, actual keyboard editing,
 pointer clicks, phone typing, lifecycle cancellation and private protections.
 Build/test x64 before the optimized ARM update and authorized hardware check.
+
+### Consistent TV controls and compact Phone status
+
+16 October: the user's physical-TV photo exposes a capsule focus border over
+rounded rectangular buttons, narrow three-column menu labels (including a split
+“Bookmarks”), and an oversized connected-phone badge. Fix the shared Compose TV
+button: use the same shape in every focus/enabled state, stable bounds, consistent
+navigation type/padding and 48dp targets. Use two readable menu columns with
+uniform scalable row heights rather than squeezing labels beside their icons.
+Keep the Ambient palette, native actions, system font scaling and remote behavior.
+Replace Home's expanding Phone label and the webpage connection badge with small
+phone icons, preserving status announcements and the existing connection actions.
+Verify Home/menu, enabled/disabled focus, Bookmarks and connected Phone at 1.0/1.3
+font scale, narrow traversal/callbacks and badge focus ownership. Then build the
+optimized ARM APK, update the authorized physical TV with data retained, and
+capture the real controls before the independent finish review/documentation.
