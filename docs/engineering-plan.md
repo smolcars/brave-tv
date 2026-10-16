@@ -7221,3 +7221,14 @@ exact source/artifacts and install the verified ARM APK on the authorized TV,
 using the established keep-data fallback only if storage requires it. Capture
 native Home and launcher identity, verify installed hash/data identity and
 restore normal Home. Finish with independent visual review and design docs.
+
+Rhenium implementation is complete at
+`987fb6a0c30b4ae8a287c9f58784887fb75462dc`. Both final builds and blocking
+analysis pass; eight isolated native checks pass at font scales 1.0/1.3.
+Independent review reports SHIP for all nine native emulator captures, and the
+approved identity is persisted in DESIGN.md and its sidecar. The verified ARM
+artifact is archived. Physical delivery is awaiting the TV's current Wireless
+debugging endpoint after the storage-required keep-data uninstall succeeded
+but its reinstall lost the debugging connection. Complete installation and
+post-update identity/hardware acceptance before claiming TV delivery. See
+[Rhenium branding evidence](rhenium-branding-evidence.md).

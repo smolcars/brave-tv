@@ -16,5 +16,6 @@ The launcher foreground is inset one sixth of each bound (18dp at Android's
 nominal 108dp adaptive layer), so its proportions survive different icon sizes.
 Its visible mark fits inside the 66dp center safe circle. The legacy icon and
 160×90dp (320×180 viewport) TV banner retain their existing resource names.
-Android TV does not use themed icons; the standalone monochrome export is
+A matching single-color native layer completes the adaptive icon metadata;
+Android TV does not use themed icons. The standalone monochrome SVG is
 available for other brand uses.

@@ -1,8 +1,10 @@
 ---
-name: Brave TV Ambient
+name: Rhenium Ambient
 description: Scenic native Android TV surfaces with forest tones and unmistakable remote focus.
 colors:
   pale-mint: "#DCEBDC"
+  brand-teal: "#3D7B6B"
+  brand-sage: "#80B5A0"
   forest-ink: "#19362E"
   forest-background: "#142726"
   forest-surface: "#28413E"
@@ -117,6 +119,12 @@ spacing:
   home-side: "40dp"
   home-bottom: "16dp"
 components:
+  brand-mark:
+    width: "32dp"
+    height: "32dp"
+  brand-wordmark:
+    textColor: "{colors.warm-white}"
+    typography: "{typography.title-brand}"
   button-action:
     backgroundColor: "{colors.forest-surface}"
     textColor: "{colors.warm-white}"
@@ -195,7 +203,7 @@ components:
     padding: "{spacing.panel-inset}"
 ---
 
-# Design System: Brave TV Ambient
+# Design System: Rhenium Ambient
 
 ## Overview
 
@@ -212,6 +220,11 @@ and dialog ownership. The separate phone companion is documented in
 [brave/DESIGN.md](brave/DESIGN.md); unrelated TV library, settings and security
 panels retain their existing presentation.
 
+Rhenium's identity is Mint Orbit: three flat mint, teal and sage circular
+segments around a forest core. The user-approved vector extends Ambient
+through native Home branding and launcher artwork. The scenic composition,
+type hierarchy, controls and focus remain the incumbent system.
+
 **Key Characteristics:**
 
 - One bundled landscape with permanent photographer credit and fixed contrast scrims.
@@ -219,6 +232,7 @@ panels retain their existing presentation.
 - System TV sans typography, scalable text and native D-pad buttons.
 - Quiet selected navigation, rounded action tiles and a single-level browser drawer.
 - Native state determines labels, enabled actions and return focus.
+- Exact Mint Orbit vector geometry beside a scalable native Rhenium wordmark.
 
 Extracted from [TvPresentation.kt](brave/android/java/org/chromium/chrome/browser/tv/presentation/TvPresentation.kt),
 the native Home, browser controls, Phone and panel owners, and the pinned
@@ -248,6 +262,16 @@ records the completed data-preserving TV installation and native hardware
 controls/status captures. Actual-phone/Safari and human physical-button
 acceptance remain separate and unverified.
 
+The Rhenium identity is recorded from native source
+`987fb6a0c30b4ae8a287c9f58784887fb75462dc`.
+[Branding documentation](.impeccable/review/rhenium-branding/documentation.md)
+records the approved SVG, native resource mapping and nine emulator captures;
+the [independent finish review](.impeccable/review/rhenium-branding/finish-review.md)
+reports SHIP for the identity at Home text scales 1.0 and 1.3. This evidence
+covers the x64 emulator branding stage; it does not certify the subsequent ARM
+artifact or physical-TV installation. Earlier controls delivery evidence above
+describes its own source and acceptance stage.
+
 ## Colors
 
 The palette borrows the landscape's forest tones and reserves its lightest
@@ -257,6 +281,14 @@ accent for focus, against opaque surfaces that bound contrast.
 
 - **Pale Mint** (`pale-mint`): focused filled controls and the search focus border; the scoped Material primary role.
 - **Forest Ink** (`forest-ink`): content on a focused control; the scoped on-primary role.
+
+### Secondary
+
+- **Orbit Teal** (`brand-teal`): the second full-color Mint Orbit segment.
+- **Orbit Sage** (`brand-sage`): the third full-color Mint Orbit segment.
+
+These are artwork colors, not additional interactive Material color roles.
+The mark's first segment reuses Pale Mint and its core reuses Forest Ink.
 
 ### Neutral
 
@@ -269,6 +301,10 @@ accent for focus, against opaque surfaces that bound contrast.
 drawer and Phone. Extend these scoped roles without changing unrelated panels
 or the phone companion's palette.
 
+**The Mint Orbit Rule.** Preserve the approved vector paths, rotation, negative
+channels and flat fills. Keep the full-color mark untinted; use the monochrome
+variant only where a single-color asset is required.
+
 ## Typography
 
 **Display Font:** Android system sans through `FontFamily.SansSerif`.
@@ -276,13 +312,14 @@ or the phone companion's palette.
 
 The build uses the pinned TV Material type roles, with a medium Home display
 and bold brand override. There is no bundled or downloaded brand font.
+The TV banner's Noto Sans Bold wordmark is vector outlines, not a runtime font.
 Frontmatter preserves native sp measurements rather than browser units.
 
 ### Hierarchy
 
 - **Display:** `display-home`, TV Material display-small with medium weight, for the Home heading.
 - **Headline:** `headline-drawer`, TV Material headline-small, for Browser controls.
-- **Title:** `title-search` for the search launcher; `title-brand` for Brave TV; `title-section` for Home section headings, card titles and the local clock; `title-group` for drawer groups.
+- **Title:** `title-search` for the search launcher; `title-brand` for Rhenium; `title-section` for Home section headings, card titles and the local clock; `title-group` for drawer groups.
 - **Body:** `body-action` is TV Material body-large with the observed action-label size override. `body-context` describes empty sections and drawer context. `body-card-detail` is the secondary host line on recent cards. `body-footer` uses regular TV Material body-small for the warm-white product description.
 - **Label:** `label-navigation` styles compact top navigation. `label-credit` and `label-photo` use regular body-small with an 11sp size override for the quieter mist upstream and photograph credits.
 - **Phone:** `title-phone`, `body-phone` and `label-back` record the existing panel's explicit size overrides. Its QR/manual instructions also use the body Phone size in a native TextView.
@@ -298,8 +335,10 @@ foreground stacks with the Home gap token. The search launcher fills available
 width up to its cap (680dp); it is left aligned beneath the heading.
 
 The header has a brand, Home / Tabs / Favorites text tabs, an icon-only Phone
-shortcut, icon-only Settings and browser controls, and a local clock. Navigation
-uses a FlowRow in the remaining header width with 8dp gaps in both directions.
+shortcut, icon-only Settings and browser controls, and a local clock. The brand
+combines the untinted `brand-mark`, a shared `header-action` gap and native
+`brand-wordmark`; the mark stays fixed while the text follows system font scale.
+Navigation uses a FlowRow in the remaining header width with 8dp gaps in both directions.
 The three text tabs share a 96dp minimum width multiplied by
 `max(1, systemFontScale)` and a 48dp minimum height. Phone, Settings and browser
 controls use 48dp-square targets. Actions wrap naturally; live Phone status is
@@ -371,6 +410,33 @@ badges (28dp square, site-initial radius), with the current content color at
 12% opacity behind a native title-medium letter.
 
 ## Components
+
+### Rhenium identity
+
+The approved [Mint Orbit SVG](docs/branding/rhenium-logo-options/rhenium-a.svg)
+governs the brand geometry. Its editable shipping counterpart is
+[assets/icon.svg](assets/icon.svg). The Home mark uses
+[brave_tv_logo.xml](brave/android/java/brave-res/drawable/brave_tv_logo.xml)
+as an untinted native image beside the Rhenium `title-brand` text; its size is
+`brand-mark` and its gap is the shared `header-action` spacing.
+
+The [adaptive launcher](brave/android/java/res/drawable-television-v26/ic_launcher.xml)
+uses the forest background and proportional foreground and monochrome insets
+(16.6667% on each bound). The
+[legacy icon](brave/android/java/brave-res/drawable/brave_tv_icon.xml) and
+[TV banner](brave/android/java/brave-res/drawable/brave_tv_banner.xml) preserve
+the same full-color mark. The banner is 160×90dp with a 320×180 viewport;
+its warm-white Rhenium lettering is outlined Noto Sans Bold. Editable
+[banner](assets/rhenium-tv-banner.svg),
+[monochrome](assets/rhenium-monochrome.svg) and
+[artwork provenance](assets/rhenium-artwork.md) stay with the brand assets.
+The native [monochrome layer](brave/android/java/brave-res/drawable/brave_tv_logo_monochrome.xml)
+completes adaptive metadata; TV does not use themed icons.
+
+Home and Android launcher/application labels read Rhenium; the About title is
+About Rhenium. Brave/Chromium and photographer credits, native actions,
+selected search provider, package/component/signing identity and profile data
+retain their existing ownership.
 
 ### Buttons
 
@@ -486,6 +552,7 @@ request, font request or rotation service.
 - **Do** keep focus visible, match its outline to the button fill, preserve target size, and distinguish it from persistent selected Home navigation.
 - **Do** use native vector icons and full accessible control names.
 - **Do** retain the photograph's permanent credit and fixed contrast scrims.
+- **Do** use the approved Mint Orbit vector and preserve Brave/Chromium and photographer attribution with the Rhenium identity.
 
 ### Don't:
 
@@ -494,3 +561,4 @@ request, font request or rotation service.
 - **Don't** replace live native status or saved/recent models with display guesses or sample content.
 - **Don't** let the scenic background wash out labels or remove the focused target's outline.
 - **Don't** convert the search launcher into a provider-branded or voice-search field that the browser does not implement.
+- **Don't** tint the full-color Mint Orbit mark or replace the scalable Home wordmark with the banner's outlined lettering.
