@@ -12,7 +12,8 @@ Source: https://github.com/notofonts/noto-fonts . Only the rendered wordmark
 outlines are included; no font binary is bundled. The native Home wordmark
 continues to use Android's scalable system sans font.
 
-The launcher foreground is inset 18dp within Android's 108dp adaptive layer.
+The launcher foreground is inset one sixth of each bound (18dp at Android's
+nominal 108dp adaptive layer), so its proportions survive different icon sizes.
 Its visible mark fits inside the 66dp center safe circle. The legacy icon and
 160×90dp (320×180 viewport) TV banner retain their existing resource names.
 Android TV does not use themed icons; the standalone monochrome export is
