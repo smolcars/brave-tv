@@ -48,4 +48,7 @@ pointer movement remains available without opening browser controls.
 Implemented in `d8a0ebb90`; the final native suite passes all twelve checks.
 The optimized non-debuggable ARM APK and emulator x64 APK are preserved with
 checksums and exact build provenance. See [acceptance evidence](tv-page-navigation-evidence.md).
-Physical-TV timing and broader website compatibility remain separate acceptance.
+The authorized Chromecast installation and bounded navigation checks passed on
+16 October; see the [hardware record](tv-page-navigation-hardware.md). Human
+remote timing, streaming playback and broader website compatibility remain
+separate acceptance.

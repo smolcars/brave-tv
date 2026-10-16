@@ -79,6 +79,9 @@ data is retained. Test-only storage access is restored after instrumentation.
 
 The selection engine follows a page's native focusability and keyboard handling.
 Custom widgets, canvas controls, closed shadow content and unsupported frames may
-need the pointer. This is development-signed software. Physical-TV installation,
-remote timing, streaming playback and broad website compatibility are separate
-acceptance work; the emulator checks do not establish those results.
+need the pointer. This is development-signed software. Physical-TV installation
+and a bounded navigation check subsequently passed on 16 October; see the
+[Chromecast hardware record](tv-page-navigation-hardware.md). That installation
+required the authorized global uninstall and fresh install, clearing the old
+browser's data. Human remote timing, streaming playback and broad website
+compatibility remain separate acceptance work.

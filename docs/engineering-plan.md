@@ -7138,3 +7138,14 @@ native checks, 20 project tests, strict mypy, Nix checks and blocking x64/ARM bu
 pass. The emulator update retains all five bookmarks and normal text scale.
 See [page navigation evidence](tv-page-navigation-evidence.md) for APKs, signatures,
 captures and physical-TV/website-compatibility acceptance limits.
+
+16 October hardware follow-up: the user authorized taking control of the TV
+and removing the old browser across Android profiles if necessary. The in-place
+update failed for storage; global uninstall and fresh installation succeeded.
+The installed ARM APK matches the verified `d8a0ebb90` hash. Physical native Home,
+default element navigation, single activation, actual held-OK pointer switching,
+document scrolling/end and menu return pass with injected nonalphabetic D-pad
+input. The old browser's local data was cleared; other apps/Android profiles
+remain intact. All owned test tabs/services/forwarding are closed, leaving Home
+and stock Gboard. See [hardware evidence](tv-page-navigation-hardware.md) for the
+exact artifact, captures and remaining human-remote/playback/compatibility limits.
