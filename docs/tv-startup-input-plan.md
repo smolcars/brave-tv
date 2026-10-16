@@ -1,0 +1,54 @@
+# Startup chrome and explicit text editing
+
+16 October 2026. The user requests implementation of two corrections: the
+mobile URL bar must not flash during ordinary TV startup, and directional
+navigation must highlight webpage text fields without opening the keyboard.
+OK begins editing; Back dismisses the keyboard and arrows resume navigation.
+
+## Implementation sequence
+
+1. Record native regressions before production edits. Exercise Chromium's
+   transient toolbar-show request on native Home, and genuine SOURCE_DPAD
+   navigation into a text field while observing native IME show requests.
+   Add first-draw startup observation rather than accepting only a settled
+   full-height Home. Retain the existing persistent-show/security checks.
+2. Remove the TV's mobile transient toolbar hold before layout initialization.
+   Initialize the TV controls in their hidden position before the first draw.
+   Keep explicit persistent native owners, errors, security warnings and
+   non-TV behavior. Verify launch, restored Home, resume and tab changes.
+3. Reuse Chromium's per-WebContents keyboard suppression during element
+   navigation. An editable selection consumes short OK as explicit native
+   keyboard activation, without an Enter/form submission. Directional movement
+   suppresses automatic keyboard requests again after dismissal. Release the
+   borrowed suppression on pointer mode, native owner transfer, tab/document
+   change, pause and destruction; preserve native InputConnection/IME typing,
+   physical keyboards, phone typing, private guards and held-OK cancellation.
+4. Build from retained x64 and optimized non-debuggable ARM caches with blocking
+   Android analysis. Run the focused native regressions plus existing input,
+   pointer, navigation, private/security and full-height Home checks. Install
+   the verified ARM APK on the authorized Chromecast using an in-place update
+   first; the existing explicit storage fallback authorization remains limited
+   to our browser. Preserve other devices, Android profiles and build caches.
+5. Record exact revisions, APK hashes, passing/failing attempts and captures.
+   Restore task-owned forwarding/settings and return the TV to normal Home.
+
+## Initial evidence and hypotheses
+
+The baseline ARM build remains installed on Chromecast. The baseline x64
+emulator reproduces a native keyboard-show request after one injected Down on
+an owned fixture: `mInputShown=true`, without OK. Gboard's actual window may
+remain hidden with the emulator's hardware-keyboard configuration, so native
+IME show requests and visible keyboard acceptance are recorded separately.
+Initial fixtures also skipped intermediate targets; a native one-event test
+must distinguish key repetition from focus/scroll/IME transitions.
+
+Ranked predictions: removing only Chromium's transient visibility hold should
+eliminate the normal startup delay while persistent showing still works;
+per-contents suppression should stop field-focus keyboard requests while
+explicit OK and pointer clicks still show the native editor; a native single
+D-pad pair should distinguish repeat delivery from the focus policy.
+
+Probe files: `~/.cache/brave-tv/probes/startup-input-20261016/`.
+Existing unrelated phone-work artifacts and shared fixture services are
+outside this slice. A build or a settled screenshot alone does not accept
+first-frame startup or keyboard behavior.

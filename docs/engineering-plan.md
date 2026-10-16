@@ -7149,3 +7149,14 @@ input. The old browser's local data was cleared; other apps/Android profiles
 remain intact. All owned test tabs/services/forwarding are closed, leaving Home
 and stock Gboard. See [hardware evidence](tv-page-navigation-hardware.md) for the
 exact artifact, captures and remaining human-remote/playback/compatibility limits.
+
+### Startup toolbar and explicit webpage editing
+
+16 October: the user requests fixing both the transient startup URL bar and
+automatic keyboard entry when arrows land on a field. Follow the
+[startup/input plan](tv-startup-input-plan.md): establish native failing
+regressions, remove only the TV transient toolbar hold and initialize hidden
+controls before draw, then gate soft-keyboard display during element navigation
+until OK. Preserve native security/persistent owners, actual keyboard editing,
+pointer clicks, phone typing, lifecycle cancellation and private protections.
+Build/test x64 before the optimized ARM update and authorized hardware check.
