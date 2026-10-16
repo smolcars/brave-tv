@@ -1,0 +1,12 @@
+{
+  "source": "987fb6a0c30b4ae8a287c9f58784887fb75462dc",
+  "endpoint": "192.168.4.50:40337",
+  "home_brand": "pass",
+  "four_favorites": "pass",
+  "native_launcher_icon_and_label": "pass",
+  "launcher_ok_opens_home": "pass",
+  "font_scale": "null",
+  "ime": "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME",
+  "automation_session": "closed",
+  "normal_home": "restored"
+}

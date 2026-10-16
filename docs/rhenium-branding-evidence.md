@@ -62,23 +62,39 @@ updates DESIGN.md and its sidecar with the exact artwork tokens, native sizing
 and provenance, preserving unrelated Ambient design and pre-existing drift.
 The review does not certify downstream physical installation.
 
-## Physical-TV installation in progress
+## Physical-TV delivery and acceptance
 
-The authorized Chromecast (Android 14, ARM32) was reachable as
+The authorized Chromecast (Android 14, ARM32) was initially reachable as
 `192.168.4.50:39061`. Baseline: app ID `10141`, user-0 data inode `81460`,
 installed under profiles 0/10/11/12, default/unset font scale and stock Gboard.
 
 The in-place update failed with `INSTALL_FAILED_INSUFFICIENT_STORAGE`.
 `cmd package uninstall -k --user all com.brave.browser_default` returned Success,
 keeping browser data. The subsequent streamed reinstall stalled in wireless ADB.
-A reconnect of only this TV's transport ended the incomplete client; the shared
-ADB server and emulator were left intact. The TV reappeared on multicast
-Google Cast/Android TV discovery at the same IP, while its debugging port stopped
-accepting connections. The current main Wireless debugging endpoint has been
-requested from the user. No successful installation is claimed yet.
+Only this TV's transport was reconnected; the shared ADB server and emulator
+were left intact. After the user enabled wireless debugging, multicast discovery
+found its new endpoint `192.168.4.50:40337`.
 
-After debugging returns: inspect the interrupted installer state, install the
-archived ARM artifact, compare its on-device hash and original app/data identity,
-verify all profile install states, capture native Home and launcher identity,
-and restore normal Home. No browser data, unrelated app or machine cache was
-cleared. Physical acceptance remains pending these steps.
+The incomplete session `318083806` was identified by the shell installer UID,
+creation time and exact 368584362-byte artifact size. It was uncommitted, inactive
+and had no open FDs/bridges; `pm install-abandon` returned Success. The final
+streamed install returned **Success** in 47.08s. The installed APK's on-device
+SHA-256 matches the archived ARM artifact above. App ID `10141`, user-0 data inode
+`81460` and installed state under all four profiles match the original records.
+No browser data, unrelated app or machine cache was cleared.
+
+| Physical check | Result/evidence |
+| --- | --- |
+| Native Home identity and saved favorites | [tv-home.png](../.impeccable/review/rhenium-branding/tv-home.png): Mint Orbit/Rhenium, YouTube, Netflix, Prime Video and Twitch |
+| Real Google TV icon/name | [tv-launcher-focused.png](../.impeccable/review/rhenium-branding/tv-launcher-focused.png): selected adaptive icon and Rhenium label; the TV uses a circular app row while the emulator uses the TV banner |
+| Launcher activation | Native OK on the selected Rhenium entry opens the existing native Home with Search focused |
+| Cleanup | [tv-final-home.png](../.impeccable/review/rhenium-branding/tv-final-home.png): normal Home restored; automation session closed; original unset/default font scale and stock Gboard unchanged |
+
+[Install results](../.impeccable/review/rhenium-branding/tv-install-result.json)
+and [hardware results](../.impeccable/review/rhenium-branding/tv-hardware-results.json)
+record the exact artifact and scoped acceptance. The same records, recovery
+logs and final native captures are archived with the APKs. Physical checks used
+native D-pad/OK injection; branding introduces no input behavior change. A full
+website/playback compatibility sweep and human remote-button feel were outside
+this branding check. Enlarged-text coverage comes from the emulator; physical
+font settings were preserved.

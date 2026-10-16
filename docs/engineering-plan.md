@@ -7227,8 +7227,10 @@ Rhenium implementation is complete at
 analysis pass; eight isolated native checks pass at font scales 1.0/1.3.
 Independent review reports SHIP for all nine native emulator captures, and the
 approved identity is persisted in DESIGN.md and its sidecar. The verified ARM
-artifact is archived. Physical delivery is awaiting the TV's current Wireless
-debugging endpoint after the storage-required keep-data uninstall succeeded
-but its reinstall lost the debugging connection. Complete installation and
-post-update identity/hardware acceptance before claiming TV delivery. See
+artifact is archived.
+The verified ARM update is installed on the physical TV after the keep-data
+uninstall and wireless-debugging recovery. Its installed hash, original app/data
+identity and all four profile install states match. Native Home, real Google TV
+icon/name and launcher activation pass; normal Home, original text scale and
+stock Gboard are restored, with automation closed. See
 [Rhenium branding evidence](rhenium-branding-evidence.md).

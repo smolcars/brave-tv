@@ -1,0 +1,50 @@
+[
+  {
+    "scale": "1.0",
+    "case": "rheniumLauncherMarkScalesWithSystemIconBounds",
+    "passed": true,
+    "seconds": 6.93
+  },
+  {
+    "scale": "1.0",
+    "case": "narrowHomeShortcutsKeepFocusAndCallbacks",
+    "passed": true,
+    "seconds": 7.69
+  },
+  {
+    "scale": "1.0",
+    "case": "homeFooterOpensProjectInCurrentTab",
+    "passed": true,
+    "seconds": 7.7
+  },
+  {
+    "scale": "1.0",
+    "case": "privateHomeOmitsNormalSavedAndRecentSections",
+    "passed": true,
+    "seconds": 7.19
+  },
+  {
+    "scale": "1.3",
+    "case": "rheniumLauncherMarkScalesWithSystemIconBounds",
+    "passed": true,
+    "seconds": 5.32
+  },
+  {
+    "scale": "1.3",
+    "case": "narrowHomeShortcutsKeepFocusAndCallbacks",
+    "passed": true,
+    "seconds": 8.2
+  },
+  {
+    "scale": "1.3",
+    "case": "homeFooterOpensProjectInCurrentTab",
+    "passed": true,
+    "seconds": 7.05
+  },
+  {
+    "scale": "1.3",
+    "case": "privateHomeOmitsNormalSavedAndRecentSections",
+    "passed": true,
+    "seconds": 8.82
+  }
+]

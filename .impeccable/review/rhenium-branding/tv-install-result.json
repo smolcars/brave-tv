@@ -1,0 +1,15 @@
+{
+  "source": "987fb6a0c30b4ae8a287c9f58784887fb75462dc",
+  "artifact": "/home/nitesh/.cache/brave-tv/artifacts/rhenium-987fb6a0c-20261016/arm/BraveMonoarm.apk",
+  "installed_sha256": "8ea1caa60cf23782404260c9216f62f4e10f4d7324540c881b3641f705126a59",
+  "keep_data_fallback": true,
+  "seconds": 47.08,
+  "retained": {
+    "appId=\\d+": "appId=10141",
+    "User 0: ceDataInode=\\d+": "User 0: ceDataInode=81460",
+    "user0": true,
+    "user10": true,
+    "user11": true,
+    "user12": true
+  }
+}
