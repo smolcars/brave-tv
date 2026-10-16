@@ -8,6 +8,21 @@ The unmodified Brave x64 Debug APK built successfully at 03:17 EDT on 9 October 
 
 Source pins live in [`upstream.json`](../upstream.json); Nixpkgs and host-tool versions are locked by [`flake.lock`](../flake.lock). The engineering plan is in [`engineering-plan.md`](engineering-plan.md).
 
+## Optional products in Android builds
+
+Android fork defaults now set `enable_brave_news`, `enable_brave_wallet`,
+`enable_brave_rewards` and `enable_brave_ads` to `false`. VPN, Leo, Shields and
+browser locale packaging retain their existing configuration. Shared Android
+integrations for the removed products have also been deleted; overriding those
+flags alone does not restore the products. Leo remains packaged but retains
+the fork's pre-existing Android runtime disable; this change does not enable chat.
+
+The optimized ARM32 build with blocking Android analysis passes and produces a
+335,870,497-byte APK, 8.88% below its matching baseline. See the
+[product-removal evidence](tv-package-reduction-evidence.md) for source hashes,
+payload checks and the current emulator/TV verification status. Play AAB
+packaging and release signing are separate work.
+
 ## Enter the environment
 
 From the project directory:

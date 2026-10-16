@@ -2,8 +2,8 @@
 
 16 October 2026. Planned work: compile out unused Brave products from the
 Android TV browser and measure the resulting package reduction. Google Play
-publication remains the eventual delivery target. Implementation is authorized
-and in progress; completion checks below require build and runtime evidence.
+publication remains the eventual delivery target. Implementation and scoped emulator verification are complete; physical TV
+smoke verification is in progress. Unchecked broader acceptance remains explicit.
 Recorded results and deviations are in the [evidence note](tv-package-reduction-evidence.md).
 
 ## Scope and delivery decisions
@@ -131,9 +131,9 @@ missing expected reduction before moving to the next product.
   Validate it against baseline/candidate artifacts and deliberately incomplete
   fixtures; it must fail on missing inputs or tool errors. Use build/packaging
   evidence for broader feature exclusion, not source-text assertions alone.
-- [ ] Run focused Java/native tests, blocking x64 and optimized ARM32 builds.
+- [x] Run focused Java/native tests, blocking x64 and optimized ARM32 builds.
   ARM64 and generated bundle APK validation belong to the Play handoff below.
-- [ ] Test an in-place update with seeded bookmarks, tabs, history, settings,
+- [x] Test an in-place update with seeded bookmarks, tabs, history, settings,
   cookies and a saved non-English UI preference. Preserve package identity and
   test signing during comparisons. Do not clear profiles to make an upgrade
   appear successful, and do not delete old optional-product data as part of
@@ -141,19 +141,25 @@ missing expected reduction before moving to the next product.
 - [ ] Run existing TV navigation/OK/hold/pointer, keyboard, phone-remote,
   private-tab, download, permission and fullscreen checks. Verify a controlled
   video fixture and representative websites against the baseline.
-- [ ] Check Shields network blocking, cosmetic hiding and scriptlet execution
+- [x] Check Shields network blocking, cosmetic hiding and scriptlet execution
   with controlled fixtures; test signed filter staging/activation and rejection
   of invalid updates. A blocked-request counter alone is insufficient.
-- [ ] Compare VPN and Leo entry points, initialization and available functional
+- [x] Compare VPN and Leo entry points, initialization and available functional
   flows against the baseline. Record account/subscription or service limitations
   separately; do not treat unexercised flows as passing.
-- [ ] Record a bounded cold-start and memory comparison to catch regressions.
+- [x] Record a bounded cold-start and memory comparison to catch regressions.
   Startup tuning and speedup claims remain outside this package-size work.
-- [ ] Save each source revision, effective feature flags, APK hashes,
+- [x] Save each source revision, effective feature flags, APK hashes,
   signing identity, size report and observed failures in a companion evidence
   note. Update build instructions with the tested product configuration.
   Keep implementation, emulator acceptance, physical
   TV acceptance and publication status separate.
+
+The broad navigation/site/permission acceptance item above remains unchecked:
+23 distinct native cases pass, but the compact-controls Back-focus case also
+fails on the exact baseline. Standalone Wallet artifact measurement was not
+performed; final savings are measured for the combined removal. VPN tunnel and
+Leo chat are not claimed passing; Leo retains its baseline Android runtime disable.
 
 ## Additional TV smoke test
 
