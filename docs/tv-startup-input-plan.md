@@ -173,7 +173,7 @@ fixture tabs restored, then were closed through the native browser controls.
 | Rich-text OK, Back and subsequent Down | Keyboard opens only for OK, closes on Back, next button selected |
 | Held OK to pointer, Up, held OK back, Up | Pointer movement retains DOM target; element movement then selects rich text |
 | Cold launch through real MAIN + LEANBACK launcher intent | Home returns with no URL-bar flash in recorded startup; native first-draw test also passes |
-| Final Home | Four favorites, compact tabs and footer present; search focused; no open test pages |
+| Final Home | Four favorites, compact tabs and footer present; normal Home restored; no open test pages |
 
 The deliberately rapid Back/Down probe (120 ms between keys) did not move the
 selection during Gboard dismissal. The next Down after the keyboard window
