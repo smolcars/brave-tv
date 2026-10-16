@@ -52,3 +52,23 @@ Probe files: `~/.cache/brave-tv/probes/startup-input-20261016/`.
 Existing unrelated phone-work artifacts and shared fixture services are
 outside this slice. A build or a settled screenshot alone does not accept
 first-frame startup or keyboard behavior.
+
+## Native baseline
+
+Test-only source `c2d62788d` supplies red-capable checks. On the unchanged
+production implementation, the transient-show check fails HIDDEN versus SHOWN,
+the field check reports `NeverWantedButInvoked` for native `showSoftInput`, and
+the first-draw check fails “Mobile toolbar was visible in a startup frame.”
+The first instrumentation attempt conflicted with the device controller's
+UiAutomation owner; closing only this task's matching agent-device session
+resolved it. The first startup test also used an upstream waiter requiring
+mobile `NewTabPage`; its TV-specific waiter correction establishes the actual
+first-draw failure. Original failed harness attempts are preserved.
+
+The scoped implementation uses the existing TV pre-inflation hook to disable
+the mobile three-second transient hold. A native controls-hiding token covers
+inflation until the selected tab publishes HIDDEN or SHOWN; the native manager
+applies that position before the token is released. Explicit persistent native
+showing remains unchanged. Keyboard suppression is borrowed only for the active
+document's element-navigation owner. Short OK on an editable selection uses
+the native keyboard delegate, without sending Enter or submitting the form.
