@@ -6,6 +6,29 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
+## Upstream maintenance update 16 October
+
+The user authorized completing and pushing the [upstream update](upstream-release-research.md),
+quick Android TV emulator checks, and removing the existing browser and all of
+its data from their physical TV before installing the verified replacement.
+Merge Brave `v1.97.59` (`c7357bfd2a76c2467ba1ae62593a81ae92c05205`) and synchronize
+its selected Chromium `155.0.8059.85` (`0e66b94549a8bd85f03fbdf189b752d6e7b63c32`).
+Preserve Rhenium branding, startup/input fixes, the News/Wallet/Rewards/Ads
+exclusions, retained VPN/Leo payloads and existing Leo runtime policy, Shields,
+filter updates, languages and security behavior. Record and preserve the current
+builder's source changes before upstream synchronization; retain all build caches
+and prior artifacts. Use two local workers and 16/20 GiB memory limits with
+blocking Android analysis. Build x64 APP+TEST and optimized non-debuggable ARM32,
+check actual product payloads, and run bounded native emulator checks before TV
+installation. Preserve the emulator profile; the requested physical-TV reset is
+intentional and must be verified separately from upgrade-data preservation.
+Confirm the physical device and `com.brave.browser_default` package, remove that
+app without retaining its data across Android profiles, install the verified
+same-signed candidate, and check fresh startup, Home/settings, browsing, Shields
+and media/fullscreen as available. Review the final changes and push the source
+fork before the parent pointer. Record observed failures and remaining coverage;
+the existing compact-controls Back-focus baseline failure remains separate.
+
 ## Planned package reduction 16 October
 
 Remove unused Brave products following the
