@@ -98,3 +98,110 @@ that state, retaining its hidden offset. Apply native positions after either
 published HIDDEN or SHOWN, while retaining authoritative composed constraints,
 active-tab/lifecycle guards and observer disposal. This preserves explicit
 native fallback visibility rather than accepting state alone as proof.
+
+## Verification progress
+
+The native persistent-show correction is `10c91b41c`. The first 12 checks of
+`diag-r6` passed, including first-draw startup, native showing, five editable
+types and explicit editing. The emulator then became offline because
+systemd-oomd killed its process; the last nine entries are interrupted checks,
+not product failures. Its AVD data and original logs are preserved.
+
+The editing-return check failed intermittently in earlier runs. Diagnostic
+`b52f2fc65` removes a page key listener that can change timing and records
+native input ownership, page/window focus, keyboard insets and caret position
+on failure. The failing case retained element mode, page/window focus and no
+native UI owner, but the first arrow did not move the selection. The test had
+edited and hidden the keyboard without waiting for its window to open.
+Revision `6b49003d6` first waits for actual visible IME insets, then exercises
+native text insertion/caret movement, dismissal and the first arrow. This
+passes three consecutive independent invocations without a page key listener.
+The hardware fixture also removes its diagnostic key listener.
+
+All other 20 native checks passed at `ddc71b787` on the recovered emulator,
+including private-window protection, pointer switching, both frame cases,
+scroll edges/nested panels, held OK, phone input and fullscreen. Matching x64
+browser + TEST APKs at `6b49003d6` compile with blocking analysis in 4m11.87s,
+verify with APK v2 and install without clearing data. The first-draw startup
+check also passes again on that version, which includes the separately
+requested compact footer and header navigation. Project checks pass: 20 tests,
+strict mypy for 15 files and both Nix flake checks.
+
+On the physical Chromecast's previous `d8a0ebb90` APK, one genuine uinput Down
+into the owned fixture opens the unchanged stock Gboard without OK:
+`mInputShown=true`, `mIsInputViewShown=true`. This supplies a hardware baseline.
+The active profile, all four Android users, display override and stock IME are
+recorded before the update. The final update will also include the separately
+requested footer refinement, with one final ARM build after that source settles.
+
+## Final ARM candidate
+
+Source `6b49003d65f905fbd16aff8992fd6b6a33861954`, including the compact
+footer/header follow-up, builds in the retained optimized ARM cache in
+4m10.83s with blocking Android analysis, `symbol_level=0` and debugging off.
+APK v2 verifies; its certificate matches the previously installed TV APK.
+Package/version remain `com.brave.browser_default` / `1.97.0` / `429700000`,
+ABI `armeabi-v7a`.
+
+Artifact directory:
+`~/.cache/brave-tv/artifacts/startup-input-6b49003d6-20261016/`.
+APK: 368,555,595 bytes; SHA-256
+`62ac06402e4cac0e04cf531adf3343a5831f127a540e5d6a1d1d2d05303d19c6`.
+The APK, exact GN args, source, signature/badging output, build timing and
+machine-readable provenance are preserved there. The independent final
+footer/header review reports SHIP; its 1.3-font footer destination and narrow
+focus checks pass. Those visual changes are documented separately under
+`.impeccable/review/footer-redesign/`.
+
+## Physical TV acceptance and handoff
+
+The verified ARM APK is installed on the authorized Chromecast
+`192.168.4.50:41531` (Android 14, ARM32). The in-place update failed with
+`INSTALL_FAILED_INSUFFICIENT_STORAGE`. The authorized fallback used
+`cmd package uninstall -k --user all com.brave.browser_default`, followed by
+installation of the same-signed final APK. No data-clearing uninstall ran.
+Android retained app ID `10141` and user-0 data inode `81460`; the installed
+APK's on-device SHA-256 matches the archived artifact. Both existing owned
+fixture tabs restored, then were closed through the native browser controls.
+
+| Hardware check | Result |
+| --- | --- |
+| Nine directional moves through text/search, textarea and populated rich text | Correct target each time; no keyboard, edits or submissions |
+| Short OK on text field | Actual unchanged stock Gboard opens |
+| Remote OK on Gboard's Q key | Native field value `Q`; one input event, no submission |
+| Back, then Down after keyboard dismissal | Search field selected; keyboard stays closed |
+| Rich-text OK, Back and subsequent Down | Keyboard opens only for OK, closes on Back, next button selected |
+| Held OK to pointer, Up, held OK back, Up | Pointer movement retains DOM target; element movement then selects rich text |
+| Cold launch through real MAIN + LEANBACK launcher intent | Home returns with no URL-bar flash in recorded startup; native first-draw test also passes |
+| Final Home | Four favorites, compact tabs and footer present; search focused; no open test pages |
+
+The deliberately rapid Back/Down probe (120 ms between keys) did not move the
+selection during Gboard dismissal. The next Down after the keyboard window
+was absent worked. Native IME ownership during its closing transition is
+preserved; this change does not buffer directions addressed to the keyboard.
+The keyboard's internal `mIsInputViewShown` flag can remain true after its
+window closes, so acceptance uses the visible-window snapshot and native
+client `mInputShown` instead. The first hardware harness also encountered the
+internal flag's absence while the IME service was unbound; original logs and
+all snapshots remain in the probe directory.
+
+Startup evidence: `tv-cold-start-r2.mp4`, its contact sheet and
+`tv-final-home.png` under the probe directory. Android reports a COLD activity
+launch of 1,313 ms; this is the activity metric, not a measurement of complete
+Home rendering. The initial developer launch omitted MAIN and was ignored by
+the launcher; that invalid probe is retained separately as
+`tv-cold-start-r1-no-action.mp4`. The valid retest uses the actual TV launcher
+alias, MAIN action and LEANBACK category.
+
+The native URL bar remains available for Chromium's explicit editing/security
+owners. The fix removes the mobile startup exposure while keeping those native
+paths. Verification covers the native fixture types and existing input/privacy
+regressions; it is not a site-by-site compatibility sweep.
+
+The stock IME and enabled input methods, display override 1920×1080/density320,
+active user0 and all four Android profiles remain unchanged. Only the owned
+port18118 forwarding and HTTP fixture process were removed. Emulator font1.0
+and test storage app-op default are restored by the coordinated UI check.
+The physical automation session is closed, and normal production Home is
+relaunched with the valid TV launcher intent for handoff. Build outputs,
+probe logs, captures and other agents' work are preserved.

@@ -36,16 +36,13 @@
 </form>
 <output id="status" aria-live="polite">Waiting for focus</output>
 <script>
-  let edits = 0, submits = 0, arrows = 0;
+  let edits = 0, submits = 0;
   function report() {
     document.querySelector('output').textContent =
-      `Selected: ${document.activeElement.id} · Edits: ${edits} · Submits: ${submits} · Arrows: ${arrows}`;
+      `Selected: ${document.activeElement.id} · Edits: ${edits} · Submits: ${submits}`;
   }
   document.addEventListener('focusin', report);
   document.addEventListener('input', () => { edits++; report(); });
-  document.addEventListener('keydown', event => {
-    if (event.key.startsWith('Arrow')) { arrows++; report(); }
-  });
   document.querySelector('form').addEventListener('submit', event => {
     event.preventDefault(); submits++; report();
   });
