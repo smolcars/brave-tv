@@ -6,6 +6,18 @@ Implement [the MVP checklist](mvp-todo.md) by adapting Brave's Android browser. 
 
 Write or update this engineering plan before each implementation stage. Keep incomplete implementation and unverified acceptance criteria distinct.
 
+## Planned package reduction 16 October
+
+Remove unused Brave products following the
+[TV package reduction plan](tv-package-reduction-plan.md): News, Wallet and
+Rewards/Brave Ads in independently verified checkpoints, with a matching APK
+baseline and size comparison for each. Retain VPN, Leo, Shields, browser
+data, existing language support and TV/phone input behavior. Google Play AAB
+preparation, compiler tuning and upstream updates are separate work. This is
+authorized implementation work. Record source/build checkpoints and retained
+feature checks in the package reduction evidence; acceptance remains unchecked
+until verified.
+
 ## Current direction: autonomous TV UI implementation (10 October)
 
 The user requested an in-depth plan for a beautiful, convenient TV-first UI
