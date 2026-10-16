@@ -1,8 +1,9 @@
 # Rhenium logo options
 
 The user approved **Rhenium** as the browser name and requested a circular,
-segmented logo related in feel to Chromium and Vanadium. These are exploratory
-choices awaiting selection; no app resources or package identity changed.
+segmented logo related in feel to Chromium and Vanadium. The user selected
+**A · Mint Orbit** on 16 October 2026 and authorized its implementation. The
+other two options remain exploration history.
 
 - **A · Mint Orbit:** three curved segments and a dark core; inherits the app's forest/mint palette.
 - **B · Silver Core:** straighter joins, silver/slate segments and a mint core; suggests the elemental name.
@@ -16,6 +17,7 @@ the built-in image generation tool on 16 October 2026. Exact prompts are in
 directory. No third-party logo pixels are included in these assets.
 
 `options.html` compares the vectors, light/dark backgrounds and 32px use. The
-selected concept still needs its final Android launcher, monochrome, TV banner
-and in-app asset variants, followed by native device verification. A concept
-preview does not establish installed-app acceptance.
+selected concept is being rolled out to Android launcher, TV banner and in-app
+assets. `assets/icon.svg` is the selected repository mark and
+`assets/rhenium-monochrome.svg` is its single-color counterpart. Build/native
+acceptance is recorded separately; these concept previews do not establish it.

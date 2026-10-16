@@ -1,4 +1,4 @@
-# Brave TV
+# Rhenium
 
 <!-- impeccable:product-schema 1 -->
 
@@ -54,6 +54,12 @@ input ownership. A native mint outline follows the current element; hints fade
 after three seconds and the pointer wakes on movement.
 
 ## Brand Commitments
+
+The browser name is Rhenium. The user selected Mint Orbit (logo option A):
+three flat mint, teal and sage circular segments around a forest-green core.
+Use the approved SVG geometry for native icons and launcher artwork. Preserve
+Brave/Chromium attribution and the existing package/signing/profile identity
+during the branding rollout.
 
 The user wants a modern, beautiful TV home and menu with a search bar inspired by
 the Google app and scenic or artist backgrounds inspired by idle Google TV.

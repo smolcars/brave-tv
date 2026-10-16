@@ -1,8 +1,8 @@
 <img src="assets/icon.svg" width="64" height="64" alt="">
 
-# brave-tv
+# Rhenium
 
-An Android TV adaptation of Brave's Android browser. The x64 emulator and 32-bit ARM Chromecast APKs build through Nix with blocking Android static analysis. The current optimized, non-debuggable test APK installs on the Chromecast and passes initial startup, physical-remote address entry, cursor, click and form checks. Broader website, video, performance and release acceptance remain open. See the [current ARM artifact](docs/tv-prototype.md#non-debuggable-chromecast-artifact) and [runtime evidence](docs/device-tests.md).
+An independent Android TV browser built on Brave and Chromium, with ad blocking and private browsing. The x64 emulator and 32-bit ARM Chromecast APKs build through Nix with blocking Android static analysis. The current optimized, non-debuggable test APK installs on the Chromecast and passes initial startup, physical-remote address entry, cursor, click and form checks. Broader website, video, performance and release acceptance remain open. See the [current ARM artifact](docs/tv-prototype.md#non-debuggable-chromecast-artifact) and [runtime evidence](docs/device-tests.md).
 
 ## Development
 

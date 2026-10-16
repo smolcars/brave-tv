@@ -7204,3 +7204,20 @@ identity and all four profile install states match; native Home/menu/Bookmarks
 and connected Phone captures pass. The test client/reverse/tab were cleaned up
 and normal Home restored. Actual-phone/Safari and human physical-button checks
 remain separate. See [delivery evidence](tv-controls-sizing-evidence.md).
+
+### Rhenium identity and Mint Orbit rollout
+
+16 October: the user approves the name **Rhenium** and logo option A, Mint
+Orbit. Preserve its exact flat segmented-circle geometry and forest/mint colors.
+Replace the TV prototype launcher label/icon/banner, Home brand and About title;
+use the mark beside the Home wordmark and give Android's TV-qualified application
+icon the same identity. Keep upstream attribution, selected search-provider
+names, package ID, launcher component, signing and profile storage unchanged.
+Update the repository icon/name and persist the selected vector source.
+Verify packaged TV labels/artwork, native Home at font scales 1.0/1.3,
+header/footer focus, About and the data-preserving emulator update. Build cached
+x64 APP+TEST with blocking analysis, then optimized non-debuggable ARM. Archive
+exact source/artifacts and install the verified ARM APK on the authorized TV,
+using the established keep-data fallback only if storage requires it. Capture
+native Home and launcher identity, verify installed hash/data identity and
+restore normal Home. Finish with independent visual review and design docs.
