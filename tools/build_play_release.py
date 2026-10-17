@@ -37,6 +37,9 @@ def build_command(config: dict[str, Any], arch: str) -> list[str]:
         f"--gn=android_override_version_code:{json.dumps(str(config['versionCodes'][arch]))}",
         f"--android_override_version_name={config['versionName']}",
         "--gn=android_static_analysis:on", "--gn=debuggable_apks:false",
+        # Brave's official mode requires a private Brave services key.
+        "--gn=is_official_build:false", "--gn=use_thin_lto:true",
+        "--gn=dcheck_always_on:false", "--gn=enable_java_asserts:false",
         "--gn=symbol_level:0",
     ]
 

@@ -1,0 +1,32 @@
+name: Check Google Play access
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/play-access.yml
+      - tools/check_play_access.mjs
+      - tests/test_play_access.mjs
+      - release/android.json
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test credential handling
+        run: node --test tests/test_play_access.mjs
+      - name: Authenticate and check app access
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: node tools/check_play_access.mjs

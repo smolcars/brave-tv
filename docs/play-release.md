@@ -11,6 +11,10 @@ or replace the installed development app.
    analysis, non-debuggable APKs, Java optimization, and the production package.
    Preserve the existing Debug and Static output directories. Use separate
    `android_Play_arm64` and `android_Play_arm` outputs and bounded host resources.
+   The wrapper uses `Release`, with `is_official_build=false` because Brave's
+   official mode requires its private services key. Explicitly keep ThinLTO,
+   disable DCHECK/Java asserts, and retain Java/resource optimization. This is
+   an independently signed Rhenium release, not an official Brave distribution.
 2. Package the upstream standalone browser bundles for ARM64 and ARM32. These
    targets each contain one browser ABI. Use consecutive version codes in one
    release, with the ARM64 code higher so capable devices receive it. Do not
