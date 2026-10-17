@@ -49,13 +49,13 @@ Run inside the project's Nix environment:
 
 ```sh
 python3 tools/build_play_release.py "$HOME/.cache/brave-tv/workspace" \
-  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r9"
+  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r10"
 python3 tools/package_play_release.py "$HOME/.cache/brave-tv/workspace" \
   "$HOME/.local/share/rhenium/signing" \
   --archive "$HOME/.cache/brave-tv/artifacts/rhenium-0.1.0-play"
 ```
 
-The current runner uses `rhenium-play-release-r9.service`, eight local/total Siso
+The current runner uses `rhenium-play-release-r10.service`, eight local/total Siso
 steps, ten allowed CPUs, and 20/22 GiB soft/hard memory limits. Earlier setup
 attempts stopped during GN generation without compiling a browser. No existing
 Debug/Static output was removed. Native symbols use level zero to fit this
@@ -74,6 +74,10 @@ the feature module. This keeps APK and bundle startup behavior consistent;
 the isolated-split validation remains enabled. The saved packaging command
 reproduced this exact failure before the source correction. The incremental
 rebuild checks the correction and then automatically starts ARM32.
+The archive validator reads release metadata from the base manifest and the TV
+launcher from the install-time `chrome` module, where Chromium places activities.
+It checks that both manifests have the release package and that the exported TV
+alias has a MAIN/LEANBACK intent filter.
 
 The generated upload key is RSA 4096, alias `rhenium-upload`. Its public
 certificate is [upload-cert.pem](../release/upload-cert.pem), fingerprint

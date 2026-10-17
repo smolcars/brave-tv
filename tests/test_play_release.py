@@ -90,12 +90,24 @@ class PlayBundleValidationTests(unittest.TestCase):
         xml = '''<manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.nitesh.rhenium" android:versionCode="1002" android:versionName="0.1.0">
           <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
-          <application android:debuggable="false"><activity-alias android:name="org.chromium.chrome.browser.tv.TvLauncher">
-          <intent-filter><category android:name="android.intent.category.LEANBACK_LAUNCHER"/></intent-filter>
+          <application android:debuggable="false"/></manifest>'''
+        chrome = '''<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.nitesh.rhenium" split="chrome"><application>
+          <activity-alias android:name="org.chromium.chrome.browser.tv.TvLauncher" android:exported="true">
+          <intent-filter><action android:name="android.intent.action.MAIN"/>
+          <category android:name="android.intent.category.LEANBACK_LAUNCHER"/></intent-filter>
           </activity-alias></application></manifest>'''
-        self.assertFalse(check_manifest(xml, config, "arm64")["debuggable"])
+        result = check_manifest(xml, chrome, config, "arm64")
+        self.assertFalse(result["debuggable"])
+        self.assertEqual(result["launcherModule"], "chrome")
         for invalid in (xml.replace('debuggable="false"', 'debuggable="true"'),
                         xml.replace('com.nitesh.rhenium', 'com.brave.browser'),
                         xml.replace('required="false"', 'required="true"')):
             with self.subTest(invalid=invalid), self.assertRaises(ValueError):
-                check_manifest(invalid, config, "arm64")
+                check_manifest(invalid, chrome, config, "arm64")
+        for invalid in (chrome.replace('com.nitesh.rhenium', 'com.brave.browser'),
+                        chrome.replace('exported="true"', 'exported="false"'),
+                        chrome.replace('android.intent.action.MAIN', 'android.intent.action.VIEW'),
+                        chrome.replace('LEANBACK_LAUNCHER', 'LAUNCHER')):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                check_manifest(xml, invalid, config, "arm64")

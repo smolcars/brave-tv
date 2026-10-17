@@ -110,25 +110,31 @@ def check_elf(header: bytes, abi: str) -> list[int]:
     return alignments
 
 
-def check_manifest(xml: str, config: dict[str, Any], arch: str) -> dict[str, Any]:
+def check_manifest(xml: str, chrome_xml: str, config: dict[str, Any], arch: str) -> dict[str, Any]:
     root = ET.fromstring(xml)
-    if root.get("package") != config["packageName"]:
+    chrome = ET.fromstring(chrome_xml)
+    if any(manifest.get("package") != config["packageName"] for manifest in (root, chrome)):
         raise ValueError("Unexpected package name")
     if root.get(ANDROID + "versionCode") != str(config["versionCodes"][arch]) or root.get(ANDROID + "versionName") != config["versionName"]:
         raise ValueError("Unexpected release version")
     application = root.find("application")
     if application is None or application.get(ANDROID + "debuggable", "false") != "false" or application.get(ANDROID + "testOnly", "false") != "false":
         raise ValueError("Release application is missing or marked debug/test-only")
-    launchers = [item for item in application.findall("activity-alias")
+    launchers = [item for item in chrome.findall("application/activity-alias")
                  if item.get(ANDROID + "name") == "org.chromium.chrome.browser.tv.TvLauncher"]
-    if not launchers or not launchers[0].findall(f"intent-filter/category[@{ANDROID}name='android.intent.category.LEANBACK_LAUNCHER']"):
-        raise ValueError("TV launcher is missing")
+    if len(launchers) != 1 or launchers[0].get(ANDROID + "exported") != "true" or not any(
+        intent.find(f"action[@{ANDROID}name='android.intent.action.MAIN']") is not None
+        and intent.find(f"category[@{ANDROID}name='android.intent.category.LEANBACK_LAUNCHER']") is not None
+        for intent in launchers[0].findall("intent-filter")
+    ):
+        raise ValueError("Exported TV launcher is missing from the chrome module")
     touch = root.find(f"uses-feature[@{ANDROID}name='android.hardware.touchscreen']")
     if touch is None or touch.get(ANDROID + "required") != "false":
         raise ValueError("Release must not require a touchscreen")
     return {
         "packageName": config["packageName"], "versionName": config["versionName"],
         "versionCode": config["versionCodes"][arch], "debuggable": False,
+        "launcherModule": "chrome",
         "permissions": sorted(item.attrib[ANDROID + "name"] for item in root.findall("uses-permission")),
     }
 
@@ -204,7 +210,9 @@ def package(workspace: Path, archive: Path, signing: Path) -> None:
         subprocess.run([*command, "validate", f"--bundle={output}"], check=True)
         xml = subprocess.check_output([*command, "dump", "manifest", f"--bundle={output}", "--module=base"], text=True)
         (archive / f"manifest-{arch}.xml").write_text(xml)
-        result = check_manifest(xml, config, arch)
+        chrome_xml = subprocess.check_output([*command, "dump", "manifest", f"--bundle={output}", "--module=chrome"], text=True)
+        (archive / f"manifest-{arch}-chrome.xml").write_text(chrome_xml)
+        result = check_manifest(xml, chrome_xml, config, arch)
         with zipfile.ZipFile(output) as bundle:
             native = {}
             for name in bundle.namelist():
