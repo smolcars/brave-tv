@@ -28,7 +28,7 @@ def read_config(path: Path) -> dict[str, Any]:
 
 
 def build_command(config: dict[str, Any], arch: str) -> list[str]:
-    return [
+    command = [
         "pnpm", "run", "build", "Release", "--target_os=android",
         f"--target_arch={arch}", "--target_android_output_format=aab",
         "--channel=release", "--skip_signing", "--target=brave",
@@ -43,6 +43,10 @@ def build_command(config: dict[str, Any], arch: str) -> list[str]:
         "--gn=dcheck_always_on:false", "--gn=enable_java_asserts:false",
         "--gn=symbol_level:0",
     ]
+    if arch == "arm64":
+        # Chromium's expectation targets reference both ARM toolchains.
+        command.append("--gn=enable_android_secondary_abi:true")
+    return command
 
 
 def main() -> None:

@@ -26,6 +26,8 @@ test('successful app-access check discards the edit and never returns its token'
   const responses = [
     new Response(JSON.stringify({ access_token: 'test-token' })),
     new Response(JSON.stringify({ id: 'temporary-edit' })),
+    new Response(JSON.stringify({ bundles: [] })),
+    new Response(JSON.stringify({ tracks: [] })),
     new Response(null, { status: 204 }),
   ];
   const result = await checkAccess(credentials, 'com.nitesh.rhenium', async (url, options) => {
@@ -34,9 +36,24 @@ test('successful app-access check discards the edit and never returns its token'
   });
   assert(result.appAccessible);
   assert(result.temporaryEditDiscarded);
-  assert.equal(calls[2].method, 'DELETE');
-  assert(calls[2].url.endsWith('/com.nitesh.rhenium/edits/temporary-edit'));
+  assert.equal(calls[4].method, 'DELETE');
+  assert(calls[4].url.endsWith('/com.nitesh.rhenium/edits/temporary-edit'));
   assert(!JSON.stringify(result).includes('test-token'));
+});
+
+test('a failed read still discards the temporary edit', async () => {
+  const methods = [];
+  const responses = [
+    new Response(JSON.stringify({ access_token: 'test-token' })),
+    new Response(JSON.stringify({ id: 'temporary-edit' })),
+    new Response('{}', { status: 500 }),
+    new Response(null, { status: 204 }),
+  ];
+  await assert.rejects(checkAccess(credentials, 'com.nitesh.rhenium', async (url, options) => {
+    methods.push(options.method ?? 'GET');
+    return responses.shift();
+  }), /HTTP 500/);
+  assert.equal(methods.at(-1), 'DELETE');
 });
 
 test('a missing app is distinguished from an invalid credential or permission', async () => {

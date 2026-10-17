@@ -51,11 +51,29 @@ export async function checkAccess(credentials, packageName, request = fetch) {
   if (!editResponse.ok) throw new Error(`Play app access failed (HTTP ${editResponse.status}); check API enablement and app permissions.`);
   const edit = await editResponse.json();
   if (typeof edit.id !== 'string' || !edit.id) throw new Error('Play returned no edit ID.');
-  const deleted = await request(`${base}/${encodeURIComponent(edit.id)}`, {
-    method: 'DELETE', headers, signal: AbortSignal.timeout(30_000),
-  });
-  if (!deleted.ok) throw new Error(`Could not discard the access-check edit (HTTP ${deleted.status}).`);
-  return { ...result, appAccessible: true, temporaryEditDiscarded: true };
+  const editUrl = `${base}/${encodeURIComponent(edit.id)}`;
+  let bundles, tracks;
+  try {
+    const get = async resource => {
+      const response = await request(`${editUrl}/${resource}`, {
+        headers, signal: AbortSignal.timeout(30_000),
+      });
+      if (!response.ok) throw new Error(`Play ${resource} check failed (HTTP ${response.status}).`);
+      return response.json();
+    };
+    bundles = (await get('bundles')).bundles ?? [];
+    tracks = (await get('tracks')).tracks ?? [];
+  } finally {
+    const deleted = await request(editUrl, {
+      method: 'DELETE', headers, signal: AbortSignal.timeout(30_000),
+    });
+    if (!deleted.ok) throw new Error(`Could not discard the access-check edit (HTTP ${deleted.status}).`);
+  }
+  return {
+    ...result, appAccessible: true, temporaryEditDiscarded: true,
+    bundleVersionCodes: bundles.map(bundle => bundle.versionCode),
+    tracks: tracks.map(track => ({ track: track.track, releases: track.releases ?? [] })),
+  };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
