@@ -34,7 +34,7 @@ def build_command(config: dict[str, Any], arch: str) -> list[str]:
         "--channel=release", "--skip_signing", "--target=brave",
         "-C", f"android_Play_{arch}",
         f"--gn=chrome_public_manifest_package:{config['packageName']}",
-        f"--gn=android_override_version_code:{config['versionCodes'][arch]}",
+        f"--gn=android_override_version_code:{json.dumps(str(config['versionCodes'][arch]))}",
         f"--android_override_version_name={config['versionName']}",
         "--gn=android_static_analysis:on", "--gn=debuggable_apks:false",
         "--gn=symbol_level:0",
