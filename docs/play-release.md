@@ -36,6 +36,56 @@ or replace the installed development app.
    Play App Signing enrollment and a first manual upload may require the account
    owner in Play Console. Report actual API responses rather than assuming the
    draft is already addressable by its package name.
+6. Publish the requested GitHub release with signed ARM32/ARM64 APKs and
+   checksums. Download the universal APK for each bundle from Google Play's
+   generated-APK API, then verify its manifest, ABI and signing certificate.
+   This keeps GitHub APKs on the Play app-signing identity; the upload key signs
+   AABs and local test install sets only. Do not publish test-signed APKs as the
+   final GitHub downloads.
+
+## Build and signing commands
+
+Run inside the project's Nix environment:
+
+```sh
+python3 tools/build_play_release.py "$HOME/.cache/brave-tv/workspace" \
+  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r5"
+python3 tools/package_play_release.py "$HOME/.cache/brave-tv/workspace" \
+  "$HOME/.local/share/rhenium/signing" \
+  --archive "$HOME/.cache/brave-tv/artifacts/rhenium-0.1.0-play"
+```
+
+The active compile uses `rhenium-play-release-r5.service`, four local/total Siso
+steps, eight allowed CPUs, and 20/22 GiB soft/hard memory limits. Earlier setup
+attempts stopped during GN generation without compiling a browser. No existing
+Debug/Static output was removed. Native symbols use level zero to fit this
+builder; retain Java mappings and report that full native debug information is
+not available from this configuration.
+
+The generated upload key is RSA 4096, alias `rhenium-upload`. Its public
+certificate is [upload-cert.pem](../release/upload-cert.pem), fingerprint
+`57d9c5ea386c55957df00d056ce4de665d871d05d1816b52c9373f0b61974d94`.
+The private keystore and password stay outside Git, under
+`~/.local/share/rhenium/signing/`, and are backed up as encrypted repository
+secrets `RHENIUM_UPLOAD_KEYSTORE_BASE64` and
+`RHENIUM_UPLOAD_KEYSTORE_PASSWORD`. The [access workflow](../.github/workflows/play-access.yml)
+verifies that the backup matches the pinned public certificate. The service
+account JSON is a separate credential, used only for Play API authentication.
+
+Play access has been verified for `com.nitesh.rhenium`: authentication and app
+access succeed, and the temporary edit is discarded. The first inspection found
+no uploaded bundles or releases. Build and runtime acceptance are still pending.
+
+## Shields and the Brave services key
+
+The existing Debug and Static ARM generated headers already contain an empty
+Brave services key. The recorded native Shields checks pass network blocking,
+cosmetic hiding and scriptlet execution with that configuration. Rhenium ships
+bundled filter data and its own signed GitHub filter-bundle updater, which does
+not authenticate to Brave's component service. Repeat blocking, per-site
+disable/re-enable and filter-refresh checks on the release candidate. This does
+not establish availability of other retained Brave-hosted services or every
+component-update feed.
 
 ## Public-release gates
 

@@ -27,6 +27,7 @@ test('successful app-access check discards the edit and never returns its token'
     new Response(JSON.stringify({ access_token: 'test-token' })),
     new Response(JSON.stringify({ id: 'temporary-edit' })),
     new Response(JSON.stringify({ bundles: [] })),
+    new Response(JSON.stringify({ apks: [] })),
     new Response(JSON.stringify({ tracks: [] })),
     new Response(null, { status: 204 }),
   ];
@@ -36,8 +37,8 @@ test('successful app-access check discards the edit and never returns its token'
   });
   assert(result.appAccessible);
   assert(result.temporaryEditDiscarded);
-  assert.equal(calls[4].method, 'DELETE');
-  assert(calls[4].url.endsWith('/com.nitesh.rhenium/edits/temporary-edit'));
+  assert.equal(calls[5].method, 'DELETE');
+  assert(calls[5].url.endsWith('/com.nitesh.rhenium/edits/temporary-edit'));
   assert(!JSON.stringify(result).includes('test-token'));
 });
 

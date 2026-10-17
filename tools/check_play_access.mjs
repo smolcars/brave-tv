@@ -24,10 +24,7 @@ export function assertion(credentials, now = Math.floor(Date.now() / 1000)) {
   return `${input}.${signature}`;
 }
 
-export async function checkAccess(credentials, packageName, request = fetch) {
-  if (!/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*){2,}$/.test(packageName)) {
-    throw new Error('Invalid package name.');
-  }
+export async function authenticate(credentials, request = fetch) {
   const tokenResponse = await request(TOKEN_URL, {
     method: 'POST', signal: AbortSignal.timeout(30_000),
     body: new URLSearchParams({
@@ -38,6 +35,14 @@ export async function checkAccess(credentials, packageName, request = fetch) {
   if (!tokenResponse.ok) throw new Error(`Google authentication failed (HTTP ${tokenResponse.status}).`);
   const { access_token: token } = await tokenResponse.json();
   if (typeof token !== 'string' || !token) throw new Error('Google returned no access token.');
+  return token;
+}
+
+export async function checkAccess(credentials, packageName, request = fetch) {
+  if (!/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*){2,}$/.test(packageName)) {
+    throw new Error('Invalid package name.');
+  }
+  const token = await authenticate(credentials, request);
   const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
   const base = `${PUBLISHER}${encodeURIComponent(packageName)}/edits`;
   // The edit is discarded: this checks app access without committing any changes.
@@ -52,7 +57,7 @@ export async function checkAccess(credentials, packageName, request = fetch) {
   const edit = await editResponse.json();
   if (typeof edit.id !== 'string' || !edit.id) throw new Error('Play returned no edit ID.');
   const editUrl = `${base}/${encodeURIComponent(edit.id)}`;
-  let bundles, tracks;
+  let bundles, apks, tracks;
   try {
     const get = async resource => {
       const response = await request(`${editUrl}/${resource}`, {
@@ -62,6 +67,7 @@ export async function checkAccess(credentials, packageName, request = fetch) {
       return response.json();
     };
     bundles = (await get('bundles')).bundles ?? [];
+    apks = (await get('apks')).apks ?? [];
     tracks = (await get('tracks')).tracks ?? [];
   } finally {
     const deleted = await request(editUrl, {
@@ -72,6 +78,7 @@ export async function checkAccess(credentials, packageName, request = fetch) {
   return {
     ...result, appAccessible: true, temporaryEditDiscarded: true,
     bundleVersionCodes: bundles.map(bundle => bundle.versionCode),
+    apkVersionCodes: apks.map(apk => apk.versionCode),
     tracks: tracks.map(track => ({ track: track.track, releases: track.releases ?? [] })),
   };
 }

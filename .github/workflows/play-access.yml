@@ -8,6 +8,7 @@ on:
       - tools/check_play_access.mjs
       - tests/test_play_access.mjs
       - release/android.json
+      - release/upload-cert.sha256
 
 permissions:
   contents: read
@@ -30,3 +31,22 @@ jobs:
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: node tools/check_play_access.mjs
+      - name: Verify encrypted upload-key backup
+        env:
+          RHENIUM_UPLOAD_KEYSTORE_BASE64: ${{ secrets.RHENIUM_UPLOAD_KEYSTORE_BASE64 }}
+          RHENIUM_UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.RHENIUM_UPLOAD_KEYSTORE_PASSWORD }}
+        shell: python
+        run: |
+          import base64, hashlib, os, pathlib, subprocess, tempfile
+          with tempfile.TemporaryDirectory(prefix='rhenium-signing-') as directory:
+              key = pathlib.Path(directory) / 'upload.p12'
+              key.write_bytes(base64.b64decode(os.environ['RHENIUM_UPLOAD_KEYSTORE_BASE64'], validate=True))
+              key.chmod(0o600)
+              certificate = subprocess.check_output([
+                  'keytool', '-exportcert', '-alias', 'rhenium-upload',
+                  '-keystore', str(key), '-storepass:env', 'RHENIUM_UPLOAD_KEYSTORE_PASSWORD'])
+              actual = hashlib.sha256(certificate).hexdigest()
+              expected = pathlib.Path('release/upload-cert.sha256').read_text().strip()
+              if actual != expected:
+                  raise SystemExit('Upload-key backup does not match the pinned certificate')
+              print('Upload-key backup matches the public certificate:', actual)
