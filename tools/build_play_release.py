@@ -39,6 +39,7 @@ def build_command(config: dict[str, Any], arch: str) -> list[str]:
         "--gn=android_static_analysis:on", "--gn=debuggable_apks:false",
         # Brave's official mode requires a private Brave services key.
         "--gn=is_official_build:false", "--gn=use_thin_lto:true",
+        "--gn=use_mold:false", "--gn=use_lld:true",
         "--gn=dcheck_always_on:false", "--gn=enable_java_asserts:false",
         "--gn=symbol_level:0",
     ]
