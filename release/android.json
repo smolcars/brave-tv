@@ -1,0 +1,8 @@
+{
+  "packageName": "com.nitesh.rhenium",
+  "versionName": "0.1.0",
+  "versionCodes": {
+    "arm": 1001,
+    "arm64": 1002
+  }
+}
