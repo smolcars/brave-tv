@@ -49,21 +49,31 @@ Run inside the project's Nix environment:
 
 ```sh
 python3 tools/build_play_release.py "$HOME/.cache/brave-tv/workspace" \
-  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r6"
+  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r9"
 python3 tools/package_play_release.py "$HOME/.cache/brave-tv/workspace" \
   "$HOME/.local/share/rhenium/signing" \
   --archive "$HOME/.cache/brave-tv/artifacts/rhenium-0.1.0-play"
 ```
 
-The active compile uses `rhenium-play-release-r6.service`, six local/total Siso
-steps, eight allowed CPUs, and 20/22 GiB soft/hard memory limits. Earlier setup
+The current runner uses `rhenium-play-release-r9.service`, eight local/total Siso
+steps, ten allowed CPUs, and 20/22 GiB soft/hard memory limits. Earlier setup
 attempts stopped during GN generation without compiling a browser. No existing
 Debug/Static output was removed. Native symbols use level zero to fit this
 builder; retain Java mappings and report that full native debug information is
 not available from this configuration.
 The four-worker compile was gracefully interrupted after its measured peak of
-10,554,679,296 bytes and zero memory-pressure events; the six-worker run resumes
-its completed objects. Both checkpoints and logs are preserved.
+10,554,679,296 bytes and zero memory-pressure events. A later user-requested
+increase from six to eight workers preserved the same output directories.
+All checkpoints and logs are retained.
+
+The first ARM64 bundle reached its final packaging check, which rejected an
+AndroidX startup provider inherited by the `chrome` feature module. Chromium
+already removes that automatic initialization provider from its base manifest.
+The Brave manifest fragment now applies the same removal when rendered into
+the feature module. This keeps APK and bundle startup behavior consistent;
+the isolated-split validation remains enabled. The saved packaging command
+reproduced this exact failure before the source correction. The incremental
+rebuild checks the correction and then automatically starts ARM32.
 
 The generated upload key is RSA 4096, alias `rhenium-upload`. Its public
 certificate is [upload-cert.pem](../release/upload-cert.pem), fingerprint
