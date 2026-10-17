@@ -1,0 +1,70 @@
+name: Stage Play release or retrieve signed APKs
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Stage an internal draft, or download its Play-signed APKs
+        type: choice
+        required: true
+        default: stage
+        options:
+          - stage
+          - download
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rhenium-play-publishing
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: Test publishing guards
+        run: node --test tests/test_play_access.mjs tests/test_play_publishing.mjs
+      - name: Select candidate tag
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync, appendFileSync } from 'node:fs';
+          const config = JSON.parse(readFileSync('release/android.json', 'utf8'));
+          if (!/^\d+\.\d+\.\d+$/.test(config.versionName)) throw new Error('Invalid release version');
+          appendFileSync(process.env.GITHUB_ENV, `RELEASE_TAG=v${config.versionName}\n`);
+          JS
+      - name: Download candidate bundles
+        if: inputs.operation == 'stage'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir candidate \
+            --pattern '*.aab' --pattern 'validation-*.json'
+      - name: Stage an internal draft
+        if: inputs.operation == 'stage'
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: node tools/publish_play_release.mjs stage candidate
+      - name: Retrieve Play-signed APKs
+        if: inputs.operation == 'download'
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: node tools/publish_play_release.mjs download play-apks
+      - name: Verify downloaded APKs
+        if: inputs.operation == 'download'
+        run: python3 tools/verify_play_apks.py "$ANDROID_HOME" play-apks
+      - name: Attach signed APKs to the GitHub draft release
+        if: inputs.operation == 'download'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+            play-apks/*.apk play-apks/play-apks.json play-apks/verification.json play-apks/SHA256SUMS

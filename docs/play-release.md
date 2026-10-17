@@ -49,18 +49,21 @@ Run inside the project's Nix environment:
 
 ```sh
 python3 tools/build_play_release.py "$HOME/.cache/brave-tv/workspace" \
-  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r5"
+  "$HOME/.cache/brave-tv/evidence/play-release-20261017-r6"
 python3 tools/package_play_release.py "$HOME/.cache/brave-tv/workspace" \
   "$HOME/.local/share/rhenium/signing" \
   --archive "$HOME/.cache/brave-tv/artifacts/rhenium-0.1.0-play"
 ```
 
-The active compile uses `rhenium-play-release-r5.service`, four local/total Siso
+The active compile uses `rhenium-play-release-r6.service`, six local/total Siso
 steps, eight allowed CPUs, and 20/22 GiB soft/hard memory limits. Earlier setup
 attempts stopped during GN generation without compiling a browser. No existing
 Debug/Static output was removed. Native symbols use level zero to fit this
 builder; retain Java mappings and report that full native debug information is
 not available from this configuration.
+The four-worker compile was gracefully interrupted after its measured peak of
+10,554,679,296 bytes and zero memory-pressure events; the six-worker run resumes
+its completed objects. Both checkpoints and logs are preserved.
 
 The generated upload key is RSA 4096, alias `rhenium-upload`. Its public
 certificate is [upload-cert.pem](../release/upload-cert.pem), fingerprint
@@ -74,7 +77,24 @@ account JSON is a separate credential, used only for Play API authentication.
 
 Play access has been verified for `com.nitesh.rhenium`: authentication and app
 access succeed, and the temporary edit is discarded. The first inspection found
-no uploaded bundles or releases. Build and runtime acceptance are still pending.
+no uploaded bundles, APKs or releases. GitHub Actions also restored the encrypted
+keystore backup and verified its public certificate fingerprint successfully.
+Build and runtime acceptance are still pending.
+
+The [publishing workflow](../.github/workflows/play-release.yml) is manual. Its
+`stage` operation downloads the candidate AABs and validation reports from the
+GitHub draft `v0.1.0`, verifies their recorded checksums and upload certificate,
+and commits only an internal-testing draft. It preserves existing releases,
+refuses to overwrite another draft, and does not send changes for review. Its
+`download` operation retrieves Play-signed universal APKs, verifies their actual
+signatures, package, ABI and alignment, and attaches them to the GitHub draft.
+The public GitHub release is published after the artifact and runtime checks.
+The workflow must be available on the repository's default branch before its
+manual dispatch. Production Play rollout is deliberately outside this workflow.
+
+An interrupted resumable upload is reported as a failure and its edit is
+discarded; the tool does not silently retry or change version codes. A later run
+can reuse an already uploaded bundle only when Google's SHA-256 matches exactly.
 
 ## Shields and the Brave services key
 

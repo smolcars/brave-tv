@@ -20,7 +20,9 @@ export function assertion(credentials, now = Math.floor(Date.now() / 1000)) {
     aud: TOKEN_URL, iat: now, exp: now + 3600,
   });
   const input = `${header}.${claims}`;
-  const signature = createSign('RSA-SHA256').update(input).sign(credentials.private_key, 'base64url');
+  let signature;
+  try { signature = createSign('RSA-SHA256').update(input).sign(credentials.private_key, 'base64url'); }
+  catch { throw new Error('The service-account RSA private key could not be parsed.'); }
   return `${input}.${signature}`;
 }
 

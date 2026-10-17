@@ -7,6 +7,8 @@ on:
       - .github/workflows/play-access.yml
       - tools/check_play_access.mjs
       - tests/test_play_access.mjs
+      - tools/publish_play_release.mjs
+      - tests/test_play_publishing.mjs
       - release/android.json
       - release/upload-cert.sha256
 
@@ -26,7 +28,7 @@ jobs:
         with:
           node-version: 22
       - name: Test credential handling
-        run: node --test tests/test_play_access.mjs
+        run: node --test tests/test_play_access.mjs tests/test_play_publishing.mjs
       - name: Authenticate and check app access
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}

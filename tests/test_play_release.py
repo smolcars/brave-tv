@@ -10,6 +10,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from build_play_release import read_config
 from package_play_release import check_elf, check_manifest, strip_signatures
+from verify_play_apks import check_apk_manifest
 
 
 class PlayReleaseConfigTests(unittest.TestCase):
@@ -33,6 +34,29 @@ class PlayReleaseConfigTests(unittest.TestCase):
 
 
 class PlayBundleValidationTests(unittest.TestCase):
+    def test_apk_manifest_checks_the_leanback_alias_in_the_binary_tree(self) -> None:
+        config = {"packageName": "com.nitesh.rhenium", "versionName": "0.1.0",
+                  "versionCodes": {"arm": 1001, "arm64": 1002}}
+        badging = "package: name='com.nitesh.rhenium' versionCode='1002' versionName='0.1.0' compileSdkVersion='37'"
+        tree = '''E: manifest (line=1)
+  E: application (line=4)
+    E: activity-alias (line=122)
+      A: http://schemas.android.com/apk/res/android:name(0x01010003)="org.chromium.chrome.browser.tv.TvLauncher"
+      A: http://schemas.android.com/apk/res/android:exported(0x01010010)=true
+        E: intent-filter (line=123)
+          E: action (line=124)
+            A: http://schemas.android.com/apk/res/android:name(0x01010003)="android.intent.action.MAIN"
+          E: category (line=126)
+            A: http://schemas.android.com/apk/res/android:name(0x01010003)="android.intent.category.LEANBACK_LAUNCHER"
+    E: activity-alias (line=129)'''
+        check_apk_manifest(badging, tree, config, "arm64")
+        for manifest, xmltree in ((badging + "\napplication-debuggable", tree),
+                                  (badging.replace("1002", "1001"), tree),
+                                  (badging, tree.replace("=true", "=false")),
+                                  (badging, tree.replace("LEANBACK_LAUNCHER", "LAUNCHER"))):
+            with self.subTest(manifest=manifest), self.assertRaises(ValueError):
+                check_apk_manifest(manifest, xmltree, config, "arm64")
+
     def test_native_architecture_and_16k_load_alignment(self) -> None:
         ident = b"\x7fELF\x02\x01\x01" + bytes(9)
         header = struct.pack("<16sHHIQQQIHHHHHH", ident, 3, 183, 1, 0, 64, 0, 0, 64, 56, 1, 0, 0, 0)
